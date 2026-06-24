@@ -1,3 +1,35 @@
+
+<!-- 1. スタート画面に学籍番号入力欄を追加 -->
+<div class="note">
+  学籍番号を入力してからスタートしてください。
+</div>
+
+<input id="studentId" placeholder="学籍番号" style="
+  width:100%;
+  padding:14px 16px;
+  font-size:1.1rem;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  margin-top:12px;
+">
+
+<!-- 2. JavaScriptの先頭付近に追加 -->
+<script>
+const GAS_URL = "ここにGoogle Apps ScriptのウェブアプリURLを貼る";
+const STAGE_NAME = "Stage2 弧長トレーナー";
+</script>
+
+<!-- 3. start()関数の最初に追加 -->
+<script>
+function start(useWrong=false){
+  const studentId = document.getElementById("studentId").value.trim();
+  if(!studentId){
+    alert("学籍番号を入力してください。");
+    return;
+  }
+
+
+
 <!doctype html>
 <html lang="ja">
 <head>
@@ -57,3 +89,33 @@ function finish(){$("quizScreen").style.display="none";$("finishScreen").style.d
 $("startBtn").onclick=()=>start(false);$("nextBtn").onclick=next;$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()}};
 </script>
 </body></html>
+
+
+
+<!-- 4. finish()関数の最後に追加 -->
+<script>
+function sendResult(rate){
+  const studentId = document.getElementById("studentId").value.trim();
+
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      studentId: studentId,
+      stage: STAGE_NAME,
+      score: score,
+      total: quiz.length,
+      rate: rate + "%"
+    })
+  });
+}
+</script>
+
+<!-- 5. finish()関数内でrateを計算した後に追加 -->
+<script>
+sendResult(rate);
+</script>
+
