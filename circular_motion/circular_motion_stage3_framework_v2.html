@@ -116,7 +116,6 @@ function start(useWrong=false){
  quiz=shuffle(source).slice(0,total).map(q=>({...q,choices:makeChoices(q)}));
  index=0;score=0;wrongList=[];resultSent=false;
     TrainerLog.startSession();
-  TrainerLog.startSession();
  $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()
 }
 function showQuestion(){answered=false;let q=quiz[index];$("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("bar").style.width=`${index/quiz.length*100}%`;
@@ -126,13 +125,20 @@ if(q.mode==="rev"){body=`半径 r = ${q.r} [m] の円運動で、物体は ${q.r
 else{body=`半径 r = ${q.r} [m]、角速度 ω = ${q.omega} のとき、速さ v は何 [m/s]か。`;}
 $("question").innerHTML=`<span class="badge">${badge}</span><br>${body}`;
 $("feedback").className="feedback";$("feedback").style.display="none";$("nextBtn").disabled=true;let box=$("choices");box.innerHTML="";
-q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>check(c,b);box.appendChild(b)})}
+q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>check(c,b);box.appendChild(b)});TrainerLog.startQuestion();}
 function explanation(q,ok){
  if(q.mode==="rad"){return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="note">ポイント：ω が [rad/s] で表されているとき、v = rω で速さを求められます。</div>`}
  if(q.mode==="deg"){return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">角速度を [rad/s] に直す：<br>${q.omega} = ${q.omegaRad}</div><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="compare">[°/s] のままではなく、[rad/s] に直すと v = rω が使えます。</div>`}
  return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">${q.rev} → ω = ${q.omegaRad}</div><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="compare">1周 = 2π [rad] なので、周回数から角速度を考えられます。</div>`;
 }
-function check(selected,btn){if(answered)return;answered=true;let q=quiz[index],ok=selected===q.ans;if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("nextBtn").disabled=false}
+function check(selected,btn){if(answered)return;answered=true;let q=quiz[index],ok=selected===q.ans;
+if(!q.id){q.id=`CM3_${q.mode}_${index+1}`;}
+TrainerLog.recordQuestion(q,ok,{
+selected:selected,
+answer:q.ans,
+prompt:$("question").innerText
+});
+if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("nextBtn").disabled=false}
 function next(){index++;index>=quiz.length?finish():showQuestion()}
 function finish(){
   TrainerLog.finishSession();
