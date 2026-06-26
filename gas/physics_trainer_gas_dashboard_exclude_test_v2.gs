@@ -385,6 +385,7 @@ function getTeacherDashboardData(filters) {
   const summary = buildSummary_(filteredLogs);
   const unitRows = buildUnitRows_(filteredLogs);
   const stageRows = buildStageRows_(filteredLogs);
+  const bottleneckStages = buildBottleneckStageRows_(stageRows);
   const studentRows = buildStudentRows_(filteredLogs, filteredCountsSource);
   const questionStats = buildQuestionStats_(filteredQuestionRows);
   const recentAttempts = buildRecentAttempts_(filteredLogs);
@@ -396,6 +397,7 @@ function getTeacherDashboardData(filters) {
     summary,
     unitRows,
     stageRows,
+    bottleneckStages,
     studentRows,
     questionStats,
     recentAttempts
@@ -577,6 +579,43 @@ function buildStageRows_(logs) {
       latest: item.latest ? item.latest.toISOString() : ""
     };
   }).sort((a, b) => b.attempts - a.attempts);
+}
+
+function buildBottleneckStageRows_(stageRows) {
+  if (!stageRows.length) return [];
+
+  const maxElapsed = stageRows.reduce((max, row) => {
+    return Math.max(max, Number(row.averageElapsed || 0));
+  }, 0);
+
+  return stageRows.map(row => {
+    const ratePenalty = 100 - Number(row.averageRate || 0);
+    const passPenalty = 100 - Number(row.passRate || 0);
+    const timePenalty = maxElapsed > 0
+      ? Math.round(Number(row.averageElapsed || 0) / maxElapsed * 100)
+      : 0;
+    const score = Math.round(ratePenalty * 0.45 + passPenalty * 0.35 + timePenalty * 0.2);
+    const reasons = [];
+
+    if (row.averageRate < 70) reasons.push("平均正答率が低め");
+    if (row.passRate < 70) reasons.push("クリア率が低め");
+    if (maxElapsed > 0 && row.averageElapsed >= maxElapsed * 0.8) reasons.push("時間が長め");
+    if (!reasons.length) reasons.push("相対的に注意");
+
+    return {
+      stage: row.stage,
+      attempts: row.attempts,
+      students: row.students,
+      averageRate: row.averageRate,
+      passRate: row.passRate,
+      averageElapsed: row.averageElapsed,
+      score,
+      reason: reasons.join(" / ")
+    };
+  }).sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.attempts - a.attempts;
+  }).slice(0, 8);
 }
 
 function buildStudentRows_(logs, counts) {
@@ -946,11 +985,62 @@ function getStudentDashboardData_(studentId) {
       latest: latest ? latest.toISOString() : ""
     },
     stageRows,
+    recommendations: buildStudentRecommendations_(stageRows, questionStats),
     weakStages,
     slowStages,
     rankings: buildStudentRankings_(targetId, allLogs),
     questionStats,
     recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
+  };
+}
+
+function buildStudentRecommendations_(stageRows, questionStats) {
+  const nextStages = stageRows.map(row => {
+    const needsClear = row.status !== "クリア済み";
+    const weak = row.averageRate < 70 || row.latestRate < 70;
+    const slow = row.averageElapsed >= 30;
+    let priority = 0;
+    const reasons = [];
+
+    if (needsClear) {
+      priority += 50;
+      reasons.push("まだクリアしていない");
+    }
+    if (weak) {
+      priority += 35;
+      reasons.push("正答率を上げたい");
+    }
+    if (slow) {
+      priority += 15;
+      reasons.push("時間がかかりやすい");
+    }
+    priority += Math.min(10, row.attempts);
+
+    return {
+      stage: row.stage,
+      priority,
+      averageRate: row.averageRate,
+      latestRate: row.latestRate,
+      averageElapsed: row.averageElapsed,
+      attempts: row.attempts,
+      reason: reasons.length ? reasons.join(" / ") : "維持・確認におすすめ"
+    };
+  }).sort((a, b) => {
+    if (b.priority !== a.priority) return b.priority - a.priority;
+    return a.averageRate - b.averageRate;
+  }).slice(0, 3);
+
+  const reviewQuestions = questionStats
+    .slice()
+    .sort((a, b) => {
+      if (a.correctRate !== b.correctRate) return a.correctRate - b.correctRate;
+      return b.averageTime - a.averageTime;
+    })
+    .slice(0, 5);
+
+  return {
+    nextStages,
+    reviewQuestions
   };
 }
 
@@ -1021,12 +1111,13 @@ function buildStudentDashboardHtml_(studentId) {
     .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:18px}
     section{overflow:hidden}section h2{margin:0;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
     .cards{display:grid;gap:10px;padding:14px}.card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff}.card-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px}
+    .recommend-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:14px}.recommend-card{border:1px solid var(--line);border-radius:8px;padding:13px;background:#fff}.recommend-card.primary{border-color:#8ed3cb;background:#f4fbfa}.recommend-label{color:var(--muted);font-size:12px;font-weight:800}.recommend-title{font-weight:900;margin-top:4px}.recommend-list{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px}.recommend-list li{border-top:1px solid #edf0f5;padding-top:6px}
     table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fbfcfe}
     .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
     .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
     .rank-grid{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:12px;padding:14px}.rank-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff}.rank-label{color:var(--muted);font-size:12px;font-weight:800}.rank-value{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:20px;font-weight:900}.rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:34px;border-radius:999px;background:#eef2f7;color:var(--text);font-size:15px;font-weight:900}.rank-badge.gold{background:#fef3c7;color:#92400e}.rank-badge.silver{background:#e5e7eb;color:#374151}.rank-badge.bronze{background:#ffedd5;color:#9a3412}.rank-note{color:var(--muted);font-size:12px;margin-top:4px}
     .muted{color:var(--muted);padding:14px}.num{font-variant-numeric:tabular-nums;font-weight:700}.prompt{max-width:360px}
-    @media(max-width:900px){.kpis,.grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
+    @media(max-width:900px){.kpis,.grid,.recommend-grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
   </style>
 </head>
 <body>
@@ -1045,6 +1136,10 @@ function buildStudentDashboardHtml_(studentId) {
     <section>
       <h2>あなたのランキング</h2>
       <div id="rankingCards" class="rank-grid"></div>
+    </section>
+    <section>
+      <h2>次にやること</h2>
+      <div id="recommendations" class="recommend-grid"></div>
     </section>
     <div class="grid">
       <section>
@@ -1081,6 +1176,7 @@ function buildStudentDashboardHtml_(studentId) {
     renderQuestionStats(dashboardData.questionStats);
     renderRecentTable(dashboardData.recentAttempts);
     renderRankings(dashboardData.rankings);
+    renderRecommendations(dashboardData.recommendations);
 
     function renderStageTable(rows){
       renderTable("stageTable", ["Stage","状態","挑戦","平均正答率","最高正答率","平均時間","最終提出"], rows, row => [
@@ -1134,6 +1230,19 @@ function buildStudentDashboardHtml_(studentId) {
       if (!info || !info.rank) return "まだランキング対象のデータがありません。";
       if (info.rank <= 10) return info.total + "人中 " + info.rank + "位";
       return info.total + "人中 11位以下";
+    }
+    function renderRecommendations(recommendations){
+      const target = document.getElementById("recommendations");
+      const nextStages = (recommendations && recommendations.nextStages) || [];
+      const reviewQuestions = (recommendations && recommendations.reviewQuestions) || [];
+      const first = nextStages[0];
+      const nextHtml = first
+        ? '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">' + escapeHtml(first.stage) + '</div><div class="meta">' + escapeHtml(first.reason) + ' / 平均 ' + first.averageRate + '% / 平均時間 ' + formatSeconds(first.averageElapsed) + '</div></div>'
+        : '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">まだ候補がありません</div><div class="meta">学習データが増えると表示されます。</div></div>';
+      const reviewHtml = reviewQuestions.length
+        ? '<div class="recommend-card"><div class="recommend-label">復習候補</div><ul class="recommend-list">' + reviewQuestions.slice(0, 3).map(row => '<li><strong>' + escapeHtml(row.stage) + '</strong><div class="meta">' + escapeHtml(row.problemId || row.prompt || "-") + ' / 正答率 ' + row.correctRate + '% / 平均時間 ' + formatSeconds(row.averageTime) + '</div></li>').join("") + '</ul></div>'
+        : '<div class="recommend-card"><div class="recommend-label">復習候補</div><div class="recommend-title">大きなつまずきはまだありません</div><div class="meta">正答率や解答時間から自動で候補が出ます。</div></div>';
+      target.innerHTML = nextHtml + reviewHtml;
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);
@@ -1341,6 +1450,39 @@ function buildTeacherDashboardHtml_() {
       font-size: 12px;
       grid-column: 1 / -1;
     }
+    .bottleneck-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 12px;
+      padding: 14px;
+    }
+    .bottleneck-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+    }
+    .bottleneck-title {
+      font-weight: 900;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bottleneck-score {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .score-badge {
+      min-width: 48px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #fde8e8;
+      color: var(--bad);
+      font-weight: 900;
+      text-align: center;
+    }
     .pill {
       display: inline-flex;
       align-items: center;
@@ -1439,7 +1581,7 @@ function buildTeacherDashboardHtml_() {
     }
     @media (max-width: 900px) {
       header, main { padding-left: 14px; padding-right: 14px; }
-      .filters, .visual-grid, .grid-two { grid-template-columns: 1fr; }
+      .filters, .visual-grid, .grid-two, .bottleneck-grid { grid-template-columns: 1fr; }
       header { position: static; }
     }
   </style>
@@ -1496,6 +1638,10 @@ function buildTeacherDashboardHtml_() {
           <div id="watchList" class="visual-list"></div>
         </section>
       </div>
+      <section>
+        <h2>クラス全体の詰まりStage</h2>
+        <div id="bottleneckStages" class="bottleneck-grid"></div>
+      </section>
       <div class="grid-two">
         <section>
           <h2>単元別</h2>
@@ -1577,6 +1723,7 @@ function buildTeacherDashboardHtml_() {
       renderUnitOptions(data.units);
       renderStageOptions(data.stages);
       renderKpis(data.summary);
+      renderBottleneckStages(data.bottleneckStages);
       renderStageVisual(data.stageRows);
       renderWatchList(data.studentRows);
       renderUnitTable(data.unitRows);
@@ -1653,6 +1800,18 @@ function buildTeacherDashboardHtml_() {
         }).join("")
         : '<div class="muted">該当するデータがありません。</div>';
       target.innerHTML = html;
+    }
+
+    function renderBottleneckStages(rows) {
+      const target = document.getElementById("bottleneckStages");
+      target.innerHTML = rows.length ? rows.slice(0, 4).map(row => {
+        return '<div class="bottleneck-card">' +
+          '<div class="bottleneck-title" title="' + escapeHtml(row.stage) + '">' + escapeHtml(row.stage) + '</div>' +
+          '<div class="bottleneck-score"><span class="score-badge">' + row.score + '</span><span class="muted">詰まり度</span></div>' +
+          '<div class="watch-meta">' + escapeHtml(row.reason) + '</div>' +
+          '<div class="watch-meta">正答率 ' + row.averageRate + '% / クリア率 ' + row.passRate + '% / 平均 ' + formatSeconds(row.averageElapsed) + '</div>' +
+        '</div>';
+      }).join("") : '<div class="muted">該当するデータがありません。</div>';
     }
 
     function renderWatchList(rows) {
