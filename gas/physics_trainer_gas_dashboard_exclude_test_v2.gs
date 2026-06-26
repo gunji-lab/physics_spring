@@ -840,6 +840,8 @@ function getStudentDashboardData_(studentId) {
 
   const logs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
+  const allLogs = logSheet ? readSheetObjects_(logSheet)
+    .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
   const questionRows = questionSheet ? readSheetObjects_(questionSheet)
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
 
@@ -946,8 +948,55 @@ function getStudentDashboardData_(studentId) {
     stageRows,
     weakStages,
     slowStages,
+    rankings: buildStudentRankings_(targetId, allLogs),
     questionStats,
     recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
+  };
+}
+
+function buildStudentRankings_(studentId, logs) {
+  const map = {};
+  logs.forEach(row => {
+    const id = String(row["学籍番号"] || "").trim();
+    if (!id) return;
+    if (!map[id]) {
+      map[id] = {
+        studentId: id,
+        attempts: 0,
+        totalElapsed: 0
+      };
+    }
+    map[id].attempts++;
+    map[id].totalElapsed += Number(row["所要時間[s]"] || 0);
+  });
+
+  return {
+    totalElapsed: getStudentRank_(studentId, Object.keys(map).map(id => ({
+      studentId: id,
+      value: map[id].totalElapsed
+    }))),
+    attempts: getStudentRank_(studentId, Object.keys(map).map(id => ({
+      studentId: id,
+      value: map[id].attempts
+    })))
+  };
+}
+
+function getStudentRank_(studentId, rows) {
+  const sorted = rows
+    .filter(row => Number(row.value || 0) > 0)
+    .sort((a, b) => {
+      if (b.value !== a.value) return b.value - a.value;
+      return a.studentId.localeCompare(b.studentId);
+    });
+  const index = sorted.findIndex(row => row.studentId === studentId);
+  if (index < 0) {
+    return { rank: null, total: sorted.length, value: 0 };
+  }
+  return {
+    rank: index + 1,
+    total: sorted.length,
+    value: sorted[index].value
   };
 }
 
@@ -975,6 +1024,7 @@ function buildStudentDashboardHtml_(studentId) {
     table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fbfcfe}
     .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
     .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
+    .rank-grid{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:12px;padding:14px}.rank-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff}.rank-label{color:var(--muted);font-size:12px;font-weight:800}.rank-value{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:20px;font-weight:900}.rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:34px;border-radius:999px;background:#eef2f7;color:var(--text);font-size:15px;font-weight:900}.rank-badge.gold{background:#fef3c7;color:#92400e}.rank-badge.silver{background:#e5e7eb;color:#374151}.rank-badge.bronze{background:#ffedd5;color:#9a3412}.rank-note{color:var(--muted);font-size:12px;margin-top:4px}
     .muted{color:var(--muted);padding:14px}.num{font-variant-numeric:tabular-nums;font-weight:700}.prompt{max-width:360px}
     @media(max-width:900px){.kpis,.grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
   </style>
@@ -992,6 +1042,10 @@ function buildStudentDashboardHtml_(studentId) {
       <div class="kpi"><div class="label">クリアStage</div><div class="value">${data.summary.clearedStages}/${data.summary.stages}</div></div>
       <div class="kpi"><div class="label">クリア回数</div><div class="value">${data.summary.cleared}</div></div>
     </div>
+    <section>
+      <h2>あなたのランキング</h2>
+      <div id="rankingCards" class="rank-grid"></div>
+    </section>
     <div class="grid">
       <section>
         <h2>Stageごとの進捗</h2>
@@ -1026,6 +1080,7 @@ function buildStudentDashboardHtml_(studentId) {
     renderStageCards("slowStages", dashboardData.slowStages, () => "解答時間が長め");
     renderQuestionStats(dashboardData.questionStats);
     renderRecentTable(dashboardData.recentAttempts);
+    renderRankings(dashboardData.rankings);
 
     function renderStageTable(rows){
       renderTable("stageTable", ["Stage","状態","挑戦","平均正答率","最高正答率","平均時間","最終提出"], rows, row => [
@@ -1055,6 +1110,30 @@ function buildStudentDashboardHtml_(studentId) {
         num(formatSeconds(row.elapsed)),
         '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "クリア" : "挑戦") + '</span>'
       ]);
+    }
+    function renderRankings(rankings){
+      const rows = [
+        { label: "総学習時間", rank: rankings.totalElapsed, value: formatSeconds(rankings.totalElapsed.value) },
+        { label: "挑戦回数", rank: rankings.attempts, value: rankings.attempts.value + "回" }
+      ];
+      document.getElementById("rankingCards").innerHTML = rows.map(row => {
+        return '<div class="rank-card"><div class="rank-label">' + escapeHtml(row.label) + '</div>' +
+          '<div class="rank-value">' + rankBadge(row.rank.rank) + '<span>' + escapeHtml(row.value) + '</span></div>' +
+          '<div class="rank-note">' + rankText(row.rank) + '</div></div>';
+      }).join("");
+    }
+    function rankBadge(rank){
+      if (!rank) return '<span class="rank-badge">--</span>';
+      if (rank === 1) return '<span class="rank-badge gold">1位</span>';
+      if (rank === 2) return '<span class="rank-badge silver">2位</span>';
+      if (rank === 3) return '<span class="rank-badge bronze">3位</span>';
+      if (rank <= 10) return '<span class="rank-badge">' + rank + '位</span>';
+      return '<span class="rank-badge">--</span>';
+    }
+    function rankText(info){
+      if (!info || !info.rank) return "まだランキング対象のデータがありません。";
+      if (info.rank <= 10) return info.total + "人中 " + info.rank + "位";
+      return info.total + "人中 11位以下";
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);
