@@ -64,7 +64,7 @@ h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;ma
 
 <div id="finishScreen" class="result" style="display:none">
 <div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div>
-<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button></div>
+<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">バネトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div>
 </div>
 </div></div>
 
@@ -179,6 +179,8 @@ $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);})
 $("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
 $("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
 $("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10);index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();}};
+$("categoryBtn").onclick=()=>{location.href="index.html"};
+$("homeBtn").onclick=()=>{location.href="../index.html"};
 </script>
 </body>
 </html>
