@@ -15,6 +15,7 @@ h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;ma
 .bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar>div{height:100%;width:0%;background:var(--accent);transition:width .25s ease}
 .question{font-size:1.22rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}
 .choices{display:grid;gap:12px;margin:16px 0}.choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}
+.choice.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
 .choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.10)}.choice:disabled{cursor:default;opacity:1}
 .choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
 .feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
@@ -71,7 +72,7 @@ F を求める問題、x を求める問題、k を求める問題が出ます�
 <div id="question" class="question"></div>
 <div id="choices" class="choices"></div>
 <div id="feedback" class="feedback"></div>
-<div class="buttons"><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
+<div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
 </div>
 
 <div id="finishScreen" class="result" style="display:none">
@@ -81,7 +82,7 @@ F を求める問題、x を求める問題、k を求める問題が出ます�
 <div id="sendStatus" class="status"></div>
 <div class="buttons" style="justify-content:center">
 <button id="againBtn">もう一度やる</button>
-<button class="secondary" id="reviewBtn">間違えた問題だけ復習</button>
+<button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button>
 </div>
 </div>
 </div></div>
@@ -128,7 +129,7 @@ const stretchAns=["0.10 [m]","0.20 [m]","0.30 [m]","0.40 [m]","0.50 [m]","0.60 [
 const springConstantAns=["50 [N/m]","100 [N/m]","150 [N/m]","200 [N/m]","250 [N/m]","300 [N/m]","400 [N/m]"];
 
 
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false;
+let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;
 const total=10,$=id=>document.getElementById(id);
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -156,16 +157,20 @@ function start(useWrong=false){
 }
 
 function showQuestion(){
- answered=false;let q=quiz[index];
+ answered=false;
+ selectedAnswer="";
+ selectedButton=null;let q=quiz[index];
  $("count").textContent=`${index+1} / ${quiz.length}`;
  $("score").textContent=`正解 ${score}`;
  $("bar").style.width=`${index/quiz.length*100}%`;
  let badge=q.type==="F"?"F を求める":q.type==="x"?"x を求める":"k を求める";
  $("question").innerHTML=`<span class="badge">${badge}</span><br>${q.question}`;
- $("feedback").className="feedback";$("feedback").style.display="none";$("nextBtn").disabled=true;
+ $("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
  let box=$("choices");box.innerHTML="";
- q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>check(c,b);box.appendChild(b)});
+ q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});
 }
+
+function selectChoice(selected,btn){if(answered)return;selectedAnswer=selected;selectedButton=btn;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");$("answerBtn").disabled=false;}
 
 function explanation(q,ok){
  return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong>
@@ -173,18 +178,18 @@ function explanation(q,ok){
  <div class="note">ポイント：フックの法則は F = kx です。求めたい量に合わせて式を変形します。</div>`;
 }
 
-function check(selected,btn){
- if(answered)return;answered=true;let q=quiz[index],ok=selected===q.ans;
+function check(){
+ if(answered)return;if(!selectedAnswer)return;answered=true;let q=quiz[index],ok=selectedAnswer===q.ans;
   if(!q.id) q.id = `${"SPR1"}_${q.type||q.mode||"Q"}_${index+1}`;
   TrainerLog.recordQuestion(q, ok, {
-    selected: selected,
+    selected: selectedAnswer,
     answer: q.answer || q.ans,
     prompt: q.prompt || q.question || ""
   });
  if(ok)score++;else wrongList.push(q);
  document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});
- if(!ok)btn.classList.add("wrong");
- $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("nextBtn").disabled=false;
+ if(!ok&&selectedButton)selectedButton.classList.add("wrong");
+ $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false;
 }
 
 function next(){index++;index>=quiz.length?finish():showQuestion()}
@@ -213,6 +218,8 @@ $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);})
 $("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
 $("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
 $("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();}};
+$("categoryBtn").onclick=()=>{location.href="index.html"};
+$("homeBtn").onclick=()=>{location.href="../index.html"};
 </script>
 </body>
 </html>

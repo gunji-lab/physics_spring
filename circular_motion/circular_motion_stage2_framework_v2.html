@@ -14,6 +14,7 @@ h1{margin:0 0 6px;font-size:1.55rem}.lead{color:#6b7280}
 .question{font-size:1.28rem;font-weight:800;margin:18px 0;padding:16px;background:#f8fafc;border-radius:14px;border:1px solid #e5e7eb}
 .choices{display:grid;gap:12px;margin:16px 0}
 .choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:#1f2937;border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}
+.choice.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
 .choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
 .feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
 .formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
@@ -69,7 +70,7 @@ input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,23
   <div id="choices" class="choices"></div>
   <div id="feedback" class="feedback"></div>
   <div class="buttons">
-    <button id="nextBtn" disabled>次の問題</button>
+    <button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button>
     <button class="secondary" id="restartBtn">最初から</button>
   </div>
 </div>
@@ -81,7 +82,7 @@ input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,23
   <div id="sendStatus" class="status"></div>
   <div class="buttons" style="justify-content:center">
     <button id="againBtn">もう一度やる</button>
-    <button class="secondary" id="reviewBtn">間違えた問題だけ復習</button>
+    <button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button>
   </div>
 </div>
 
@@ -117,7 +118,7 @@ const degProblems=[
 ];
 
 const allAns=["π [m]","2π [m]","3π [m]","4π [m]","π/2 [m]","3π/2 [m]","2π/3 [m]","π/3 [m]","6π [m]"];
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false;
+let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;
 const total=10,$=id=>document.getElementById(id);
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -144,15 +145,19 @@ function start(useWrong=false){
 }
 
 function showQuestion(){
-  answered=false;let q=quiz[index];
+  answered=false;
+  selectedAnswer="";
+  selectedButton=null;let q=quiz[index];
   $("count").textContent=`${index+1} / ${quiz.length}`;
   $("score").textContent=`正解 ${score}`;
   $("bar").style.width=`${index/quiz.length*100}%`;
   $("question").innerHTML=`<span class="badge">${q.mode==="deg"?"度数法から計算":"弧度法から計算"}</span><br>半径 r = ${q.r} [m]、中心角 θ = ${q.theta} のとき、弧の長さ s は何 [m]か。`;
-  $("feedback").className="feedback";$("feedback").style.display="none";$("nextBtn").disabled=true;
+  $("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
   let box=$("choices");box.innerHTML="";
-  q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>check(c,b);box.appendChild(b)});
+  q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});
 }
+
+function selectChoice(selected,btn){if(answered)return;selectedAnswer=selected;selectedButton=btn;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");$("answerBtn").disabled=false;}
 
 function explanation(q,ok){
   if(q.mode==="deg"){
@@ -166,21 +171,22 @@ function explanation(q,ok){
   <div class="note">中心角が [rad] で表されているとき、弧の長さは s = rθ で求められます。</div>`;
 }
 
-function check(selected,btn){
-  if(answered)return;answered=true;let q=quiz[index],ok=selected===q.ans;
+function check(){
+  if(answered)return;if(!selectedAnswer)return;answered=true;let q=quiz[index],ok=selectedAnswer===q.ans;
   if(!q.id) q.id = `${"CM2"}_${q.type||q.mode||"Q"}_${index+1}`;
   TrainerLog.recordQuestion(q, ok, {
-    selected: selected,
+    selected: selectedAnswer,
     answer: q.answer || q.ans,
     prompt: q.prompt || q.question || ""
   });
   if(ok)score++;else wrongList.push(q);
   document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.textContent.includes(q.ans))b.classList.add("correct")});
-  if(!ok)btn.classList.add("wrong");
+  if(!ok&&selectedButton)selectedButton.classList.add("wrong");
   $("feedback").className="feedback "+(ok?"ok":"ng");
   $("feedback").innerHTML=explanation(q,ok);
   $("feedback").style.display="block";
   $("score").textContent=`正解 ${score}`;
+  $("answerBtn").disabled=true;
   $("nextBtn").disabled=false;
 }
 
@@ -230,5 +236,7 @@ $("reviewBtn").onclick=()=>{
     showQuestion();
   }
 };
+$("categoryBtn").onclick=()=>{location.href="index.html"};
+$("homeBtn").onclick=()=>{location.href="../index.html"};
 </script>
 </body></html>

@@ -303,6 +303,10 @@
       transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
     }
 
+    .choice.selected { border-color: var(--accent); background: #eff6ff; box-shadow: 0 0 0 3px rgba(29,111,143,.14); }
+
+    .choice.selected .mark { background: var(--accent); border-color: var(--accent); color: #fff; }
+
     .choice:hover:not(:disabled) {
       border-color: var(--accent);
       transform: translateY(-1px);
@@ -747,6 +751,8 @@
           <div class="send-status" id="sendStatus"></div>
           <div class="controls" style="justify-content:center">
             <button class="btn primary" id="againBtn" type="button">もう一度やる</button>
+            <button class="btn" id="categoryBtn" type="button">カテゴリトップへ</button>
+            <button class="btn" id="homeBtn" type="button">トップページへ</button>
           </div>
         </div>
       </section>
@@ -1038,6 +1044,9 @@
               </button>
             `).join("")}
           </div>
+          <div class="controls step-controls">
+            <button class="btn primary answer-step" type="button" disabled>答える</button>
+          </div>
           <div class="feedback" data-feedback></div>
         `;
         stepsEl.appendChild(section);
@@ -1059,6 +1068,23 @@
         hintBox.classList.remove("show");
         hintBtn.textContent = "ヒントを表示";
       }
+    }
+
+
+    function selectStepChoice(stepIndex, choiceButton) {
+      if (stepState[stepIndex].answered) return;
+      const stepEl = choiceButton.closest(".step");
+      stepEl.querySelectorAll(".choice").forEach(button => button.classList.remove("selected"));
+      choiceButton.classList.add("selected");
+      const answerButton = stepEl.querySelector(".answer-step");
+      if (answerButton) answerButton.disabled = false;
+    }
+
+    function answerSelectedStep(stepIndex, answerButton) {
+      const stepEl = answerButton.closest(".step");
+      const selectedChoice = stepEl.querySelector(".choice.selected");
+      if (!selectedChoice) return;
+      answerStep(stepIndex, selectedChoice);
     }
 
     function answerStep(stepIndex, choiceButton, revealed = false) {
@@ -1089,8 +1115,12 @@
 
       buttons.forEach(button => {
         button.disabled = true;
+        button.classList.remove("selected");
         if (button.dataset.correct === "true") button.classList.add("correct");
       });
+
+      const answerButton = stepEl.querySelector(".answer-step");
+      if (answerButton) answerButton.disabled = true;
 
       if (!rawCorrect) choiceButton.classList.add("wrong");
 
@@ -1193,10 +1223,16 @@
     }
 
     stepsEl.addEventListener("click", event => {
+      const answerButton = event.target.closest(".answer-step");
+      if (answerButton) {
+        const stepIndex = Number(answerButton.closest(".step").dataset.step);
+        answerSelectedStep(stepIndex, answerButton);
+        return;
+      }
       const choice = event.target.closest(".choice");
       if (!choice) return;
       const stepIndex = Number(choice.closest(".step").dataset.step);
-      answerStep(stepIndex, choice);
+      selectStepChoice(stepIndex, choice);
     });
 
     document.querySelectorAll(".mode-tabs button").forEach(button => {
@@ -1227,6 +1263,8 @@
       streakText.textContent = "0";
       $("#sendStatus").textContent = "";
     });
+    $("#categoryBtn").addEventListener("click", () => { location.href = "index.html"; });
+    $("#homeBtn").addEventListener("click", () => { location.href = "../index.html"; });
     $("#studentId").addEventListener("keydown", event => {
       if (event.key === "Enter") startQuiz();
     });

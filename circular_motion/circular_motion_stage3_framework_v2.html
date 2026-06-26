@@ -14,6 +14,7 @@ h1{margin:0 0 6px;font-size:1.55rem}.lead{color:#6b7280}
 .question{font-size:1.25rem;font-weight:800;margin:18px 0;padding:16px;background:#f8fafc;border-radius:14px;border:1px solid #e5e7eb}
 .choices{display:grid;gap:12px;margin:16px 0}
 .choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:#1f2937;border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}
+.choice.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
 .choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
 .feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
 .formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
@@ -59,12 +60,12 @@ input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,23
 <div id="question" class="question"></div>
 <div id="choices" class="choices"></div>
 <div id="feedback" class="feedback"></div>
-<div class="buttons"><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
+<div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
 </div>
 
 <div id="finishScreen" class="result" style="display:none">
 <div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div>
-<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button></div>
+<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div>
 </div>
 </div></div>
 
@@ -105,7 +106,7 @@ const revProblems=[
 ];
 
 const allAns=["π [m/s]","2π [m/s]","3π [m/s]","4π [m/s]","6π [m/s]","6 [m/s]","8 [m/s]","10 [m/s]","12 [m/s]"];
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false;const total=10,$=id=>document.getElementById(id);
+let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;const total=10,$=id=>document.getElementById(id);
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function makeChoices(q){return shuffle([q.ans,...shuffle(allAns.filter(x=>x!==q.ans)).slice(0,3)])}
 function buildQuiz(){return [...shuffle(radProblems).slice(0,6),...shuffle(degProblems).slice(0,2),...shuffle(revProblems).slice(0,2)]}
@@ -118,27 +119,29 @@ function start(useWrong=false){
     TrainerLog.startSession();
  $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()
 }
-function showQuestion(){answered=false;let q=quiz[index];$("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("bar").style.width=`${index/quiz.length*100}%`;
+function showQuestion(){answered=false;selectedAnswer="";selectedButton=null;let q=quiz[index];$("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("bar").style.width=`${index/quiz.length*100}%`;
 let badge=q.mode==="rad"?"[rad/s]から計算":q.mode==="deg"?"[°/s]から計算":"周回数から計算";
 let body="";
 if(q.mode==="rev"){body=`半径 r = ${q.r} [m] の円運動で、物体は ${q.rev} で回転している。<br>速さ v は何 [m/s]か。`;}
 else{body=`半径 r = ${q.r} [m]、角速度 ω = ${q.omega} のとき、速さ v は何 [m/s]か。`;}
 $("question").innerHTML=`<span class="badge">${badge}</span><br>${body}`;
-$("feedback").className="feedback";$("feedback").style.display="none";$("nextBtn").disabled=true;let box=$("choices");box.innerHTML="";
-q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>check(c,b);box.appendChild(b)});TrainerLog.startQuestion();}
+$("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;let box=$("choices");box.innerHTML="";
+q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});TrainerLog.startQuestion();}
+function selectChoice(selected,btn){if(answered)return;selectedAnswer=selected;selectedButton=btn;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");$("answerBtn").disabled=false;}
+
 function explanation(q,ok){
  if(q.mode==="rad"){return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="note">ポイント：ω が [rad/s] で表されているとき、v = rω で速さを求められます。</div>`}
  if(q.mode==="deg"){return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">角速度を [rad/s] に直す：<br>${q.omega} = ${q.omegaRad}</div><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="compare">[°/s] のままではなく、[rad/s] に直すと v = rω が使えます。</div>`}
  return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">${q.rev} → ω = ${q.omegaRad}</div><div class="formula">v = rω<br>= ${q.calc} [m/s]</div><div class="compare">1周 = 2π [rad] なので、周回数から角速度を考えられます。</div>`;
 }
-function check(selected,btn){if(answered)return;answered=true;let q=quiz[index],ok=selected===q.ans;
+function check(){if(answered)return;if(!selectedAnswer)return;answered=true;let q=quiz[index],ok=selectedAnswer===q.ans;
 if(!q.id){q.id=`CM3_${q.mode}_${index+1}`;}
 TrainerLog.recordQuestion(q,ok,{
-selected:selected,
+selected:selectedAnswer,
 answer:q.ans,
 prompt:$("question").innerText
 });
-if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("nextBtn").disabled=false}
+if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok&&selectedButton)selectedButton.classList.add("wrong");$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false}
 function next(){index++;index>=quiz.length?finish():showQuestion()}
 function finish(){
   TrainerLog.finishSession();
@@ -156,5 +159,7 @@ function sendResult(rate){
     total: quiz.length
   });
 }
-$("startBtn").onclick=()=>start(false);$("nextBtn").onclick=next;$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()}};
+$("startBtn").onclick=()=>start(false);$("answerBtn").onclick=check;$("nextBtn").onclick=next;$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()}};
+$("categoryBtn").onclick=()=>{location.href="index.html"};
+$("homeBtn").onclick=()=>{location.href="../index.html"};
 </script></body></html>
