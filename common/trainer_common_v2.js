@@ -18,6 +18,7 @@ const TrainerLog = (() => {
     questionTimes = [];
     questionResults = [];
     resultSent = false;
+    removeStudentDashboardButton();
   }
 
   function startQuestion() {
@@ -125,9 +126,88 @@ const TrainerLog = (() => {
       });
 
       if (status) status.textContent = "結果を送信しました。";
+      if (total > 0 && score / total >= 0.7) {
+        requestStudentDashboardUrl({
+          gasUrl,
+          studentId,
+          sendStatusId
+        });
+      } else {
+        removeStudentDashboardButton();
+      }
     } catch (err) {
       if (status) status.textContent = "結果送信に失敗しました。ネットワークを確認してください。";
     }
+  }
+
+  function requestStudentDashboardUrl({ gasUrl, studentId, sendStatusId = "sendStatus" }) {
+    if (!gasUrl || !studentId) return;
+
+    const callbackName = "__physicsStudentDashboard_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+    const script = document.createElement("script");
+    const separator = gasUrl.indexOf("?") === -1 ? "?" : "&";
+    const status = document.getElementById(sendStatusId);
+
+    window[callbackName] = response => {
+      try {
+        if (response && response.ok && response.url) {
+          showStudentDashboardButton(response.url);
+          if (status) status.textContent = "結果を送信しました。学習状況を確認できます。";
+        } else if (status) {
+          status.textContent = "結果を送信しました。学習状況リンクはクリア直後だけ表示されます。";
+        }
+      } finally {
+        cleanupJsonp(callbackName, script);
+      }
+    };
+
+    script.onerror = () => {
+      if (status) status.textContent = "結果を送信しました。学習状況リンクの準備に失敗しました。";
+      cleanupJsonp(callbackName, script);
+    };
+
+    script.src = gasUrl + separator +
+      "api=studentDashboardLink&id=" + encodeURIComponent(studentId) +
+      "&callback=" + encodeURIComponent(callbackName) +
+      "&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  function cleanupJsonp(callbackName, script) {
+    try {
+      delete window[callbackName];
+    } catch (err) {
+      window[callbackName] = undefined;
+    }
+    if (script && script.parentNode) script.parentNode.removeChild(script);
+  }
+
+  function showStudentDashboardButton(url) {
+    removeStudentDashboardButton();
+
+    const finish = document.getElementById("finishScreen") || document.body;
+    let buttons = finish.querySelector(".buttons, .controls");
+    if (!buttons) {
+      buttons = document.createElement("div");
+      buttons.className = "buttons";
+      finish.appendChild(buttons);
+    }
+
+    const button = document.createElement("button");
+    const sample = buttons.querySelector("button");
+    button.type = "button";
+    button.textContent = "自分の学習状況を見る";
+    button.className = sample && sample.classList.contains("btn")
+      ? "btn student-dashboard-btn"
+      : "secondary student-dashboard-btn";
+    button.addEventListener("click", () => {
+      location.href = url;
+    });
+    buttons.appendChild(button);
+  }
+
+  function removeStudentDashboardButton() {
+    document.querySelectorAll(".student-dashboard-btn").forEach(button => button.remove());
   }
 
   function getQuestionTimes() {

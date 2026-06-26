@@ -275,6 +275,9 @@ function testPost() {
    ========================================================= */
 
 const DASHBOARD_KEY = "gunji_physics_9017";
+const STUDENT_DASHBOARD_TOKEN_DAYS = 2;
+const STUDENT_DASHBOARD_LINK_WINDOW_MINUTES = 15;
+const STUDENT_DASHBOARD_SECRET_PROPERTY = "STUDENT_DASHBOARD_SECRET";
 
 /* ---------- ダッシュボード集計から除外する学籍番号 ---------- */
 /* ここに入れた学籍番号、および下の接頭辞で始まる学籍番号は、
@@ -305,6 +308,26 @@ function isExcludedStudent_(studentId) {
 const DASHBOARD_UNIT_HEADERS_ = ["単元", "Unit", "unit", "分野", "カテゴリ", "Topic", "topic"];
 
 function doGet(e) {
+  const params = (e && e.parameter) || {};
+  if (params.api === "studentDashboardLink") {
+    return createStudentDashboardLinkResponse_(params);
+  }
+
+  if (params.view === "student") {
+    const studentId = String(params.id || "").trim();
+    const token = String(params.token || "").trim();
+    if (!isValidStudentDashboardToken_(studentId, token)) {
+      return HtmlService
+        .createHtmlOutput("<p>この学習状況リンクは無効、または期限切れです。</p>")
+        .setTitle("Physics Trainer Student Dashboard");
+    }
+
+    return HtmlService
+      .createHtmlOutput(buildStudentDashboardHtml_(studentId))
+      .setTitle("Physics Trainer Student Dashboard")
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }
+
   const key = String((e && e.parameter && e.parameter.key) || "");
   if (DASHBOARD_KEY && key !== DASHBOARD_KEY) {
     return HtmlService
@@ -714,6 +737,368 @@ function asDate_(value) {
   if (!value) return null;
   const date = new Date(value);
   return isNaN(date) ? null : date;
+}
+
+function createStudentDashboardLinkResponse_(params) {
+  const callback = String(params.callback || "");
+  const studentId = String(params.id || params.studentId || "").trim();
+
+  if (!isSafeJsonpCallback_(callback)) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: "invalid_callback" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (!studentId || isExcludedStudent_(studentId)) {
+    return jsonpResponse_(callback, { ok: false, error: "invalid_student" });
+  }
+
+  if (!hasRecentStudentPass_(studentId, STUDENT_DASHBOARD_LINK_WINDOW_MINUTES)) {
+    return jsonpResponse_(callback, { ok: false, error: "no_recent_pass" });
+  }
+
+  return jsonpResponse_(callback, {
+    ok: true,
+    url: buildStudentDashboardUrl_(studentId)
+  });
+}
+
+function jsonpResponse_(callback, payload) {
+  return ContentService
+    .createTextOutput(callback + "(" + JSON.stringify(payload) + ");")
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+
+function isSafeJsonpCallback_(callback) {
+  return /^[A-Za-z_$][0-9A-Za-z_$]*(\.[A-Za-z_$][0-9A-Za-z_$]*)*$/.test(callback);
+}
+
+function hasRecentStudentPass_(studentId, minutes) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  if (!logSheet || logSheet.getLastRow() < 2) return false;
+
+  const rows = readSheetObjects_(logSheet);
+  const now = Date.now();
+  const windowMs = Number(minutes || 15) * 60 * 1000;
+  const targetId = String(studentId || "").trim();
+
+  return rows.some(row => {
+    const rowStudentId = String(row["学籍番号"] || "").trim();
+    const passed = String(row["クリア"] || "") === "○";
+    const date = asDate_(row["日時"]);
+    return rowStudentId === targetId && passed && date && now - date.getTime() <= windowMs;
+  });
+}
+
+function buildStudentDashboardUrl_(studentId) {
+  const baseUrl = ScriptApp.getService().getUrl();
+  const token = createStudentDashboardToken_(studentId, 0);
+  return baseUrl +
+    "?view=student&id=" + encodeURIComponent(studentId) +
+    "&token=" + encodeURIComponent(token);
+}
+
+function createStudentDashboardToken_(studentId, dayOffset) {
+  const date = new Date();
+  date.setDate(date.getDate() + Number(dayOffset || 0));
+  const day = Utilities.formatDate(date, Session.getScriptTimeZone(), "yyyyMMdd");
+  const message = String(studentId || "").trim() + "|" + day;
+  const signature = Utilities.computeHmacSha256Signature(message, getStudentDashboardSecret_());
+  return Utilities.base64EncodeWebSafe(signature).replace(/=+$/, "").slice(0, 40);
+}
+
+function isValidStudentDashboardToken_(studentId, token) {
+  const id = String(studentId || "").trim();
+  const value = String(token || "").trim();
+  if (!id || !value || isExcludedStudent_(id)) return false;
+
+  for (let i = 0; i < STUDENT_DASHBOARD_TOKEN_DAYS; i++) {
+    if (createStudentDashboardToken_(id, -i) === value) return true;
+  }
+  return false;
+}
+
+function getStudentDashboardSecret_() {
+  const props = PropertiesService.getScriptProperties();
+  let secret = props.getProperty(STUDENT_DASHBOARD_SECRET_PROPERTY);
+  if (!secret) {
+    secret = [
+      Utilities.getUuid(),
+      Utilities.getUuid(),
+      String(Date.now())
+    ].join(":");
+    props.setProperty(STUDENT_DASHBOARD_SECRET_PROPERTY, secret);
+  }
+  return secret;
+}
+
+function getStudentDashboardData_(studentId) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const targetId = String(studentId || "").trim();
+
+  const logs = logSheet ? readSheetObjects_(logSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
+  const questionRows = questionSheet ? readSheetObjects_(questionSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
+
+  let scoreSum = 0;
+  let totalSum = 0;
+  let elapsedSum = 0;
+  let cleared = 0;
+  let latest = null;
+  const stageMap = {};
+
+  logs.forEach(row => {
+    const stage = String(row["Stage"] || "未設定");
+    const score = Number(row["得点"] || 0);
+    const total = Number(row["問題数"] || 0);
+    const elapsed = Number(row["所要時間[s]"] || 0);
+    const passed = String(row["クリア"] || "") === "○";
+    const date = asDate_(row["日時"]);
+    const rate = total > 0 ? Math.round(score / total * 100) : 0;
+
+    scoreSum += score;
+    totalSum += total;
+    if (elapsed > 0) elapsedSum += elapsed;
+    if (passed) cleared++;
+    if (date && (!latest || date > latest)) latest = date;
+
+    if (!stageMap[stage]) {
+      stageMap[stage] = {
+        stage,
+        attempts: 0,
+        clears: 0,
+        scoreSum: 0,
+        totalSum: 0,
+        elapsedSum: 0,
+        elapsedCount: 0,
+        bestRate: 0,
+        latestRate: 0,
+        latest: null
+      };
+    }
+
+    const item = stageMap[stage];
+    item.attempts++;
+    item.scoreSum += score;
+    item.totalSum += total;
+    if (elapsed > 0) {
+      item.elapsedSum += elapsed;
+      item.elapsedCount++;
+    }
+    if (passed) item.clears++;
+    item.bestRate = Math.max(item.bestRate, rate);
+    if (!item.latest || (date && date > item.latest)) {
+      item.latest = date;
+      item.latestRate = rate;
+    }
+  });
+
+  const stageRows = Object.keys(stageMap).map(stage => {
+    const item = stageMap[stage];
+    const averageRate = item.totalSum > 0 ? Math.round(item.scoreSum / item.totalSum * 100) : 0;
+    const averageElapsed = item.elapsedCount > 0 ? Math.round(item.elapsedSum / item.elapsedCount) : 0;
+    return {
+      stage: item.stage,
+      status: item.clears > 0 ? "クリア済み" : "挑戦済み",
+      attempts: item.attempts,
+      clears: item.clears,
+      averageRate,
+      bestRate: item.bestRate,
+      latestRate: item.latestRate,
+      averageElapsed,
+      latest: item.latest ? item.latest.toISOString() : ""
+    };
+  }).sort((a, b) => a.stage.localeCompare(b.stage, "ja"));
+
+  const weakStages = stageRows
+    .filter(row => row.averageRate < 70 || row.latestRate < 70)
+    .sort((a, b) => {
+      if (a.averageRate !== b.averageRate) return a.averageRate - b.averageRate;
+      return b.averageElapsed - a.averageElapsed;
+    })
+    .slice(0, 6);
+
+  const slowStages = stageRows
+    .filter(row => row.averageElapsed > 0)
+    .slice()
+    .sort((a, b) => b.averageElapsed - a.averageElapsed)
+    .slice(0, 6);
+
+  const questionStats = buildQuestionStats_(questionRows)
+    .filter(row => row.correctRate < 70 || row.averageTime >= 20)
+    .slice(0, 8);
+
+  return {
+    studentId: targetId,
+    generatedAt: new Date().toISOString(),
+    summary: {
+      attempts: logs.length,
+      cleared,
+      stages: stageRows.length,
+      clearedStages: stageRows.filter(row => row.status === "クリア済み").length,
+      totalElapsed: elapsedSum,
+      averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0,
+      latest: latest ? latest.toISOString() : ""
+    },
+    stageRows,
+    weakStages,
+    slowStages,
+    questionStats,
+    recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
+  };
+}
+
+function buildStudentDashboardHtml_(studentId) {
+  const data = getStudentDashboardData_(studentId);
+  return `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--bg:#f7f8fb;--panel:#fff;--line:#d9dee8;--text:#182033;--muted:#687389;--accent:#0f766e;--accent-soft:#dff4f1;--bad:#b91c1c;--warn:#b45309;--good:#15803d}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+    header{background:var(--panel);border-bottom:1px solid var(--line);padding:18px 24px 14px;position:sticky;top:0;z-index:10}
+    h1{margin:0 0 4px;font-size:22px;font-weight:700;letter-spacing:0}
+    .sub{color:var(--muted);font-size:13px}
+    main{padding:18px 24px 32px;display:grid;gap:18px}
+    .kpis{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:12px}
+    .kpi,section{background:var(--panel);border:1px solid var(--line);border-radius:8px}
+    .kpi{padding:14px;min-height:92px}.kpi .label{color:var(--muted);font-size:12px;font-weight:700}.kpi .value{font-size:28px;font-weight:800;margin-top:6px}
+    .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:18px}
+    section{overflow:hidden}section h2{margin:0;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
+    .cards{display:grid;gap:10px;padding:14px}.card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff}.card-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px}
+    table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fbfcfe}
+    .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
+    .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
+    .muted{color:var(--muted);padding:14px}.num{font-variant-numeric:tabular-nums;font-weight:700}.prompt{max-width:360px}
+    @media(max-width:900px){.kpis,.grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>学習ダッシュボード</h1>
+    <div class="sub">学籍番号 ${escapeHtmlServer_(data.studentId)} / 最終更新 <span id="generatedAt"></span></div>
+  </header>
+  <main>
+    <div class="kpis">
+      <div class="kpi"><div class="label">総学習時間</div><div class="value" id="totalElapsed"></div></div>
+      <div class="kpi"><div class="label">挑戦回数</div><div class="value">${data.summary.attempts}</div></div>
+      <div class="kpi"><div class="label">平均正答率</div><div class="value">${data.summary.averageRate}%</div></div>
+      <div class="kpi"><div class="label">クリアStage</div><div class="value">${data.summary.clearedStages}/${data.summary.stages}</div></div>
+      <div class="kpi"><div class="label">クリア回数</div><div class="value">${data.summary.cleared}</div></div>
+    </div>
+    <div class="grid">
+      <section>
+        <h2>Stageごとの進捗</h2>
+        <div class="table-wrap"><table id="stageTable"></table></div>
+      </section>
+      <section>
+        <h2>苦手Stage</h2>
+        <div id="weakStages" class="cards"></div>
+      </section>
+    </div>
+    <div class="grid">
+      <section>
+        <h2>時間がかかっているStage</h2>
+        <div id="slowStages" class="cards"></div>
+      </section>
+      <section>
+        <h2>注意したい問題</h2>
+        <div id="questionStats" class="cards"></div>
+      </section>
+    </div>
+    <section>
+      <h2>最近の学習履歴</h2>
+      <div class="table-wrap"><table id="recentTable"></table></div>
+    </section>
+  </main>
+  <script>
+    const dashboardData = ${JSON.stringify(data)};
+    document.getElementById("generatedAt").textContent = formatDate(dashboardData.generatedAt);
+    document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
+    renderStageTable(dashboardData.stageRows);
+    renderStageCards("weakStages", dashboardData.weakStages, row => row.averageRate < 70 ? "正答率を上げたい" : "直近の正答率を確認");
+    renderStageCards("slowStages", dashboardData.slowStages, () => "解答時間が長め");
+    renderQuestionStats(dashboardData.questionStats);
+    renderRecentTable(dashboardData.recentAttempts);
+
+    function renderStageTable(rows){
+      renderTable("stageTable", ["Stage","状態","挑戦","平均正答率","最高正答率","平均時間","最終提出"], rows, row => [
+        escapeHtml(row.stage),
+        '<span class="pill ' + (row.status === "クリア済み" ? "clear" : "try") + '">' + escapeHtml(row.status) + '</span>',
+        num(row.attempts),
+        rateBar(row.averageRate),
+        rateBar(row.bestRate),
+        num(formatSeconds(row.averageElapsed)),
+        escapeHtml(formatDate(row.latest))
+      ]);
+    }
+    function renderStageCards(id, rows, reason){
+      const target = document.getElementById(id);
+      target.innerHTML = rows.length ? rows.map(row => '<div class="card"><div class="card-title">' + escapeHtml(row.stage) + '</div><div class="meta">' + reason(row) + ' / 平均 ' + row.averageRate + '% / 平均時間 ' + formatSeconds(row.averageElapsed) + '</div>' + rateBar(row.averageRate) + '</div>').join("") : '<div class="muted">該当するデータはまだありません。</div>';
+    }
+    function renderQuestionStats(rows){
+      const target = document.getElementById("questionStats");
+      target.innerHTML = rows.length ? rows.map(row => '<div class="card"><div class="card-title">' + escapeHtml(row.stage) + ' / ' + escapeHtml(row.problemId || "-") + '</div><div class="meta prompt">' + escapeHtml(row.prompt || "-") + '</div><div class="meta">正答率 ' + row.correctRate + '% / 平均時間 ' + formatSeconds(row.averageTime) + '</div></div>').join("") : '<div class="muted">該当するデータはまだありません。</div>';
+    }
+    function renderRecentTable(rows){
+      renderTable("recentTable", ["日時","Stage","得点","正答率","時間","クリア"], rows, row => [
+        escapeHtml(formatDate(row.date)),
+        escapeHtml(row.stage),
+        num(row.score + "/" + row.total),
+        rateBar(row.rate),
+        num(formatSeconds(row.elapsed)),
+        '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "クリア" : "挑戦") + '</span>'
+      ]);
+    }
+    function renderTable(id, headers, rows, mapper){
+      const table = document.getElementById(id);
+      const head = "<thead><tr>" + headers.map(h => "<th>" + escapeHtml(h) + "</th>").join("") + "</tr></thead>";
+      const body = rows.length ? rows.map(row => "<tr>" + mapper(row).map((cell, i) => '<td data-label="' + escapeHtml(headers[i]) + '">' + cell + "</td>").join("") + "</tr>").join("") : '<tr><td colspan="' + headers.length + '" class="muted">まだデータがありません。</td></tr>';
+      table.innerHTML = head + "<tbody>" + body + "</tbody>";
+    }
+    function rateBar(value){
+      const n = Math.max(0, Math.min(100, Number(value || 0)));
+      const cls = n < 50 ? "low" : (n < 70 ? "mid" : "");
+      return '<div class="bar ' + cls + '"><span class="num">' + n + '%</span><span class="track"><span class="fill" style="width:' + n + '%"></span></span></div>';
+    }
+    function formatSeconds(value){
+      const seconds = Number(value || 0);
+      if (!seconds) return "-";
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      const hour = Math.floor(min / 60);
+      const restMin = min % 60;
+      if (hour) return hour + "時間" + restMin + "分";
+      return min ? min + "分" + sec + "秒" : sec + "秒";
+    }
+    function formatDate(value){
+      if (!value) return "-";
+      const date = new Date(value);
+      if (isNaN(date)) return "-";
+      return date.toLocaleString("ja-JP", { month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    }
+    function num(value){ return '<span class="num">' + escapeHtml(String(value)) + '</span>'; }
+    function escapeHtml(value){ return String(value ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch])); }
+  </script>
+</body>
+</html>`;
+}
+
+function escapeHtmlServer_(value) {
+  return String(value || "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[ch]));
 }
 
 function buildTeacherDashboardHtml_() {
