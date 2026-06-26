@@ -20,6 +20,7 @@ h1{margin:0 0 6px;font-size:1.55rem}
 .choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.1rem;font-weight:700;cursor:pointer}
 .choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.10)}
 .choice:disabled{cursor:default;opacity:1}
+.choice.selected{border-color:var(--accent);background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
 .choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}
 .choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
 .feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}
@@ -73,7 +74,7 @@ input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,23
 <div id="question" class="question"></div>
 <div id="choices" class="choices"></div>
 <div id="feedback" class="feedback"></div>
-<div class="buttons"><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
+<div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><button class="secondary" id="restartBtn">最初から</button></div>
 </div>
 
 <div id="finishScreen" class="result" style="display:none;">
@@ -84,6 +85,8 @@ input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,23
 <div class="buttons" style="justify-content:center;">
 <button id="againBtn">もう一度やる</button>
 <button class="secondary" id="reviewBtn">間違えた問題だけ復習</button>
+<button class="secondary" id="categoryBtn">円運動トップへ</button>
+<button class="secondary" id="homeBtn">トップページへ</button>
 </div>
 </div>
 </div></div>
@@ -101,7 +104,7 @@ const basePairs=[
 const degChoices=basePairs.map(p=>`${p[0]} [°]`);
 const radChoices=basePairs.map(p=>`${p[1]} [rad]`);
 
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false;
+let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;
 const total=10,$=id=>document.getElementById(id);
 
 function shuffle(arr){
@@ -163,6 +166,8 @@ function start(useWrong=false){
 
 function showQuestion(){
   answered=false;
+  selectedAnswer="";
+  selectedButton=null;
   const q=quiz[index];
   $("count").textContent=`${index+1} / ${quiz.length}`;
   $("score").textContent=`正解 ${score}`;
@@ -170,6 +175,7 @@ function showQuestion(){
   $("question").textContent=q.prompt;
   $("feedback").className="feedback";
   $("feedback").style.display="none";
+  $("answerBtn").disabled=true;
   $("nextBtn").disabled=true;
   const box=$("choices");
   box.innerHTML="";
@@ -178,10 +184,19 @@ function showQuestion(){
     btn.className="choice";
     btn.dataset.answer=c;
     btn.innerHTML=`${["①","②","③","④"][i]}　${c}`;
-    btn.addEventListener("click",()=>check(c,btn));
+    btn.addEventListener("click",()=>selectChoice(c,btn));
     box.appendChild(btn);
   });
   TrainerLog.startQuestion();
+}
+
+function selectChoice(selected,btn){
+  if(answered)return;
+  selectedAnswer=selected;
+  selectedButton=btn;
+  document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+  $("answerBtn").disabled=false;
 }
 
 function explanation(q,ok){
@@ -195,12 +210,13 @@ function explanation(q,ok){
   <div class="note">ポイント：[rad] を度に直すときは、180/π をかけます。</div>`;
 }
 
-function check(selected,btn){
+function check(){
   if(answered)return;
+  if(!selectedAnswer)return;
   answered=true;
-  const q=quiz[index],ok=selected===q.answer;
+  const q=quiz[index],ok=selectedAnswer===q.answer;
   TrainerLog.recordQuestion(q, ok, {
-    selected: selected,
+    selected: selectedAnswer,
     answer: q.answer,
     prompt: q.prompt
   });
@@ -209,11 +225,12 @@ function check(selected,btn){
     b.disabled=true;
     if(b.dataset.answer===q.answer)b.classList.add("correct");
   });
-  if(!ok)btn.classList.add("wrong");
+  if(!ok&&selectedButton)selectedButton.classList.add("wrong");
   $("feedback").className="feedback "+(ok?"ok":"ng");
   $("feedback").innerHTML=explanation(q,ok);
   $("feedback").style.display="block";
   $("score").textContent=`正解 ${score}`;
+  $("answerBtn").disabled=true;
   $("nextBtn").disabled=false;
 }
 
@@ -242,6 +259,7 @@ function sendResult(rate){
 }
 
 $("startBtn").addEventListener("click",()=>start(false));
+$("answerBtn").addEventListener("click",check);
 $("nextBtn").addEventListener("click",next);
 $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});
 
@@ -266,6 +284,9 @@ $("reviewBtn").addEventListener("click",()=>{
     showQuestion();
   }
 });
+
+$("categoryBtn").addEventListener("click",()=>{ location.href="index.html"; });
+$("homeBtn").addEventListener("click",()=>{ location.href="../index.html"; });
 </script>
 </body>
 </html>
