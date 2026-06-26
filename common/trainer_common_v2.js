@@ -130,7 +130,8 @@ const TrainerLog = (() => {
         requestStudentDashboardUrl({
           gasUrl,
           studentId,
-          sendStatusId
+          sendStatusId,
+          attempt: 1
         });
       } else {
         removeStudentDashboardButton();
@@ -140,19 +141,31 @@ const TrainerLog = (() => {
     }
   }
 
-  function requestStudentDashboardUrl({ gasUrl, studentId, sendStatusId = "sendStatus" }) {
+  function requestStudentDashboardUrl({ gasUrl, studentId, sendStatusId = "sendStatus", attempt = 1 }) {
     if (!gasUrl || !studentId) return;
 
+    const maxAttempts = 6;
     const callbackName = "__physicsStudentDashboard_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
     const script = document.createElement("script");
     const separator = gasUrl.indexOf("?") === -1 ? "?" : "&";
     const status = document.getElementById(sendStatusId);
+    if (status && attempt === 1) status.textContent = "結果を送信しました。学習状況リンクを準備中...";
 
     window[callbackName] = response => {
       try {
         if (response && response.ok && response.url) {
           showStudentDashboardButton(response.url);
           if (status) status.textContent = "結果を送信しました。学習状況を確認できます。";
+        } else if (response && response.error === "no_recent_pass" && attempt < maxAttempts) {
+          if (status) status.textContent = "結果を送信しました。学習状況リンクを準備中...";
+          setTimeout(() => {
+            requestStudentDashboardUrl({
+              gasUrl,
+              studentId,
+              sendStatusId,
+              attempt: attempt + 1
+            });
+          }, 1500);
         } else if (status) {
           status.textContent = "結果を送信しました。学習状況リンクはクリア直後だけ表示されます。";
         }
