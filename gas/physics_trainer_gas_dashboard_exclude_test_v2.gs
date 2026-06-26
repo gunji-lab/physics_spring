@@ -874,15 +874,12 @@ function getStudentDashboardSecret_() {
 function getStudentDashboardData_(studentId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
-  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
   const targetId = String(studentId || "").trim();
 
   const logs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
   const allLogs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
-  const questionRows = questionSheet ? readSheetObjects_(questionSheet)
-    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
 
   let scoreSum = 0;
   let totalSum = 0;
@@ -954,16 +951,6 @@ function getStudentDashboardData_(studentId) {
     };
   }).sort((a, b) => a.stage.localeCompare(b.stage, "ja"));
 
-  const slowStages = stageRows
-    .filter(row => row.averageElapsed > 0)
-    .slice()
-    .sort((a, b) => b.averageElapsed - a.averageElapsed)
-    .slice(0, 6);
-
-  const questionStats = buildQuestionStats_(questionRows)
-    .filter(row => row.correctRate < 70 || row.averageTime >= 20)
-    .slice(0, 8);
-
   return {
     studentId: targetId,
     generatedAt: new Date().toISOString(),
@@ -977,14 +964,13 @@ function getStudentDashboardData_(studentId) {
       latest: latest ? latest.toISOString() : ""
     },
     stageRows,
-    recommendations: buildStudentRecommendations_(stageRows, questionStats),
-    slowStages,
+    recommendations: buildStudentRecommendations_(stageRows),
     rankings: buildStudentRankings_(targetId, allLogs),
     recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
   };
 }
 
-function buildStudentRecommendations_(stageRows, questionStats) {
+function buildStudentRecommendations_(stageRows) {
   const nextStages = stageRows.map(row => {
     const needsClear = row.status !== "クリア済み";
     const weak = row.averageRate < 70 || row.latestRate < 70;
@@ -1020,17 +1006,8 @@ function buildStudentRecommendations_(stageRows, questionStats) {
     return a.averageRate - b.averageRate;
   }).slice(0, 3);
 
-  const reviewQuestions = questionStats
-    .slice()
-    .sort((a, b) => {
-      if (a.correctRate !== b.correctRate) return a.correctRate - b.correctRate;
-      return b.averageTime - a.averageTime;
-    })
-    .slice(0, 5);
-
   return {
-    nextStages,
-    reviewQuestions
+    nextStages
   };
 }
 
@@ -1101,7 +1078,7 @@ function buildStudentDashboardHtml_(studentId) {
     .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:18px}
     section{overflow:hidden}section h2{margin:0;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
     .cards{display:grid;gap:10px;padding:14px}.card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff}.card-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px}
-    .recommend-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:14px}.recommend-card{border:1px solid var(--line);border-radius:8px;padding:13px;background:#fff}.recommend-card.primary{border-color:#8ed3cb;background:#f4fbfa}.recommend-label{color:var(--muted);font-size:12px;font-weight:800}.recommend-title{font-weight:900;margin-top:4px}.recommend-list{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px}.recommend-list li{border-top:1px solid #edf0f5;padding-top:6px}
+    .recommend-grid{display:grid;grid-template-columns:1fr;gap:12px;padding:14px}.recommend-card{border:1px solid var(--line);border-radius:8px;padding:13px;background:#fff}.recommend-card.primary{border-color:#8ed3cb;background:#f4fbfa}.recommend-label{color:var(--muted);font-size:12px;font-weight:800}.recommend-title{font-weight:900;margin-top:4px}
     table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fbfcfe}
     .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
     .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
@@ -1131,16 +1108,10 @@ function buildStudentDashboardHtml_(studentId) {
       <h2>次にやること</h2>
       <div id="recommendations" class="recommend-grid"></div>
     </section>
-    <div class="grid">
-      <section>
-        <h2>Stageごとの進捗</h2>
-        <div class="table-wrap"><table id="stageTable"></table></div>
-      </section>
-      <section>
-        <h2>時間がかかっているStage</h2>
-        <div id="slowStages" class="cards"></div>
-      </section>
-    </div>
+    <section>
+      <h2>Stageごとの進捗</h2>
+      <div class="table-wrap"><table id="stageTable"></table></div>
+    </section>
     <section>
       <h2>最近の学習履歴</h2>
       <div class="table-wrap"><table id="recentTable"></table></div>
@@ -1151,7 +1122,6 @@ function buildStudentDashboardHtml_(studentId) {
     document.getElementById("generatedAt").textContent = formatDate(dashboardData.generatedAt);
     document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
     renderStageTable(dashboardData.stageRows);
-    renderStageCards("slowStages", dashboardData.slowStages, () => "解答時間が長め");
     renderRecentTable(dashboardData.recentAttempts);
     renderRankings(dashboardData.rankings);
     renderRecommendations(dashboardData.recommendations);
@@ -1166,10 +1136,6 @@ function buildStudentDashboardHtml_(studentId) {
         num(formatSeconds(row.averageElapsed)),
         escapeHtml(formatDate(row.latest))
       ]);
-    }
-    function renderStageCards(id, rows, reason){
-      const target = document.getElementById(id);
-      target.innerHTML = rows.length ? rows.map(row => '<div class="card"><div class="card-title">' + escapeHtml(row.stage) + '</div><div class="meta">' + reason(row) + ' / 平均 ' + row.averageRate + '% / 平均時間 ' + formatSeconds(row.averageElapsed) + '</div>' + rateBar(row.averageRate) + '</div>').join("") : '<div class="muted">該当するデータはまだありません。</div>';
     }
     function renderRecentTable(rows){
       renderTable("recentTable", ["日時","Stage","得点","正答率","時間","クリア"], rows, row => [
@@ -1208,15 +1174,10 @@ function buildStudentDashboardHtml_(studentId) {
     function renderRecommendations(recommendations){
       const target = document.getElementById("recommendations");
       const nextStages = (recommendations && recommendations.nextStages) || [];
-      const reviewQuestions = (recommendations && recommendations.reviewQuestions) || [];
       const first = nextStages[0];
-      const nextHtml = first
+      target.innerHTML = first
         ? '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">' + escapeHtml(first.stage) + '</div><div class="meta">' + escapeHtml(first.reason) + ' / 平均 ' + first.averageRate + '% / 平均時間 ' + formatSeconds(first.averageElapsed) + '</div></div>'
         : '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">まだ候補がありません</div><div class="meta">学習データが増えると表示されます。</div></div>';
-      const reviewHtml = reviewQuestions.length
-        ? '<div class="recommend-card"><div class="recommend-label">復習候補</div><ul class="recommend-list">' + reviewQuestions.slice(0, 3).map(row => '<li><strong>' + escapeHtml(row.stage) + '</strong><div class="meta">' + escapeHtml(row.problemId || row.prompt || "-") + ' / 正答率 ' + row.correctRate + '% / 平均時間 ' + formatSeconds(row.averageTime) + '</div></li>').join("") + '</ul></div>'
-        : '<div class="recommend-card"><div class="recommend-label">復習候補</div><div class="recommend-title">大きなつまずきはまだありません</div><div class="meta">正答率や解答時間から自動で候補が出ます。</div></div>';
-      target.innerHTML = nextHtml + reviewHtml;
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);
