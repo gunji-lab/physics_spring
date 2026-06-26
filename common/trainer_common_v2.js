@@ -127,6 +127,7 @@ const TrainerLog = (() => {
 
       if (status) status.textContent = "結果を送信しました。";
       if (total > 0 && score / total >= 0.7) {
+        showStudentDashboardButton(null, "preparing");
         requestStudentDashboardUrl({
           gasUrl,
           studentId,
@@ -154,7 +155,7 @@ const TrainerLog = (() => {
     window[callbackName] = response => {
       try {
         if (response && response.ok && response.url) {
-          showStudentDashboardButton(response.url);
+          showStudentDashboardButton(response.url, "ready");
           if (status) status.textContent = "結果を送信しました。学習状況を確認できます。";
         } else if (response && response.error === "no_recent_pass" && attempt < maxAttempts) {
           if (status) status.textContent = "結果を送信しました。学習状況リンクを準備中...";
@@ -167,6 +168,7 @@ const TrainerLog = (() => {
             });
           }, 1500);
         } else if (status) {
+          showStudentDashboardButton(null, "unavailable");
           status.textContent = "結果を送信しました。学習状況リンクはクリア直後だけ表示されます。";
         }
       } finally {
@@ -175,6 +177,7 @@ const TrainerLog = (() => {
     };
 
     script.onerror = () => {
+      showStudentDashboardButton(null, "unavailable");
       if (status) status.textContent = "結果を送信しました。学習状況リンクの準備に失敗しました。";
       cleanupJsonp(callbackName, script);
     };
@@ -195,8 +198,12 @@ const TrainerLog = (() => {
     if (script && script.parentNode) script.parentNode.removeChild(script);
   }
 
-  function showStudentDashboardButton(url) {
-    removeStudentDashboardButton();
+  function showStudentDashboardButton(url, state = "ready") {
+    const existing = document.querySelector(".student-dashboard-btn");
+    if (existing) {
+      configureStudentDashboardButton(existing, url, state);
+      return;
+    }
 
     const finish = document.getElementById("finishScreen") || document.body;
     let buttons = finish.querySelector(".buttons, .controls");
@@ -213,10 +220,29 @@ const TrainerLog = (() => {
     button.className = sample && sample.classList.contains("btn")
       ? "btn student-dashboard-btn"
       : "secondary student-dashboard-btn";
-    button.addEventListener("click", () => {
-      location.href = url;
-    });
+    configureStudentDashboardButton(button, url, state);
     buttons.appendChild(button);
+  }
+
+  function configureStudentDashboardButton(button, url, state) {
+    button.onclick = null;
+    if (state === "ready" && url) {
+      button.disabled = false;
+      button.textContent = "自分の学習状況を見る";
+      button.onclick = () => {
+        location.href = url;
+      };
+      return;
+    }
+
+    if (state === "unavailable") {
+      button.disabled = true;
+      button.textContent = "学習状況リンクを準備できませんでした";
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "学習状況リンクを準備中...";
   }
 
   function removeStudentDashboardButton() {
