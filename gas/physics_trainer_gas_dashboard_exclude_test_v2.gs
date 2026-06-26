@@ -954,14 +954,6 @@ function getStudentDashboardData_(studentId) {
     };
   }).sort((a, b) => a.stage.localeCompare(b.stage, "ja"));
 
-  const weakStages = stageRows
-    .filter(row => row.averageRate < 70 || row.latestRate < 70)
-    .sort((a, b) => {
-      if (a.averageRate !== b.averageRate) return a.averageRate - b.averageRate;
-      return b.averageElapsed - a.averageElapsed;
-    })
-    .slice(0, 6);
-
   const slowStages = stageRows
     .filter(row => row.averageElapsed > 0)
     .slice()
@@ -986,10 +978,8 @@ function getStudentDashboardData_(studentId) {
     },
     stageRows,
     recommendations: buildStudentRecommendations_(stageRows, questionStats),
-    weakStages,
     slowStages,
     rankings: buildStudentRankings_(targetId, allLogs),
-    questionStats,
     recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
   };
 }
@@ -1147,18 +1137,8 @@ function buildStudentDashboardHtml_(studentId) {
         <div class="table-wrap"><table id="stageTable"></table></div>
       </section>
       <section>
-        <h2>苦手Stage</h2>
-        <div id="weakStages" class="cards"></div>
-      </section>
-    </div>
-    <div class="grid">
-      <section>
         <h2>時間がかかっているStage</h2>
         <div id="slowStages" class="cards"></div>
-      </section>
-      <section>
-        <h2>注意したい問題</h2>
-        <div id="questionStats" class="cards"></div>
       </section>
     </div>
     <section>
@@ -1171,9 +1151,7 @@ function buildStudentDashboardHtml_(studentId) {
     document.getElementById("generatedAt").textContent = formatDate(dashboardData.generatedAt);
     document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
     renderStageTable(dashboardData.stageRows);
-    renderStageCards("weakStages", dashboardData.weakStages, row => row.averageRate < 70 ? "正答率を上げたい" : "直近の正答率を確認");
     renderStageCards("slowStages", dashboardData.slowStages, () => "解答時間が長め");
-    renderQuestionStats(dashboardData.questionStats);
     renderRecentTable(dashboardData.recentAttempts);
     renderRankings(dashboardData.rankings);
     renderRecommendations(dashboardData.recommendations);
@@ -1192,10 +1170,6 @@ function buildStudentDashboardHtml_(studentId) {
     function renderStageCards(id, rows, reason){
       const target = document.getElementById(id);
       target.innerHTML = rows.length ? rows.map(row => '<div class="card"><div class="card-title">' + escapeHtml(row.stage) + '</div><div class="meta">' + reason(row) + ' / 平均 ' + row.averageRate + '% / 平均時間 ' + formatSeconds(row.averageElapsed) + '</div>' + rateBar(row.averageRate) + '</div>').join("") : '<div class="muted">該当するデータはまだありません。</div>';
-    }
-    function renderQuestionStats(rows){
-      const target = document.getElementById("questionStats");
-      target.innerHTML = rows.length ? rows.map(row => '<div class="card"><div class="card-title">' + escapeHtml(row.stage) + ' / ' + escapeHtml(row.problemId || "-") + '</div><div class="meta prompt">' + escapeHtml(row.prompt || "-") + '</div><div class="meta">正答率 ' + row.correctRate + '% / 平均時間 ' + formatSeconds(row.averageTime) + '</div></div>').join("") : '<div class="muted">該当するデータはまだありません。</div>';
     }
     function renderRecentTable(rows){
       renderTable("recentTable", ["日時","Stage","得点","正答率","時間","クリア"], rows, row => [
