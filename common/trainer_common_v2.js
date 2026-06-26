@@ -126,17 +126,13 @@ const TrainerLog = (() => {
       });
 
       if (status) status.textContent = "結果を送信しました。";
-      if (total > 0 && score / total >= 0.7) {
-        showStudentDashboardButton(null, "preparing");
-        requestStudentDashboardUrl({
-          gasUrl,
-          studentId,
-          sendStatusId,
-          attempt: 1
-        });
-      } else {
-        removeStudentDashboardButton();
-      }
+      showStudentDashboardButton(null, "preparing");
+      requestStudentDashboardUrl({
+        gasUrl,
+        studentId,
+        sendStatusId,
+        attempt: 1
+      });
     } catch (err) {
       if (status) status.textContent = "結果送信に失敗しました。ネットワークを確認してください。";
     }
@@ -157,7 +153,7 @@ const TrainerLog = (() => {
         if (response && response.ok && response.url) {
           showStudentDashboardButton(response.url, "ready");
           if (status) status.textContent = "結果を送信しました。学習状況を確認できます。";
-        } else if (response && response.error === "no_recent_pass" && attempt < maxAttempts) {
+        } else if (response && response.error === "no_recent_attempt" && attempt < maxAttempts) {
           if (status) status.textContent = "結果を送信しました。学習状況リンクを準備中...";
           setTimeout(() => {
             requestStudentDashboardUrl({
@@ -169,7 +165,7 @@ const TrainerLog = (() => {
           }, 1500);
         } else if (status) {
           showStudentDashboardButton(null, "unavailable");
-          status.textContent = "結果を送信しました。学習状況リンクはクリア直後だけ表示されます。";
+          status.textContent = "結果を送信しました。学習状況リンクは提出直後だけ表示されます。";
         }
       } finally {
         cleanupJsonp(callbackName, script);

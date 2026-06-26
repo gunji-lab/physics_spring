@@ -753,8 +753,8 @@ function createStudentDashboardLinkResponse_(params) {
     return jsonpResponse_(callback, { ok: false, error: "invalid_student" });
   }
 
-  if (!hasRecentStudentPass_(studentId, STUDENT_DASHBOARD_LINK_WINDOW_MINUTES)) {
-    return jsonpResponse_(callback, { ok: false, error: "no_recent_pass" });
+  if (!hasRecentStudentAttempt_(studentId, STUDENT_DASHBOARD_LINK_WINDOW_MINUTES)) {
+    return jsonpResponse_(callback, { ok: false, error: "no_recent_attempt" });
   }
 
   return jsonpResponse_(callback, {
@@ -773,7 +773,7 @@ function isSafeJsonpCallback_(callback) {
   return /^[A-Za-z_$][0-9A-Za-z_$]*(\.[A-Za-z_$][0-9A-Za-z_$]*)*$/.test(callback);
 }
 
-function hasRecentStudentPass_(studentId, minutes) {
+function hasRecentStudentAttempt_(studentId, minutes) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
   if (!logSheet || logSheet.getLastRow() < 2) return false;
@@ -785,9 +785,8 @@ function hasRecentStudentPass_(studentId, minutes) {
 
   return rows.some(row => {
     const rowStudentId = String(row["学籍番号"] || "").trim();
-    const passed = String(row["クリア"] || "") === "○";
     const date = asDate_(row["日時"]);
-    return rowStudentId === targetId && passed && date && now - date.getTime() <= windowMs;
+    return rowStudentId === targetId && date && now - date.getTime() <= windowMs;
   });
 }
 
