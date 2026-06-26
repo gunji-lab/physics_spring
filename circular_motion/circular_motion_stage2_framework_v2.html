@@ -212,6 +212,7 @@ function sendResult(rate){
 }
 
 $("startBtn").onclick=()=>start(false);
+$("answerBtn").onclick=check;
 $("nextBtn").onclick=next;
 $("studentId").addEventListener("keydown", e=>{ if(e.key==="Enter") start(false); });
 

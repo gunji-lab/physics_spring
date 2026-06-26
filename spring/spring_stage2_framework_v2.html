@@ -221,6 +221,7 @@ function sendResult(rate){
 }
 
 $("startBtn").onclick=()=>start(false);
+$("answerBtn").onclick=check;
 $("nextBtn").onclick=next;
 $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});
 $("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};

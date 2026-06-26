@@ -207,7 +207,9 @@ const TrainerLog = (() => {
   }
 
   function removeStudentDashboardButton() {
-    document.querySelectorAll(".student-dashboard-btn").forEach(button => button.remove());
+    Array.prototype.forEach.call(document.querySelectorAll(".student-dashboard-btn"), button => {
+      if (button.parentNode) button.parentNode.removeChild(button);
+    });
   }
 
   function getQuestionTimes() {
