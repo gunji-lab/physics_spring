@@ -1553,6 +1553,9 @@ function buildTeacherDashboardHtml_() {
       max-height: 420px;
       overflow: auto;
     }
+    .table-wrap.leaderboard-scroll {
+      max-height: 238px;
+    }
     .num { text-align: right; white-space: nowrap; }
     .status {
       font-weight: 800;
@@ -1692,11 +1695,11 @@ function buildTeacherDashboardHtml_() {
       <div class="grid-two">
         <section>
           <h2>挑戦時間 Top 10</h2>
-          <div class="table-wrap"><table id="elapsedRankingTable"></table></div>
+          <div class="table-wrap leaderboard-scroll"><table id="elapsedRankingTable"></table></div>
         </section>
         <section>
           <h2>挑戦数 Top 10</h2>
-          <div class="table-wrap"><table id="attemptRankingTable"></table></div>
+          <div class="table-wrap leaderboard-scroll"><table id="attemptRankingTable"></table></div>
         </section>
       </div>
       <section>

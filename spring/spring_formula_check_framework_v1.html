@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>バネ 公式確認</title>
+  <style>
+    :root{--main:#2563eb;--ok:#15803d;--ng:#b91c1c;--line:#dbe3ef;--muted:#64748b}
+    *{box-sizing:border-box}
+    body{margin:0;background:#f6f7fb;color:#1f2937;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+    .wrap{max-width:760px;margin:0 auto;padding:24px 14px 48px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
+    h1{margin:0 0 6px;font-size:1.55rem}.lead,.note{color:var(--muted)}.lead{margin-bottom:18px}
+    .formula-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}
+    .formula-list div{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#f8fafc;font-weight:700}
+    input{width:100%;max-width:320px;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:1rem}
+    .top{display:flex;justify-content:space-between;font-weight:800}.bar{height:9px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0 20px}.bar span{display:block;height:100%;background:var(--main)}
+    .question{font-size:1.16rem;font-weight:800;margin:12px 0}.badge{display:inline-block;padding:3px 9px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:.82rem}
+    .choices{display:grid;gap:9px}.choice{width:100%;text-align:left;background:#fff;color:#1f2937;border:1px solid #cbd5e1}.choice.selected{border-color:var(--main);box-shadow:0 0 0 3px rgba(37,99,235,.13)}.choice.correct{border-color:var(--ok);background:#f0fdf4}.choice.wrong{border-color:var(--ng);background:#fef2f2}
+    button{border:0;border-radius:10px;padding:11px 16px;background:var(--main);color:#fff;font-weight:800;font-size:.96rem;cursor:pointer}button.secondary{background:#e2e8f0;color:#334155}button:disabled{opacity:.45;cursor:not-allowed}
+    .buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.button-break{flex-basis:100%;height:0}
+    .feedback{display:none;margin-top:15px;padding:13px;border-radius:10px}.feedback.ok{background:#f0fdf4;color:#166534}.feedback.ng{background:#fef2f2;color:#991b1b}
+    .explain{margin-top:7px;color:#334155}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
+    #sendStatus{margin-top:10px;color:var(--muted);font-size:.9rem}
+    @media(max-width:560px){.formula-list{grid-template-columns:1fr}.card{padding:18px}}
+  </style>
+</head>
+<body>
+  <div class="wrap"><div class="card">
+    <div id="startScreen">
+      <h1>バネ　公式確認</h1>
+      <div class="lead">計算練習に入る前に、ばねの基本公式・記号・単位を確認します。</div>
+      <div class="formula-list">
+        <div>F = kx</div><div>kx = mg</div>
+        <div>U = 1/2 kx²</div><div>K = 1/2 mv²</div>
+        <div>K + U = 一定</div><div>k [N/m]</div>
+      </div>
+      <div class="note">学籍番号を入力してスタートしてください。全10問、7問正解でクリアです。</div>
+      <input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
+      <div class="buttons"><button id="startBtn">スタート</button></div>
+    </div>
+    <div id="quizScreen" style="display:none">
+      <div class="top"><div id="count"></div><div id="score"></div></div>
+      <div class="bar"><span id="progress"></span></div>
+      <div id="question" class="question"></div>
+      <div id="choices" class="choices"></div>
+      <div id="feedback" class="feedback"></div>
+      <div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div>
+    </div>
+    <div id="finishScreen" style="display:none">
+      <h1>結果</h1><div id="finalScore"></div><div id="finalMessage"></div><div id="sendStatus"></div>
+      <div class="buttons"><button id="reviewBtn">間違えた問題を復習</button><button id="againBtn">もう一度</button><span class="button-break"></span><button class="secondary" id="categoryBtn">バネ一覧へ</button><button class="secondary" id="homeBtn">トップへ</button></div>
+    </div>
+  </div></div>
+  <script src="../common/trainer_common_v2.js"></script>
+  <script>
+    const GAS_URL="https://script.google.com/macros/s/AKfycbwBDYL4LmMQrNA0MFUAJ2gBtYumSQLoLKicRQnNoyhePgplh7q-CQ_kW3BjhCRnkDFDTQ/exec?v=3";
+    const STAGE_NAME="バネ/公式確認/基本公式";
+    window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
+    const QUESTIONS=[
+      {id:"SPF01",tag:"フックの法則",q:"ばねの弾性力の大きさ F を表す公式は？",choices:["F = kx","F = k / x","F = x / k","F = kx²"],ans:"F = kx",why:"弾性力の大きさは、ばね定数kと伸び・縮みxの積です。"},
+      {id:"SPF02",tag:"単位",q:"ばね定数 k の単位として適切なものは？",choices:["N","N/m","J","kg/m"],ans:"N/m",why:"k=F/xなので、単位はN/mです。"},
+      {id:"SPF03",tag:"変形",q:"F = kx を x について解くと？",choices:["x = Fk","x = F / k","x = k / F","x = F² / k"],ans:"x = F / k",why:"両辺をkで割るとx=F/kです。"},
+      {id:"SPF04",tag:"つりあい",q:"鉛直ばねで質量 m の物体が静止しているときの関係は？",choices:["kx = mg","kx = m / g","k / x = mg","kx² = mg"],ans:"kx = mg",why:"上向きの弾性力kxと下向きの重力mgがつりあいます。"},
+      {id:"SPF05",tag:"弾性力",q:"ばねの弾性力の向きとして正しいものは？",choices:["常に下向き","常に上向き","自然長へ戻す向き","変形を大きくする向き"],ans:"自然長へ戻す向き",why:"弾性力は、伸びや縮みを元に戻す向きにはたらきます。"},
+      {id:"SPF06",tag:"位置エネルギー",q:"ばねの位置エネルギー U を表す公式は？",choices:["U = kx","U = 1/2 kx²","U = 1/2 k²x","U = k / x²"],ans:"U = 1/2 kx²",why:"ばねの位置エネルギーは変形量xの2乗に比例します。"},
+      {id:"SPF07",tag:"運動エネルギー",q:"質量 m、速さ v の物体の運動エネルギー K は？",choices:["K = mv","K = 1/2 mv","K = 1/2 mv²","K = m²v / 2"],ans:"K = 1/2 mv²",why:"運動エネルギーは質量と速さの2乗に比例します。"},
+      {id:"SPF08",tag:"エネルギー保存",q:"摩擦がない水平ばね振り子で保存される量は？",choices:["速さ","加速度","力学的エネルギー","ばねの伸び"],ans:"力学的エネルギー",why:"運動エネルギーとばねの位置エネルギーの和が一定です。"},
+      {id:"SPF09",tag:"エネルギー保存",q:"自然長の位置で、ばねの位置エネルギーはどうなる？",choices:["最大になる","0になる","負になる","必ず運動エネルギーと等しい"],ans:"0になる",why:"x=0をU=1/2 kx²へ代入すると0です。"},
+      {id:"SPF10",tag:"変形量",q:"ばねの位置エネルギーで使う x は何を表す？",choices:["ばね全体の長さ","自然長からの伸び・縮み","物体の質量","ばね定数"],ans:"自然長からの伸び・縮み",why:"xはばねの自然長を基準にした変形量で、通常はmで表します。"}
+    ];
+    const $=id=>document.getElementById(id);
+    const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+    let quiz=[],index=0,score=0,wrongList=[],selected="",selectedButton=null,answered=false;
+    function start(source){
+      if(!$("studentId").value.trim()){alert("学籍番号を入力してください。");$("studentId").focus();return}
+      quiz=shuffle(source||QUESTIONS);index=0;score=0;wrongList=[];TrainerLog.startSession();
+      $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
+    }
+    function showQuestion(){
+      const q=quiz[index];answered=false;selected="";selectedButton=null;
+      $("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("progress").style.width=`${index/quiz.length*100}%`;
+      $("question").innerHTML=`<span class="badge">${q.tag}</span><br>${q.q}`;
+      $("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
+      $("choices").innerHTML="";shuffle(q.choices).forEach((choice,i)=>{
+        const button=document.createElement("button");button.className="choice";button.dataset.answer=choice;button.textContent=`${["①","②","③","④"][i]}　${choice}`;
+        button.onclick=()=>selectChoice(choice,button);$("choices").appendChild(button);
+      });TrainerLog.startQuestion();
+    }
+    function selectChoice(choice,button){
+      if(answered)return;selected=choice;selectedButton=button;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));button.classList.add("selected");$("answerBtn").disabled=false;
+    }
+    function check(){
+      if(answered||!selected)return;answered=true;const q=quiz[index],ok=selected===q.ans;
+      TrainerLog.recordQuestion(q,ok,{selected,answer:q.ans,prompt:q.q});if(ok)score++;else wrongList.push(q);
+      document.querySelectorAll(".choice").forEach(button=>{button.disabled=true;if(button.dataset.answer===q.ans)button.classList.add("correct")});
+      if(!ok&&selectedButton)selectedButton.classList.add("wrong");
+      $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="explain">${q.why}</div>`;$("feedback").style.display="block";
+      $("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false;
+    }
+    function next(){index++;index>=quiz.length?finish():showQuestion()}
+    function finish(){
+      TrainerLog.finishSession();$("quizScreen").style.display="none";$("finishScreen").style.display="block";const rate=Math.round(score/quiz.length*100);
+      $("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;$("finalMessage").innerHTML=rate>=70?'<div class="pass">クリア！基本公式を確認できました。</div>':'<div class="fail">公式表を見直して、もう一度挑戦しましょう。</div>';
+      TrainerLog.showElapsedInFinalMessage();$("reviewBtn").style.display=wrongList.length?"inline-block":"none";TrainerLog.sendResult({score,total:quiz.length});
+    }
+    $("startBtn").onclick=()=>start();$("answerBtn").onclick=check;$("nextBtn").onclick=next;
+    $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start()});
+    $("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+    $("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+    $("reviewBtn").onclick=()=>{if(wrongList.length)start([...wrongList])};
+    $("categoryBtn").onclick=()=>{location.href="index.html"};$("homeBtn").onclick=()=>{location.href="../index.html"};
+  </script>
+</body>
+</html>
+
