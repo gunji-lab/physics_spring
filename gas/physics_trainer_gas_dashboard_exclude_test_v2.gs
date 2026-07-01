@@ -408,6 +408,7 @@ function getTeacherDashboardData(filters) {
   const stageRows = buildStageRows_(filteredLogs);
   const bottleneckStages = buildBottleneckStageRows_(stageRows);
   const studentRows = buildStudentRows_(filteredLogs, filteredCountsSource);
+  const studentLeaderboards = buildStudentLeaderboards_(filteredLogs);
   const questionStats = buildQuestionStats_(filteredQuestionRows);
   const recentAttempts = buildRecentAttempts_(filteredLogs);
 
@@ -420,8 +421,36 @@ function getTeacherDashboardData(filters) {
     stageRows,
     bottleneckStages,
     studentRows,
+    studentLeaderboards,
     questionStats,
     recentAttempts
+  };
+}
+
+function buildStudentLeaderboards_(logs) {
+  const map = {};
+
+  logs.forEach(row => {
+    const studentId = String(row["学籍番号"] || "").trim();
+    if (!studentId) return;
+    if (!map[studentId]) {
+      map[studentId] = { studentId, attempts: 0, totalElapsed: 0 };
+    }
+    map[studentId].attempts++;
+    map[studentId].totalElapsed += Number(row["所要時間[s]"] || 0);
+  });
+
+  const rows = Object.keys(map).map(studentId => map[studentId]);
+  const byValue = key => (a, b) => {
+    if (b[key] !== a[key]) return b[key] - a[key];
+    return compareStudentIds_(a.studentId, b.studentId);
+  };
+
+  return {
+    totalElapsed: rows.filter(row => row.totalElapsed > 0)
+      .sort(byValue("totalElapsed")).slice(0, 5),
+    attempts: rows.filter(row => row.attempts > 0)
+      .sort(byValue("attempts")).slice(0, 5)
   };
 }
 
@@ -710,11 +739,18 @@ function buildStudentRows_(logs, counts) {
       clearedStageLabels,
       latest: item.latest ? item.latest.toISOString() : ""
     };
-  }).sort((a, b) => a.studentId.localeCompare(
-    b.studentId,
-    "ja",
-    { numeric: true, sensitivity: "base" }
-  ));
+  }).sort((a, b) => compareStudentIds_(a.studentId, b.studentId));
+}
+
+function compareStudentIds_(a, b) {
+  const idA = String(a || "").trim();
+  const idB = String(b || "").trim();
+  const standardPattern = /^19\d02\d0\d{3}$/;
+  const standardA = standardPattern.test(idA);
+  const standardB = standardPattern.test(idB);
+
+  if (standardA !== standardB) return standardA ? -1 : 1;
+  return idA.localeCompare(idB, "ja", { numeric: true, sensitivity: "base" });
 }
 
 function buildQuestionStats_(questionRows) {
@@ -1653,6 +1689,16 @@ function buildTeacherDashboardHtml_() {
     </div>
 
     <div id="students" class="view">
+      <div class="grid-two">
+        <section>
+          <h2>挑戦時間 Top 5</h2>
+          <div class="table-wrap"><table id="elapsedRankingTable"></table></div>
+        </section>
+        <section>
+          <h2>挑戦数 Top 5</h2>
+          <div class="table-wrap"><table id="attemptRankingTable"></table></div>
+        </section>
+      </div>
       <section>
         <h2>学生別の進捗</h2>
         <div class="table-wrap"><table id="studentTable"></table></div>
@@ -1721,6 +1767,7 @@ function buildTeacherDashboardHtml_() {
       renderUnitTable(data.unitRows);
       renderStageTable(data.stageRows);
       renderRecentTable(data.recentAttempts);
+      renderStudentLeaderboards(data.studentLeaderboards);
       renderStudentTable(data.studentRows);
       renderQuestionTable(data.questionStats);
       state.firstLoad = false;
@@ -1856,6 +1903,21 @@ function buildTeacherDashboardHtml_() {
       ]);
     }
 
+    function renderStudentLeaderboards(leaderboards) {
+      const elapsedRows = (leaderboards && leaderboards.totalElapsed) || [];
+      const attemptRows = (leaderboards && leaderboards.attempts) || [];
+      renderTable("elapsedRankingTable", ["順位", "学籍番号", "挑戦時間"], elapsedRows, (row, index) => [
+        num(index + 1),
+        escapeHtml(row.studentId),
+        num(formatSeconds(row.totalElapsed))
+      ]);
+      renderTable("attemptRankingTable", ["順位", "学籍番号", "挑戦数"], attemptRows, (row, index) => [
+        num(index + 1),
+        escapeHtml(row.studentId),
+        num(row.attempts)
+      ]);
+    }
+
     function renderQuestionTable(rows) {
       renderTable("questionTable", ["Stage", "問題ID", "問題文", "挑戦", "正答率", "平均時間", "多い誤答"], rows, row => [
         escapeHtml(row.stage),
@@ -1872,7 +1934,7 @@ function buildTeacherDashboardHtml_() {
       const table = document.getElementById(id);
       const head = "<thead><tr>" + headers.map(h => "<th>" + escapeHtml(h) + "</th>").join("") + "</tr></thead>";
       const bodyRows = rows.length
-        ? rows.map(row => "<tr>" + mapper(row).map((cell, i) => {
+        ? rows.map((row, rowIndex) => "<tr>" + mapper(row, rowIndex).map((cell, i) => {
           return '<td data-label="' + escapeHtml(headers[i] || "") + '">' + cell + "</td>";
         }).join("") + "</tr>").join("")
         : '<tr><td colspan="' + headers.length + '" class="muted">該当するデータがありません。</td></tr>';
