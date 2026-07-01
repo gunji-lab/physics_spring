@@ -1,5 +1,5 @@
 (() => {
-  const AUTH_URL = "https://script.google.com/macros/s/AKfycbx_atAm0h-xm5_O626JikDPG-zoQ39BXySBOxPeWgO-mYtCMN8QS3Uc_JT8Uih1BEIJ5g/exec";
+  const AUTH_URL = "https://script.google.com/macros/s/AKfycbwZiSkQXJSkFwvHp3MxBebBWXyvXv3mfdQP7JdILL_SRws5t8RylBxj7sWEfAzQb7DO/exec";
   const API_URL = "https://script.google.com/macros/s/AKfycbxQLinkR_cJgaW0dTI7Q2Rz5hFhKZrDlmbQv1Unzf3CMv2JFjFPYkC1wXfHu7JukDBXNA/exec";
   const TOKEN_KEY = "physicsTrainerAuthV3";
   const stageByFile = {
