@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>円運動 Stage6 記入式総合トレーナー</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;--ok:#16a34a;--ng:#dc2626;--line:#e5e7eb;--soft:#f8fafc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:22px 14px 46px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
+h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;margin-bottom:16px}.top{display:flex;justify-content:space-between;color:var(--muted);font-size:.95rem;margin-top:12px}
+.bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar>div{height:100%;width:0%;background:var(--accent);transition:width .25s ease}
+.question{font-size:1.22rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}
+.answerBox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+.answerBox input{flex:1;min-width:180px;padding:14px 16px;font-size:1.15rem;border:1px solid #cbd5e1;border-radius:12px}
+.unit{font-weight:900;color:#475569;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px}
+.feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
+.formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.button-break{flex-basis:100%;height:0}button{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;background:var(--accent);color:#fff}button.secondary{background:#e5e7eb;color:#111827}button:disabled{opacity:.5;cursor:not-allowed}
+.result{text-align:center;padding:24px 8px}.scorebig{font-size:2.25rem;font-weight:900;margin:8px 0}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
+.note{margin-top:16px;padding:12px 14px;border-left:5px solid #cbd5e1;background:#f8fafc;border-radius:10px;color:#475569;font-size:.95rem}.badge{display:inline-block;font-size:.85rem;padding:2px 8px;border-radius:99px;background:#dbeafe;color:#1e40af;margin-bottom:8px}
+.figure{display:flex;justify-content:center}svg{max-width:300px;width:100%;height:auto}#studentId{width:100%;padding:14px 16px;font-size:1.1rem;border:1px solid #cbd5e1;border-radius:12px;margin-top:12px}.status{font-size:.92rem;color:#6b7280;margin-top:10px}
+@media(max-width:520px){.card{padding:18px}.question{font-size:1.08rem}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<h1>円運動 Stage6 記入式総合トレーナー</h1>
+<div class="lead">円運動 Stage1〜5 の内容を、4択ではなく記入式で解く総合トレーナーです。10問ランダム出題、70%以上でクリア。</div>
+
+<div id="startScreen">
+<div class="note">
+入力するのは <b>数値やπを含む式だけ</b> でOKです。単位は右側に表示されます。<br>
+例：答えが 2π [m/s] のときは <b>2π</b> または <b>2*pi</b> と入力してください。<br>
+使う内容：度数法と弧度法、弧長 s=rθ、速さ v=rω、周期 T、向心加速度 a=rω²
+</div>
+<div class="figure">
+<svg viewBox="0 0 260 170">
+  <circle cx="125" cy="85" r="58" fill="none" stroke="#cbd5e1" stroke-width="3"/>
+  <path d="M125 85 L183 85" stroke="#1f2937" stroke-width="4"/>
+  <path d="M183 85 Q180 53 154 37" fill="none" stroke="#2563eb" stroke-width="6"/>
+  <path d="M154 37 l15 -2 l-8 13" fill="none" stroke="#2563eb" stroke-width="5"/>
+  <path d="M183 85 L128 85" stroke="#dc2626" stroke-width="5"/>
+  <path d="M128 85 l12 -7 l0 14" fill="none" stroke="#dc2626" stroke-width="5"/>
+  <circle cx="183" cy="85" r="8" fill="#1f2937"/>
+  <text x="152" y="105" font-size="16">r</text>
+  <text x="165" y="50" font-size="16" fill="#2563eb">v</text>
+  <text x="138" y="73" font-size="16" fill="#dc2626">a</text>
+  <text x="112" y="75" font-size="16">ω</text>
+</svg>
+</div>
+<div class="note">学籍番号を入力してからスタートしてください。</div>
+<input id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
+<div class="buttons"><button id="startBtn">スタート</button></div>
+</div>
+
+<div id="quizScreen" style="display:none">
+<div class="top"><div id="count"></div><div id="score"></div></div>
+<div class="bar"><div id="bar"></div></div>
+<div id="question" class="question"></div>
+<div class="answerBox">
+<input id="answerInput" type="text" inputmode="text" autocomplete="off" placeholder="答えを入力">
+<div id="unit" class="unit"></div>
+</div>
+<div id="feedback" class="feedback"></div>
+<div class="buttons"><button id="checkBtn">答え合わせ</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div>
+</div>
+
+<div id="finishScreen" class="result" style="display:none">
+<div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div>
+<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">円運動トップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div>
+</div>
+</div></div>
+
+<script src="../common/trainer_common_v2.js"></script>
+<script>
+const GAS_URL="https://script.google.com/macros/s/AKfycbwBDYL4LmMQrNA0MFUAJ2gBtYumSQLoLKicRQnNoyhePgplh7q-CQ_kW3BjhCRnkDFDTQ/exec?v=3";
+const STAGE_NAME="円運動/Stage6/記入式";
+
+const problems=[
+{stage:"Stage1",type:"rad",unit:"[rad]",answers:["π/6","pi/6"],question:"30 [°] は何 [rad] か。",calc:"30 [°] = 30×π/180 = π/6 [rad]"},
+{stage:"Stage1",type:"deg",unit:"[°]",answers:["90"],question:"π/2 [rad] は何 [°] か。",calc:"π [rad] = 180 [°] なので、π/2 [rad] = 90 [°]"},
+{stage:"Stage1",type:"rad",unit:"[rad]",answers:["2π/3","2pi/3"],question:"120 [°] は何 [rad] か。",calc:"120 [°] = 120×π/180 = 2π/3 [rad]"},
+{stage:"Stage1",type:"deg",unit:"[°]",answers:["270"],question:"3π/2 [rad] は何 [°] か。",calc:"π [rad] = 180 [°] なので、3π/2 [rad] = 270 [°]"},
+
+{stage:"Stage2",type:"s",unit:"[m]",answers:["π","pi"],question:"半径 r = 3 [m]、中心角 θ = π/3 [rad] のとき、弧の長さ s は何 [m] か。",calc:"s = rθ = 3×π/3 = π [m]"},
+{stage:"Stage2",type:"s",unit:"[m]",answers:["2π","2pi"],question:"半径 r = 4 [m]、中心角 θ = π/2 [rad] のとき、弧の長さ s は何 [m] か。",calc:"s = rθ = 4×π/2 = 2π [m]"},
+{stage:"Stage2",type:"s",unit:"[m]",answers:["π/2","pi/2"],question:"半径 r = 2 [m]、中心角 θ = 45 [°] のとき、弧の長さ s は何 [m] か。",calc:"45 [°] = π/4 [rad]<br>s = rθ = 2×π/4 = π/2 [m]"},
+
+{stage:"Stage3",type:"v",unit:"[m/s]",answers:["6"],question:"半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、速さ v は何 [m/s] か。",calc:"v = rω = 2×3 = 6 [m/s]"},
+{stage:"Stage3",type:"v",unit:"[m/s]",answers:["2π","2pi"],question:"半径 r = 4 [m]、角速度 ω = π/2 [rad/s] のとき、速さ v は何 [m/s] か。",calc:"v = rω = 4×π/2 = 2π [m/s]"},
+{stage:"Stage3",type:"v",unit:"[m/s]",answers:["π","pi"],question:"半径 r = 3 [m]、角速度 ω = 60 [°/s] のとき、速さ v は何 [m/s] か。",calc:"60 [°/s] = π/3 [rad/s]<br>v = rω = 3×π/3 = π [m/s]"},
+
+{stage:"Stage4",type:"ω",unit:"[rad/s]",answers:["π","pi"],question:"周期 T = 2 [s] のとき、角速度 ω は何 [rad/s] か。",calc:"ω = 2π/T = 2π/2 = π [rad/s]"},
+{stage:"Stage4",type:"T",unit:"[s]",answers:["4"],question:"角速度 ω = π/2 [rad/s] のとき、周期 T は何 [s] か。",calc:"T = 2π/ω = 2π/(π/2) = 4 [s]"},
+{stage:"Stage4",type:"v",unit:"[m/s]",answers:["2π","2pi"],question:"半径 r = 2 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。",calc:"v = 2πr/T = 2π×2/2 = 2π [m/s]"},
+{stage:"Stage4",type:"T",unit:"[s]",answers:["2"],question:"半径 r = 3 [m]、速さ v = 3π [m/s] のとき、周期 T は何 [s] か。",calc:"T = 2πr/v = 2π×3/(3π) = 2 [s]"},
+
+{stage:"Stage5",type:"a",unit:"[m/s²]",answers:["18"],question:"半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",calc:"a = rω² = 2×3² = 18 [m/s²]"},
+{stage:"Stage5",type:"a",unit:"[m/s²]",answers:["2π²","2pi²","2pi^2"],question:"半径 r = 2 [m]、角速度 ω = π [rad/s] のとき、向心加速度 a は何 [m/s²] か。",calc:"a = rω² = 2×π² = 2π² [m/s²]"},
+{stage:"Stage5",type:"倍",unit:"",answers:["4倍","4"],question:"半径 r が一定のとき、角速度 ω が2倍になると、向心加速度 a は何倍になるか。",calc:"a = rω² なので、ωが2倍 → aは2² = 4倍"}
+];
+
+let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false;
+const total=10,$=id=>document.getElementById(id);
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function buildQuiz(){return shuffle(problems).slice(0,total)}
+
+function normalize(s){
+ return String(s).trim()
+ .replace(/[０-９．]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0xFEE0))
+ .replace(/\s/g,"")
+ .replace(/Π/g,"π")
+ .replace(/pi/g,"π")
+ .replace(/PI/g,"π")
+ .replace(/\*/g,"")
+ .replace(/m\/s²|m\/s2|m\/s|rad\/s|rad|°|m|s|\[|\]/g,"")
+ .replace(/倍/g,"倍");
+}
+
+function isCorrect(raw,q){
+ let ans=normalize(raw);
+ return q.answers.some(a=>normalize(a)===ans);
+}
+
+function start(useWrong=false){
+ const studentId=$("studentId").value.trim();
+ if(!studentId){alert("学籍番号を入力してください。");$("studentId").focus();return;}
+ let source=useWrong&&wrongList.length?wrongList:buildQuiz();
+ quiz=shuffle(source).slice(0,total);
+ index=0;score=0;wrongList=[];resultSent=false;
+ TrainerLog.startSession();
+ TrainerLog.startSession();
+ $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
+}
+
+function showQuestion(){
+ answered=false;let q=quiz[index];
+ $("count").textContent=`${index+1} / ${quiz.length}`;
+ $("score").textContent=`正解 ${score}`;
+ $("bar").style.width=`${index/quiz.length*100}%`;
+ $("question").innerHTML=`<span class="badge">${q.stage}・${q.type} を求める</span><br>${q.question}`;
+ $("unit").textContent=q.unit || "倍";
+ $("answerInput").value="";
+ $("answerInput").disabled=false;
+ TrainerLog.startQuestion();
+ $("answerInput").focus();
+ $("feedback").className="feedback";$("feedback").style.display="none";
+ $("nextBtn").disabled=true;$("checkBtn").disabled=false;
+}
+
+function checkAnswer(){
+ if(answered)return;
+ let q=quiz[index];
+ let raw=$("answerInput").value;
+ if(!raw.trim()){alert("答えを入力してください。");$("answerInput").focus();return;}
+ answered=true;
+ const ok=isCorrect(raw,q);
+ if(!q.id) q.id = `${"CM6"}_${q.type||"Q"}_${index+1}`;
+ TrainerLog.recordQuestion(q, ok, {
+   selected: raw,
+   answer: q.value !== undefined ? String(q.value) : (q.answers ? q.answers[0] : ""),
+   prompt: q.question || ""
+ });
+ if(ok)score++;else wrongList.push(q);
+ $("answerInput").disabled=true;
+ $("checkBtn").disabled=true;
+ $("nextBtn").disabled=false;
+ $("feedback").className="feedback "+(ok?"ok":"ng");
+ $("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>あなたの答え：<strong>${raw} ${q.unit}</strong><br>正解：<strong>${q.answers[0]} ${q.unit}</strong><div class="formula">${q.calc}</div><div class="note">ポイント：πは「π」でも「pi」でも入力できます。単位は入力しなくてOKです。</div>`;
+ $("feedback").style.display="block";
+ $("score").textContent=`正解 ${score}`;
+}
+
+function next(){index++;index>=quiz.length?finish():showQuestion()}
+
+function finish(){
+ TrainerLog.finishSession();
+ $("quizScreen").style.display="none";$("finishScreen").style.display="block";
+ let rate=Math.round(score/quiz.length*100);
+ $("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;
+ $("finalMessage").innerHTML=rate>=70?`<div class="pass">クリア！記入式でもかなりいい感じです。</div>`:`<div class="fail">もう一回やると、式の使い分けが定着します。</div>`;
+ $("finalMessage").innerHTML += `<div class="note">所要時間：<strong>${TrainerLog.formatElapsed(TrainerLog.getElapsed())}</strong></div>`;
+ $("reviewBtn").style.display=wrongList.length?"inline-block":"none";
+ sendResult(rate);
+}
+
+function sendResult(rate){
+  TrainerLog.sendResult({
+    score: score,
+    total: quiz.length
+  });
+}
+
+$("startBtn").onclick=()=>start(false);
+$("checkBtn").onclick=checkAnswer;
+$("nextBtn").onclick=next;
+$("answerInput").addEventListener("keydown",e=>{if(e.key==="Enter"){answered?next():checkAnswer();}});
+$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});
+$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10);index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();}};
+$("categoryBtn").onclick=()=>{location.href="index.html"};
+$("homeBtn").onclick=()=>{location.href="../index.html"};
+</script>
+</body>
+</html>

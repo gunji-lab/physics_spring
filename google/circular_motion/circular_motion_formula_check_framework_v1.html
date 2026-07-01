@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>円運動 公式確認</title>
+  <style>
+    :root{--main:#2563eb;--ok:#15803d;--ng:#b91c1c;--line:#dbe3ef;--muted:#64748b}
+    *{box-sizing:border-box}
+    body{margin:0;background:#f6f7fb;color:#1f2937;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
+    .wrap{max-width:760px;margin:0 auto;padding:24px 14px 48px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
+    h1{margin:0 0 6px;font-size:1.55rem}.lead,.note{color:var(--muted)}.lead{margin-bottom:18px}
+    .formula-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0}
+    .formula-list div{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#f8fafc;font-weight:700}
+    input{width:100%;max-width:320px;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:1rem}
+    .top{display:flex;justify-content:space-between;font-weight:800}.bar{height:9px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0 20px}.bar span{display:block;height:100%;background:var(--main)}
+    .question{font-size:1.16rem;font-weight:800;margin:12px 0}.badge{display:inline-block;padding:3px 9px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:.82rem}
+    .choices{display:grid;gap:9px}.choice{width:100%;text-align:left;background:#fff;color:#1f2937;border:1px solid #cbd5e1}.choice.selected{border-color:var(--main);box-shadow:0 0 0 3px rgba(37,99,235,.13)}.choice.correct{border-color:var(--ok);background:#f0fdf4}.choice.wrong{border-color:var(--ng);background:#fef2f2}
+    button{border:0;border-radius:10px;padding:11px 16px;background:var(--main);color:#fff;font-weight:800;font-size:.96rem;cursor:pointer}button.secondary{background:#e2e8f0;color:#334155}button:disabled{opacity:.45;cursor:not-allowed}
+    .buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.button-break{flex-basis:100%;height:0}
+    .feedback{display:none;margin-top:15px;padding:13px;border-radius:10px}.feedback.ok{background:#f0fdf4;color:#166534}.feedback.ng{background:#fef2f2;color:#991b1b}
+    .explain{margin-top:7px;color:#334155}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
+    #sendStatus{margin-top:10px;color:var(--muted);font-size:.9rem}
+    @media(max-width:560px){.formula-list{grid-template-columns:1fr}.card{padding:18px}}
+  </style>
+</head>
+<body>
+  <div class="wrap"><div class="card">
+    <div id="startScreen">
+      <h1>円運動　公式確認</h1>
+      <div class="lead">計算練習に入る前に、基本公式・記号・単位を確認します。</div>
+      <div class="formula-list">
+        <div>s = rθ</div><div>ω = θ / t</div>
+        <div>v = rω</div><div>T = 2π / ω</div>
+        <div>a = v² / r = rω²</div><div>1回転 = 2π rad</div>
+      </div>
+      <div class="note">学籍番号を入力してスタートしてください。全10問、7問正解でクリアです。</div>
+      <input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
+      <div class="buttons"><button id="startBtn">スタート</button></div>
+    </div>
+    <div id="quizScreen" style="display:none">
+      <div class="top"><div id="count"></div><div id="score"></div></div>
+      <div class="bar"><span id="progress"></span></div>
+      <div id="question" class="question"></div>
+      <div id="choices" class="choices"></div>
+      <div id="feedback" class="feedback"></div>
+      <div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div>
+    </div>
+    <div id="finishScreen" style="display:none">
+      <h1>結果</h1><div id="finalScore"></div><div id="finalMessage"></div><div id="sendStatus"></div>
+      <div class="buttons"><button id="reviewBtn">間違えた問題を復習</button><button id="againBtn">もう一度</button><span class="button-break"></span><button class="secondary" id="categoryBtn">円運動一覧へ</button><button class="secondary" id="homeBtn">トップへ</button></div>
+    </div>
+  </div></div>
+  <script src="../common/trainer_common_v2.js"></script>
+  <script>
+    const GAS_URL="https://script.google.com/macros/s/AKfycbwBDYL4LmMQrNA0MFUAJ2gBtYumSQLoLKicRQnNoyhePgplh7q-CQ_kW3BjhCRnkDFDTQ/exec?v=3";
+    const STAGE_NAME="円運動/公式確認/基本公式";
+    window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
+    const QUESTIONS=[
+      {id:"CMF01",tag:"弧度法",q:"1回転をラジアンで表すと？",choices:["π rad","2π rad","360π rad","1 rad"],ans:"2π rad",why:"円周の長さ2πrを半径rで割るので、1回転は2π radです。"},
+      {id:"CMF02",tag:"弧長",q:"半径 r、中心角 θ [rad] の弧の長さ s を表す公式は？",choices:["s = rθ","s = r / θ","s = θ / r","s = 2πrθ"],ans:"s = rθ",why:"θをラジアンで表すと、弧長は半径×中心角です。"},
+      {id:"CMF03",tag:"角速度",q:"角速度 ω を、回転角 θ と時間 t で表すと？",choices:["ω = θt","ω = θ / t","ω = t / θ","ω = 2πθt"],ans:"ω = θ / t",why:"角速度は単位時間あたりの回転角です。"},
+      {id:"CMF04",tag:"速さ",q:"半径 r、角速度 ω の等速円運動の速さ v は？",choices:["v = rω","v = r / ω","v = ω / r","v = rω²"],ans:"v = rω",why:"弧長s=rθを時間で割ると、v=rωになります。"},
+      {id:"CMF05",tag:"周期",q:"角速度 ω と周期 T の関係として正しいものは？",choices:["ω = T / 2π","ω = 2πT","ω = 2π / T","ω = 1 / 2πT"],ans:"ω = 2π / T",why:"1周期で2π rad回転するため、ω=2π/Tです。"},
+      {id:"CMF06",tag:"周期",q:"角速度 ω から周期 T を求める公式は？",choices:["T = 2π / ω","T = 2πω","T = ω / 2π","T = 1 / ω²"],ans:"T = 2π / ω",why:"ω=2π/TをTについて解きます。"},
+      {id:"CMF07",tag:"向心加速度",q:"速さ v と半径 r で向心加速度 a を表すと？",choices:["a = vr","a = v / r²","a = v² / r","a = r / v²"],ans:"a = v² / r",why:"向心加速度の大きさは、速さの2乗に比例し半径に反比例します。"},
+      {id:"CMF08",tag:"向心加速度",q:"角速度 ω と半径 r で向心加速度 a を表すと？",choices:["a = rω²","a = r²ω","a = ω² / r","a = r / ω²"],ans:"a = rω²",why:"a=v²/rにv=rωを代入すると、a=rω²です。"},
+      {id:"CMF09",tag:"単位",q:"角速度 ω の単位として適切なものは？",choices:["m/s","m/s²","rad/s","s/rad"],ans:"rad/s",why:"角速度は単位時間あたりの回転角なのでrad/sです。"},
+      {id:"CMF10",tag:"向き",q:"等速円運動における向心加速度の向きは？",choices:["速度と同じ向き","速度と反対向き","円の中心向き","円の外側向き"],ans:"円の中心向き",why:"速さが一定でも速度の向きが変化し、その変化は常に円の中心を向きます。"}
+    ];
+    const $=id=>document.getElementById(id);
+    const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+    let quiz=[],index=0,score=0,wrongList=[],selected="",selectedButton=null,answered=false;
+    function start(source){
+      if(!$("studentId").value.trim()){alert("学籍番号を入力してください。");$("studentId").focus();return}
+      quiz=shuffle(source||QUESTIONS);index=0;score=0;wrongList=[];TrainerLog.startSession();
+      $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
+    }
+    function showQuestion(){
+      const q=quiz[index];answered=false;selected="";selectedButton=null;
+      $("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("progress").style.width=`${index/quiz.length*100}%`;
+      $("question").innerHTML=`<span class="badge">${q.tag}</span><br>${q.q}`;
+      $("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
+      $("choices").innerHTML="";shuffle(q.choices).forEach((choice,i)=>{
+        const button=document.createElement("button");button.className="choice";button.dataset.answer=choice;button.textContent=`${["①","②","③","④"][i]}　${choice}`;
+        button.onclick=()=>selectChoice(choice,button);$("choices").appendChild(button);
+      });TrainerLog.startQuestion();
+    }
+    function selectChoice(choice,button){
+      if(answered)return;selected=choice;selectedButton=button;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));button.classList.add("selected");$("answerBtn").disabled=false;
+    }
+    function check(){
+      if(answered||!selected)return;answered=true;const q=quiz[index],ok=selected===q.ans;
+      TrainerLog.recordQuestion(q,ok,{selected,answer:q.ans,prompt:q.q});if(ok)score++;else wrongList.push(q);
+      document.querySelectorAll(".choice").forEach(button=>{button.disabled=true;if(button.dataset.answer===q.ans)button.classList.add("correct")});
+      if(!ok&&selectedButton)selectedButton.classList.add("wrong");
+      $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="explain">${q.why}</div>`;$("feedback").style.display="block";
+      $("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false;
+    }
+    function next(){index++;index>=quiz.length?finish():showQuestion()}
+    function finish(){
+      TrainerLog.finishSession();$("quizScreen").style.display="none";$("finishScreen").style.display="block";const rate=Math.round(score/quiz.length*100);
+      $("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;$("finalMessage").innerHTML=rate>=70?'<div class="pass">クリア！基本公式を確認できました。</div>':'<div class="fail">公式表を見直して、もう一度挑戦しましょう。</div>';
+      TrainerLog.showElapsedInFinalMessage();$("reviewBtn").style.display=wrongList.length?"inline-block":"none";TrainerLog.sendResult({score,total:quiz.length});
+    }
+    $("startBtn").onclick=()=>start();$("answerBtn").onclick=check;$("nextBtn").onclick=next;
+    $("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start()});
+    $("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+    $("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
+    $("reviewBtn").onclick=()=>{if(wrongList.length)start([...wrongList])};
+    $("categoryBtn").onclick=()=>{location.href="index.html"};$("homeBtn").onclick=()=>{location.href="../index.html"};
+  </script>
+</body>
+</html>
