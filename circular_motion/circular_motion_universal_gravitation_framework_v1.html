@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>円運動 大問対策 - 万有引力</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2933;
+      --muted: #5c6672;
+      --line: #d9dee6;
+      --soft: #f5f7fa;
+      --panel: #ffffff;
+      --accent: #1d6f8f;
+      --accent-dark: #15536a;
+      --accent-soft: #dff3f7;
+      --gold-soft: #fff1d0;
+      --wrong: #b13b3b;
+      --wrong-soft: #fde7e7;
+      --right: #247a4b;
+      --right-soft: #e4f6ec;
+      --shadow: 0 14px 32px rgba(31, 41, 51, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eef7f8 0, #f8fafb 320px, #f4f6f8 100%);
+      line-height: 1.55;
+    }
+
+    button, input { font: inherit; }
+
+    .app { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+
+    header {
+      padding: 22px clamp(16px, 3vw, 40px) 16px;
+      border-bottom: 1px solid rgba(31, 41, 51, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    h1 { font-size: clamp(1.25rem, 2.8vw, 2rem); margin: 0; letter-spacing: 0; }
+
+    .score {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .pill {
+      min-width: 78px;
+      text-align: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    main { width: min(1180px, 100%); margin: 0 auto; padding: clamp(16px, 3vw, 32px); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .start-card, .finish-card {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      padding: clamp(20px, 4vw, 34px);
+    }
+
+    .lead { margin: 8px 0 18px; color: var(--muted); }
+
+    .note, .hint-box {
+      margin: 16px 0;
+      padding: 13px 15px;
+      border-left: 5px solid #cbd5e1;
+      background: var(--soft);
+      border-radius: 8px;
+      color: #475569;
+    }
+
+    .hint-box {
+      display: none;
+      border-color: #d6a62f;
+      background: var(--gold-soft);
+      color: #59410e;
+    }
+
+    .hint-box.show { display: block; }
+    .hint-box strong { color: #3d2a05; }
+
+    .student-input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 1.05rem;
+      margin-top: 8px;
+    }
+
+    .student-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(29, 111, 143, 0.15);
+    }
+
+    .finish-card { text-align: center; }
+    .score-big { font-size: clamp(2rem, 8vw, 3.2rem); margin: 10px 0; font-weight: 900; color: var(--accent-dark); }
+    .pass { color: var(--right); font-weight: 900; }
+    .fail { color: var(--wrong); font-weight: 900; }
+    .send-status { min-height: 1.5em; color: var(--muted); font-size: 0.92rem; margin-top: 10px; }
+
+    .problem { padding: clamp(18px, 3vw, 28px); }
+
+    .topic-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      border: 1px solid #b9e1e9;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .question-title { margin: 0 0 10px; font-size: clamp(1.18rem, 2vw, 1.5rem); }
+    .question-text { margin: 0 0 18px; color: var(--muted); }
+
+    .givens {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin: 18px 0 20px;
+    }
+
+    .given {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 12px;
+      min-height: 74px;
+    }
+
+    .given span { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 2px; }
+    .given strong { font-size: 1.08rem; }
+
+    .steps { display: grid; gap: 12px; }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      background: #fbfcfd;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-head h2 { margin: 0; font-size: 1rem; }
+    .state { font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+    }
+
+    .choice {
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      padding: 12px 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    .choice:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
+    .choice:disabled { cursor: default; color: var(--muted); }
+
+    .choice .mark {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      font-weight: 800;
+      color: var(--muted);
+      background: var(--soft);
+    }
+
+    .choice.correct { border-color: #88caa7; background: var(--right-soft); color: var(--ink); }
+    .choice.correct .mark { background: var(--right); border-color: var(--right); color: #fff; }
+    .choice.wrong { border-color: #eda1a1; background: var(--wrong-soft); color: var(--ink); }
+    .choice.wrong .mark { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+
+    .feedback {
+      display: none;
+      margin: 0 14px 14px;
+      border-radius: 8px;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--ink);
+    }
+
+    .feedback.show { display: block; }
+    .feedback.right { border-color: #99d5b4; background: var(--right-soft); }
+    .feedback.wrong { border-color: #f0b2b2; background: var(--wrong-soft); }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      min-height: 42px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn:disabled { opacity: 0.48; cursor: not-allowed; }
+
+    .visual { position: sticky; top: 94px; overflow: hidden; }
+    .visual-head { padding: 15px 16px 0; }
+    .visual-head h2 { margin: 0; font-size: 1rem; }
+    .diagram-wrap { padding: 10px 12px 0; }
+    svg { width: 100%; height: auto; display: block; }
+
+    .formula-box {
+      margin: 0 16px 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 13px;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .formula-box strong { color: var(--ink); }
+    .frac {
+      display: inline-grid;
+      grid-template-rows: auto auto;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.12;
+      margin: 0 .12em;
+      white-space: nowrap;
+    }
+    .frac-top { border-bottom: 1.5px solid currentColor; padding: 0 .2em .08em; }
+    .frac-bottom { padding: .08em .2em 0; }
+    .dim-label, .force-label { font-size: 13px; font-weight: 700; fill: #26323f; }
+    .muted-label { font-size: 12px; fill: #64717f; }
+
+    .orbiting {
+      transform-origin: 200px 145px;
+      animation: orbit 7s linear infinite;
+    }
+
+    @keyframes orbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .visual { position: static; order: -1; }
+    }
+
+    @media (max-width: 640px) {
+      header { position: static; }
+      .header-inner, .topic-row { align-items: stretch; flex-direction: column; }
+      .score { justify-content: flex-start; }
+      .choices { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="header-inner">
+        <h1>円運動 大問対策 - 万有引力</h1>
+        <div class="score" aria-live="polite">
+          <span>大問</span><span class="pill" id="progressText">0 / 2</span>
+          <span>正答</span><span class="pill" id="scoreText">0 / 0</span>
+          <span>連続</span><span class="pill" id="streakText">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" id="startScreen">
+        <div class="panel start-card">
+          <p class="tag">万有引力と円運動</p>
+          <h2 class="question-title">重力 g と人工衛星の軌道速度を考える問題</h2>
+          <p class="lead">2つの大問を、小問に沿って解きます。まず万有引力から地球表面の重力 g を考え、次に人工衛星の軌道速度 v を導きます。</p>
+          <div class="note">
+            使う公式：<strong>F = <span class="frac"><span class="frac-top">GMm</span><span class="frac-bottom">r²</span></span></strong>、<strong>重力の大きさ = mg</strong>、<strong>円運動に必要な力 = <span class="frac"><span class="frac-top">mv²</span><span class="frac-bottom">r</span></span></strong>。<br>
+            人工衛星の運動では、軌道を円として近似します。
+          </div>
+          <label for="studentId">学籍番号</label>
+          <input class="student-input" id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
+          <div class="controls">
+            <button class="btn primary" id="startBtn" type="button">スタート</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="quizScreen">
+        <div class="layout">
+          <section class="panel problem" aria-labelledby="problemTitle">
+            <div class="topic-row">
+              <div>
+                <p class="tag">万有引力と円運動</p>
+                <h2 class="question-title" id="problemTitle">万有引力の公式</h2>
+              </div>
+              <button class="btn" id="resetQuestionBtn" type="button">この大問を練習し直す</button>
+            </div>
+
+            <p class="question-text" id="questionText"></p>
+            <div class="givens" id="givens" aria-label="与えられた値"></div>
+            <div class="steps" id="steps"></div>
+            <div class="hint-box" id="hintBox" aria-live="polite"></div>
+
+            <div class="controls">
+              <button class="btn" id="hintBtn" type="button">ヒントを表示</button>
+              <button class="btn" id="showSolutionBtn" type="button">解説を表示</button>
+              <button class="btn primary" id="nextBtn" type="button" disabled>結果を見る</button>
+            </div>
+          </section>
+
+          <aside class="panel visual" aria-labelledby="visualTitle">
+            <div class="visual-head">
+              <h2 id="visualTitle">図</h2>
+            </div>
+            <div class="diagram-wrap">
+              <svg viewBox="0 0 400 300" role="img" aria-labelledby="svgTitle svgDesc">
+                <title id="svgTitle">地球と人工衛星の模式図</title>
+                <desc id="svgDesc">地球のまわりを人工衛星が円軌道で動く様子。</desc>
+                <defs>
+                  <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d6f8f"></path>
+                  </marker>
+                  <marker id="arrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#b13b3b"></path>
+                  </marker>
+                </defs>
+
+                <circle cx="200" cy="145" r="104" fill="#f8fbfc" stroke="#cfd8df" stroke-width="3"></circle>
+                <circle cx="200" cy="145" r="28" fill="#f4b942" stroke="#b27b16" stroke-width="4"></circle>
+                <text x="200" y="151" text-anchor="middle" font-size="16" font-weight="900" fill="#513500">M</text>
+                <text x="176" y="110" class="muted-label">地球</text>
+
+                <line x1="200" y1="145" x2="304" y2="145" stroke="#1d6f8f" stroke-width="4" marker-end="url(#arrowBlue)"></line>
+                <text x="249" y="134" class="dim-label">r</text>
+
+                <path d="M 246 50 A 104 104 0 0 1 304 145" fill="none" stroke="#1d6f8f" stroke-width="4" marker-end="url(#arrowBlue)"></path>
+                <text x="252" y="55" class="dim-label">衛星の軌道</text>
+
+                <g class="orbiting">
+                  <circle cx="304" cy="145" r="17" fill="#1d6f8f" stroke="#15536a" stroke-width="3"></circle>
+                  <text x="304" y="150" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">衛星</text>
+                  <line x1="294" y1="145" x2="232" y2="145" stroke="#b13b3b" stroke-width="5" marker-end="url(#arrowRed)"></line>
+                  <text x="241" y="132" class="force-label">万有引力</text>
+                </g>
+              </svg>
+            </div>
+            <div class="formula-box">
+              <div><strong>地球表面</strong>　万有引力を重力 mg として見る</div>
+              <div><strong>人工衛星</strong>　万有引力が円運動に必要な力になる</div>
+              <div><strong>ゴール</strong>　軌道速度 v = √<span class="frac"><span class="frac-top">GM</span><span class="frac-bottom">r</span></span> と第一宇宙速度を導く</div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen" id="finishScreen">
+        <div class="panel finish-card">
+          <p class="tag">結果</p>
+          <h2 class="question-title">終了</h2>
+          <div class="score-big" id="finalScoreText"></div>
+          <div id="finalMessage"></div>
+          <div class="send-status" id="sendStatus"></div>
+          <div class="controls" style="justify-content:center">
+            <button class="btn primary" id="againBtn" type="button">もう一度やる</button>
+            <button class="btn" id="categoryBtn" type="button">円運動一覧へ</button>
+            <button class="btn" id="homeBtn" type="button">トップへ</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../common/trainer_common_v2.js"></script>
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwBDYL4LmMQrNA0MFUAJ2gBtYumSQLoLKicRQnNoyhePgplh7q-CQ_kW3BjhCRnkDFDTQ/exec?v=3";
+    const STAGE_NAME = "円運動/大問/万有引力";
+    const TOTAL_QUESTIONS = 2;
+    window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
+
+    const problemBank = [
+      { type: "earthGravity" },
+      { type: "satelliteSpeed" }
+    ];
+
+    const typeLabels = {
+      earthGravity: "地球表面の重力 g",
+      satelliteSpeed: "人工衛星の軌道速度"
+    };
+
+    const $ = selector => document.querySelector(selector);
+    const stepsEl = $("#steps");
+    const progressText = $("#progressText");
+    const scoreText = $("#scoreText");
+    const streakText = $("#streakText");
+    const nextBtn = $("#nextBtn");
+    const hintBtn = $("#hintBtn");
+    const hintBox = $("#hintBox");
+
+    let quiz = [];
+    let problemIndex = 0;
+    let currentProblem = null;
+    let currentSteps = [];
+    let stepState = [];
+    let score = { correct: 0, total: 0, streak: 0 };
+    let resultSent = false;
+    let attemptRecords = {};
+
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+      }
+      return copy;
+    }
+
+    function fmt(value) {
+      if (Number.isInteger(value)) return value.toString();
+      return Number(value.toFixed(2)).toString();
+    }
+
+    function makeChoices(correct, choices) {
+      return shuffle([correct].concat(choices.filter(choice => choice !== correct)).slice(0, 4)).map(choice => ({
+        text: choice,
+        correct: choice === correct
+      }));
+    }
+
+    function formatMathHtml(value) {
+      const fractions = [
+        ["GMm/r²", "GMm", "r²"],
+        ["GMr²/m", "GMr²", "m"],
+        ["Mm/Gr²", "Mm", "Gr²"],
+        ["GMm/r", "GMm", "r"],
+        ["mv²/r", "mv²", "r"],
+        ["mr²/v", "mr²", "v"],
+        ["mv/r²", "mv", "r²"],
+        ["mT²/r", "mT²", "r"],
+        ["GM/r²", "GM", "r²"],
+        ["m/r²", "m", "r²"],
+        ["Gm/r", "Gm", "r"],
+        ["r²/GM", "r²", "GM"],
+        ["GM/r", "GM", "r"],
+        ["r/GM", "r", "GM"]
+      ];
+      return fractions.reduce((html, parts) => {
+        const fraction = '<span class="frac"><span class="frac-top">' + parts[1] + '</span><span class="frac-bottom">' + parts[2] + '</span></span>';
+        return html.split(parts[0]).join(fraction);
+      }, String(value));
+    }
+
+    function formulaChoices() {
+      return makeChoices("F = GMm/r²", ["F = GMm/r²", "F = GMm/r", "F = GMr²/m", "F = GM/r²", "F = Mm/Gr²"]);
+    }
+
+    function gravityForceChoices() {
+      return makeChoices("mg", ["mg", "GM", "gr", "m/r²", "Gm/r"]);
+    }
+
+    function gChoices() {
+      return makeChoices("g = GM/r²", ["g = GM/r²", "g = GM/r", "g = GMr²", "g = GMm/r²", "g = r²/GM"]);
+    }
+
+    function earthGravityValueChoices() {
+      return makeChoices("約 9.8 m/s²", ["約 0.98 m/s²", "約 9.8 m/s²", "約 98 m/s²", "約 6.7×10⁻¹¹ m/s²"]);
+    }
+
+    function orbitDistanceChoices() {
+      return makeChoices("2πr", ["2πr", "πr", "r/T", "2πT", "r²"]);
+    }
+
+    function speedDefinitionChoices() {
+      return makeChoices("速さ = 道のり / 時間", ["速さ = 道のり / 時間", "速さ = 時間 / 道のり", "速さ = 力 / 質量", "速さ = 半径 × 時間", "速さ = 質量 × 加速度"]);
+    }
+
+    function centripetalForceChoices() {
+      return makeChoices("mv²/r", ["mv²/r", "mr²/v", "mv/r²", "GMm/r²", "mT²/r"]);
+    }
+
+    function satelliteEquationChoices() {
+      return makeChoices("GMm/r² = mv²/r", [
+        "GMm/r² = mv²/r",
+        "GMm/r = mv²/r",
+        "GM/r² = mv²/r",
+        "GMm/r² = mvr",
+        "GMm/r² = mr²/v"
+      ]);
+    }
+
+    function orbitalSpeedChoices() {
+      return makeChoices("v = √(GM/r)", [
+        "v = √(GM/r)",
+        "v = GM/r",
+        "v = √(GMr)",
+        "v = √(r/GM)",
+        "v = GM/r²"
+      ]);
+    }
+
+    function firstCosmicSpeedChoices() {
+      return makeChoices("約 7.9 km/s", [
+        "約 0.79 km/s",
+        "約 7.9 km/s",
+        "約 79 km/s",
+        "約 9.8 km/s"
+      ]);
+    }
+
+    function buildQuiz() {
+      return [
+        { type: "earthGravity" },
+        { type: "satelliteSpeed" }
+      ];
+    }
+
+    function getHint(p) {
+      if (p.type === "earthGravity") {
+        return `
+          <strong>ヒント</strong><br>
+          地球表面にある質量 m の物体には、地球からの万有引力がはたらきます。<br>
+          その力を、地表付近では重力 <strong>mg</strong> と呼びます。`;
+      }
+      return `
+        <strong>ヒント</strong><br>
+        人工衛星には地球からの万有引力がはたらきます。<br>
+        その万有引力が、人工衛星を円運動させるために必要な力になっています。`;
+    }
+
+    function makeSteps(p) {
+      if (p.type === "earthGravity") {
+        return [
+          {
+          key: "formula",
+          title: "(1) 万有引力の式を選ぶ",
+          prompt: "地球の質量を M、地球の半径を r、地表にある物体の質量を m とする。万有引力の大きさはどれですか。",
+          makeChoices: () => formulaChoices(),
+          feedback: () => `
+            <strong>正解：F = GMm/r²</strong><br>
+            <strong>使用公式：F = GMm/r²</strong><br>
+            地球の中心から地表の物体までの距離を、ここでは地球の半径 <strong>r</strong> とします。<br>
+            したがって、地球と物体の間の万有引力は <strong>GMm/r²</strong> です。`
+          },
+          {
+          key: "weight",
+          title: "(2) 重力として見る",
+          prompt: "地表付近で、質量 m の物体にはたらく重力の大きさはどれですか。",
+          makeChoices: () => gravityForceChoices(),
+          feedback: () => `
+            <strong>正解：mg</strong><br>
+            <strong>使用公式：重力の大きさ = mg</strong><br>
+            地表付近では、地球が物体を引く力を重力と呼びます。<br>
+            質量 <strong>m</strong> の物体にはたらく重力の大きさは <strong>mg</strong> です。`
+          },
+          {
+          key: "g",
+          title: "(3) g を G, M, r で表す",
+          prompt: "万有引力が重力なので GMm/r² = mg とおける。g はどれですか。",
+          makeChoices: () => gChoices(),
+          feedback: () => `
+            <strong>正解：g = GM/r²</strong><br>
+            <strong>使用公式：GMm/r² = mg</strong><br>
+            左辺の <strong>GMm/r²</strong> は、地球が物体を引く万有引力です。右辺の <strong>mg</strong> は重力です。<br>
+            どちらも同じ力なので等しくおけます。両辺を <strong>m</strong> で割ると、<strong>g = GM/r²</strong> です。`
+          },
+          {
+          key: "gValue",
+          title: "(4) 地表の重力加速度を計算する",
+          prompt: "G = 6.67×10⁻¹¹ N·m²/kg²、M = 5.97×10²⁴ kg、r = 6.37×10⁶ m とする。g に最も近い値はどれですか。",
+          makeChoices: () => earthGravityValueChoices(),
+          feedback: () => `
+            <strong>正解：約 9.8 m/s²</strong><br>
+            <strong>使用公式：g = GM/r²</strong><br>
+            値を代入すると、g ≒ (6.67×10⁻¹¹ × 5.97×10²⁴) / (6.37×10⁶)² ≒ 9.8 m/s² です。<br>
+            指数部分は 10⁻¹¹×10²⁴÷10¹² = 10¹ となることも確認しましょう。`
+          }
+        ];
+      }
+
+      return [
+        {
+          key: "satelliteGravity",
+          title: "(1) 人工衛星にはたらく万有引力",
+          prompt: "地球の質量を M、人工衛星の質量を m、地球の中心から衛星までの距離を r とする。衛星にはたらく万有引力の大きさはどれですか。",
+          makeChoices: () => formulaChoices(),
+          feedback: () => `
+            <strong>正解：F = GMm/r²</strong><br>
+            <strong>使用公式：F = GMm/r²</strong><br>
+            地球と人工衛星の間には万有引力がはたらきます。<br>
+            2つの質量が <strong>M</strong> と <strong>m</strong>、距離が <strong>r</strong> なので、力の大きさは <strong>GMm/r²</strong> です。`
+        },
+        {
+          key: "centripetal",
+          title: "(2) 円運動に必要な力",
+          prompt: "人工衛星が速さ v で半径 r の円運動をしているとき、円運動に必要な力の大きさはどれですか。",
+          makeChoices: () => centripetalForceChoices(),
+          feedback: () => `
+            <strong>正解：mv²/r</strong><br>
+            <strong>使用公式：円運動に必要な力 = mv²/r</strong><br>
+            円運動では、物体を円の中心へ向けて引く力が必要です。<br>
+            人工衛星の場合、その中心向きの力を地球からの万有引力が担っています。`
+        },
+        {
+          key: "satelliteEquation",
+          title: "(3) 万有引力と向心力を等しくおく",
+          prompt: "万有引力が円運動に必要な力になっている。この関係を表す式はどれですか。",
+          makeChoices: () => satelliteEquationChoices(),
+          feedback: () => `
+            <strong>正解：GMm/r² = mv²/r</strong><br>
+            左辺は万有引力、右辺は円運動に必要な向心力です。<br>
+            人工衛星にはたらく万有引力そのものが、中心向きの力になります。`
+        },
+        {
+          key: "orbitalSpeed",
+          title: "(4) 軌道速度 v を導く",
+          prompt: "GMm/r² = mv²/r を v について解くと、どの式になりますか。",
+          makeChoices: () => orbitalSpeedChoices(),
+          feedback: () => `
+            <strong>正解：v = √(GM/r)</strong><br>
+            両辺の人工衛星の質量 <strong>m</strong> を消し、整理すると v² = GM/r です。<br>
+            平方根をとると <strong>v = √(GM/r)</strong> となり、衛星の質量に依存しないことも分かります。`
+        },
+        {
+          key: "firstCosmicSpeed",
+          title: "(5) 地表すれすれの軌道速度を計算する",
+          prompt: "g = 9.8 m/s²、地球半径 R = 6.37×10⁶ m とする。v = √(gR) に最も近い値はどれですか。",
+          makeChoices: () => firstCosmicSpeedChoices(),
+          feedback: () => `
+            <strong>正解：約 7.9 km/s</strong><br>
+            地表では GM/R² = g なので、GM = gR² です。これを v = √(GM/R) に代入すると <strong>v = √(gR)</strong> になります。<br>
+            √(9.8×6.37×10⁶) ≒ 7.9×10³ m/s = <strong>7.9 km/s</strong>。これが第一宇宙速度です。`
+        }
+      ];
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.toggle("active", screen.id === id);
+      });
+    }
+
+    function renderGivens(p) {
+      const items = p.type === "earthGravity"
+        ? [["万有引力定数", "G = 6.67×10⁻¹¹"], ["地球の質量", "M = 5.97×10²⁴ kg"], ["地球の半径", "r = 6.37×10⁶ m"], ["物体の質量", "m"]]
+        : [["万有引力定数", "G"], ["地球の質量", "M"], ["人工衛星の質量", "m"], ["軌道半径", "r"], ["地球半径", "R = 6.37×10⁶ m"]];
+      $("#givens").innerHTML = items.map(([label, value]) => `
+        <div class="given"><span>${label}</span><strong>${value}</strong></div>
+      `).join("");
+    }
+
+    function problemText(p) {
+      if (p.type === "earthGravity") {
+        return "地球表面にある物体にはたらく重力を、万有引力から考える。地球の中心から物体までの距離は、地球の半径 r とする。";
+      }
+      return "人工衛星の軌道を半径 r の円と近似する。地球からの万有引力が、人工衛星を円運動させるために必要な力になっていると考える。";
+    }
+
+    function renderProblem() {
+      currentProblem = quiz[problemIndex];
+      currentSteps = makeSteps(currentProblem);
+      stepState = currentSteps.map(() => ({ answered: false, correct: false }));
+
+      $("#problemTitle").textContent = typeLabels[currentProblem.type];
+      $("#questionText").textContent = problemText(currentProblem);
+      renderGivens(currentProblem);
+
+      hintBox.classList.remove("show");
+      hintBox.innerHTML = "";
+      hintBtn.textContent = "ヒントを表示";
+      stepsEl.innerHTML = "";
+
+      currentSteps.forEach((step, index) => {
+        const choices = step.makeChoices(currentProblem);
+        const section = document.createElement("section");
+        section.className = "step";
+        section.dataset.step = index;
+        section.innerHTML = `
+          <div class="step-head">
+            <div>
+              <h2>${step.title}</h2>
+              <div class="state">${formatMathHtml(step.prompt)}</div>
+            </div>
+            <span class="state" data-state>未解答</span>
+          </div>
+          <div class="choices">
+            ${choices.map((choice, choiceIndex) => `
+              <button class="choice" type="button" data-choice="${choiceIndex}" data-correct="${choice.correct}">
+                <span class="mark">${String.fromCharCode(65 + choiceIndex)}</span>
+                <span>${formatMathHtml(choice.text)}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div class="feedback" data-feedback></div>
+        `;
+        stepsEl.appendChild(section);
+      });
+
+      nextBtn.textContent = problemIndex + 1 >= TOTAL_QUESTIONS ? "結果を見る" : "次の問題";
+      nextBtn.disabled = true;
+      updateScore();
+      TrainerLog.startQuestion();
+    }
+
+    function startQuiz() {
+      const studentId = $("#studentId").value.trim();
+      if (!studentId) {
+        alert("学籍番号を入力してください。");
+        $("#studentId").focus();
+        return;
+      }
+      quiz = buildQuiz();
+      problemIndex = 0;
+      score = { correct: 0, total: 0, streak: 0 };
+      resultSent = false;
+      attemptRecords = {};
+      TrainerLog.startSession();
+      showScreen("quizScreen");
+      renderProblem();
+    }
+
+    function answerStep(stepIndex, choiceButton, revealed = false) {
+      if (stepState[stepIndex].answered) return;
+
+      const rawCorrect = choiceButton.dataset.correct === "true";
+      const isCorrect = rawCorrect && !revealed;
+      const step = currentSteps[stepIndex];
+      const attemptKey = currentProblem.type + "/" + step.key;
+      const firstAttempt = !attemptRecords[attemptKey];
+      const stepEl = choiceButton.closest(".step");
+      const buttons = Array.prototype.slice.call(stepEl.querySelectorAll(".choice"));
+      const feedback = stepEl.querySelector("[data-feedback]");
+      const state = stepEl.querySelector("[data-state]");
+
+      buttons.forEach(button => {
+        button.disabled = true;
+        if (button.dataset.correct === "true") button.classList.add("correct");
+      });
+      if (!rawCorrect) choiceButton.classList.add("wrong");
+
+      stepState[stepIndex] = { answered: true, correct: isCorrect };
+      if (firstAttempt) {
+        attemptRecords[attemptKey] = true;
+        score.total += 1;
+        if (isCorrect) {
+          score.correct += 1;
+          score.streak += 1;
+        } else {
+          score.streak = 0;
+        }
+        const selectedText = revealed
+          ? "解説表示"
+          : choiceButton.querySelector("span:last-child").textContent.trim();
+        const correctButton = stepEl.querySelector('.choice[data-correct="true"] span:last-child');
+        TrainerLog.recordQuestion({
+          id: "UG_" + attemptKey,
+          type: currentProblem.type,
+          question: step.prompt,
+          answer: correctButton ? correctButton.textContent.trim() : ""
+        }, isCorrect, {
+          selected: selectedText,
+          prompt: step.prompt
+        });
+        TrainerLog.startQuestion();
+      }
+
+      feedback.innerHTML = formatMathHtml(currentSteps[stepIndex].feedback(currentProblem));
+      feedback.className = `feedback show ${isCorrect ? "right" : "wrong"}`;
+      state.textContent = isCorrect ? (firstAttempt ? "正解" : "練習で正解") : revealed ? "答えを確認" : "確認";
+      state.style.color = isCorrect ? "var(--right)" : "var(--wrong)";
+
+      if (stepState.every(step => step.answered)) nextBtn.disabled = false;
+      updateScore();
+    }
+
+    function updateScore() {
+      progressText.textContent = `${Math.min(problemIndex + 1, TOTAL_QUESTIONS)} / ${TOTAL_QUESTIONS}`;
+      scoreText.textContent = `${score.correct} / ${score.total}`;
+      streakText.textContent = score.streak.toString();
+    }
+
+    function toggleHint() {
+      if (!currentProblem) return;
+      const shouldShow = !hintBox.classList.contains("show");
+      if (shouldShow) {
+        hintBox.innerHTML = getHint(currentProblem);
+        hintBox.classList.add("show");
+        hintBtn.textContent = "ヒントを隠す";
+      } else {
+        hintBox.classList.remove("show");
+        hintBtn.textContent = "ヒントを表示";
+      }
+    }
+
+    function showSolution() {
+      document.querySelectorAll(".step").forEach((stepEl, index) => {
+        const correctButton = stepEl.querySelector('.choice[data-correct="true"]');
+        answerStep(index, correctButton, true);
+      });
+      nextBtn.disabled = false;
+    }
+
+    function resetCurrentProblem() {
+      score.streak = 0;
+      renderProblem();
+    }
+
+    function finishQuiz() {
+      TrainerLog.finishSession();
+      const rate = score.total ? Math.round(score.correct / score.total * 100) : 0;
+      $("#finalScoreText").textContent = `${score.correct} / ${score.total}（${rate}%）`;
+      $("#finalMessage").innerHTML = rate >= 70
+        ? `<div class="pass">クリア！重力 g と人工衛星の軌道速度を、式と数値の両方で確認できました。</div>`
+        : `<div class="fail">もう一回やると、式を立てる順番が定着します。</div>`;
+      TrainerLog.showElapsedInFinalMessage();
+      showScreen("finishScreen");
+      TrainerLog.sendResult({score:score.correct,total:score.total});
+    }
+
+    stepsEl.addEventListener("click", event => {
+      const choice = event.target.closest(".choice");
+      if (!choice) return;
+      const stepIndex = Number(choice.closest(".step").dataset.step);
+      answerStep(stepIndex, choice);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (problemIndex + 1 >= TOTAL_QUESTIONS) {
+        finishQuiz();
+        return;
+      }
+      problemIndex += 1;
+      renderProblem();
+    });
+
+    $("#resetQuestionBtn").addEventListener("click", resetCurrentProblem);
+    $("#showSolutionBtn").addEventListener("click", showSolution);
+    hintBtn.addEventListener("click", toggleHint);
+    $("#startBtn").addEventListener("click", startQuiz);
+    $("#againBtn").addEventListener("click", () => {
+      showScreen("startScreen");
+      progressText.textContent = `0 / ${TOTAL_QUESTIONS}`;
+      scoreText.textContent = "0 / 0";
+      streakText.textContent = "0";
+      $("#sendStatus").textContent = "";
+    });
+    $("#categoryBtn").addEventListener("click", () => { location.href = "index.html"; });
+    $("#homeBtn").addEventListener("click", () => { location.href = "../index.html"; });
+    $("#studentId").addEventListener("keydown", event => {
+      if (event.key === "Enter") startQuiz();
+    });
+
+    progressText.textContent = `0 / ${TOTAL_QUESTIONS}`;
+  </script>
+</body>
+</html>
