@@ -307,6 +307,27 @@ function isExcludedStudent_(studentId) {
 
 const DASHBOARD_UNIT_HEADERS_ = ["単元", "Unit", "unit", "分野", "カテゴリ", "Topic", "topic"];
 
+/* 通常のStageだけを進捗の分母にする。大問対策（test1/test2）は別枠。 */
+const STUDENT_STAGE_CATALOG = [
+  "円運動/Stage1/弧度法",
+  "円運動/Stage2/弧長",
+  "円運動/Stage3/角速度と速さ",
+  "円運動/Stage4/周期角速度速さ",
+  "円運動/Stage5/向心加速度",
+  "円運動/Stage6/記入式",
+  "バネ/Stage1/フックの法則",
+  "バネ/Stage2/つりあい",
+  "バネ/Stage3/位置エネ",
+  "バネ/Stage4/エネ保",
+  "バネ/Stage5/記入式",
+  "熱/Stage1/温度変換",
+  "熱/Stage2/熱容量",
+  "熱/Stage3/Q=mcΔT",
+  "熱/Stage4/統合",
+  "熱/Stage5/熱量保存",
+  "熱/Stage6/総合記述式"
+];
+
 function doGet(e) {
   const params = (e && e.parameter) || {};
   if (params.api === "studentDashboardLink") {
@@ -951,14 +972,24 @@ function getStudentDashboardData_(studentId) {
     };
   }).sort((a, b) => a.stage.localeCompare(b.stage, "ja"));
 
+  const clearedStageNames = new Set(stageRows
+    .filter(row => row.status === "クリア済み")
+    .map(row => row.stage));
+  const clearedCatalogStages = STUDENT_STAGE_CATALOG
+    .filter(stage => clearedStageNames.has(stage)).length;
+  const totalCatalogStages = STUDENT_STAGE_CATALOG.length;
+
   return {
     studentId: targetId,
     generatedAt: new Date().toISOString(),
     summary: {
       attempts: logs.length,
       cleared,
-      stages: stageRows.length,
-      clearedStages: stageRows.filter(row => row.status === "クリア済み").length,
+      stages: totalCatalogStages,
+      clearedStages: clearedCatalogStages,
+      stageProgressPercent: totalCatalogStages > 0
+        ? Math.round(clearedCatalogStages / totalCatalogStages * 100)
+        : 0,
       totalElapsed: elapsedSum,
       averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0,
       latest: latest ? latest.toISOString() : ""
@@ -966,7 +997,7 @@ function getStudentDashboardData_(studentId) {
     stageRows,
     recommendations: buildStudentRecommendations_(stageRows),
     rankings: buildStudentRankings_(targetId, allLogs),
-    recentAttempts: buildRecentAttempts_(logs).slice(0, 10)
+    recentAttempts: buildRecentAttempts_(logs).slice(0, 3)
   };
 }
 
@@ -1075,6 +1106,7 @@ function buildStudentDashboardHtml_(studentId) {
     .kpis{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:12px}
     .kpi,section{background:var(--panel);border:1px solid var(--line);border-radius:8px}
     .kpi{padding:14px;min-height:92px}.kpi .label{color:var(--muted);font-size:12px;font-weight:700}.kpi .value{font-size:28px;font-weight:800;margin-top:6px}
+    .kpi.progress-kpi{border-color:#8ed3cb;background:#f4fbfa}.kpi-progress{height:10px;border-radius:999px;background:#d8e5e3;overflow:hidden;margin-top:8px}.kpi-progress span{display:block;height:100%;border-radius:inherit;background:var(--accent)}.kpi-progress-note{color:var(--accent);font-size:12px;font-weight:800;margin-top:5px}
     .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:18px}
     section{overflow:hidden}section h2{margin:0;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
     .cards{display:grid;gap:10px;padding:14px}.card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff}.card-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px}
@@ -1097,7 +1129,7 @@ function buildStudentDashboardHtml_(studentId) {
       <div class="kpi"><div class="label">総学習時間</div><div class="value" id="totalElapsed"></div></div>
       <div class="kpi"><div class="label">挑戦回数</div><div class="value">${data.summary.attempts}</div></div>
       <div class="kpi"><div class="label">平均正答率</div><div class="value">${data.summary.averageRate}%</div></div>
-      <div class="kpi"><div class="label">クリアStage</div><div class="value">${data.summary.clearedStages}/${data.summary.stages}</div></div>
+      <div class="kpi progress-kpi"><div class="label">クリアStage</div><div class="value">${data.summary.clearedStages}/${data.summary.stages}</div><div class="kpi-progress" aria-label="Stage進捗 ${data.summary.stageProgressPercent}%"><span style="width:${data.summary.stageProgressPercent}%"></span></div><div class="kpi-progress-note">全Stageの ${data.summary.stageProgressPercent}%</div></div>
       <div class="kpi"><div class="label">クリア回数</div><div class="value">${data.summary.cleared}</div></div>
     </div>
     <section>
