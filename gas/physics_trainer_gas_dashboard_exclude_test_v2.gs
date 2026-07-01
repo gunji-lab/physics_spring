@@ -448,9 +448,9 @@ function buildStudentLeaderboards_(logs) {
 
   return {
     totalElapsed: rows.filter(row => row.totalElapsed > 0)
-      .sort(byValue("totalElapsed")).slice(0, 5),
+      .sort(byValue("totalElapsed")).slice(0, 10),
     attempts: rows.filter(row => row.attempts > 0)
-      .sort(byValue("attempts")).slice(0, 5)
+      .sort(byValue("attempts")).slice(0, 10)
   };
 }
 
@@ -1691,11 +1691,11 @@ function buildTeacherDashboardHtml_() {
     <div id="students" class="view">
       <div class="grid-two">
         <section>
-          <h2>挑戦時間 Top 5</h2>
+          <h2>挑戦時間 Top 10</h2>
           <div class="table-wrap"><table id="elapsedRankingTable"></table></div>
         </section>
         <section>
-          <h2>挑戦数 Top 5</h2>
+          <h2>挑戦数 Top 10</h2>
           <div class="table-wrap"><table id="attemptRankingTable"></table></div>
         </section>
       </div>
