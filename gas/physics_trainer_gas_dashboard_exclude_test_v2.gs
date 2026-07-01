@@ -710,10 +710,11 @@ function buildStudentRows_(logs, counts) {
       clearedStageLabels,
       latest: item.latest ? item.latest.toISOString() : ""
     };
-  }).sort((a, b) => {
-    if (a.averageRate !== b.averageRate) return a.averageRate - b.averageRate;
-    return a.studentId.localeCompare(b.studentId);
-  });
+  }).sort((a, b) => a.studentId.localeCompare(
+    b.studentId,
+    "ja",
+    { numeric: true, sensitivity: "base" }
+  ));
 }
 
 function buildQuestionStats_(questionRows) {
@@ -978,6 +979,7 @@ function getStudentDashboardData_(studentId) {
   const clearedCatalogStages = STUDENT_STAGE_CATALOG
     .filter(stage => clearedStageNames.has(stage)).length;
   const totalCatalogStages = STUDENT_STAGE_CATALOG.length;
+  const sectionRows = buildStudentSectionRows_(logs, clearedStageNames);
 
   return {
     studentId: targetId,
@@ -995,10 +997,36 @@ function getStudentDashboardData_(studentId) {
       latest: latest ? latest.toISOString() : ""
     },
     stageRows,
+    sectionRows,
     recommendations: buildStudentRecommendations_(stageRows),
     rankings: buildStudentRankings_(targetId, allLogs),
     recentAttempts: buildRecentAttempts_(logs).slice(0, 3)
   };
+}
+
+function buildStudentSectionRows_(logs, clearedStageNames) {
+  const sections = ["円運動", "バネ", "熱"];
+
+  return sections.map(section => {
+    const stages = STUDENT_STAGE_CATALOG
+      .filter(stage => stage.indexOf(section + "/") === 0);
+    const stageSet = new Set(stages);
+    const sectionLogs = logs.filter(row => stageSet.has(String(row["Stage"] || "")));
+    const scoreSum = sectionLogs.reduce((sum, row) => sum + Number(row["得点"] || 0), 0);
+    const totalSum = sectionLogs.reduce((sum, row) => sum + Number(row["問題数"] || 0), 0);
+    const clearedStages = stages.filter(stage => clearedStageNames.has(stage)).length;
+    const totalStages = stages.length;
+
+    return {
+      section,
+      clearedStages,
+      totalStages,
+      progressPercent: totalStages > 0
+        ? Math.round(clearedStages / totalStages * 100)
+        : 0,
+      averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0
+    };
+  });
 }
 
 function buildStudentRecommendations_(stageRows) {
@@ -1141,8 +1169,8 @@ function buildStudentDashboardHtml_(studentId) {
       <div id="recommendations" class="recommend-grid"></div>
     </section>
     <section>
-      <h2>Stageごとの進捗</h2>
-      <div class="table-wrap"><table id="stageTable"></table></div>
+      <h2>セクションごとの進捗</h2>
+      <div class="table-wrap"><table id="sectionTable"></table></div>
     </section>
     <section>
       <h2>最近の学習履歴</h2>
@@ -1153,20 +1181,17 @@ function buildStudentDashboardHtml_(studentId) {
     const dashboardData = ${JSON.stringify(data)};
     document.getElementById("generatedAt").textContent = formatDate(dashboardData.generatedAt);
     document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
-    renderStageTable(dashboardData.stageRows);
+    renderSectionTable(dashboardData.sectionRows);
     renderRecentTable(dashboardData.recentAttempts);
     renderRankings(dashboardData.rankings);
     renderRecommendations(dashboardData.recommendations);
 
-    function renderStageTable(rows){
-      renderTable("stageTable", ["Stage","状態","挑戦","平均正答率","最高正答率","平均時間","最終提出"], rows, row => [
-        escapeHtml(row.stage),
-        '<span class="pill ' + (row.status === "クリア済み" ? "clear" : "try") + '">' + escapeHtml(row.status) + '</span>',
-        num(row.attempts),
-        rateBar(row.averageRate),
-        rateBar(row.bestRate),
-        num(formatSeconds(row.averageElapsed)),
-        escapeHtml(formatDate(row.latest))
+    function renderSectionTable(rows){
+      renderTable("sectionTable", ["セクション","クリアStage","進捗","平均正答率"], rows, row => [
+        '<strong>' + escapeHtml(row.section) + '</strong>',
+        num(row.clearedStages + " / " + row.totalStages),
+        rateBar(row.progressPercent),
+        rateBar(row.averageRate)
       ]);
     }
     function renderRecentTable(rows){
