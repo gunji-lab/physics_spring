@@ -443,6 +443,9 @@ function getAuthenticatedProgressForApp() {
     summary: data.summary,
     rankings: data.rankings,
     dashboardUrl: ScriptApp.getService().getUrl() + "?view=my",
+    teacherDashboardUrl: studentId === "ADMIN_GUNJI"
+      ? ScriptApp.getService().getUrl() + "?key=" + encodeURIComponent(DASHBOARD_KEY)
+      : "",
     stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status, attempts: row.attempts }))
   };
 }
