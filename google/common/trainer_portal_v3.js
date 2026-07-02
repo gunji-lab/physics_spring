@@ -5,7 +5,8 @@
   const TOKEN_KEY = "physicsTrainerAuthV3";
   if (window.parent === window) {
     const chooser = "https://accounts.google.com/AccountChooser?hd=toyo.jp&continue=" + encodeURIComponent(UNIVERSITY_APP_URL);
-    location.replace(chooser);
+    const addAccount = "https://accounts.google.com/AddSession?hl=ja&continue=" + encodeURIComponent(UNIVERSITY_APP_URL);
+    document.body.innerHTML = `<main style="width:min(640px,calc(100% - 32px));margin:8vh auto;font-family:system-ui,-apple-system,'Hiragino Sans','Yu Gothic',sans-serif;color:#1f2937"><section style="background:#fff;border:1px solid #dbe2ea;border-radius:20px;padding:28px;box-shadow:0 12px 32px #1f293714"><h1 style="margin-top:0">大学Googleアカウントでログイン</h1><p style="line-height:1.8">物理トレーナーは <strong>@toyo.jp</strong> の大学アカウント専用です。個人Gmailだけでログインしている場合は、先に大学アカウントを追加してください。</p><div style="display:grid;gap:12px;margin:22px 0"><a href="${addAccount}" style="display:block;padding:14px 18px;border-radius:12px;background:#176b87;color:#fff;text-decoration:none;font-weight:900;text-align:center">大学アカウントを追加してログイン</a><a href="${chooser}" style="display:block;padding:14px 18px;border-radius:12px;border:1px solid #176b87;color:#176b87;text-decoration:none;font-weight:900;text-align:center">追加済みの大学アカウントを選ぶ</a></div><p style="color:#64748b;font-size:.92rem;line-height:1.7">うまく切り替わらない場合は、シークレット／プライベートウィンドウでこのページを開き、大学アカウントだけでログインしてください。</p></section></main>`;
     return;
   }
   const stageByFile = {
