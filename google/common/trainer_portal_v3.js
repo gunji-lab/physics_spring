@@ -1,6 +1,6 @@
 (() => {
   const AUTH_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzyvle3BCrmz7MKcsxyHBlyxU3XGiqXcsMqwSGf6GZ01FN5Xme-yzlE-E0OEXBttAZHhw/exec";
-  const API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxpOcs96s1LG_uiF_IyBRhsuDxin5Tctz9LVV6Eb29P1mrHk5KdT4G4zq5nhOGjS2pm/exec";
+  const API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzCvIdhA_EbSMQ82eYvzp_napmvxvCgX3YasBWEwzkmNsOv3-QbG3m4YbKdLMIaOI79bA/exec";
   const TOKEN_KEY = "physicsTrainerAuthV3";
   const stageByFile = {
     "circular_motion_stage1_framework_v2.html":"円運動/Stage1/弧度法",

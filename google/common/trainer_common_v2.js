@@ -1,6 +1,6 @@
 /* Googleログイン版の設定。導入時に2つのURLを置き換える。 */
 const PHYSICS_AUTH_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzyvle3BCrmz7MKcsxyHBlyxU3XGiqXcsMqwSGf6GZ01FN5Xme-yzlE-E0OEXBttAZHhw/exec";
-const PHYSICS_API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxpOcs96s1LG_uiF_IyBRhsuDxin5Tctz9LVV6Eb29P1mrHk5KdT4G4zq5nhOGjS2pm/exec";
+const PHYSICS_API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzCvIdhA_EbSMQ82eYvzp_napmvxvCgX3YasBWEwzkmNsOv3-QbG3m4YbKdLMIaOI79bA/exec";
 
 const TrainerAuth = (() => {
   const TOKEN_KEY = "physicsTrainerAuthV3";
