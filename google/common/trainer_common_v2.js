@@ -166,14 +166,15 @@ const TrainerLog = (() => {
       await fetch(destination, {
         method: "POST",
         mode: "no-cors",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      if (status) status.textContent = "結果を送信しました。";
+      if (status) status.textContent = "結果を送信しました。保存を確認中...";
       showStudentDashboardButton(null, "preparing");
       requestStudentDashboardUrl({
-        gasUrl,
+        gasUrl: destination,
         studentId,
         sendStatusId,
         attempt: 1
@@ -191,9 +192,20 @@ const TrainerLog = (() => {
     const script = document.createElement("script");
     const separator = gasUrl.indexOf("?") === -1 ? "?" : "&";
     const status = document.getElementById(sendStatusId);
+    let callbackFinished = false;
+    const confirmTimer = setTimeout(() => {
+      if (callbackFinished) return;
+      callbackFinished = true;
+      cleanupJsonp(callbackName, script);
+      showStudentDashboardButton(null, "unavailable");
+      if (status) status.textContent = "送信しましたが、保存を確認できませんでした。もう一度ログインしてお試しください。";
+    }, 8000);
     if (status && attempt === 1) status.textContent = "結果を送信しました。学習状況リンクを準備中...";
 
     window[callbackName] = response => {
+      if (callbackFinished) return;
+      callbackFinished = true;
+      clearTimeout(confirmTimer);
       try {
         if (response && response.ok && response.url) {
           showStudentDashboardButton(response.url, "ready");
@@ -218,6 +230,9 @@ const TrainerLog = (() => {
     };
 
     script.onerror = () => {
+      if (callbackFinished) return;
+      callbackFinished = true;
+      clearTimeout(confirmTimer);
       showStudentDashboardButton(null, "unavailable");
       if (status) status.textContent = "結果を送信しました。学習状況リンクの準備に失敗しました。";
       cleanupJsonp(callbackName, script);
