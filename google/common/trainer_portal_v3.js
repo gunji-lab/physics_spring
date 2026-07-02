@@ -27,15 +27,18 @@
 
   function renderProgress(response) {
     if (!response || !response.ok) return;
-    const cleared = new Set(response.stages.filter(item => item.status === "クリア済み").map(item => item.stage));
+    const stageProgress = new Map(response.stages.map(item => [item.stage, item]));
     document.querySelectorAll("a[href]").forEach(link => {
       const file = link.getAttribute("href").split("/").pop();
       const stage = stageByFile[file];
       if (!stage || link.querySelector(".stage-progress-mark")) return;
       const mark = document.createElement("span");
       mark.className = "stage-progress-mark";
-      mark.textContent = cleared.has(stage) ? " ✓ クリア" : " ○ 未クリア";
-      mark.style.cssText = "float:right;font-size:.86rem;color:" + (cleared.has(stage) ? "#15803d" : "#94a3b8");
+      const progress = stageProgress.get(stage);
+      const isCleared = progress && progress.status === "クリア済み";
+      const attempts = progress ? Number(progress.attempts || 0) : 0;
+      mark.textContent = `${isCleared ? "✓ クリア" : "○ 未クリア"}｜${attempts}回挑戦`;
+      mark.style.cssText = "float:right;font-size:.86rem;color:" + (isCleared ? "#15803d" : "#94a3b8");
       link.prepend(mark);
     });
     const lead = document.querySelector(".lead");

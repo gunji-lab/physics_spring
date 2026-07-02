@@ -369,7 +369,7 @@ function doGet(e) {
       ok: true,
       studentId: verified.studentId,
       summary: data.summary,
-      stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status }))
+      stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status, attempts: row.attempts }))
     });
   }
   if (params.api === "studentDashboardLink") {
@@ -440,7 +440,7 @@ function getAuthenticatedProgressForApp() {
     summary: data.summary,
     rankings: data.rankings,
     dashboardUrl: ScriptApp.getService().getUrl() + "?view=my",
-    stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status }))
+    stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status, attempts: row.attempts }))
   };
 }
 
