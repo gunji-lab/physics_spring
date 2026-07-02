@@ -22,6 +22,34 @@
     "heat_stage6_framework_v1.html":"熱/Stage6/総合記述式"
   };
 
+  function renderProgress(response) {
+    if (!response || !response.ok) return;
+    const cleared = new Set(response.stages.filter(item => item.status === "クリア済み").map(item => item.stage));
+    document.querySelectorAll("a[href]").forEach(link => {
+      const file = link.getAttribute("href").split("/").pop();
+      const stage = stageByFile[file];
+      if (!stage || link.querySelector(".stage-progress-mark")) return;
+      const mark = document.createElement("span");
+      mark.className = "stage-progress-mark";
+      mark.textContent = cleared.has(stage) ? " ✓ クリア" : " ○ 未クリア";
+      mark.style.cssText = "float:right;font-size:.86rem;color:" + (cleared.has(stage) ? "#15803d" : "#94a3b8");
+      link.prepend(mark);
+    });
+    const lead = document.querySelector(".lead");
+    if (lead && response.summary && !lead.dataset.progressAdded) {
+      lead.textContent += `　${response.summary.clearedStages}/${response.summary.stages} Stageクリア`;
+      lead.dataset.progressAdded = "1";
+    }
+  }
+
+  if (window.parent !== window) {
+    window.addEventListener("message", event => {
+      if (event.data && event.data.type === "physics:progressResult") renderProgress(event.data.response);
+    });
+    window.parent.postMessage({ type: "physics:progress" }, "*");
+    return;
+  }
+
   const hashToken = new URLSearchParams(location.hash.slice(1)).get("auth");
   if (hashToken) {
     localStorage.setItem(TOKEN_KEY, hashToken);
@@ -41,18 +69,7 @@
       location.href = AUTH_URL + "?view=auth&return=" + encodeURIComponent(location.href);
       return;
     }
-    const cleared = new Set(response.stages.filter(item => item.status === "クリア済み").map(item => item.stage));
-    document.querySelectorAll("a[href]").forEach(link => {
-      const file = link.getAttribute("href").split("/").pop();
-      const stage = stageByFile[file];
-      if (!stage) return;
-      const mark = document.createElement("span");
-      mark.textContent = cleared.has(stage) ? " ✓ クリア" : " ○ 未クリア";
-      mark.style.cssText = "float:right;font-size:.86rem;color:" + (cleared.has(stage) ? "#15803d" : "#94a3b8");
-      link.prepend(mark);
-    });
-    const lead = document.querySelector(".lead");
-    if (lead && response.summary) lead.textContent += `　${response.summary.clearedStages}/${response.summary.stages} Stageクリア`;
+    renderProgress(response);
     delete window[callback];
   };
   const script = document.createElement("script");

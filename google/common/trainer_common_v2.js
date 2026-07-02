@@ -4,6 +4,7 @@ const PHYSICS_API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzCvI
 
 const TrainerAuth = (() => {
   const TOKEN_KEY = "physicsTrainerAuthV3";
+  let embeddedStudentId = "";
 
   function captureToken() {
     const match = location.hash.match(/(?:^#|&)auth=([^&]+)/);
@@ -14,7 +15,7 @@ const TrainerAuth = (() => {
   }
 
   function getToken() { return localStorage.getItem(TOKEN_KEY) || ""; }
-  function getStudentId() { return (getToken().split(".")[0] || "").trim(); }
+  function getStudentId() { return embeddedStudentId || (getToken().split(".")[0] || "").trim(); }
   function isConfigured() { return !PHYSICS_AUTH_URL.startsWith("__"); }
   function login() {
     if (!isConfigured()) return;
@@ -25,6 +26,19 @@ const TrainerAuth = (() => {
     captureToken();
     const input = document.getElementById("studentId");
     const studentId = getStudentId();
+    if (window.parent !== window) {
+      window.addEventListener("message", event => {
+        if (!event.data || event.data.type !== "physics:identity") return;
+        embeddedStudentId = String(event.data.studentId || "").trim();
+        const target = document.getElementById("studentId");
+        if (target && embeddedStudentId) {
+          target.value = embeddedStudentId;
+          target.readOnly = true;
+        }
+      });
+      window.parent.postMessage({ type: "physics:ready" }, "*");
+      if (!studentId) return;
+    }
     if (!studentId) { login(); return; }
     if (input) {
       input.value = studentId;
@@ -160,6 +174,33 @@ const TrainerLog = (() => {
       screen: `${window.innerWidth}x${window.innerHeight}`,
       ...extra
     };
+
+    if (window.parent !== window) {
+      const requestId = "save_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+      const confirmation = new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          window.removeEventListener("message", receive);
+          reject(new Error("保存確認がタイムアウトしました"));
+        }, 15000);
+        function receive(event) {
+          const data = event.data || {};
+          if (data.type !== "physics:saveResult" || data.requestId !== requestId) return;
+          clearTimeout(timer);
+          window.removeEventListener("message", receive);
+          data.ok ? resolve(data) : reject(new Error(data.message || "保存に失敗しました"));
+        }
+        window.addEventListener("message", receive);
+      });
+      window.parent.postMessage({ type: "physics:save", requestId, payload }, "*");
+      try {
+        await confirmation;
+        if (status) status.textContent = "結果を保存しました。Stage一覧で進捗を確認できます。";
+      } catch (err) {
+        resultSent = false;
+        if (status) status.textContent = "結果を保存できませんでした。もう一度お試しください。";
+      }
+      return;
+    }
 
     try {
       const destination = PHYSICS_API_URL.startsWith("__") ? gasUrl : PHYSICS_API_URL;

@@ -337,6 +337,9 @@ const STUDENT_STAGE_CATALOG = [
 
 function doGet(e) {
   const params = (e && e.parameter) || {};
+  if (params.view === "app") {
+    return buildTrainerAppHtml_();
+  }
   if (params.view === "auth") {
     return buildAuthResponse_(params);
   }
@@ -385,6 +388,76 @@ function doGet(e) {
     .createHtmlOutput(buildTeacherDashboardHtml_())
     .setTitle("Physics Trainer Dashboard")
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getAuthenticatedStudentId_() {
+  const email = Session.getActiveUser().getEmail().trim().toLowerCase();
+  const suffix = "@" + SCHOOL_DOMAIN.toLowerCase();
+  if (!email || !email.endsWith(suffix)) throw new Error("大学Googleアカウントを確認できません。");
+  const studentId = email.slice(0, -suffix.length);
+  if (!/^[0-9A-Za-z._-]{3,30}$/.test(studentId)) throw new Error("学籍番号を取得できません。");
+  return studentId;
+}
+
+function saveAuthenticatedResult(payload) {
+  const studentId = getAuthenticatedStudentId_();
+  const safePayload = Object.assign({}, payload || {}, {
+    studentId,
+    authToken: createAuthToken_(studentId)
+  });
+  const output = doPost({ postData: { contents: JSON.stringify(safePayload) } });
+  const result = JSON.parse(output.getContent());
+  if (result.result !== "success") throw new Error(result.message || "結果を保存できませんでした。");
+  return { ok: true, stageAttempt: result.stageAttempt, totalAttempt: result.totalAttempt };
+}
+
+function getAuthenticatedProgressForApp() {
+  const studentId = getAuthenticatedStudentId_();
+  const data = getStudentDashboardData_(studentId);
+  return {
+    ok: true,
+    studentId,
+    summary: data.summary,
+    stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status }))
+  };
+}
+
+function buildTrainerAppHtml_() {
+  let studentId;
+  try {
+    studentId = getAuthenticatedStudentId_();
+  } catch (err) {
+    return HtmlService.createHtmlOutput("<h2>大学Googleアカウントを確認できませんでした</h2><p>toyo.jp のアカウントで開いてください。</p>")
+      .setTitle("物理トレーナー");
+  }
+  const studentJson = JSON.stringify(studentId).replace(/</g, "\\u003c");
+  return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1"><title>物理トレーナー</title>
+  <style>html,body{height:100%;margin:0;background:#f5f7fb}iframe{display:block;width:100%;height:100%;border:0}</style></head>
+  <body><iframe id="trainer" src="https://gunji-lab.github.io/physics_spring/google/index.html" title="物理トレーナー"></iframe>
+  <script>
+    const studentId = ${studentJson};
+    const frame = document.getElementById("trainer");
+    function sendIdentity(){ frame.contentWindow.postMessage({type:"physics:identity",studentId},"*"); }
+    frame.addEventListener("load", sendIdentity);
+    window.addEventListener("message", event => {
+      if (event.source !== frame.contentWindow || !event.data) return;
+      const data = event.data;
+      if (data.type === "physics:ready") sendIdentity();
+      if (data.type === "physics:save") {
+        google.script.run
+          .withSuccessHandler(result => frame.contentWindow.postMessage({type:"physics:saveResult",requestId:data.requestId,ok:true,result},"*"))
+          .withFailureHandler(error => frame.contentWindow.postMessage({type:"physics:saveResult",requestId:data.requestId,ok:false,message:error.message},"*"))
+          .saveAuthenticatedResult(data.payload);
+      }
+      if (data.type === "physics:progress") {
+        google.script.run
+          .withSuccessHandler(response => frame.contentWindow.postMessage({type:"physics:progressResult",response},"*"))
+          .withFailureHandler(error => frame.contentWindow.postMessage({type:"physics:progressResult",response:{ok:false,error:error.message}},"*"))
+          .getAuthenticatedProgressForApp();
+      }
+    });
+  </script></body></html>`).setTitle("物理トレーナー").setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function buildAuthResponse_(params) {
