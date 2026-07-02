@@ -357,6 +357,15 @@ function doGet(e) {
       return buildUniversityAccountGuide_(err.message);
     }
   }
+  if (params.view === "teacher") {
+    try {
+      if (getAuthenticatedStudentId_() !== "ADMIN_GUNJI") throw new Error("教員アカウント専用です。");
+      return HtmlService.createHtmlOutput(buildTeacherDashboardHtml_())
+        .setTitle("Physics Trainer Dashboard").setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    } catch (err) {
+      return HtmlService.createHtmlOutput("<p>閲覧権限がありません。</p>").setTitle("閲覧権限なし");
+    }
+  }
   if (params.view === "auth") {
     return buildAuthResponse_(params);
   }
@@ -444,7 +453,7 @@ function getAuthenticatedProgressForApp() {
     rankings: data.rankings,
     dashboardUrl: ScriptApp.getService().getUrl() + "?view=my",
     teacherDashboardUrl: studentId === "ADMIN_GUNJI"
-      ? ScriptApp.getService().getUrl() + "?key=" + encodeURIComponent(DASHBOARD_KEY)
+      ? ScriptApp.getService().getUrl() + "?view=teacher"
       : "",
     stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status, attempts: row.attempts }))
   };
@@ -458,10 +467,14 @@ function buildTrainerAppHtml_() {
     return buildUniversityAccountGuide_(err.message);
   }
   const studentJson = JSON.stringify(studentId).replace(/</g, "\\u003c");
+  const appUrl = ScriptApp.getService().getUrl();
+  const adminBar = studentId === "ADMIN_GUNJI"
+    ? `<div class="admin-bar">教員モード <a href="${escapeHtmlServer_(appUrl + "?view=teacher")}" target="_top">教員ダッシュボードを見る →</a></div>`
+    : "";
   return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1"><title>物理トレーナー</title>
-  <style>html,body{height:100%;margin:0;background:#f5f7fb}iframe{display:block;width:100%;height:100%;border:0}</style></head>
-  <body><iframe id="trainer" src="https://gunji-lab.github.io/physics_spring/google/index.html" title="物理トレーナー"></iframe>
+  <style>html,body{height:100%;margin:0;background:#f5f7fb}body{display:flex;flex-direction:column}iframe{display:block;width:100%;flex:1;border:0}.admin-bar{padding:9px 16px;background:#f3e8ff;color:#581c87;font:800 14px system-ui,sans-serif}.admin-bar a{float:right;color:#6d28d9}</style></head>
+  <body>${adminBar}<iframe id="trainer" src="https://gunji-lab.github.io/physics_spring/google/index.html" title="物理トレーナー"></iframe>
   <script>
     const studentId = ${studentJson};
     const frame = document.getElementById("trainer");
