@@ -893,7 +893,7 @@ function buildStudentRows_(logs, counts) {
         attempts: 0,
         scoreSum: 0,
         totalSum: 0,
-        bestRate: 0,
+        totalElapsed: 0,
         latestRate: 0,
         latestStage: "",
         latestElapsed: 0,
@@ -907,7 +907,7 @@ function buildStudentRows_(logs, counts) {
     item.attempts++;
     item.scoreSum += score;
     item.totalSum += total;
-    item.bestRate = Math.max(item.bestRate, rate);
+    if (elapsed > 0) item.totalElapsed += elapsed;
     if (stage) item.stages[stage] = true;
     if (passed && stage) item.clearedStages[stage] = true;
 
@@ -931,7 +931,7 @@ function buildStudentRows_(logs, counts) {
       totalAttempts: totalAttemptsByStudent[item.studentId] || item.attempts,
       averageRate: item.totalSum > 0 ? Math.round(item.scoreSum / item.totalSum * 100) : 0,
       latestRate: item.latestRate,
-      bestRate: item.bestRate,
+      totalElapsed: item.totalElapsed,
       latestStage: item.latestStage,
       latestElapsed: item.latestElapsed,
       clearedStages: clearedStageLabels.length,
@@ -2095,14 +2095,14 @@ function buildTeacherDashboardHtml_() {
     }
 
     function renderStudentTable(rows) {
-      renderTable("studentTable", ["学籍番号", "Stage数", "挑戦", "全体挑戦", "平均正答率", "最新正答率", "最高正答率", "最新Stage", "クリアStage", "最終提出"], rows, row => [
+      renderTable("studentTable", ["学籍番号", "Stage数", "挑戦", "全体挑戦", "平均正答率", "最新正答率", "挑戦時間", "最新Stage", "クリアStage", "最終提出"], rows, row => [
         escapeHtml(row.studentId),
         num(row.stages),
         num(row.attempts),
         num(row.totalAttempts),
         rateBar(row.averageRate),
         rateBar(row.latestRate),
-        rateBar(row.bestRate),
+        num(formatSeconds(row.totalElapsed)),
         escapeHtml(row.latestStage || "-"),
         num(row.clearedStages + "/" + row.stages),
         escapeHtml(formatDate(row.latest))
