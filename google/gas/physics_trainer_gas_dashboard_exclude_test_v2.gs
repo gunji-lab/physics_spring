@@ -317,7 +317,7 @@ function isExcludedStudent_(studentId) {
 
 const DASHBOARD_UNIT_HEADERS_ = ["単元", "Unit", "unit", "分野", "カテゴリ", "Topic", "topic"];
 
-/* 通常のStageだけを進捗の分母にする。大問対策（test1/test2）は別枠。 */
+/* 通常Stageと大問対策を進捗の分母にする。公式確認は別枠。 */
 const STUDENT_STAGE_CATALOG = [
   "円運動/Stage1/弧度法",
   "円運動/Stage2/弧長",
@@ -325,11 +325,14 @@ const STUDENT_STAGE_CATALOG = [
   "円運動/Stage4/周期角速度速さ",
   "円運動/Stage5/向心加速度",
   "円運動/Stage6/記入式",
+  "円運動/大問/万有引力",
   "バネ/Stage1/フックの法則",
   "バネ/Stage2/つりあい",
   "バネ/Stage3/位置エネ",
   "バネ/Stage4/エネ保",
   "バネ/Stage5/記入式",
+  "バネ/test1/円運動するばね",
+  "バネ/test2/水平バネ振り子",
   "熱/Stage1/温度変換",
   "熱/Stage2/熱容量",
   "熱/Stage3/Q=mcΔT",
