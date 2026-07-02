@@ -722,7 +722,8 @@ function buildSummary_(logs) {
     students: students.size,
     averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0,
     passRate: logs.length > 0 ? Math.round(passed / logs.length * 100) : 0,
-    averageElapsed: elapsedCount > 0 ? Math.round(elapsedSum / elapsedCount) : 0
+    averageElapsed: elapsedCount > 0 ? Math.round(elapsedSum / elapsedCount) : 0,
+    averageStudentTotalElapsed: students.size > 0 ? Math.round(elapsedSum / students.size) : 0
   };
 }
 
@@ -1853,6 +1854,7 @@ function buildTeacherDashboardHtml_() {
       <div class="kpi"><div class="label">平均正答率</div><div class="value" id="kpiRate">-</div></div>
       <div class="kpi"><div class="label">クリア率</div><div class="value" id="kpiPass">-</div></div>
       <div class="kpi"><div class="label">平均時間</div><div class="value" id="kpiTime">-</div></div>
+      <div class="kpi"><div class="label">学生1人あたり累計時間</div><div class="value" id="kpiStudentTime">-</div></div>
     </div>
 
     <div class="tabs">
@@ -2003,6 +2005,7 @@ function buildTeacherDashboardHtml_() {
       document.getElementById("kpiRate").textContent = summary.averageRate + "%";
       document.getElementById("kpiPass").textContent = summary.passRate + "%";
       document.getElementById("kpiTime").textContent = formatSeconds(summary.averageElapsed);
+      document.getElementById("kpiStudentTime").textContent = formatSeconds(summary.averageStudentTotalElapsed);
     }
 
     function renderUnitTable(rows) {
