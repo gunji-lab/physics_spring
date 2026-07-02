@@ -40,6 +40,24 @@
       lead.textContent += `　${response.summary.clearedStages}/${response.summary.stages} Stageクリア`;
       lead.dataset.progressAdded = "1";
     }
+    const isTop = /\/google\/(?:index\.html)?$/.test(location.pathname);
+    if (isTop && response.summary && !document.getElementById("learningSummary")) {
+      const seconds = Number(response.summary.totalElapsed || 0);
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const timeText = hours ? `${hours}時間${minutes}分` : `${minutes}分`;
+      const top10 = [];
+      const timeRank = response.rankings && response.rankings.totalElapsed;
+      const attemptRank = response.rankings && response.rankings.attempts;
+      if (timeRank && timeRank.rank && timeRank.rank <= 10) top10.push(`学習時間 ${timeRank.rank}位`);
+      if (attemptRank && attemptRank.rank && attemptRank.rank <= 10) top10.push(`挑戦数 ${attemptRank.rank}位`);
+      const summary = document.createElement("section");
+      summary.id = "learningSummary";
+      summary.style.cssText = "margin:18px 0;padding:18px;border:1px solid #b9e1e9;border-radius:14px;background:#f0fbfd";
+      summary.innerHTML = `<div style="font-weight:900;margin-bottom:10px">自分の学習状況</div><div style="display:flex;gap:18px;flex-wrap:wrap"><span>学習時間 <strong>${timeText}</strong></span><span>挑戦 <strong>${Number(response.summary.attempts || 0)}回</strong></span><span>クリア <strong>${Number(response.summary.clearedStages || 0)}/${Number(response.summary.stages || 0)} Stage</strong></span></div>${top10.length ? `<div style="margin-top:10px;color:#b45309;font-weight:900">🏆 TOP10：${top10.join("・")}</div>` : ""}<a href="${response.dashboardUrl || "#"}" target="_top" style="display:inline-block;margin-top:12px;color:#176b87;font-weight:900">詳しい学習状況を見る →</a>`;
+      const menu = document.querySelector(".menu");
+      if (menu) menu.parentNode.insertBefore(summary, menu);
+    }
   }
 
   if (window.parent !== window) {

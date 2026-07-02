@@ -27,6 +27,9 @@ const TrainerAuth = (() => {
     const input = document.getElementById("studentId");
     const studentId = getStudentId();
     if (window.parent !== window) {
+      if (input) input.style.display = "none";
+      const studentLabel = document.querySelector('label[for="studentId"]');
+      if (studentLabel) studentLabel.style.display = "none";
       window.addEventListener("message", event => {
         if (!event.data || event.data.type !== "physics:identity") return;
         embeddedStudentId = String(event.data.studentId || "").trim();

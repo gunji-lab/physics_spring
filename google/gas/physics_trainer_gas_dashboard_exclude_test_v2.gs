@@ -9,6 +9,9 @@ const QUESTION_SHEET_NAME = "QuestionTimes";
 const SCHOOL_DOMAIN = "toyo.jp";
 const AUTH_TOKEN_HOURS = 12;
 const AUTH_SECRET_PROPERTY = "PHYSICS_AUTH_V3_SECRET";
+const STAFF_TEST_STUDENT_IDS = {
+  "gunji@toyo.jp": "ADMIN_GUNJI"
+};
 // 新システム公開後、そのURLに変更する（末尾の / を含めない）。
 const NEW_TRAINER_BASE_URL = "__NEW_TRAINER_BASE_URL__";
 
@@ -340,6 +343,14 @@ function doGet(e) {
   if (params.view === "app") {
     return buildTrainerAppHtml_();
   }
+  if (params.view === "my") {
+    try {
+      return HtmlService.createHtmlOutput(buildStudentDashboardHtml_(getAuthenticatedStudentId_()))
+        .setTitle("自分の学習状況").setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    } catch (err) {
+      return buildUniversityAccountGuide_(err.message);
+    }
+  }
   if (params.view === "auth") {
     return buildAuthResponse_(params);
   }
@@ -393,10 +404,16 @@ function doGet(e) {
 function getAuthenticatedStudentId_() {
   const email = Session.getActiveUser().getEmail().trim().toLowerCase();
   const suffix = "@" + SCHOOL_DOMAIN.toLowerCase();
-  if (!email || !email.endsWith(suffix)) throw new Error("大学Googleアカウントを確認できません。");
-  const studentId = email.slice(0, -suffix.length);
-  if (!/^[0-9A-Za-z._-]{3,30}$/.test(studentId)) throw new Error("学籍番号を取得できません。");
-  return studentId;
+  if (!email || !email.endsWith(suffix)) throw new Error("大学Googleアカウントでログインしてください。");
+  if (STAFF_TEST_STUDENT_IDS[email]) return STAFF_TEST_STUDENT_IDS[email];
+  const localPart = email.slice(0, -suffix.length);
+  const match = localPart.match(/^s(\d+)\d$/i);
+  if (!match) throw new Error("学生用メールアドレスから学籍番号を取得できませんでした。");
+  return match[1];
+}
+
+function buildUniversityAccountGuide_(detail) {
+  return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>大学アカウントでログイン</title><style>body{font-family:system-ui,sans-serif;background:#f5f7fb;color:#1f2937;margin:0}.card{max-width:620px;margin:10vh auto;background:#fff;border:1px solid #dbe2ea;border-radius:20px;padding:28px}a{display:inline-block;background:#176b87;color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:800}</style></head><body><main class="card"><h1>大学Googleアカウントでログインしてください</h1><p>個人Googleアカウントでは物理トレーナーを利用できません。Googleのアカウント選択画面で <strong>@toyo.jp</strong> のアカウントを選択してください。</p><p>${escapeHtmlServer_(detail || "")}</p><p><a href="https://accounts.google.com/AccountChooser?hd=toyo.jp">アカウントを切り替える</a></p></main></body></html>`).setTitle("大学アカウントでログイン");
 }
 
 function saveAuthenticatedResult(payload) {
@@ -418,6 +435,8 @@ function getAuthenticatedProgressForApp() {
     ok: true,
     studentId,
     summary: data.summary,
+    rankings: data.rankings,
+    dashboardUrl: ScriptApp.getService().getUrl() + "?view=my",
     stages: data.stageRows.map(row => ({ stage: row.stage, status: row.status }))
   };
 }
@@ -427,8 +446,7 @@ function buildTrainerAppHtml_() {
   try {
     studentId = getAuthenticatedStudentId_();
   } catch (err) {
-    return HtmlService.createHtmlOutput("<h2>大学Googleアカウントを確認できませんでした</h2><p>toyo.jp のアカウントで開いてください。</p>")
-      .setTitle("物理トレーナー");
+    return buildUniversityAccountGuide_(err.message);
   }
   const studentJson = JSON.stringify(studentId).replace(/</g, "\\u003c");
   return HtmlService.createHtmlOutput(`<!doctype html><html lang="ja"><head><meta charset="utf-8">
