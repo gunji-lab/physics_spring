@@ -207,6 +207,61 @@ function updateAttempts_(countSheet, studentId, stage, now) {
   };
 }
 
+/**
+ * 統合済みの Log から Counts を全件再生成する管理用関数。
+ * Apps Script エディタの関数一覧から選び、必要なときに1回だけ実行する。
+ */
+function rebuildCountsFromLog() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  if (!logSheet || logSheet.getLastRow() < 2) {
+    throw new Error("Logシートに再集計できる記録がありません。");
+  }
+
+  const countSheet = getOrCreateSheet_(ss, COUNT_SHEET_NAME);
+  const logs = readSheetObjects_(logSheet);
+  const students = {};
+
+  logs.forEach(row => {
+    const studentId = String(row["学籍番号"] || "").trim();
+    const stage = String(row["Stage"] || "").trim();
+    if (!studentId || !stage) return;
+
+    if (!students[studentId]) {
+      students[studentId] = { totalAttempts: 0, latest: null, stages: {} };
+    }
+    const student = students[studentId];
+    student.totalAttempts++;
+    student.stages[stage] = (student.stages[stage] || 0) + 1;
+
+    const date = asDate_(row["日時"]);
+    if (date && (!student.latest || date > student.latest)) student.latest = date;
+  });
+
+  const rows = [];
+  Object.keys(students).sort(compareStudentIds_).forEach(studentId => {
+    const student = students[studentId];
+    Object.keys(student.stages).sort((a, b) => a.localeCompare(b, "ja")).forEach(stage => {
+      rows.push([
+        studentId,
+        stage,
+        student.stages[stage],
+        student.totalAttempts,
+        student.latest || ""
+      ]);
+    });
+  });
+
+  countSheet.clearContents();
+  countSheet.getRange(1, 1, 1, 5).setValues([[
+    "学籍番号", "Stage", "Stage挑戦回数", "全体挑戦回数", "最終更新"
+  ]]);
+  if (rows.length) countSheet.getRange(2, 1, rows.length, 5).setValues(rows);
+  countSheet.setFrozenRows(1);
+  ss.toast(`Countsを再生成しました（${Object.keys(students).length}人・${rows.length}行）`, "完了", 8);
+  return { students: Object.keys(students).length, rows: rows.length };
+}
+
 function appendQuestionRows_({
   questionSheet,
   studentId,
