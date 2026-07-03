@@ -1,7 +1,7 @@
 (() => {
-  const UNIVERSITY_APP_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzCvIdhA_EbSMQ82eYvzp_napmvxvCgX3YasBWEwzkmNsOv3-QbG3m4YbKdLMIaOI79bA/exec?view=app";
+  const UNIVERSITY_APP_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzewYKMbRKtRhNtvFxVXvOo74Yj8v6hjXNvJWCNWIpoYSm-ekIbOSe3UaUPGlDjV2HrkA/exec?view=app";
   const AUTH_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzyvle3BCrmz7MKcsxyHBlyxU3XGiqXcsMqwSGf6GZ01FN5Xme-yzlE-E0OEXBttAZHhw/exec";
-  const API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzCvIdhA_EbSMQ82eYvzp_napmvxvCgX3YasBWEwzkmNsOv3-QbG3m4YbKdLMIaOI79bA/exec";
+  const API_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbzewYKMbRKtRhNtvFxVXvOo74Yj8v6hjXNvJWCNWIpoYSm-ekIbOSe3UaUPGlDjV2HrkA/exec";
   const TOKEN_KEY = "physicsTrainerAuthV3";
   if (window.parent === window) {
     const chooser = "https://accounts.google.com/AccountChooser?hd=toyo.jp&continue=" + encodeURIComponent(UNIVERSITY_APP_URL);
