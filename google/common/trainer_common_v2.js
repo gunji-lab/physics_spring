@@ -22,8 +22,34 @@ const TrainerAuth = (() => {
     location.href = PHYSICS_AUTH_URL + "?view=auth&return=" + encodeURIComponent(location.href.split("#")[0]);
   }
 
+  function makeRestartButtonSafer() {
+    const button = document.getElementById("restartBtn");
+    if (!button || button.dataset.safePlacement === "1") return;
+    const actions = button.closest(".buttons");
+    if (!actions || !actions.parentNode) return;
+
+    const spacer = button.previousElementSibling;
+    if (spacer && spacer.classList.contains("button-break")) spacer.remove();
+
+    const resetArea = document.createElement("div");
+    resetArea.className = "trainer-reset-area";
+    resetArea.style.cssText = "margin-top:32px;padding-top:16px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end";
+    actions.parentNode.insertBefore(resetArea, actions.nextSibling);
+    resetArea.appendChild(button);
+
+    button.dataset.safePlacement = "1";
+    button.textContent = "学習を中断して最初に戻る";
+    button.style.cssText = "background:#fff;color:#64748b;border:1px solid #cbd5e1;font-size:.86rem;padding:8px 12px;box-shadow:none";
+    button.addEventListener("click", event => {
+      if (window.confirm("ここまでの回答を中断して、最初の画面に戻りますか？")) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }, true);
+  }
+
   function initialize() {
     captureToken();
+    makeRestartButtonSafer();
     const input = document.getElementById("studentId");
     const studentId = getStudentId();
     if (window.parent !== window) {
