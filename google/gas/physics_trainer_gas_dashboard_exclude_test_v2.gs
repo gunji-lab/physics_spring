@@ -221,10 +221,16 @@ function rebuildCountsFromLog() {
   const countSheet = getOrCreateSheet_(ss, COUNT_SHEET_NAME);
   const logs = readSheetObjects_(logSheet);
   const students = {};
+  const pick = (row, names) => {
+    for (const name of names) {
+      if (row[name] !== undefined && row[name] !== null && String(row[name]).trim() !== "") return row[name];
+    }
+    return "";
+  };
 
   logs.forEach(row => {
-    const studentId = String(row["学籍番号"] || "").trim();
-    const stage = String(row["Stage"] || "").trim();
+    const studentId = String(pick(row, ["学籍番号", "studentId", "StudentId", "student_id", "ID"])).trim();
+    const stage = String(pick(row, ["Stage", "stage", "ステージ"])).trim();
     if (!studentId || !stage) return;
 
     if (!students[studentId]) {
@@ -234,9 +240,14 @@ function rebuildCountsFromLog() {
     student.totalAttempts++;
     student.stages[stage] = (student.stages[stage] || 0) + 1;
 
-    const date = asDate_(row["日時"]);
+    const date = asDate_(pick(row, ["日時", "timestamp", "Timestamp", "date", "Date"]));
     if (date && (!student.latest || date > student.latest)) student.latest = date;
   });
+
+  if (!Object.keys(students).length) {
+    const headers = logSheet.getRange(1, 1, 1, logSheet.getLastColumn()).getDisplayValues()[0];
+    throw new Error("有効なログを0件しか認識できませんでした。Logの1行目を確認してください: " + headers.join(" / "));
+  }
 
   const rows = [];
   Object.keys(students).sort(compareStudentIds_).forEach(studentId => {
