@@ -424,6 +424,16 @@ function doGet(e) {
       return buildUniversityAccountGuide_(err.message);
     }
   }
+  if (params.view === "review") {
+    try {
+      const studentId = getAuthenticatedStudentId_();
+      return HtmlService.createHtmlOutput(buildWrongQuestionReviewHtml_(studentId))
+        .setTitle("間違えた問題をランダム復習")
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    } catch (err) {
+      return buildUniversityAccountGuide_(err.message);
+    }
+  }
   if (params.view === "teacher") {
     try {
       if (getAuthenticatedStudentId_() !== "ADMIN_GUNJI") throw new Error("教員アカウント専用です。");
@@ -1200,12 +1210,15 @@ function getStudentDashboardSecret_() {
 function getStudentDashboardData_(studentId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
   const targetId = String(studentId || "").trim();
 
   const logs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
   const allLogs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
+  const questionLogs = questionSheet ? readSheetObjects_(questionSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
 
   let scoreSum = 0;
   let totalSum = 0;
@@ -1306,10 +1319,72 @@ function getStudentDashboardData_(studentId) {
     },
     stageRows,
     sectionRows,
-    recommendations: buildStudentRecommendations_(stageRows),
+    wrongQuestionCount: buildRandomWrongQuestions_(questionLogs, Number.MAX_SAFE_INTEGER).length,
     rankings: buildStudentRankings_(targetId, allLogs),
     recentAttempts: buildRecentAttempts_(logs).slice(0, 3)
   };
+}
+
+function buildRandomWrongQuestions_(questionLogs, limit) {
+  const latestByQuestion = {};
+
+  questionLogs.forEach((row, index) => {
+    const stage = String(row["Stage"] || "").trim();
+    if (!STUDENT_STAGE_CATALOG.includes(stage)) return;
+
+    const prompt = String(row["問題文"] || "").trim();
+    if (!prompt) return;
+
+    const questionId = String(row["問題ID"] || "").trim();
+    const key = [stage, questionId, prompt].join("|");
+    const date = asDate_(row["日時"]);
+    const timestamp = date ? date.getTime() : index;
+    const current = latestByQuestion[key];
+
+    if (!current || timestamp >= current.timestamp) {
+      latestByQuestion[key] = { row, timestamp };
+    }
+  });
+
+  const wrongQuestions = Object.keys(latestByQuestion).map(key => {
+    const row = latestByQuestion[key].row;
+    return {
+      stage: String(row["Stage"] || ""),
+      prompt: String(row["問題文"] || ""),
+      selected: String(row["選択/入力"] || ""),
+      answer: String(row["正解"] || ""),
+      correct: String(row["正誤"] || "") === "○"
+    };
+  }).filter(item => !item.correct);
+
+  for (let i = wrongQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = wrongQuestions[i];
+    wrongQuestions[i] = wrongQuestions[j];
+    wrongQuestions[j] = tmp;
+  }
+
+  return wrongQuestions.slice(0, Math.max(0, Number(limit) || 0));
+}
+
+function buildWrongQuestionReviewHtml_(studentId) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const questionLogs = questionSheet ? readSheetObjects_(questionSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === String(studentId || "").trim()) : [];
+  const questions = buildRandomWrongQuestions_(questionLogs, 10);
+  const dashboardUrl = ScriptApp.getService().getUrl() + "?view=my";
+
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>間違えた問題をランダム復習</title><style>
+  :root{--ink:#17313b;--muted:#64748b;--line:#dbe5e7;--main:#19766e;--soft:#effaf8;--ok:#18794e;--ng:#b42318}*{box-sizing:border-box}body{margin:0;background:#f5f8f9;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}header,main{max-width:850px;margin:auto;padding:22px 18px}header{padding-bottom:8px}h1{font-size:clamp(25px,5vw,38px);margin:0 0 7px}.sub,.meta{color:var(--muted)}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 5px 16px rgba(27,58,68,.05)}.stage{font-size:13px;font-weight:800;color:var(--main);margin-bottom:8px}.question{font-size:18px;font-weight:800;line-height:1.65}.answer-row{display:flex;gap:9px;margin-top:15px}input{min-width:0;flex:1;border:1px solid #b9c9cd;border-radius:10px;padding:12px;font-size:16px}button,.button{border:0;border-radius:10px;padding:12px 17px;background:var(--main);color:#fff;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.feedback{display:none;margin-top:11px;padding:11px;border-radius:10px}.feedback.ok{display:block;background:#eaf8f0;color:var(--ok)}.feedback.ng{display:block;background:#fff0ee;color:var(--ng)}.result{display:none}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.button.secondary{background:#64748b}@media(max-width:600px){.answer-row{display:grid}button{width:100%}}
+  </style></head><body><header><h1>間違えた問題をランダム復習</h1><div class="sub">通常Stageで間違えた問題からランダムに${questions.length}題</div></header><main><div id="quiz"></div><div id="result" class="card result"><h2 id="score"></h2><p>ページを開き直すと、問題がもう一度ランダムに選ばれます。</p></div><div class="actions"><a class="button secondary" href="${escapeHtmlServer_(dashboardUrl)}">学習ダッシュボードへ戻る</a></div></main><script>
+  const questions=${JSON.stringify(questions)};
+  const quiz=document.getElementById("quiz");
+  const normalize=value=>String(value||"").trim().replace(/[\\s　]+/g,"").replace(/，/g,",").replace(/．/g,".").toLowerCase();
+  function escapeHtml(value){return String(value==null?"":value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+  if(!questions.length){quiz.innerHTML='<div class="card"><h2>復習する問題はありません</h2><p class="meta">通常Stageで間違えた問題が記録されると、ここに表示されます。</p></div>';}else{quiz.innerHTML=questions.map((q,i)=>'<section class="card" data-index="'+i+'"><div class="stage">'+escapeHtml(q.stage)+'</div><div class="question">'+(i+1)+'. '+escapeHtml(q.prompt)+'</div><div class="answer-row"><input aria-label="問題 '+(i+1)+' の回答" autocomplete="off"><button type="button">答え合わせ</button></div><div class="feedback"></div></section>').join("");document.querySelectorAll("[data-index]").forEach(card=>{card.querySelector("button").onclick=()=>check(card);});}
+  function check(card){const i=Number(card.dataset.index),q=questions[i],input=card.querySelector("input"),button=card.querySelector("button"),feedback=card.querySelector(".feedback");if(!input.value.trim()){input.focus();return;}const ok=normalize(input.value)===normalize(q.answer);card.dataset.correct=ok?"1":"0";feedback.className="feedback "+(ok?"ok":"ng");feedback.innerHTML=ok?"正解！":"不正解　正解：<strong>"+escapeHtml(q.answer)+"</strong>";input.disabled=true;button.disabled=true;if(document.querySelectorAll('[data-index] button:not(:disabled)').length===0){const correct=document.querySelectorAll('[data-correct="1"]').length;document.getElementById("score").textContent=correct+" / "+questions.length+" 問正解";document.getElementById("result").style.display="block";}}
+  </script></body></html>`;
 }
 
 function buildStudentSectionRows_(logs, clearedStageNames) {
@@ -1476,8 +1551,8 @@ function buildStudentDashboardHtml_(studentId) {
       <div id="rankingCards" class="rank-grid"></div>
     </section>
     <section>
-      <h2>次にやること</h2>
-      <div id="recommendations" class="recommend-grid"></div>
+      <h2>間違えた問題を復習</h2>
+      <div id="reviewLink" class="recommend-grid"></div>
     </section>
     <section>
       <h2>セクションごとの進捗</h2>
@@ -1495,7 +1570,7 @@ function buildStudentDashboardHtml_(studentId) {
     renderSectionTable(dashboardData.sectionRows);
     renderRecentTable(dashboardData.recentAttempts);
     renderRankings(dashboardData.rankings);
-    renderRecommendations(dashboardData.recommendations);
+    renderReviewLink(dashboardData.wrongQuestionCount);
 
     function renderSectionTable(rows){
       renderTable("sectionTable", ["セクション","クリアStage","進捗","平均正答率"], rows, row => [
@@ -1539,13 +1614,11 @@ function buildStudentDashboardHtml_(studentId) {
       if (info.rank <= 10) return info.total + "人中 " + info.rank + "位";
       return info.total + "人中 11位以下";
     }
-    function renderRecommendations(recommendations){
-      const target = document.getElementById("recommendations");
-      const nextStages = (recommendations && recommendations.nextStages) || [];
-      const first = nextStages[0];
-      target.innerHTML = first
-        ? '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">' + escapeHtml(first.stage) + '</div><div class="meta">' + escapeHtml(first.reason) + ' / 平均 ' + first.averageRate + '% / 平均時間 ' + formatSeconds(first.averageElapsed) + '</div></div>'
-        : '<div class="recommend-card primary"><div class="recommend-label">おすすめStage</div><div class="recommend-title">まだ候補がありません</div><div class="meta">学習データが増えると表示されます。</div></div>';
+    function renderReviewLink(count){
+      const target = document.getElementById("reviewLink");
+      target.innerHTML = count > 0
+        ? '<div class="recommend-card primary"><div class="recommend-label">通常Stageのみ</div><div class="recommend-title">間違えた問題からランダム10題</div><div class="meta">復習候補 ' + count + '題（大問・公式確認は除外）</div><div style="margin-top:12px"><a href="?view=review" style="display:inline-block;background:#19766e;color:#fff;text-decoration:none;font-weight:800;padding:10px 15px;border-radius:8px">復習を始める</a></div></div>'
+        : '<div class="recommend-card primary"><div class="recommend-title">復習する問題はありません</div><div class="meta">通常Stageで間違えた問題が記録されると、ここから10題に挑戦できます。</div></div>';
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);

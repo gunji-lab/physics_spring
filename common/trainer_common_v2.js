@@ -268,3 +268,34 @@ const TrainerLog = (() => {
     getQuestionResults
   };
 })();
+
+(function addTrainerNavigation() {
+  const path = location.pathname;
+  const marker = "/physics_spring/";
+  const markerIndex = path.indexOf(marker);
+  const root = markerIndex >= 0 ? path.slice(0, markerIndex + marker.length) : "/";
+  const isGoogle = path.indexOf("/google/") >= 0;
+  const isBigProblem = /circular_motion_(conical_pendulum|universal_gravitation)|spring_test[12]_framework/.test(path);
+  let category = "";
+
+  if (isBigProblem) {
+    category = isGoogle ? root + "google/comprehensive/index.html" : root + "comprehensive/index.html";
+  } else if (path.indexOf("/circular_motion/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "circular_motion/index.html";
+  } else if (path.indexOf("/spring/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "spring/index.html";
+  } else if (path.indexOf("/heat/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "heat/index.html";
+  }
+
+  if (!category || document.querySelector(".trainer-page-navigation")) return;
+  const home = root + (isGoogle ? "google/index.html" : "index.html");
+  const nav = document.createElement("nav");
+  nav.className = "trainer-page-navigation";
+  nav.setAttribute("aria-label", "ページ移動");
+  nav.innerHTML = '<a href="' + category + '">カテゴリトップに戻る</a><a href="' + home + '">トップページに戻る</a>';
+  const style = document.createElement("style");
+  style.textContent = ".trainer-page-navigation{max-width:960px;margin:12px auto 0;padding:0 16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}.trainer-page-navigation a{display:inline-block;padding:8px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155;text-decoration:none;font-size:14px;font-weight:800}.trainer-page-navigation a:hover{border-color:#64748b;background:#f8fafc}@media(max-width:600px){.trainer-page-navigation{justify-content:stretch}.trainer-page-navigation a{flex:1;text-align:center}}";
+  document.head.appendChild(style);
+  document.body.insertBefore(nav, document.body.firstChild);
+})();
