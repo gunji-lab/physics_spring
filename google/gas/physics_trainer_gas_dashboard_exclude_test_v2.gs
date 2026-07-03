@@ -417,14 +417,15 @@ function doGet(e) {
 }
 
 function getAuthenticatedStudentId_() {
-  const email = Session.getActiveUser().getEmail().trim().toLowerCase();
+  const rawEmail = Session.getActiveUser().getEmail().trim();
+  const email = rawEmail.toLowerCase();
   const suffix = "@" + SCHOOL_DOMAIN.toLowerCase();
   if (!email || !email.endsWith(suffix)) throw new Error("大学Googleアカウントでログインしてください。");
   if (STAFF_TEST_STUDENT_IDS[email]) return STAFF_TEST_STUDENT_IDS[email];
-  const localPart = email.slice(0, -suffix.length);
-  const match = localPart.match(/^s(\d+)\d$/i);
+  const localPart = rawEmail.slice(0, -suffix.length);
+  const match = localPart.match(/^s([0-9a-z]+)\d$/i);
   if (!match) throw new Error("学生用メールアドレスから学籍番号を取得できませんでした。");
-  return match[1];
+  return match[1].toUpperCase();
 }
 
 function buildUniversityAccountGuide_(detail) {
