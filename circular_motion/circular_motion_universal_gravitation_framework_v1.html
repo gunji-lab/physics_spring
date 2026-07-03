@@ -371,8 +371,8 @@
       <section class="screen active" id="startScreen">
         <div class="panel start-card">
           <p class="tag">万有引力と円運動</p>
-          <h2 class="question-title">万有引力と円運動を、4つの大問で考える</h2>
-          <p class="lead">月の速度、月の周期、人工衛星の速度、地球と月の重力差を、誘導に沿って1問ずつ考えます。</p>
+          <h2 class="question-title">演習問題③〜⑧を、6つの大問で確認する</h2>
+          <p class="lead">授業で解いた万有引力と人工衛星の問題を、4択と段階的な誘導で解き直します。</p>
           <div class="note">
             使う公式：<strong>F = <span class="frac"><span class="frac-top">GMm</span><span class="frac-bottom">r²</span></span></strong>、<strong>重力の大きさ = mg</strong>、<strong>円運動に必要な力 = <span class="frac"><span class="frac-top">mv²</span><span class="frac-bottom">r</span></span></strong>。<br>
             人工衛星の運動では、軌道を円として近似します。
@@ -478,7 +478,7 @@
     const STAGE_NAME = "円運動/大問/万有引力";
     window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
 
-    const problemBank = [
+    const previousProblemBank = [
       {
         id:"moonVelocity",
         title:"大問1　月の速度を求める",
@@ -548,6 +548,84 @@
           {id:"massOnly",title:"誘導(3)　質量差だけでは決まらない",prompt:"月の質量が地球の1/81でも、重力が1/81にならない理由を選びなさい。",type:"choice",choices:["月は半径も小さいから","万有引力定数が月では違うから","物体の質量が変わるから","月が公転しているから"],answer:"月は半径も小さいから",explain:"表面重力は質量に比例しますが、半径の2乗に反比例します。"},
           {id:"ratioValue",title:"誘導(4)　重力比を計算する",prompt:"(1/81)×3.67² を計算し、月面重力が地球の何倍か小数で答えなさい。",type:"number",answer:0.166,tolerance:0.015,unit:"倍",explain:"(1/81)×3.67² ≒ 0.166、つまり月面重力は地球の約1/6です。"},
           {id:"moonGravity",title:"誘導(5)　月面重力を求める",prompt:"地球表面重力を9.8 m/s²として、月面重力を求めなさい。",type:"number",answer:1.63,tolerance:0.08,unit:"m/s²",explain:"9.8×0.166 ≒ 1.63 m/s² です。"}
+        ]
+      }
+    ];
+
+    const problemBank = [
+      {
+        id:"inverseSquare", title:"演習問題③　万有引力",
+        statement:"万有引力の距離・質量依存と、力から加速度を求める方法を確認する。",
+        mainPrompt:"(1) 距離が2倍、(2) 地球の質量が4倍、(3) F = 500 N、m = 100 kg のときの答えの組合せを選びなさい。",
+        mainChoices:["1/4倍、4倍、5 m/s²","1/2倍、4倍、5 m/s²","1/4倍、2倍、50 m/s²","4倍、1/4倍、5 m/s²"],
+        mainAnswer:"1/4倍、4倍、5 m/s²", mainExplain:"F は距離の2乗に反比例し、地球の質量に比例します。また a = F/m = 500/100 = 5 m/s² です。",
+        givens:[["万有引力","F = GMm/r²"],["向心加速度","a = F/m"]], hint:"何が2乗に反比例し、何に比例するかを分けて考えます。",
+        steps:[
+          {id:"distance",title:"誘導(1)　距離が2倍",prompt:"距離が2倍になると、万有引力は何倍ですか。",type:"choice",choices:["1/4倍","1/2倍","2倍","4倍"],answer:"1/4倍",explain:"F ∝ 1/r² なので、1/2² = 1/4倍です。"},
+          {id:"mass",title:"誘導(2)　地球の質量が4倍",prompt:"距離が同じまま地球の質量が4倍になると、万有引力は何倍ですか。",type:"choice",choices:["4倍","2倍","1/4倍","16倍"],answer:"4倍",explain:"F は地球の質量 M に比例します。"},
+          {id:"acceleration",title:"誘導(3)　向心加速度",prompt:"F = 500 N、m = 100 kg のとき、向心加速度を求めなさい。",type:"number",answer:5,tolerance:0.01,unit:"m/s²",explain:"a = F/m = 500/100 = 5 m/s² です。"}
+        ]
+      },
+      {
+        id:"satelliteMass", title:"演習問題④　人工衛星の質量",
+        statement:"質量100 kgと1000 kgの人工衛星を、同じ高さの同じ円軌道に乗せる。軌道速度と周期を比較せよ。",
+        mainPrompt:"2つの人工衛星の速さと周期について正しいものを選びなさい。",
+        mainChoices:["速さも周期も同じ","重い衛星の方が速く、周期は同じ","速さは同じで、重い衛星の周期が長い","重い衛星の方が速く、周期も短い"],
+        mainAnswer:"速さも周期も同じ",mainExplain:"GMm/r² = mv²/r では衛星の質量 m が消えます。同じ r なら速さも周期も同じです。",
+        givens:[["衛星A","100 kg"],["衛星B","1000 kg"],["軌道半径","どちらも同じ r"]],hint:"運動方程式の両辺にある衛星の質量 m に注目します。",
+        steps:[
+          {id:"cancel",title:"誘導(1)　質量を消す",prompt:"GMm/r² = mv²/r を整理した式を選びなさい。",type:"choice",choices:["v² = GM/r","v² = GMm/r","v² = Gm/r","v² = GMr"],answer:"v² = GM/r",explain:"両辺の m が約分され、衛星の質量は残りません。"},
+          {id:"speed",title:"誘導(2)　速さを比較する",prompt:"同じ軌道半径なら、質量が違う2つの衛星の速さはどうなりますか。",type:"choice",choices:["同じ","1000 kgの方が速い","100 kgの方が速い","判断できない"],answer:"同じ",explain:"v = √(GM/r) は衛星の質量に依存しません。"},
+          {id:"period",title:"誘導(3)　周期を比較する",prompt:"T = 2πr/v より、2つの衛星の周期はどうなりますか。",type:"choice",choices:["同じ","1000 kgの方が長い","100 kgの方が長い","質量に比例する"],answer:"同じ",explain:"r と v が同じなので、周期も同じです。"}
+        ]
+      },
+      {
+        id:"orbitalVelocity", title:"演習問題⑤　人工衛星の速度",
+        statement:"質量 m の人工衛星が、質量 M の地球の中心から距離 r の円軌道を運動している。軌道速度 v を求めよ。",
+        mainPrompt:"人工衛星の軌道速度を表す式を選びなさい。",
+        mainChoices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],mainAnswer:"v = √(GM/r)",
+        mainExplain:"万有引力を向心力と等しくおくと、GMm/r² = mv²/r。これを v について解くと v = √(GM/r) です。",
+        givens:[["地球の質量","M"],["衛星の質量","m"],["地球中心からの距離","r"]],hint:"万有引力が円運動の向心力になります。",
+        steps:[
+          {id:"gravity",title:"誘導(1)　万有引力",prompt:"人工衛星にはたらく万有引力を選びなさい。",type:"choice",choices:["GMm/r²","GMm/r","GM/r²","GMr²/m"],answer:"GMm/r²",explain:"2物体の質量の積に比例し、距離の2乗に反比例します。"},
+          {id:"equation",title:"誘導(2)　運動方程式",prompt:"円運動の運動方程式を選びなさい。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"万有引力が向心力を担います。"},
+          {id:"formula",title:"誘導(3)　vについて解く",prompt:"式を整理した軌道速度を選びなさい。",type:"choice",choices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],answer:"v = √(GM/r)",explain:"mを消して v² = GM/r とします。"}
+        ]
+      },
+      {
+        id:"moonSpeed", title:"演習問題⑥　月の運動",
+        statement:"地球の質量だけが現在の4倍になったとする。月の軌道半径が変わらないとき、月の公転速度は何倍になるか。",
+        mainPrompt:"月の公転速度は現在の何倍になりますか。",mainChoices:["2倍","4倍","1/2倍","16倍"],mainAnswer:"2倍",
+        mainExplain:"v = √(GM/r) より、軌道半径が同じなら v は √M に比例します。Mが4倍ならvは2倍です。",
+        givens:[["地球の質量","M → 4M"],["月の軌道半径","r（変わらない）"]],hint:"軌道速度の式で、変わる量だけに注目します。",
+        steps:[
+          {id:"relation",title:"誘導(1)　比例関係",prompt:"rが一定のとき、vとMの関係を選びなさい。",type:"choice",choices:["v ∝ √M","v ∝ M","v ∝ 1/M","v ∝ M²"],answer:"v ∝ √M",explain:"v = √(GM/r) なので v は √M に比例します。"},
+          {id:"ratio",title:"誘導(2)　速度比",prompt:"Mが4倍になったときの速度比を選びなさい。",type:"choice",choices:["√4 = 2倍","4倍","1/4倍","4² = 16倍"],answer:"√4 = 2倍",explain:"質量比の平方根を取ります。"}
+        ]
+      },
+      {
+        id:"nearEarthSatellite", title:"演習問題⑦　地表付近の人工衛星",
+        statement:"地表すれすれを円軌道で回る人工衛星の速度 v と周期 T を求めよ。g = 9.8 m/s²、地球半径 R = 6.4×10⁶ m とする。",
+        mainPrompt:"速度と周期の組合せとして最も近いものを選びなさい。",
+        mainChoices:["約7.9 km/s、約85分","約7.9 km/s、約8.5分","約9.8 km/s、約85分","約79 km/s、約850分"],mainAnswer:"約7.9 km/s、約85分",
+        mainExplain:"v = √(gR) ≒ 7.9 km/s、T = 2πR/v ≒ 5.1×10³ s ≒ 85分です。",
+        givens:[["重力加速度","g = 9.8 m/s²"],["地球半径","R = 6.4×10⁶ m"]],hint:"地表では GM/R² = g を使うと、GとMを使わずに計算できます。",
+        steps:[
+          {id:"speedFormula",title:"誘導(1)　地表付近の速度",prompt:"GM/R² = g を使って表した速度を選びなさい。",type:"choice",choices:["v = √(gR)","v = gR","v = √(g/R)","v = g/R"],answer:"v = √(gR)",explain:"v² = GM/R = gR です。"},
+          {id:"speedValue",title:"誘導(2)　速度を計算する",prompt:"速度をkm/sで答えなさい。",type:"number",answer:7.9,tolerance:0.15,unit:"km/s",explain:"√(9.8×6.4×10⁶) ≒ 7.9×10³ m/sです。"},
+          {id:"periodFormula",title:"誘導(3)　周期の式",prompt:"周期を表す式を選びなさい。",type:"choice",choices:["T = 2πR/v","T = v/2πR","T = 2πv/R","T = Rv"],answer:"T = 2πR/v",explain:"1周の距離2πRを速さvで割ります。"},
+          {id:"periodValue",title:"誘導(4)　周期を計算する",prompt:"周期を分で答えなさい。",type:"number",answer:85,tolerance:2,unit:"分",explain:"T ≒ 5070 s ≒ 84.5分なので、約85分です。"}
+        ]
+      },
+      {
+        id:"kepler", title:"演習問題⑧　惑星の円運動",
+        statement:"質量 M の太陽のまわりを、質量 m の惑星が速さ v、半径 r の円軌道で公転する。運動方程式と周期 T を求めよ。",
+        mainPrompt:"運動方程式と周期の正しい組合せを選びなさい。",mainChoices:["GMm/r² = mv²/r、T = 2πr/v","GMm/r = mv²/r、T = 2πr/v","GMm/r² = mv²/r、T = v/2πr","GM/r² = mv²/r、T = 2πv/r"],mainAnswer:"GMm/r² = mv²/r、T = 2πr/v",
+        mainExplain:"太陽の万有引力が向心力になるので GMm/r² = mv²/r。周期は1周の距離を速さで割り、T = 2πr/v です。",
+        givens:[["太陽の質量","M"],["惑星の質量","m"],["軌道半径・速さ","r、v"]],hint:"(1)では運動方程式を立て、(2)では1周の距離を速さで割ります。",
+        steps:[
+          {id:"equation",title:"誘導(1)　運動方程式",prompt:"正しい運動方程式を選びなさい。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"太陽の万有引力が向心力になります。"},
+          {id:"period",title:"誘導(2)　周期と速度",prompt:"周期Tをvとrで表した式を選びなさい。",type:"choice",choices:["T = 2πr/v","T = v/2πr","T = 2πv/r","T = rv"],answer:"T = 2πr/v",explain:"円周2πrを速度vで割ります。"}
         ]
       }
     ];
