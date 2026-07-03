@@ -16,6 +16,7 @@
     "circular_motion_stage4_framework_v2.html":"円運動/Stage4/周期角速度速さ",
     "circular_motion_stage5_framework_v2.html":"円運動/Stage5/向心加速度",
     "circular_motion_stage6_written_framework_v2.html":"円運動/Stage6/記入式",
+    "circular_motion_conical_pendulum_framework_v1.html":"円運動/大問/円錐振り子",
     "circular_motion_universal_gravitation_framework_v1.html":"円運動/大問/万有引力",
     "spring_stage1_framework_v2.html":"バネ/Stage1/フックの法則",
     "spring_stage2_framework_v2.html":"バネ/Stage2/つりあい",

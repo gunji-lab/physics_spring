@@ -405,6 +405,7 @@ const STUDENT_STAGE_CATALOG = [
 ];
 
 const STUDENT_BIG_PROBLEM_CATALOG = [
+  "円運動/大問/円錐振り子",
   "円運動/大問/万有引力",
   "バネ/test1/円運動するばね",
   "バネ/test2/水平バネ振り子"
@@ -1337,7 +1338,10 @@ function buildStudentSectionRows_(logs, clearedStageNames) {
 }
 
 function buildStudentRecommendations_(stageRows) {
-  const nextStages = stageRows.map(row => {
+  const regularStageRows = stageRows.filter(row =>
+    STUDENT_STAGE_CATALOG.includes(String(row.stage || ""))
+  );
+  const nextStages = regularStageRows.map(row => {
     const needsClear = row.status !== "クリア済み";
     const weak = row.averageRate < 70 || row.latestRate < 70;
     const slow = row.averageElapsed >= 30;

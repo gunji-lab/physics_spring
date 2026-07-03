@@ -1066,7 +1066,10 @@ function buildStudentSectionRows_(logs, clearedStageNames) {
 }
 
 function buildStudentRecommendations_(stageRows) {
-  const nextStages = stageRows.map(row => {
+  const regularStageRows = stageRows.filter(row =>
+    STUDENT_STAGE_CATALOG.includes(String(row.stage || ""))
+  );
+  const nextStages = regularStageRows.map(row => {
     const needsClear = row.status !== "クリア済み";
     const weak = row.averageRate < 70 || row.latestRate < 70;
     const slow = row.averageElapsed >= 30;
