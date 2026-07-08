@@ -68,6 +68,7 @@ function doPost(e) {
       userAgent,
       screen
     ]);
+    const logRow = logSheet.getLastRow();
 
     appendQuestionRows_({
       questionSheet,
@@ -83,7 +84,9 @@ function doPost(e) {
       .createTextOutput(JSON.stringify({
         result: "success",
         stageAttempt,
-        totalAttempt
+        totalAttempt,
+        spreadsheetId: ss.getId(),
+        logRow
       }))
       .setMimeType(ContentService.MimeType.JSON);
 
@@ -580,7 +583,30 @@ function saveAuthenticatedResult(payload) {
   const output = doPost({ postData: { contents: JSON.stringify(safePayload) } });
   const result = JSON.parse(output.getContent());
   if (result.result !== "success") throw new Error(result.message || "結果を保存できませんでした。");
-  return { ok: true, stageAttempt: result.stageAttempt, totalAttempt: result.totalAttempt };
+  return {
+    ok: true,
+    studentId,
+    stageAttempt: result.stageAttempt,
+    totalAttempt: result.totalAttempt,
+    spreadsheetId: result.spreadsheetId,
+    logRow: result.logRow
+  };
+}
+
+function debugLatestAdminGunjiRows() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const logs = logSheet ? readSheetObjects_(logSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === "ADMIN_GUNJI") : [];
+  const questions = questionSheet ? readSheetObjects_(questionSheet)
+    .filter(row => String(row["学籍番号"] || "").trim() === "ADMIN_GUNJI") : [];
+
+  console.log("Spreadsheet ID:", ss.getId());
+  console.log("ADMIN_GUNJI Log rows:", logs.length);
+  console.log("ADMIN_GUNJI latest Log rows:", JSON.stringify(logs.slice(-5), null, 2));
+  console.log("ADMIN_GUNJI QuestionTimes rows:", questions.length);
+  console.log("ADMIN_GUNJI latest QuestionTimes rows:", JSON.stringify(questions.slice(-10), null, 2));
 }
 
 function getAuthenticatedProgressForApp() {

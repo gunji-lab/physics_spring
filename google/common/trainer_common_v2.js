@@ -255,11 +255,17 @@ const TrainerLog = (() => {
       });
       window.parent.postMessage({ type: "physics:save", requestId, payload }, "*");
       try {
-        await confirmation;
-        if (status) status.textContent = "結果を保存しました。Stage一覧で進捗を確認できます。";
+        const saveResponse = await confirmation;
+        if (status) {
+          const result = saveResponse && saveResponse.result ? saveResponse.result : {};
+          const debug = String(studentId || "").toUpperCase().startsWith("ADMIN") && result.spreadsheetId
+            ? `（保存先ID: ${result.spreadsheetId} / Log ${result.logRow || "-"}行目）`
+            : "";
+          status.textContent = "結果を保存しました。Stage一覧で進捗を確認できます。" + debug;
+        }
       } catch (err) {
         resultSent = false;
-        if (status) status.textContent = "結果を保存できませんでした。もう一度お試しください。";
+        if (status) status.textContent = "結果を保存できませんでした。" + (err && err.message ? "理由：" + err.message : "もう一度お試しください。");
       }
       return;
     }
