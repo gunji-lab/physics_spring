@@ -1765,12 +1765,11 @@ function buildStudentDashboardHtml_(studentId) {
       ]);
     }
     function renderFinalMockWrongTable(rows){
-      renderTable("finalMockWrongTable", ["日時","設問","入力","正解","時間"], rows, row => [
+      renderTable("finalMockWrongTable", ["日時","設問","入力","正解"], rows, row => [
         escapeHtml(formatDate(row.date)),
         '<div class="prompt">' + escapeHtml(row.prompt || row.problemId || "-") + '</div>',
         escapeHtml(row.selected || "-"),
-        escapeHtml(row.answer || "-"),
-        num(formatSeconds(row.elapsed))
+        escapeHtml(row.answer || "-")
       ]);
     }
     function renderRankings(targetId, rankings){
