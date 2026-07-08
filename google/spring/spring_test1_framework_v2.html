@@ -908,7 +908,7 @@
         return [{
           key: "stretch",
           title: "向心力から伸びを求める",
-          prompt: `ばね定数が ${unit(p.k, "N/m")}、向心力の大きさが ${unit(force, "N")} のとき、ばねの伸びはどれですか。`,
+          prompt: `ばね定数が ${unit(p.k, "N/m")}、向心力の大きさが ${unit(force, "N")} のとき、ばねの伸びを答えよ。`,
           makeChoices: () => makeNumberChoices(stretch, "m", [stretch * 2, stretch / 2, stretch + 0.10]),
           feedback: () => `
             <strong>正解：${unit(stretch, "m")}</strong><br>
@@ -922,7 +922,7 @@
         return [{
           key: "spring",
           title: "伸びから向心力を求める",
-          prompt: `ばね定数が ${unit(p.k, "N/m")}、ばねが自然長から ${unit(stretch, "m")} 伸びているとき、向心力の大きさはどれですか。`,
+          prompt: `ばね定数が ${unit(p.k, "N/m")}、ばねが自然長から ${unit(stretch, "m")} 伸びているとき、向心力の大きさを答えよ。`,
           makeChoices: () => makeNumberChoices(force, "N", [force * 2, force / 2, force + 2]),
           feedback: () => `
             <strong>正解：${unit(force, "N")}</strong><br>
@@ -936,7 +936,7 @@
         return [{
           key: "length",
           title: "伸びから半径を求める",
-          prompt: `自然長が ${unit(p.l0, "m")} のばねが ${unit(stretch, "m")} 伸びているとき、円運動の半径はどれですか。`,
+          prompt: `自然長が ${unit(p.l0, "m")} のばねが ${unit(stretch, "m")} 伸びているとき、円運動の半径を答えよ。`,
           makeChoices: () => makeNumberChoices(radius, "m", [p.l0 - stretch, stretch, p.l0]),
           feedback: () => `
             <strong>正解：${unit(radius, "m")}</strong><br>
@@ -950,7 +950,7 @@
         return [{
           key: "force",
           title: "角速度の2乗を求める",
-          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、ω² はどれですか。`,
+          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、ω² を答えよ。`,
           makeChoices: () => makeNumberChoices(omegaSquared, "rad²/s²", [omegaSquared * 2, omegaSquared / 2, omegaSquared + 2]),
           feedback: () => `
             <strong>正解：${unit(omegaSquared, "rad²/s²")}</strong><br>
@@ -963,7 +963,7 @@
       return [{
           key: "speed",
           title: "速さの2乗を求める",
-          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、v² はどれですか。`,
+          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、v² を答えよ。`,
           makeChoices: () => makeNumberChoices(speedSquared, "m²/s²", [speedSquared * 2, speedSquared / 2, speedSquared + 1]),
           feedback: () => `
             <strong>正解：${unit(speedSquared, "m²/s²")}</strong><br>

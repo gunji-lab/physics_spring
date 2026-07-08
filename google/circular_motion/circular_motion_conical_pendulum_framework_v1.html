@@ -583,7 +583,7 @@
       vertical: {
         key: "vertical",
         title: "上下のつり合いを見る",
-        prompt: "上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        prompt: "上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           質点は水平な円を回っていますが、上下には動きません。つまり鉛直方向の加速度は0です。<br>
@@ -593,7 +593,7 @@
       tension: {
         key: "tension",
         title: "張力 T に戻す",
-        prompt: "前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        prompt: "前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           まず鉛直方向を見ると、上向きの <strong>Tcosθ</strong> と下向きの <strong>mg</strong> がつり合っています。<br>
@@ -603,7 +603,7 @@
       horizontal: {
         key: "horizontal",
         title: "中心向きの成分を見る",
-        prompt: "水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさはどれですか。",
+        prompt: "水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           水平方向には、中心向きの張力成分 <strong>Tsinθ</strong> がはたらきます。ここは鉛直方向と違って、つり合いではありません。<br>
@@ -613,7 +613,7 @@
       centripetal: {
         key: "horizontal",
         title: "向心力として読む",
-        prompt: "中心向きの合力が向心力です。この円運動の向心力の大きさはどれですか。",
+        prompt: "中心向きの合力が向心力です。この円運動の向心力の大きさを答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           向心力という名前の新しい力があるわけではありません。円運動に必要な中心向きの合力を、向心力と呼んでいます。<br>
@@ -623,7 +623,7 @@
       speedSquared: {
         key: "horizontal",
         title: "速さ v につなげる",
-        prompt: "向心力を mv²/r と見る。速さ v を求める準備として、v² はどれですか。",
+        prompt: "向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           速さを使って向心力を書くと、中心向きの合力は <strong>mv²/r</strong> です。円錐振り子では、この中心向きの合力が張力の水平成分 <strong>Tsinθ</strong> です。<br>
@@ -633,7 +633,7 @@
       radius: {
         key: "radius",
         title: "円の半径を読む",
-        prompt: "糸の長さ L の水平方向成分が円運動の半径です。半径 r はどれですか。",
+        prompt: "糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           円錐振り子では、糸の長さ <strong>L</strong> が斜めの辺、円運動の半径 <strong>r</strong> が水平方向の成分になります。<br>
@@ -642,7 +642,7 @@
       omegaSquared: {
         key: "horizontal",
         title: "角速度 ω につなげる",
-        prompt: "向心力を mrω² と見る。角速度そのものではなく、ω² はどれですか。",
+        prompt: "向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           水平方向では、張力の水平成分 <strong>Tsinθ</strong> が向心力です。角速度を使うと、向心力は <strong>mrω²</strong> と書けます。<br>

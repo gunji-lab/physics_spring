@@ -9,7 +9,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -19,7 +19,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "2mg / √3",
         "unit": "",
         "choices": [],
@@ -31,7 +31,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=30°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさはどれですか。",
+        "prompt": "θ=30°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
         "display": "mg / √3",
         "unit": "",
         "choices": [],
@@ -52,7 +52,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=30°：糸の長さ L の水平方向成分が円運動の半径です。半径 r はどれですか。",
+        "prompt": "θ=30°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
         "display": "L / 2",
         "unit": "",
         "choices": [],
@@ -63,7 +63,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=30°：向心力を mv²/r と見る。速さ v を求める準備として、v² はどれですか。",
+        "prompt": "θ=30°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
         "display": "gL / (2√3)",
         "unit": "",
         "choices": [],
@@ -75,7 +75,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=30°：向心力を mrω² と見る。角速度そのものではなく、ω² はどれですか。",
+        "prompt": "θ=30°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
         "display": "2g / (√3L)",
         "unit": "",
         "choices": [],
@@ -96,7 +96,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -106,7 +106,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "2mg / √3",
         "unit": "",
         "choices": [],
@@ -127,7 +127,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -137,7 +137,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "√2mg",
         "unit": "",
         "choices": [],
@@ -148,7 +148,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=45°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさはどれですか。",
+        "prompt": "θ=45°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -167,7 +167,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=45°：糸の長さ L の水平方向成分が円運動の半径です。半径 r はどれですか。",
+        "prompt": "θ=45°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
         "display": "L / √2",
         "unit": "",
         "choices": [],
@@ -179,7 +179,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=45°：向心力を mv²/r と見る。速さ v を求める準備として、v² はどれですか。",
+        "prompt": "θ=45°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
         "display": "gL / √2",
         "unit": "",
         "choices": [],
@@ -191,7 +191,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=45°：向心力を mrω² と見る。角速度そのものではなく、ω² はどれですか。",
+        "prompt": "θ=45°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
         "display": "√2g / L",
         "unit": "",
         "choices": [],
@@ -212,7 +212,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -222,7 +222,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "√2mg",
         "unit": "",
         "choices": [],
@@ -242,7 +242,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -252,7 +252,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "2mg",
         "unit": "",
         "choices": [],
@@ -262,7 +262,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=60°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさはどれですか。",
+        "prompt": "θ=60°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
         "display": "√3mg",
         "unit": "",
         "choices": [],
@@ -282,7 +282,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=60°：糸の長さ L の水平方向成分が円運動の半径です。半径 r はどれですか。",
+        "prompt": "θ=60°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
         "display": "√3L / 2",
         "unit": "",
         "choices": [],
@@ -294,7 +294,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=60°：向心力を mv²/r と見る。速さ v を求める準備として、v² はどれですか。",
+        "prompt": "θ=60°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
         "display": "3gL / 2",
         "unit": "",
         "choices": [],
@@ -305,7 +305,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "θ=60°：向心力を mrω² と見る。角速度そのものではなく、ω² はどれですか。",
+        "prompt": "θ=60°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
         "display": "2g / L",
         "unit": "",
         "choices": [],
@@ -325,7 +325,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさはどれですか。",
+        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
         "display": "mg",
         "unit": "",
         "choices": [],
@@ -335,7 +335,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさはどれですか。",
+        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
         "display": "2mg",
         "unit": "",
         "choices": [],
@@ -354,7 +354,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "距離が2倍になると、万有引力は何倍ですか。",
+        "prompt": "距離が2倍になると、万有引力は何倍か答えよ。",
         "display": "1/4倍",
         "unit": "倍",
         "choices": [
@@ -370,7 +370,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "距離が同じまま地球の質量が4倍になると、万有引力は何倍ですか。",
+        "prompt": "距離が同じまま地球の質量が4倍になると、万有引力は何倍か答えよ。",
         "display": "4倍",
         "unit": "倍",
         "choices": [
@@ -384,7 +384,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "F = 500 N、m = 100 kg のとき、向心加速度を求めなさい。",
+        "prompt": "F = 500 N、m = 100 kg のとき、向心加速度を求めよ。",
         "display": "5",
         "unit": "",
         "choices": [],
@@ -402,7 +402,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "GMm/r² = mv²/r を整理した式を選びなさい。",
+        "prompt": "GMm/r² = mv²/r を整理した式を書け。",
         "display": "v² = GM/r",
         "unit": "",
         "choices": [
@@ -418,7 +418,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "同じ軌道半径なら、質量が違う2つの衛星の速さはどうなりますか。",
+        "prompt": "同じ軌道半径なら、質量が違う2つの衛星の速さがどうなるか答えよ。",
         "display": "同じ",
         "unit": "",
         "choices": [
@@ -433,7 +433,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "T = 2πr/v より、2つの衛星の周期はどうなりますか。",
+        "prompt": "T = 2πr/v より、2つの衛星の周期がどうなるか答えよ。",
         "display": "同じ",
         "unit": "",
         "choices": [
@@ -457,7 +457,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "人工衛星にはたらく万有引力を選びなさい。",
+        "prompt": "人工衛星にはたらく万有引力を答えよ。",
         "display": "GMm/r²",
         "unit": "",
         "choices": [
@@ -473,7 +473,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の運動方程式を選びなさい。",
+        "prompt": "円運動の運動方程式を書け。",
         "display": "GMm/r² = mv²/r",
         "unit": "",
         "choices": [
@@ -489,7 +489,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "式を整理した軌道速度を選びなさい。",
+        "prompt": "式を整理した軌道速度を書け。",
         "display": "v = √(GM/r)",
         "unit": "",
         "choices": [
@@ -515,7 +515,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "rが一定のとき、vとMの関係を選びなさい。",
+        "prompt": "rが一定のとき、vとMの関係を書け。",
         "display": "v ∝ √M",
         "unit": "",
         "choices": [
@@ -532,7 +532,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "Mが4倍になったときの速度比を選びなさい。",
+        "prompt": "Mが4倍になったときの速度比を答えよ。",
         "display": "√4 = 2倍",
         "unit": "倍",
         "choices": [
@@ -552,7 +552,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "月の公転速度は現在の何倍になりますか。",
+        "prompt": "月の公転速度が現在の何倍になるか答えよ。",
         "display": "2倍",
         "unit": "倍",
         "choices": [
@@ -575,7 +575,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "GM/R² = g を使って表した速度を選びなさい。",
+        "prompt": "GM/R² = g を使って表した速度を答えよ。",
         "display": "v = √(gR)",
         "unit": "",
         "choices": [
@@ -592,7 +592,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "速度をkm/sで答えなさい。",
+        "prompt": "速度をkm/sで答えよ。",
         "display": "7.9",
         "unit": "",
         "choices": [],
@@ -601,7 +601,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "周期を表す式を選びなさい。",
+        "prompt": "周期を表す式を書け。",
         "display": "T = 2πR/v",
         "unit": "",
         "choices": [
@@ -627,7 +627,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "正しい運動方程式を選びなさい。",
+        "prompt": "正しい運動方程式を書け。",
         "display": "GMm/r² = mv²/r",
         "unit": "",
         "choices": [
@@ -643,7 +643,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "周期Tをvとrで表した式を選びなさい。",
+        "prompt": "周期Tをvとrで表した式を書け。",
         "display": "T = 2πr/v",
         "unit": "",
         "choices": [
@@ -660,7 +660,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "運動方程式と周期の正しい組合せを選びなさい。",
+        "prompt": "運動方程式と周期の正しい組合せを答えよ。",
         "display": "GMm/r² = mv²/r、T = 2πr/v",
         "unit": "",
         "choices": [
@@ -686,7 +686,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "万有引力を向心力として導かれる軌道速度の式を選びなさい。",
+        "prompt": "万有引力を向心力として導かれる軌道速度の式を書け。",
         "display": "v = √(GM/r)",
         "unit": "",
         "choices": [
@@ -703,7 +703,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "軌道半径が4倍になると、速度は何倍ですか。",
+        "prompt": "軌道半径が4倍になると、速度は何倍か答えよ。",
         "display": "1/2倍",
         "unit": "倍",
         "choices": [
@@ -719,7 +719,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "T = 2πr/v を使うと、周期は何倍ですか。",
+        "prompt": "T = 2πr/v を使うと、周期は何倍か答えよ。",
         "display": "8倍",
         "unit": "倍",
         "choices": [
@@ -742,7 +742,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "天体の質量M、半径Rと表面重力gの関係を選びなさい。",
+        "prompt": "天体の質量M、半径Rと表面重力gの関係を書け。",
         "display": "g = GM/R²",
         "unit": "",
         "choices": [
@@ -758,7 +758,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量が同じで半径が1/2なら、表面重力は何倍ですか。",
+        "prompt": "質量が同じで半径が1/2なら、表面重力は何倍か答えよ。",
         "display": "4倍",
         "unit": "倍",
         "choices": [
@@ -772,7 +772,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "質量が2倍で、半径の効果が4倍なら、表面重力は何倍ですか。",
+        "prompt": "質量が2倍で、半径の効果が4倍なら、表面重力は何倍か答えよ。",
         "display": "8倍",
         "unit": "倍",
         "choices": [
@@ -795,7 +795,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "v = 2πr/T から、速さに最も近いものを選びなさい。",
+        "prompt": "v = 2πr/T から、速さに最も近い値を答えよ。",
         "display": "1.0 km/s",
         "unit": "km/s",
         "choices": [
@@ -809,7 +809,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "向心加速度を表す式を選びなさい。",
+        "prompt": "向心加速度を表す式を書け。",
         "display": "a = v²/r",
         "unit": "",
         "choices": [
@@ -825,7 +825,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "v = 1.0×10³ m/sとして、向心加速度を求めなさい。",
+        "prompt": "v = 1.0×10³ m/sとして、向心加速度を求めよ。",
         "display": "0.0025",
         "unit": "",
         "choices": [],
@@ -843,7 +843,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "万有引力を向心力とした式を選びなさい。",
+        "prompt": "万有引力を向心力とした式を書け。",
         "display": "GMm/r² = mv²/r",
         "unit": "",
         "choices": [
@@ -859,7 +859,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "地球の質量Mを表す式を選びなさい。",
+        "prompt": "地球の質量Mを表す式を書け。",
         "display": "M = v²r/G",
         "unit": "",
         "choices": [
@@ -875,7 +875,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "地球の質量を10²⁴ kg単位で答えなさい。",
+        "prompt": "地球の質量を10²⁴ kg単位で答えよ。",
         "display": "6.1",
         "unit": "",
         "choices": [],
@@ -893,7 +893,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "ばね定数が 20 [N/m]、向心力の大きさが 2 [N] のとき、ばねの伸びはどれですか。",
+        "prompt": "ばね定数が 20 [N/m]、向心力の大きさが 2 [N] のとき、ばねの伸びを答えよ。",
         "display": "0.1 [m]",
         "unit": "m",
         "choices": [],
@@ -902,7 +902,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "ばね定数が 40 [N/m]、向心力の大きさが 4 [N] のとき、ばねの伸びはどれですか。",
+        "prompt": "ばね定数が 40 [N/m]、向心力の大きさが 4 [N] のとき、ばねの伸びを答えよ。",
         "display": "0.1 [m]",
         "unit": "m",
         "choices": [],
@@ -911,7 +911,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "ばね定数が 50 [N/m]、向心力の大きさが 5 [N] のとき、ばねの伸びはどれですか。",
+        "prompt": "ばね定数が 50 [N/m]、向心力の大きさが 5 [N] のとき、ばねの伸びを答えよ。",
         "display": "0.1 [m]",
         "unit": "m",
         "choices": [],
@@ -929,7 +929,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "ばね定数が 20 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさはどれですか。",
+        "prompt": "ばね定数が 20 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさを答えよ。",
         "display": "2 [N]",
         "unit": "N",
         "choices": [],
@@ -938,7 +938,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "ばね定数が 40 [N/m]、ばねが自然長から 0.2 [m] 伸びているとき、向心力の大きさはどれですか。",
+        "prompt": "ばね定数が 40 [N/m]、ばねが自然長から 0.2 [m] 伸びているとき、向心力の大きさを答えよ。",
         "display": "8 [N]",
         "unit": "N",
         "choices": [],
@@ -947,7 +947,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "ばね定数が 50 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさはどれですか。",
+        "prompt": "ばね定数が 50 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさを答えよ。",
         "display": "5 [N]",
         "unit": "N",
         "choices": [],
@@ -965,7 +965,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² はどれですか。",
+        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² を答えよ。",
         "display": "8 [rad²/s²]",
         "unit": "rad^2/s^2",
         "choices": [],
@@ -974,7 +974,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² はどれですか。",
+        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² を答えよ。",
         "display": "8 [rad²/s²]",
         "unit": "rad^2/s^2",
         "choices": [],
@@ -983,7 +983,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、v² はどれですか。",
+        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、v² を答えよ。",
         "display": "2 [m²/s²]",
         "unit": "m^2/s^2",
         "choices": [],
@@ -1001,7 +1001,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 50 [N/m] の水平バネ振り子の周期はどれですか。",
+        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 50 [N/m] の水平バネ振り子の周期を答えよ。",
         "display": "0.20π [s]",
         "unit": "s",
         "choices": [],
@@ -1015,7 +1015,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量 m = 0.2 [kg]、ばね定数 k = 80 [N/m] の水平バネ振り子の周期はどれですか。",
+        "prompt": "質量 m = 0.2 [kg]、ばね定数 k = 80 [N/m] の水平バネ振り子の周期を答えよ。",
         "display": "0.10π [s]",
         "unit": "s",
         "choices": [],
@@ -1029,7 +1029,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m] の水平バネ振り子の周期はどれですか。",
+        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m] の水平バネ振り子の周期を答えよ。",
         "display": "0.40π [s]",
         "unit": "s",
         "choices": [],
@@ -1052,7 +1052,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "ばね定数 k = 50 [N/m]、周期 T = 0.20π [s] の水平バネ振り子で、小球の質量はどれですか。",
+        "prompt": "ばね定数 k = 50 [N/m]、周期 T = 0.20π [s] の水平バネ振り子で、小球の質量を答えよ。",
         "display": "0.50 [kg]",
         "unit": "kg",
         "choices": [],
@@ -1061,7 +1061,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "ばね定数 k = 80 [N/m]、周期 T = 0.10π [s] の水平バネ振り子で、小球の質量はどれですか。",
+        "prompt": "ばね定数 k = 80 [N/m]、周期 T = 0.10π [s] の水平バネ振り子で、小球の質量を答えよ。",
         "display": "0.20 [kg]",
         "unit": "kg",
         "choices": [],
@@ -1070,7 +1070,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "ばね定数 k = 25 [N/m]、周期 T = 0.40π [s] の水平バネ振り子で、小球の質量はどれですか。",
+        "prompt": "ばね定数 k = 25 [N/m]、周期 T = 0.40π [s] の水平バネ振り子で、小球の質量を答えよ。",
         "display": "1.00 [kg]",
         "unit": "kg",
         "choices": [],
@@ -1088,7 +1088,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 50 [N/m]、振幅 A = 0.1 [m] のとき、自然長での速さはどれですか。",
+        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 50 [N/m]、振幅 A = 0.1 [m] のとき、自然長での速さを答えよ。",
         "display": "1.0 [m/s]",
         "unit": "m/s",
         "choices": [],
@@ -1097,7 +1097,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量 m = 0.2 [kg]、ばね定数 k = 80 [N/m]、振幅 A = 0.05 [m] のとき、自然長での速さはどれですか。",
+        "prompt": "質量 m = 0.2 [kg]、ばね定数 k = 80 [N/m]、振幅 A = 0.05 [m] のとき、自然長での速さを答えよ。",
         "display": "1.0 [m/s]",
         "unit": "m/s",
         "choices": [],
@@ -1106,7 +1106,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m]、振幅 A = 0.2 [m] のとき、自然長での速さはどれですか。",
+        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m]、振幅 A = 0.2 [m] のとき、自然長での速さを答えよ。",
         "display": "1.0 [m/s]",
         "unit": "m/s",
         "choices": [],
@@ -1124,7 +1124,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "rが一定のとき、vとMの関係を選びなさい。",
+        "prompt": "rが一定のとき、vとMの関係を書け。",
         "display": "v ∝ √M",
         "unit": "",
         "choices": [
@@ -1141,7 +1141,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "Mが4倍になったときの速度比を選びなさい。",
+        "prompt": "Mが4倍になったときの速度比を答えよ。",
         "display": "√4 = 2倍",
         "unit": "倍",
         "choices": [
@@ -1170,7 +1170,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "正しい運動方程式を選びなさい。",
+        "prompt": "正しい運動方程式を書け。",
         "display": "GMm/r² = mv²/r",
         "unit": "",
         "choices": [
@@ -1186,7 +1186,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "周期Tをvとrで表した式を選びなさい。",
+        "prompt": "周期Tをvとrで表した式を書け。",
         "display": "T = 2πr/v",
         "unit": "",
         "choices": [
@@ -1212,7 +1212,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "軌道半径が4倍になると、速度は何倍ですか。",
+        "prompt": "軌道半径が4倍になると、速度は何倍か答えよ。",
         "display": "1/2倍",
         "unit": "倍",
         "choices": [
@@ -1228,7 +1228,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "T = 2πr/v を使うと、周期は何倍ですか。",
+        "prompt": "T = 2πr/v を使うと、周期は何倍か答えよ。",
         "display": "8倍",
         "unit": "倍",
         "choices": [
@@ -1251,7 +1251,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "自然長が 0.3 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径はどれですか。",
+        "prompt": "自然長が 0.3 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径を答えよ。",
         "display": "0.4 [m]",
         "unit": "m",
         "choices": [],
@@ -1260,7 +1260,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "自然長が 0.4 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径はどれですか。",
+        "prompt": "自然長が 0.4 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径を答えよ。",
         "display": "0.5 [m]",
         "unit": "m",
         "choices": [],
@@ -1278,7 +1278,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² はどれですか。",
+        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² を答えよ。",
         "display": "8 [rad²/s²]",
         "unit": "rad^2/s^2",
         "choices": [],
@@ -1287,7 +1287,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² はどれですか。",
+        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² を答えよ。",
         "display": "8 [rad²/s²]",
         "unit": "rad^2/s^2",
         "choices": [],
@@ -1305,7 +1305,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m]、振幅 A = 0.2 [m] のとき、自然長での速さはどれですか。",
+        "prompt": "質量 m = 1 [kg]、ばね定数 k = 25 [N/m]、振幅 A = 0.2 [m] のとき、自然長での速さを答えよ。",
         "display": "1.0 [m/s]",
         "unit": "m/s",
         "choices": [],
@@ -1314,7 +1314,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 8 [N/m]、振幅 A = 0.25 [m] のとき、自然長での速さはどれですか。",
+        "prompt": "質量 m = 0.5 [kg]、ばね定数 k = 8 [N/m]、振幅 A = 0.25 [m] のとき、自然長での速さを答えよ。",
         "display": "1.0 [m/s]",
         "unit": "m/s",
         "choices": [],
@@ -1325,7 +1325,7 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-08T18:42:35.238Z",
+  "generatedAt": "2026-07-08T18:50:58.967Z",
   "total": 31,
   "counts": {
     "大問対策・円錐振り子/3問": 6,

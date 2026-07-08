@@ -554,7 +554,7 @@
         return [{
           key: "period",
           title: "周期を求める",
-          prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m] の水平バネ振り子の周期はどれですか。`,
+          prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m] の水平バネ振り子の周期を答えよ。`,
           makeChoices: () => periodChoices(p.answer),
           feedback: () => `
             <strong>正解：${p.answer}</strong><br>
@@ -569,7 +569,7 @@
         return [{
           key: "mass",
           title: "質量を求める",
-          prompt: `ばね定数 k = ${fmt(p.k)} [N/m]、周期 T = ${p.period} の水平バネ振り子で、小球の質量はどれですか。`,
+          prompt: `ばね定数 k = ${fmt(p.k)} [N/m]、周期 T = ${p.period} の水平バネ振り子で、小球の質量を答えよ。`,
           makeChoices: () => massChoices(p.answer),
           feedback: () => `
             <strong>正解：${p.answer}</strong><br>
@@ -583,7 +583,7 @@
       return [{
         key: "speed",
         title: "自然長での速さを求める",
-        prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m]、振幅 A = ${fmt(p.amplitude)} [m] のとき、自然長での速さはどれですか。`,
+        prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m]、振幅 A = ${fmt(p.amplitude)} [m] のとき、自然長での速さを答えよ。`,
         makeChoices: () => speedChoices(p.answer),
         feedback: () => `
           <strong>正解：${p.answer}</strong><br>
