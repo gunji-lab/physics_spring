@@ -5,12 +5,35 @@
     {id:"c_speed",section:"円運動",prompt:"半径0.50 m、角速度4.0 rad/sの物体の速さを求めなさい。",number:2,tolerance:.01,unit:"m/s",display:"2.0 m/s"},
     {id:"c_period",section:"円運動",prompt:"角速度が2π rad/sの円運動の周期を求めなさい。",number:1,tolerance:.01,unit:"s",display:"1.0 s"},
     {id:"c_acc",section:"円運動",prompt:"速さ6.0 m/s、半径3.0 mの円運動の向心加速度を求めなさい。",number:12,tolerance:.05,unit:"m/s²",display:"12 m/s²"},
+    {id:"c_rad2",section:"円運動",prompt:"90°をラジアンで答えなさい。",answers:["π/2","pi/2"],display:"π/2"},
+    {id:"c_deg",section:"円運動",prompt:"π/3 radを度で答えなさい。",number:60,tolerance:.01,unit:"°",display:"60°"},
+    {id:"c_arc2",section:"円運動",prompt:"半径4.0 m、角度π/2 radの弧の長さを求めなさい。",answers:["2π","2pi"],display:"2π m",unit:"m"},
+    {id:"c_speed2",section:"円運動",prompt:"半径2.0 m、角速度3.0 rad/sの物体の速さを求めなさい。",number:6,tolerance:.02,unit:"m/s",display:"6.0 m/s"},
+    {id:"c_period2",section:"円運動",prompt:"角速度がπ/2 rad/sの円運動の周期を求めなさい。",number:4,tolerance:.02,unit:"s",display:"4.0 s"},
+    {id:"c_acc2",section:"円運動",prompt:"半径2.0 m、角速度3.0 rad/sの円運動の向心加速度を求めなさい。",number:18,tolerance:.05,unit:"m/s²",display:"18 m/s²"},
     {id:"s_force",section:"バネ",prompt:"ばね定数200 N/mのばねを0.030 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
     {id:"s_extension",section:"バネ",prompt:"ばね定数50 N/mのばねに10 Nの力を加えた。伸びを求めなさい。",number:.2,tolerance:.002,unit:"m",display:"0.20 m"},
     {id:"s_energy",section:"バネ",prompt:"ばね定数100 N/mのばねを0.20 m伸ばしたときの弾性エネルギーを求めなさい。",number:2,tolerance:.02,unit:"J",display:"2.0 J"},
+    {id:"s_force2",section:"バネ",prompt:"ばね定数150 N/mのばねを0.040 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
+    {id:"s_extension2",section:"バネ",prompt:"ばね定数80 N/mのばねに12 Nの力を加えた。伸びを求めなさい。",number:.15,tolerance:.002,unit:"m",display:"0.15 m"},
+    {id:"s_energy2",section:"バネ",prompt:"ばね定数50 N/mのばねを0.40 m伸ばしたときの弾性エネルギーを求めなさい。",number:4,tolerance:.03,unit:"J",display:"4.0 J"},
+    {id:"s_force3",section:"バネ",prompt:"ばね定数300 N/mのばねを0.020 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
+    {id:"s_extension3",section:"バネ",prompt:"ばね定数120 N/mのばねに6.0 Nの力を加えた。伸びを求めなさい。",number:.05,tolerance:.002,unit:"m",display:"0.050 m"},
+    {id:"s_balance",section:"バネ",prompt:"質量0.20 kgのおもりをばねにつるす。重力加速度を9.8 m/s²、ばね定数を98 N/mとすると、伸びを求めなさい。",number:.02,tolerance:.002,unit:"m",display:"0.020 m"},
+    {id:"s_energy3",section:"バネ",prompt:"ばね定数200 N/mのばねを0.10 m伸ばしたときの弾性エネルギーを求めなさい。",number:1,tolerance:.02,unit:"J",display:"1.0 J"},
+    {id:"s_energy4",section:"バネ",prompt:"ばね定数80 N/mのばねを0.25 m伸ばしたときの弾性エネルギーを求めなさい。",number:2.5,tolerance:.03,unit:"J",display:"2.5 J"},
     {id:"h_heat",section:"熱",prompt:"質量0.20 kg、比熱4200 J/(kg·K)の水の温度を5.0 K上げるのに必要な熱量を求めなさい。",number:4200,tolerance:5,unit:"J",display:"4200 J"},
     {id:"h_capacity",section:"熱",prompt:"熱容量600 J/Kの物体へ1800 Jを与えた。温度変化を求めなさい。",number:3,tolerance:.02,unit:"K",display:"3.0 K"},
-    {id:"h_mix",section:"熱",prompt:"同じ質量の同じ物質を20℃と80℃から混ぜ、熱損失がないとする。平衡温度を求めなさい。",number:50,tolerance:.1,unit:"℃",display:"50 ℃"}
+    {id:"h_mix",section:"熱",prompt:"同じ質量の同じ物質を20℃と80℃から混ぜ、熱損失がないとする。平衡温度を求めなさい。",number:50,tolerance:.1,unit:"℃",display:"50 ℃"},
+    {id:"h_heat2",section:"熱",prompt:"質量0.10 kg、比熱900 J/(kg·K)のアルミニウムの温度を20 K上げるのに必要な熱量を求めなさい。",number:1800,tolerance:5,unit:"J",display:"1800 J"},
+    {id:"h_capacity2",section:"熱",prompt:"熱容量250 J/Kの物体へ1000 Jを与えた。温度変化を求めなさい。",number:4,tolerance:.02,unit:"K",display:"4.0 K"},
+    {id:"h_heat3",section:"熱",prompt:"質量50 g、比熱4.2 J/(g·K)の水の温度を10 K上げるのに必要な熱量を求めなさい。",number:2100,tolerance:5,unit:"J",display:"2100 J"},
+    {id:"h_temp",section:"熱",prompt:"27℃を絶対温度で答えなさい。ただし 0℃ = 273 K とする。",number:300,tolerance:.01,unit:"K",display:"300 K"},
+    {id:"h_celsius",section:"熱",prompt:"310 Kをセルシウス温度で答えなさい。ただし 0℃ = 273 K とする。",number:37,tolerance:.01,unit:"℃",display:"37 ℃"},
+    {id:"h_capacity3",section:"熱",prompt:"熱容量400 J/Kの物体の温度を5.0 K上げるのに必要な熱量を求めなさい。",number:2000,tolerance:5,unit:"J",display:"2000 J"},
+    {id:"h_delta",section:"熱",prompt:"600 Jの熱を加えると温度が12 K上がった。熱容量を求めなさい。",number:50,tolerance:.1,unit:"J/K",display:"50 J/K"},
+    {id:"h_heat4",section:"熱",prompt:"質量100 g、比熱0.90 J/(g·K)のアルミニウムの温度を10 K上げるのに必要な熱量を求めなさい。",number:900,tolerance:3,unit:"J",display:"900 J"},
+    {id:"h_heat5",section:"熱",prompt:"質量200 g、比熱0.45 J/(g·K)の鉄の温度を20 K上げるのに必要な熱量を求めなさい。",number:1800,tolerance:5,unit:"J",display:"1800 J"}
   ];
   const big2=[
     {id:"grav_symbol",title:"人工衛星の軌道速度",context:"地球の質量をM、人工衛星の質量をm、地球中心からの距離をr、万有引力定数をGとする。",questions:[
@@ -35,7 +58,7 @@
     {id:"cone_speed",title:"円錐振り子の速さ",context:"長さLの糸につながれた質量mの小球が、鉛直方向から角度θで円錐振り子の運動をしている。張力をT、円運動の半径をrとする。",questions:[
       {prompt:"円運動の半径rをLとθで表しなさい。",answers:["Lsinθ","Lsin(theta)"],display:"Lsinθ",example:"r=Lsinθ または Lsin(theta)"},
       {prompt:"鉛直方向のつり合いから、張力Tを式で表しなさい。",answers:["mg/cosθ","mg/cos(theta)"],display:"mg/cosθ",example:"T=mg/cosθ"},
-      {prompt:"Tsinθ=mv²/rを使い、v²をg、L、θで表しなさい。",answers:["gLsinθtanθ","gLsin(theta)tan(theta)"],display:"gLsinθtanθ",example:"v2=gLsinθtanθ"}
+      {prompt:"Tsinθ=mv²/rを使い、v²をg、L、θで表しなさい。",answers:["gL(sinθ)^2/cosθ","gLsin^2θ/cosθ","gL(sin(theta))^2/cos(theta)","gLsinθtanθ","gLsin(theta)tan(theta)"],display:"gL(sinθ)²/cosθ",example:"v2=gL(sinθ)^2/cosθ"}
     ]}
   ];
   const $=s=>document.querySelector(s),shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
@@ -49,6 +72,11 @@
     .replace(/×/g,"*")
     .replace(/π/g,"pi")
     .replace(/θ/g,"theta")
+    .replace(/con(?=theta|\()/g,"cos")
+    .replace(/sin\(theta\)/g,"sintheta")
+    .replace(/cos\(theta\)/g,"costheta")
+    .replace(/tan\(theta\)/g,"tantheta")
+    .replace(/sin\^2theta/g,"sintheta^2")
     .replace(/²/g,"^2")
     .replace(/√/g,"sqrt")
     .replace(/[{}]/g,m=>m==="{"?"(":")")
@@ -66,7 +94,32 @@
   function symbolicForms(value){
     const exact=normalize(value);
     const withoutLeft=stripOptionalLeftSide(exact);
-    return new Set([exact,normalizeRadical(exact),withoutLeft,normalizeRadical(withoutLeft)]);
+    const forms=new Set([exact,normalizeRadical(exact),withoutLeft,normalizeRadical(withoutLeft)]);
+    Array.from(forms).forEach(form=>addTrigEquivalentForms(forms,form));
+    return forms;
+  }
+
+  function addTrigEquivalentForms(forms,form){
+    const compact=form.replace(/\((sintheta)\)/g,"$1");
+    forms.add(compact);
+    if(compact.includes("sinthetatantheta")){
+      forms.add(compact.replace(/sinthetatantheta/g,"sintheta^2/costheta"));
+      forms.add(compact.replace(/sinthetatantheta/g,"(sintheta)^2/costheta"));
+    }
+    if(compact.includes("sintheta^2/costheta")){
+      forms.add(compact.replace(/sintheta\^2\/costheta/g,"sinthetatantheta"));
+    }
+  }
+
+  function formsMatch(a,b){
+    if(a===b)return true;
+    if(a.includes("=")&&b.includes("=")){
+      const leftA=a.split("="),leftB=b.split("=");
+      if(leftA.length===2&&leftB.length===2){
+        return leftA[0]===leftB[1]&&leftA[1]===leftB[0];
+      }
+    }
+    return false;
   }
 
   function correct(q,value){
@@ -77,7 +130,7 @@
     const entered=symbolicForms(value);
     return q.answers.some(answer=>{
       const accepted=symbolicForms(answer);
-      return [...entered].some(form=>accepted.has(form));
+      return [...entered].some(form=>[...accepted].some(ok=>formsMatch(form,ok)));
     });
   }
 
