@@ -437,3 +437,4 @@ const TrainerLog = (() => {
     getQuestionResults
   };
 })();
+window.TrainerLog = TrainerLog;

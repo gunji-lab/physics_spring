@@ -270,6 +270,7 @@ const TrainerLog = (() => {
     getQuestionResults
   };
 })();
+window.TrainerLog = TrainerLog;
 
 (function addTrainerNavigation() {
   const path = location.pathname;
