@@ -5,7 +5,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=30°：力の分解",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=30° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -48,7 +48,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=30°：半径と運動",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=30° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -92,7 +92,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=30°：張力の成分",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=30° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -123,7 +123,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=45°：力の分解",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=45° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -163,7 +163,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=45°：半径と運動",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=45° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -208,7 +208,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=45°：張力の成分",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=45° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -238,7 +238,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=60°：力の分解",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=60° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -278,7 +278,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=60°：半径と運動",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=60° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -321,7 +321,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円錐振り子 θ=60°：張力の成分",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "糸が鉛直方向から角度 θ=60° だけ傾いている円錐振り子を考える。大問対策「円錐振り子」から出題。",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -350,7 +350,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：距離・質量・加速度",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "万有引力の距離依存、質量依存、加速度を確認する。大問対策「万有引力」から出題。",
+    "context": "2つの物体にはたらく万有引力 F = GMm/r² を考える。距離 r や地球の質量 M が変わると力がどう変わるか、また F = ma から加速度をどう求めるかを答える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -398,7 +398,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：人工衛星の質量",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "質量の異なる人工衛星を、同じ高さの円軌道に乗せる。大問対策「万有引力」から出題。",
+    "context": "質量100 kgの人工衛星Aと、質量1000 kgの人工衛星Bを、地球中心から同じ距離 r の円軌道に乗せる。地球の質量を M、万有引力定数を G とし、万有引力が向心力になると考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -453,7 +453,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：人工衛星の軌道速度",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "質量 m の人工衛星が、質量 M の地球の中心から距離 r の円軌道を運動している。大問対策「万有引力」から出題。",
+    "context": "質量 m の人工衛星が、質量 M の地球の中心から距離 r の円軌道を速さ v で運動している。人工衛星にはたらく万有引力が向心力になるとして、軌道速度を導く。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -511,7 +511,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：地球質量と月の速度",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "地球の質量だけが現在の4倍になり、月の軌道半径は変わらないとする。大問対策「万有引力」から出題。",
+    "context": "月が地球のまわりを半径 r の円軌道で公転している。地球の質量だけが現在の4倍になり、月の軌道半径 r は変わらないとする。万有引力が向心力になることから、月の公転速度の変化を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -571,7 +571,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：地表付近の人工衛星",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "地表すれすれを円軌道で回る人工衛星を考える。大問対策「万有引力」から出題。",
+    "context": "人工衛星が地表すれすれを円軌道で回ると考える。地球半径を R、地表の重力加速度を g とし、地表では GM/R² = g が成り立つものとする。速さ v と周期 T を求める。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -623,7 +623,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：惑星の円運動",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "質量 M の太陽のまわりを、質量 m の惑星が速さ v、半径 r の円軌道で公転する。大問対策「万有引力」から出題。",
+    "context": "質量 M の太陽のまわりを、質量 m の惑星が半径 r、速さ v の円軌道で公転している。太陽からの万有引力が惑星の向心力になるとして、運動方程式と周期 T を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -682,7 +682,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：高い軌道へ移った衛星",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "軌道半径が変化したときの衛星の速さと周期を比較する。大問対策「万有引力」から出題。",
+    "context": "同じ地球のまわりを回る人工衛星を考える。衛星Aの軌道半径を r、衛星Bの軌道半径を 4r とする。万有引力が向心力になることから、衛星Bの速さと周期を衛星Aと比較する。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -738,7 +738,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：小さな惑星の表面重力",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "天体の質量と半径から表面重力を比較する。大問対策「万有引力」から出題。",
+    "context": "天体表面での重力加速度は g = GM/R² で表される。質量や半径が地球と異なる惑星について、表面重力が地球の何倍になるかを比で考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -791,7 +791,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：速さと向心加速度",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "軌道運動の速さと向心加速度を考える。大問対策「万有引力」から出題。",
+    "context": "月や人工衛星のような天体が半径 r の円軌道を速さ v で運動している。速さ v = 2πr/T と向心加速度 a = v²/r を使って、軌道運動の加速度を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -839,7 +839,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：衛星から地球の質量を求める",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "人工衛星の運動から地球の質量を求める。大問対策「万有引力」から出題。",
+    "context": "質量 m の人工衛星が、地球中心から距離 r の円軌道を速さ v で運動している。地球の質量を M、万有引力定数を G とし、GMm/r² = mv²/r から M を求める。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -889,7 +889,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円運動するバネ：伸びと向心力",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねの弾性力が円運動の向心力になる状況を考える。大問対策「円運動するバネ」から出題。",
+    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力 F = kx が、そのまま円運動の向心力になる。ばね定数 k、伸び x、向心力 F の関係を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -925,7 +925,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円運動するバネ：弾性力と半径",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねの伸び、弾性力、円運動の半径を確認する。大問対策「円運動するバネ」から出題。",
+    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力 F = kx が向心力になる。自然長、伸び、円運動の半径、弾性力の関係を確認する。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -961,7 +961,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円運動するバネ：角速度と速さ",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねの弾性力を向心力として、ω² と v² を求める。大問対策「円運動するバネ」から出題。",
+    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力が向心力になり、向心力は F = mrω² または F = mv²/r と表せる。ω² と v² を求める。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -997,7 +997,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "水平バネ振り子：周期",
     "source": "大問対策・水平バネ振り子",
     "sourceFile": "google/spring/spring_test2_framework_v2.html",
-    "context": "水平バネ振り子の周期を質量とばね定数から求める。大問対策「水平バネ振り子」から出題。",
+    "context": "摩擦のない水平面上で、ばね定数 k のばねにつながれた質量 m の小球が単振動している。水平バネ振り子の周期 T = 2π√(m/k) を使って周期を求める。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1048,7 +1048,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "水平バネ振り子：周期から質量",
     "source": "大問対策・水平バネ振り子",
     "sourceFile": "google/spring/spring_test2_framework_v2.html",
-    "context": "周期とばね定数から小球の質量を求める。大問対策「水平バネ振り子」から出題。",
+    "context": "摩擦のない水平面上で、ばね定数 k のばねにつながれた小球が周期 T で単振動している。周期 T = 2π√(m/k) を使って小球の質量 m を求める。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1084,7 +1084,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "水平バネ振り子：自然長での速さ",
     "source": "大問対策・水平バネ振り子",
     "sourceFile": "google/spring/spring_test2_framework_v2.html",
-    "context": "端の弾性エネルギーが、自然長での運動エネルギーになる状況を考える。大問対策「水平バネ振り子」から出題。",
+    "context": "摩擦のない水平面上で、ばねにつながれた小球が振幅 A で単振動している。端では弾性エネルギー、自然長では運動エネルギーをもち、1/2 kA² = 1/2 mv² が成り立つ。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1120,7 +1120,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：質量と速度比",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "地球の質量だけが現在の4倍になり、月の軌道半径は変わらないとする。大問対策「万有引力」から出題。",
+    "context": "月が地球のまわりを半径 r の円軌道で公転している。地球の質量だけが現在の4倍になり、月の軌道半径 r は変わらないとする。万有引力が向心力になることから、月の公転速度の変化を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1166,7 +1166,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：惑星の周期",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "質量 M の太陽のまわりを、質量 m の惑星が速さ v、半径 r の円軌道で公転する。大問対策「万有引力」から出題。",
+    "context": "質量 M の太陽のまわりを、質量 m の惑星が半径 r、速さ v の円軌道で公転している。太陽からの万有引力が惑星の向心力になるとして、周期 T を考える。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1208,7 +1208,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "万有引力：軌道半径の変化",
     "source": "大問対策・万有引力",
     "sourceFile": "google/circular_motion/circular_motion_universal_gravitation_framework_v1.html",
-    "context": "軌道半径が変化したときの衛星の速さと周期を比較する。大問対策「万有引力」から出題。",
+    "context": "同じ地球のまわりを回る人工衛星を考える。衛星Aの軌道半径を r、衛星Bの軌道半径を 4r とする。万有引力が向心力になることから、衛星Bの速さと周期を衛星Aと比較する。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1247,7 +1247,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円運動するバネ：伸びと半径",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねの伸びと円運動の半径を確認する。大問対策「円運動するバネ」から出題。",
+    "context": "ばねにつながれた物体が水平面内で円運動している。円運動の半径は固定点から物体までの距離であり、ばねの自然長と伸びから求められる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1274,7 +1274,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "円運動するバネ：角速度と速さ",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねの弾性力を向心力として、ω² と v² を求める。大問対策「円運動するバネ」から出題。",
+    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力が向心力になり、向心力は F = mrω² または F = mv²/r と表せる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1301,7 +1301,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "水平バネ振り子：自然長での速さ",
     "source": "大問対策・水平バネ振り子",
     "sourceFile": "google/spring/spring_test2_framework_v2.html",
-    "context": "端の弾性エネルギーが、自然長での運動エネルギーになる状況を考える。大問対策「水平バネ振り子」から出題。",
+    "context": "摩擦のない水平面上で、ばねにつながれた小球が振幅 A で単振動している。端での弾性エネルギーが、自然長での運動エネルギーになる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1325,7 +1325,7 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-08T18:15:57.449Z",
+  "generatedAt": "2026-07-08T18:42:35.238Z",
   "total": 31,
   "counts": {
     "大問対策・円錐振り子/3問": 6,
