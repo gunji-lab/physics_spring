@@ -1,0 +1,4335 @@
+/* Generated from Stage problem definitions. Do not edit by hand. */
+window.FINAL_MOCK_STAGE_BASIC_BANK = [
+  {
+    "id": "STAGE_0001",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "30 [°] は何 [rad] か？",
+    "display": "π/6 [rad]",
+    "unit": "rad",
+    "answers": [
+      "π/6",
+      "pi/6"
+    ]
+  },
+  {
+    "id": "STAGE_0002",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π/6 [rad] は何 [°] か？",
+    "display": "30 [°]",
+    "unit": "°",
+    "number": 30,
+    "tolerance": 0.09
+  },
+  {
+    "id": "STAGE_0003",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "45 [°] は何 [rad] か？",
+    "display": "π/4 [rad]",
+    "unit": "rad",
+    "answers": [
+      "π/4",
+      "pi/4"
+    ]
+  },
+  {
+    "id": "STAGE_0004",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π/4 [rad] は何 [°] か？",
+    "display": "45 [°]",
+    "unit": "°",
+    "number": 45,
+    "tolerance": 0.135
+  },
+  {
+    "id": "STAGE_0005",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "60 [°] は何 [rad] か？",
+    "display": "π/3 [rad]",
+    "unit": "rad",
+    "answers": [
+      "π/3",
+      "pi/3"
+    ]
+  },
+  {
+    "id": "STAGE_0006",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π/3 [rad] は何 [°] か？",
+    "display": "60 [°]",
+    "unit": "°",
+    "number": 60,
+    "tolerance": 0.18
+  },
+  {
+    "id": "STAGE_0007",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "90 [°] は何 [rad] か？",
+    "display": "π/2 [rad]",
+    "unit": "rad",
+    "answers": [
+      "π/2",
+      "pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0008",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π/2 [rad] は何 [°] か？",
+    "display": "90 [°]",
+    "unit": "°",
+    "number": 90,
+    "tolerance": 0.27
+  },
+  {
+    "id": "STAGE_0009",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "120 [°] は何 [rad] か？",
+    "display": "2π/3 [rad]",
+    "unit": "rad",
+    "answers": [
+      "2π/3",
+      "2pi/3"
+    ]
+  },
+  {
+    "id": "STAGE_0010",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "2π/3 [rad] は何 [°] か？",
+    "display": "120 [°]",
+    "unit": "°",
+    "number": 120,
+    "tolerance": 0.36
+  },
+  {
+    "id": "STAGE_0011",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "135 [°] は何 [rad] か？",
+    "display": "3π/4 [rad]",
+    "unit": "rad",
+    "answers": [
+      "3π/4",
+      "3pi/4"
+    ]
+  },
+  {
+    "id": "STAGE_0012",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "3π/4 [rad] は何 [°] か？",
+    "display": "135 [°]",
+    "unit": "°",
+    "number": 135,
+    "tolerance": 0.405
+  },
+  {
+    "id": "STAGE_0013",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "150 [°] は何 [rad] か？",
+    "display": "5π/6 [rad]",
+    "unit": "rad",
+    "answers": [
+      "5π/6",
+      "5pi/6"
+    ]
+  },
+  {
+    "id": "STAGE_0014",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "5π/6 [rad] は何 [°] か？",
+    "display": "150 [°]",
+    "unit": "°",
+    "number": 150,
+    "tolerance": 0.45
+  },
+  {
+    "id": "STAGE_0015",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "180 [°] は何 [rad] か？",
+    "display": "π [rad]",
+    "unit": "rad",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0016",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π [rad] は何 [°] か？",
+    "display": "180 [°]",
+    "unit": "°",
+    "number": 180,
+    "tolerance": 0.54
+  },
+  {
+    "id": "STAGE_0017",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "270 [°] は何 [rad] か？",
+    "display": "3π/2 [rad]",
+    "unit": "rad",
+    "answers": [
+      "3π/2",
+      "3pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0018",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "3π/2 [rad] は何 [°] か？",
+    "display": "270 [°]",
+    "unit": "°",
+    "number": 270,
+    "tolerance": 0.81
+  },
+  {
+    "id": "STAGE_0019",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "360 [°] は何 [rad] か？",
+    "display": "2π [rad]",
+    "unit": "rad",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0020",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/circular_motion/circular_motion_stage1_framework_v2.html",
+    "section": "円運動",
+    "prompt": "2π [rad] は何 [°] か？",
+    "display": "360 [°]",
+    "unit": "°",
+    "number": 360,
+    "tolerance": 1.08
+  },
+  {
+    "id": "STAGE_0021",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、中心角 θ = π [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "π [m]",
+    "unit": "m",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0022",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = π [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0023",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、中心角 θ = π/2 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0024",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、中心角 θ = π/3 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "π [m]",
+    "unit": "m",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0025",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = π/4 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "π/2 [m]",
+    "unit": "m",
+    "answers": [
+      "π/2",
+      "pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0026",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、中心角 θ = π/6 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "π [m]",
+    "unit": "m",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0027",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、中心角 θ = π/2 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "3π/2 [m]",
+    "unit": "m",
+    "answers": [
+      "3π/2",
+      "3pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0028",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = 2π [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "4π [m]",
+    "unit": "m",
+    "answers": [
+      "4π",
+      "4pi"
+    ]
+  },
+  {
+    "id": "STAGE_0029",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、中心角 θ = π/3 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0030",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 8 [m]、中心角 θ = π/4 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0031",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 12 [m]、中心角 θ = π/6 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0032",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、中心角 θ = 2π [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0033",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、中心角 θ = 30 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "π [m]",
+    "unit": "m",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0034",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、中心角 θ = 90 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0035",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、中心角 θ = 60 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "π [m]",
+    "unit": "m",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0036",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = 180 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0037",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = 45 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "π/2 [m]",
+    "unit": "m",
+    "answers": [
+      "π/2",
+      "pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0038",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/circular_motion/circular_motion_stage2_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、中心角 θ = 360 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π [m]",
+    "unit": "m",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0039",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "6 [m/s]",
+    "unit": "m/s",
+    "number": 6,
+    "tolerance": 0.018000000000000002
+  },
+  {
+    "id": "STAGE_0040",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = 2 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "8 [m/s]",
+    "unit": "m/s",
+    "number": 8,
+    "tolerance": 0.024
+  },
+  {
+    "id": "STAGE_0041",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = 4 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "12 [m/s]",
+    "unit": "m/s",
+    "number": 12,
+    "tolerance": 0.036000000000000004
+  },
+  {
+    "id": "STAGE_0042",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 5 [m]、角速度 ω = 2 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "10 [m/s]",
+    "unit": "m/s",
+    "number": 10,
+    "tolerance": 0.03
+  },
+  {
+    "id": "STAGE_0043",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = π [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0044",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = π/2 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0045",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = π [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "3π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "3π",
+      "3pi"
+    ]
+  },
+  {
+    "id": "STAGE_0046",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、角速度 ω = π/3 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0047",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 2π [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "4π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "4π",
+      "4pi"
+    ]
+  },
+  {
+    "id": "STAGE_0048",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、角速度 ω = 2π [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0049",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 8 [m]、角速度 ω = π/4 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0050",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 10 [m]、角速度 ω = π/5 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0051",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 180 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0052",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = 90 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0053",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = 60 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0054",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、角速度 ω = 30 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0055",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 90 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0056",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = 45 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0057",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、1周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "4π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "4π",
+      "4pi"
+    ]
+  },
+  {
+    "id": "STAGE_0058",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、1周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0059",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、1周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "6π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "6π",
+      "6pi"
+    ]
+  },
+  {
+    "id": "STAGE_0060",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、1/2周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0061",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、1/2周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "4π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "4π",
+      "4pi"
+    ]
+  },
+  {
+    "id": "STAGE_0062",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/circular_motion/circular_motion_stage3_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、2周/秒 のとき、速さ v は何 [m/s] か。",
+    "display": "4π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "4π",
+      "4pi"
+    ]
+  },
+  {
+    "id": "STAGE_0063",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "周期 T = 2 [s] のとき、角速度 ω は何 [rad/s] か。",
+    "display": "π [rad/s]",
+    "unit": "rad/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0064",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "周期 T = 4 [s] のとき、角速度 ω は何 [rad/s] か。",
+    "display": "π/2 [rad/s]",
+    "unit": "rad/s",
+    "answers": [
+      "π/2",
+      "pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0065",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "周期 T = 1 [s] のとき、角速度 ω は何 [rad/s] か。",
+    "display": "2π [rad/s]",
+    "unit": "rad/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0066",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "周期 T = 8 [s] のとき、角速度 ω は何 [rad/s] か。",
+    "display": "π/4 [rad/s]",
+    "unit": "rad/s",
+    "answers": [
+      "π/4",
+      "pi/4"
+    ]
+  },
+  {
+    "id": "STAGE_0067",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω = π [rad/s] のとき、周期 T は何 [s] か。",
+    "display": "2 [s]",
+    "unit": "s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0068",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω = π/2 [rad/s] のとき、周期 T は何 [s] か。",
+    "display": "4 [s]",
+    "unit": "s",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0069",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω = 2π [rad/s] のとき、周期 T は何 [s] か。",
+    "display": "1 [s]",
+    "unit": "s",
+    "number": 1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0070",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω = π/4 [rad/s] のとき、周期 T は何 [s] か。",
+    "display": "8 [s]",
+    "unit": "s",
+    "number": 8,
+    "tolerance": 0.024
+  },
+  {
+    "id": "STAGE_0071",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0072",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、周期 T = 4 [s] のとき、速さ v は何 [m/s] か。",
+    "display": "π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "π",
+      "pi"
+    ]
+  },
+  {
+    "id": "STAGE_0073",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。",
+    "display": "3π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "3π",
+      "3pi"
+    ]
+  },
+  {
+    "id": "STAGE_0074",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、周期 T = 4 [s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π [m/s]",
+    "unit": "m/s",
+    "answers": [
+      "2π",
+      "2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0075",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、速さ v = 2π [m/s] のとき、周期 T は何 [s] か。",
+    "display": "2 [s]",
+    "unit": "s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0076",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、速さ v = π [m/s] のとき、周期 T は何 [s] か。",
+    "display": "4 [s]",
+    "unit": "s",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0077",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、速さ v = 3π [m/s] のとき、周期 T は何 [s] か。",
+    "display": "2 [s]",
+    "unit": "s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0078",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/circular_motion/circular_motion_stage4_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、速さ v = 2π [m/s] のとき、周期 T は何 [s] か。",
+    "display": "4 [s]",
+    "unit": "s",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0079",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "18 [m/s²]",
+    "unit": "m/s^2",
+    "number": 18,
+    "tolerance": 0.054
+  },
+  {
+    "id": "STAGE_0080",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = 2 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "16 [m/s²]",
+    "unit": "m/s^2",
+    "number": 16,
+    "tolerance": 0.048
+  },
+  {
+    "id": "STAGE_0081",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = 2 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "12 [m/s²]",
+    "unit": "m/s^2",
+    "number": 12,
+    "tolerance": 0.036000000000000004
+  },
+  {
+    "id": "STAGE_0082",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 5 [m]、角速度 ω = 2 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "20 [m/s²]",
+    "unit": "m/s^2",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0083",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、角速度 ω = 4 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "16 [m/s²]",
+    "unit": "m/s^2",
+    "number": 16,
+    "tolerance": 0.048
+  },
+  {
+    "id": "STAGE_0084",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 6 [m]、角速度 ω = 1 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "6 [m/s²]",
+    "unit": "m/s^2",
+    "number": 6,
+    "tolerance": 0.018000000000000002
+  },
+  {
+    "id": "STAGE_0085",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 1 [m]、角速度 ω = π [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "π^2",
+      "pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0086",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = π [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "2π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "2π^2",
+      "2pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0087",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = π/2 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "π^2",
+      "pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0088",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 8 [m]、角速度 ω = π/2 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "2π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "2π^2",
+      "2pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0089",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = π [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "3π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "3π^2",
+      "3pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0090",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 9 [m]、角速度 ω = π/3 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "π² [m/s²]",
+    "unit": "m/s^2",
+    "answers": [
+      "π^2",
+      "pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0091",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r が一定のとき、角速度 ω が2倍になると、向心加速度 a は何倍になるか。",
+    "display": "4倍",
+    "unit": "倍",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0092",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r が一定のとき、角速度 ω が3倍になると、向心加速度 a は何倍になるか。",
+    "display": "9倍",
+    "unit": "倍",
+    "number": 9,
+    "tolerance": 0.027
+  },
+  {
+    "id": "STAGE_0093",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r が一定のとき、角速度 ω が1/2倍になると、向心加速度 a は何倍になるか。",
+    "display": "1/4倍",
+    "unit": "倍",
+    "answers": [
+      "1/4"
+    ]
+  },
+  {
+    "id": "STAGE_0094",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω が一定のとき、半径 r が2倍になると、向心加速度 a は何倍になるか。",
+    "display": "2倍",
+    "unit": "倍",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0095",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/circular_motion/circular_motion_stage5_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω が一定のとき、半径 r が1/2倍になると、向心加速度 a は何倍になるか。",
+    "display": "1/2倍",
+    "unit": "倍",
+    "answers": [
+      "1/2"
+    ]
+  },
+  {
+    "id": "STAGE_0096",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "30 [°] は何 [rad] か。",
+    "display": "π/6 / pi/6",
+    "unit": "rad",
+    "answers": [
+      "π/6/pi/6",
+      "pi/6/pi/6"
+    ]
+  },
+  {
+    "id": "STAGE_0097",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "π/2 [rad] は何 [°] か。",
+    "display": "90",
+    "unit": "°",
+    "number": 90,
+    "tolerance": 0.27
+  },
+  {
+    "id": "STAGE_0098",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "120 [°] は何 [rad] か。",
+    "display": "2π/3 / 2pi/3",
+    "unit": "rad",
+    "answers": [
+      "2π/3/2pi/3",
+      "2pi/3/2pi/3"
+    ]
+  },
+  {
+    "id": "STAGE_0099",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "3π/2 [rad] は何 [°] か。",
+    "display": "270",
+    "unit": "°",
+    "number": 270,
+    "tolerance": 0.81
+  },
+  {
+    "id": "STAGE_0100",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、中心角 θ = π/3 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "π / pi",
+    "unit": "m",
+    "answers": [
+      "π/pi",
+      "pi/pi"
+    ]
+  },
+  {
+    "id": "STAGE_0101",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、中心角 θ = π/2 [rad] のとき、弧の長さ s は何 [m] か。",
+    "display": "2π / 2pi",
+    "unit": "m",
+    "answers": [
+      "2π/2pi",
+      "2pi/2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0102",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、中心角 θ = 45 [°] のとき、弧の長さ s は何 [m] か。",
+    "display": "π/2 / pi/2",
+    "unit": "m",
+    "answers": [
+      "π/2/pi/2",
+      "pi/2/pi/2"
+    ]
+  },
+  {
+    "id": "STAGE_0103",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "6",
+    "unit": "m/s",
+    "number": 6,
+    "tolerance": 0.018000000000000002
+  },
+  {
+    "id": "STAGE_0104",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 4 [m]、角速度 ω = π/2 [rad/s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π / 2pi",
+    "unit": "m/s",
+    "answers": [
+      "2π/2pi",
+      "2pi/2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0105",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、角速度 ω = 60 [°/s] のとき、速さ v は何 [m/s] か。",
+    "display": "π / pi",
+    "unit": "m/s",
+    "answers": [
+      "π/pi",
+      "pi/pi"
+    ]
+  },
+  {
+    "id": "STAGE_0106",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "周期 T = 2 [s] のとき、角速度 ω は何 [rad/s] か。",
+    "display": "π / pi",
+    "unit": "rad/s",
+    "answers": [
+      "π/pi",
+      "pi/pi"
+    ]
+  },
+  {
+    "id": "STAGE_0107",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "角速度 ω = π/2 [rad/s] のとき、周期 T は何 [s] か。",
+    "display": "4",
+    "unit": "s",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0108",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。",
+    "display": "2π / 2pi",
+    "unit": "m/s",
+    "answers": [
+      "2π/2pi",
+      "2pi/2pi"
+    ]
+  },
+  {
+    "id": "STAGE_0109",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 3 [m]、速さ v = 3π [m/s] のとき、周期 T は何 [s] か。",
+    "display": "2",
+    "unit": "s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0110",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = 3 [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "18",
+    "unit": "m/s^2",
+    "number": 18,
+    "tolerance": 0.054
+  },
+  {
+    "id": "STAGE_0111",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r = 2 [m]、角速度 ω = π [rad/s] のとき、向心加速度 a は何 [m/s²] か。",
+    "display": "2π² / 2pi² / 2pi^2",
+    "unit": "m/s^2",
+    "answers": [
+      "2π^2/2pi^2/2pi^2",
+      "2pi^2/2pi^2/2pi^2"
+    ]
+  },
+  {
+    "id": "STAGE_0112",
+    "sourceUnit": "円運動",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/circular_motion/circular_motion_stage6_written_framework_v2.html",
+    "section": "円運動",
+    "prompt": "半径 r が一定のとき、角速度 ω が2倍になると、向心加速度 a は何倍になるか。",
+    "display": "4倍 / 4",
+    "unit": "",
+    "answers": [
+      "4倍/4"
+    ]
+  },
+  {
+    "id": "STAGE_0113",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m]、伸び x = 0.20 [m] のとき、力 F は何 [N] か。",
+    "display": "20 [N]",
+    "unit": "N",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0114",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m]、伸び x = 0.20 [m] のとき、力 F は何 [N] か。",
+    "display": "40 [N]",
+    "unit": "N",
+    "number": 40,
+    "tolerance": 0.12
+  },
+  {
+    "id": "STAGE_0115",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m]、伸び x = 0.30 [m] のとき、力 F は何 [N] か。",
+    "display": "30 [N]",
+    "unit": "N",
+    "number": 30,
+    "tolerance": 0.09
+  },
+  {
+    "id": "STAGE_0116",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m]、伸び x = 0.50 [m] のとき、力 F は何 [N] か。",
+    "display": "100 [N]",
+    "unit": "N",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0117",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 300 [N/m]、伸び x = 0.20 [m] のとき、力 F は何 [N] か。",
+    "display": "60 [N]",
+    "unit": "N",
+    "number": 60,
+    "tolerance": 0.18
+  },
+  {
+    "id": "STAGE_0118",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m]、伸び x = 0.50 [m] のとき、力 F は何 [N] か。",
+    "display": "50 [N]",
+    "unit": "N",
+    "number": 50,
+    "tolerance": 0.15
+  },
+  {
+    "id": "STAGE_0119",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 40 [N]、バネ定数 k = 200 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0120",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 30 [N]、バネ定数 k = 100 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.30 [m]",
+    "unit": "m",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0121",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 20 [N]、バネ定数 k = 200 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.10 [m]",
+    "unit": "m",
+    "number": 0.1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0122",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 80 [N]、バネ定数 k = 200 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.40 [m]",
+    "unit": "m",
+    "number": 0.4,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0123",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 100 [N]、バネ定数 k = 200 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.50 [m]",
+    "unit": "m",
+    "number": 0.5,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0124",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 20 [N]、伸び x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0125",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 40 [N]、伸び x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200 [N/m]",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0126",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 60 [N]、伸び x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "300 [N/m]",
+    "unit": "N/m",
+    "number": 300,
+    "tolerance": 0.9
+  },
+  {
+    "id": "STAGE_0127",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 30 [N]、伸び x = 0.30 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0128",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/spring/spring_stage1_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 100 [N]、伸び x = 0.50 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200 [N/m]",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0129",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.10 [m]",
+    "unit": "m",
+    "number": 0.1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0130",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0131",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 3.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.30 [m]",
+    "unit": "m",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0132",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体を、バネ定数 k = 196 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.10 [m]",
+    "unit": "m",
+    "number": 0.1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0133",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 4.0 [kg] の物体を、バネ定数 k = 196 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0134",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 5.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.50 [m]",
+    "unit": "m",
+    "number": 0.5,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0135",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.10 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "1.0 [kg]",
+    "unit": "kg",
+    "number": 1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0136",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.20 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "2.0 [kg]",
+    "unit": "kg",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0137",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.30 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "3.0 [kg]",
+    "unit": "kg",
+    "number": 3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0138",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 196 [N/m] のバネに物体をつるすと、伸び x = 0.10 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "2.0 [kg]",
+    "unit": "kg",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0139",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 196 [N/m] のバネに物体をつるすと、伸び x = 0.20 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "4.0 [kg]",
+    "unit": "kg",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0140",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "98 [N/m]",
+    "unit": "N/m",
+    "number": 98,
+    "tolerance": 0.294
+  },
+  {
+    "id": "STAGE_0141",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体をつるすと、バネの伸び x = 0.20 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "98 [N/m]",
+    "unit": "N/m",
+    "number": 98,
+    "tolerance": 0.294
+  },
+  {
+    "id": "STAGE_0142",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "196 [N/m]",
+    "unit": "N/m",
+    "number": 196,
+    "tolerance": 0.588
+  },
+  {
+    "id": "STAGE_0143",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 4.0 [kg] の物体をつるすと、バネの伸び x = 0.20 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "196 [N/m]",
+    "unit": "N/m",
+    "number": 196,
+    "tolerance": 0.588
+  },
+  {
+    "id": "STAGE_0144",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/spring/spring_stage2_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 3.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "294 [N/m]",
+    "unit": "N/m",
+    "number": 294,
+    "tolerance": 0.882
+  },
+  {
+    "id": "STAGE_0145",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m] のバネを x = 0.20 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "2.0 [J]",
+    "unit": "J",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0146",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m] のバネを x = 0.20 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "4.0 [J]",
+    "unit": "J",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0147",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m] のバネを x = 0.30 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "4.5 [J]",
+    "unit": "J",
+    "number": 4.5,
+    "tolerance": 0.0135
+  },
+  {
+    "id": "STAGE_0148",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m] のバネを x = 0.30 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "9.0 [J]",
+    "unit": "J",
+    "number": 9,
+    "tolerance": 0.027
+  },
+  {
+    "id": "STAGE_0149",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m] のバネを x = 0.40 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "8.0 [J]",
+    "unit": "J",
+    "number": 8,
+    "tolerance": 0.024
+  },
+  {
+    "id": "STAGE_0150",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m] のバネを x = 0.40 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "16 [J]",
+    "unit": "J",
+    "number": 16,
+    "tolerance": 0.048
+  },
+  {
+    "id": "STAGE_0151",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 2.0 [J]、バネ定数 k = 100 [N/m] のとき、縮み x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0152",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 4.0 [J]、バネ定数 k = 200 [N/m] のとき、縮み x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0153",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 4.5 [J]、バネ定数 k = 100 [N/m] のとき、縮み x は何 [m] か。",
+    "display": "0.30 [m]",
+    "unit": "m",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0154",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 8.0 [J]、バネ定数 k = 100 [N/m] のとき、縮み x は何 [m] か。",
+    "display": "0.40 [m]",
+    "unit": "m",
+    "number": 0.4,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0155",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 2.0 [J]、縮み x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0156",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 4.0 [J]、縮み x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200 [N/m]",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0157",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 4.5 [J]、縮み x = 0.30 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0158",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/spring/spring_stage3_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 9.0 [J]、縮み x = 0.30 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200 [N/m]",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0159",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の小球を、バネ定数 k = 100 [N/m] のバネで x = 0.20 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "2.0 [m/s]",
+    "unit": "m/s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0160",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の小球を、バネ定数 k = 100 [N/m] のバネで x = 0.30 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "3.0 [m/s]",
+    "unit": "m/s",
+    "number": 3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0161",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の小球を、バネ定数 k = 200 [N/m] のバネで x = 0.20 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "2.0 [m/s]",
+    "unit": "m/s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0162",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の小球を、バネ定数 k = 200 [N/m] のバネで x = 0.30 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "3.0 [m/s]",
+    "unit": "m/s",
+    "number": 3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0163",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の小球を、バネ定数 k = 100 [N/m] のバネで x = 0.40 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "4.0 [m/s]",
+    "unit": "m/s",
+    "number": 4,
+    "tolerance": 0.012
+  },
+  {
+    "id": "STAGE_0164",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の小球を、バネ定数 k = 50 [N/m] のバネで x = 0.40 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "2.0 [m/s]",
+    "unit": "m/s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0165",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、バネ定数 k = 100 [N/m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、最初の縮み x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0166",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、バネ定数 k = 100 [N/m]、自然長に戻った瞬間の速さ v = 3.0 [m/s] のとき、最初の縮み x は何 [m] か。",
+    "display": "0.30 [m]",
+    "unit": "m",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0167",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg]、バネ定数 k = 200 [N/m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、最初の縮み x は何 [m] か。",
+    "display": "0.20 [m]",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0168",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、バネ定数 k = 100 [N/m]、自然長に戻った瞬間の速さ v = 4.0 [m/s] のとき、最初の縮み x は何 [m] か。",
+    "display": "0.40 [m]",
+    "unit": "m",
+    "number": 0.4,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0169",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、最初の縮み x = 0.20 [m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0170",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg]、最初の縮み x = 0.20 [m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200 [N/m]",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0171",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/spring/spring_stage4_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、最初の縮み x = 0.30 [m]、自然長に戻った瞬間の速さ v = 3.0 [m/s] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100 [N/m]",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0172",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m]、伸び x = 0.20 [m] のとき、力 F は何 [N] か。",
+    "display": "20",
+    "unit": "N",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0173",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 200 [N/m]、伸び x = 0.20 [m] のとき、力 F は何 [N] か。",
+    "display": "40",
+    "unit": "N",
+    "number": 40,
+    "tolerance": 0.12
+  },
+  {
+    "id": "STAGE_0174",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 40 [N]、バネ定数 k = 200 [N/m] のとき、伸び x は何 [m] か。",
+    "display": "0.2",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0175",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "力 F = 40 [N]、伸び x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0176",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",
+    "display": "0.2",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0177",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.20 [m] で静止した。物体の質量 m は何 [kg] か。",
+    "display": "2",
+    "unit": "kg",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0178",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 2.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",
+    "display": "196",
+    "unit": "N/m",
+    "number": 196,
+    "tolerance": 0.588
+  },
+  {
+    "id": "STAGE_0179",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m] のバネを x = 0.20 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "2",
+    "unit": "J",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0180",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネ定数 k = 100 [N/m] のバネを x = 0.30 [m] だけ縮めた。バネの弾性エネルギー U は何 [J] か。",
+    "display": "4.5",
+    "unit": "J",
+    "number": 4.5,
+    "tolerance": 0.0135
+  },
+  {
+    "id": "STAGE_0181",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 2.0 [J]、バネ定数 k = 100 [N/m] のとき、縮み x は何 [m] か。",
+    "display": "0.2",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0182",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "バネの弾性エネルギー U = 4.0 [J]、縮み x = 0.20 [m] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "200",
+    "unit": "N/m",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0183",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の小球を、バネ定数 k = 100 [N/m] のバネで x = 0.20 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "2",
+    "unit": "m/s",
+    "number": 2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0184",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg] の小球を、バネ定数 k = 100 [N/m] のバネで x = 0.30 [m] だけ縮めて離した。自然長に戻った瞬間の速さ v は何 [m/s] か。",
+    "display": "3",
+    "unit": "m/s",
+    "number": 3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0185",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、バネ定数 k = 100 [N/m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、最初の縮み x は何 [m] か。",
+    "display": "0.2",
+    "unit": "m",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0186",
+    "sourceUnit": "バネ",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/spring/spring_stage5_written_framework_v2.html",
+    "section": "バネ",
+    "prompt": "質量 m = 1.0 [kg]、最初の縮み x = 0.20 [m]、自然長に戻った瞬間の速さ v = 2.0 [m/s] のとき、バネ定数 k は何 [N/m] か。",
+    "display": "100",
+    "unit": "N/m",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0187",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 0 [℃] は、絶対温度で何 [K] か。",
+    "display": "273 [K]",
+    "unit": "K",
+    "number": 273,
+    "tolerance": 0.8190000000000001
+  },
+  {
+    "id": "STAGE_0188",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 20 [℃] は、絶対温度で何 [K] か。",
+    "display": "293 [K]",
+    "unit": "K",
+    "number": 293,
+    "tolerance": 0.879
+  },
+  {
+    "id": "STAGE_0189",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 25 [℃] は、絶対温度で何 [K] か。",
+    "display": "298 [K]",
+    "unit": "K",
+    "number": 298,
+    "tolerance": 0.894
+  },
+  {
+    "id": "STAGE_0190",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 37 [℃] は、絶対温度で何 [K] か。",
+    "display": "310 [K]",
+    "unit": "K",
+    "number": 310,
+    "tolerance": 0.93
+  },
+  {
+    "id": "STAGE_0191",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 100 [℃] は、絶対温度で何 [K] か。",
+    "display": "373 [K]",
+    "unit": "K",
+    "number": 373,
+    "tolerance": 1.119
+  },
+  {
+    "id": "STAGE_0192",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 −10 [℃] は、絶対温度で何 [K] か。",
+    "display": "263 [K]",
+    "unit": "K",
+    "number": 263,
+    "tolerance": 0.789
+  },
+  {
+    "id": "STAGE_0193",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 −40 [℃] は、絶対温度で何 [K] か。",
+    "display": "233 [K]",
+    "unit": "K",
+    "number": 233,
+    "tolerance": 0.6990000000000001
+  },
+  {
+    "id": "STAGE_0194",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 273 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "0 [℃]",
+    "unit": "℃",
+    "number": 0,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0195",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 293 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "20 [℃]",
+    "unit": "℃",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0196",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 298 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "25 [℃]",
+    "unit": "℃",
+    "number": 25,
+    "tolerance": 0.075
+  },
+  {
+    "id": "STAGE_0197",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 310 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "37 [℃]",
+    "unit": "℃",
+    "number": 37,
+    "tolerance": 0.111
+  },
+  {
+    "id": "STAGE_0198",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 373 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "100 [℃]",
+    "unit": "℃",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0199",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 263 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "−10 [℃]",
+    "unit": "℃",
+    "answers": [
+      "−10"
+    ]
+  },
+  {
+    "id": "STAGE_0200",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage1",
+    "sourceFile": "google/heat/heat_stage1_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 233 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "−40 [℃]",
+    "unit": "℃",
+    "answers": [
+      "−40"
+    ]
+  },
+  {
+    "id": "STAGE_0201",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 100 [J/K] の物体の温度を 4 [K] 上げるのに必要な熱量 Q はいくらか。",
+    "display": "400 [J]",
+    "unit": "J",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0202",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 200 [J/K] の物体の温度を 5 [K] 上げるのに必要な熱量 Q はいくらか。",
+    "display": "1000 [J]",
+    "unit": "J",
+    "number": 1000,
+    "tolerance": 3
+  },
+  {
+    "id": "STAGE_0203",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 300 [J/K] の物体を 20 [℃] から 30 [℃] まで加熱した。加えた熱量 Q はいくらか。",
+    "display": "3000 [J]",
+    "unit": "J",
+    "number": 3000,
+    "tolerance": 9
+  },
+  {
+    "id": "STAGE_0204",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 250 [J/K] の物体を 15 [℃] から 35 [℃] まで加熱した。加えた熱量 Q はいくらか。",
+    "display": "5000 [J]",
+    "unit": "J",
+    "number": 5000,
+    "tolerance": 15
+  },
+  {
+    "id": "STAGE_0205",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 400 [J/K] の物体の温度を 15 [K] 上げた。加えた熱量 Q はいくらか。",
+    "display": "6000 [J]",
+    "unit": "J",
+    "number": 6000,
+    "tolerance": 18
+  },
+  {
+    "id": "STAGE_0206",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "ある物体に 500 [J] の熱を加えると、温度が 5 [K] 上がった。この物体の熱容量 C はいくらか。",
+    "display": "100 [J/K]",
+    "unit": "J/K",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0207",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "ある物体に 2000 [J] の熱を加えると、温度が 10 [K] 上がった。この物体の熱容量 C はいくらか。",
+    "display": "200 [J/K]",
+    "unit": "J/K",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0208",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "ある物体に 4500 [J] の熱を加えると、温度が 15 [K] 上がった。この物体の熱容量 C はいくらか。",
+    "display": "300 [J/K]",
+    "unit": "J/K",
+    "number": 300,
+    "tolerance": 0.9
+  },
+  {
+    "id": "STAGE_0209",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "ある物体に 8000 [J] の熱を加えると、温度が 20 [℃] から 40 [℃] になった。この物体の熱容量 C はいくらか。",
+    "display": "400 [J/K]",
+    "unit": "J/K",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0210",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "ある物体に 5000 [J] の熱を加えると、温度が 10 [℃] から 20 [℃] になった。この物体の熱容量 C はいくらか。",
+    "display": "500 [J/K]",
+    "unit": "J/K",
+    "number": 500,
+    "tolerance": 1.5
+  },
+  {
+    "id": "STAGE_0211",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 200 [J/K] の物体に 1000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "5 [K]",
+    "unit": "K",
+    "number": 5,
+    "tolerance": 0.015
+  },
+  {
+    "id": "STAGE_0212",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 300 [J/K] の物体に 3000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "10 [K]",
+    "unit": "K",
+    "number": 10,
+    "tolerance": 0.03
+  },
+  {
+    "id": "STAGE_0213",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 400 [J/K] の物体に 6000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "15 [K]",
+    "unit": "K",
+    "number": 15,
+    "tolerance": 0.045
+  },
+  {
+    "id": "STAGE_0214",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage2",
+    "sourceFile": "google/heat/heat_stage2_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 250 [J/K] の物体に 5000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "20 [K]",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0215",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]の銀を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",
+    "display": "470 [J]",
+    "unit": "J",
+    "number": 470,
+    "tolerance": 1.41
+  },
+  {
+    "id": "STAGE_0216",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の銀の温度を30 [K]上げる。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",
+    "display": "1410 [J]",
+    "unit": "J",
+    "number": 1410,
+    "tolerance": 4.23
+  },
+  {
+    "id": "STAGE_0217",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]の銀を10 [℃]から50 [℃]まで加熱する。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",
+    "display": "470 [J]",
+    "unit": "J",
+    "number": 470,
+    "tolerance": 1.41
+  },
+  {
+    "id": "STAGE_0218",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量300 [g]の銀の温度を10 [K]上げる。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",
+    "display": "705 [J]",
+    "unit": "J",
+    "number": 705,
+    "tolerance": 2.115
+  },
+  {
+    "id": "STAGE_0219",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]の銅を15 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",
+    "display": "960 [J]",
+    "unit": "J",
+    "number": 960,
+    "tolerance": 2.88
+  },
+  {
+    "id": "STAGE_0220",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]の銅の温度を10 [K]上げる。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",
+    "display": "960 [J]",
+    "unit": "J",
+    "number": 960,
+    "tolerance": 2.88
+  },
+  {
+    "id": "STAGE_0221",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の銅を20 [℃]から35 [℃]まで加熱する。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",
+    "display": "1152 [J]",
+    "unit": "J",
+    "number": 1152,
+    "tolerance": 3.456
+  },
+  {
+    "id": "STAGE_0222",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]の銅の温度を40 [K]上げる。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",
+    "display": "768 [J]",
+    "unit": "J",
+    "number": 768,
+    "tolerance": 2.3040000000000003
+  },
+  {
+    "id": "STAGE_0223",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]の鉄を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",
+    "display": "896 [J]",
+    "unit": "J",
+    "number": 896,
+    "tolerance": 2.688
+  },
+  {
+    "id": "STAGE_0224",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]の鉄の温度を10 [K]上げる。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",
+    "display": "1120 [J]",
+    "unit": "J",
+    "number": 1120,
+    "tolerance": 3.36
+  },
+  {
+    "id": "STAGE_0225",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の鉄を10 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",
+    "display": "2688 [J]",
+    "unit": "J",
+    "number": 2688,
+    "tolerance": 8.064
+  },
+  {
+    "id": "STAGE_0226",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]の鉄の温度を40 [K]上げる。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",
+    "display": "896 [J]",
+    "unit": "J",
+    "number": 896,
+    "tolerance": 2.688
+  },
+  {
+    "id": "STAGE_0227",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]のアルミニウムを20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",
+    "display": "1804 [J]",
+    "unit": "J",
+    "number": 1804,
+    "tolerance": 5.412
+  },
+  {
+    "id": "STAGE_0228",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]のアルミニウムの温度を10 [K]上げる。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",
+    "display": "1804 [J]",
+    "unit": "J",
+    "number": 1804,
+    "tolerance": 5.412
+  },
+  {
+    "id": "STAGE_0229",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]のアルミニウムを10 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",
+    "display": "1353 [J]",
+    "unit": "J",
+    "number": 1353,
+    "tolerance": 4.059
+  },
+  {
+    "id": "STAGE_0230",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]のアルミニウムの温度を20 [K]上げる。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",
+    "display": "4510 [J]",
+    "unit": "J",
+    "number": 4510,
+    "tolerance": 13.530000000000001
+  },
+  {
+    "id": "STAGE_0231",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量1000 [g]のコンクリートの温度を10 [K]上げる。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",
+    "display": "8000 [J]",
+    "unit": "J",
+    "number": 8000,
+    "tolerance": 24
+  },
+  {
+    "id": "STAGE_0232",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量500 [g]のコンクリートを20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",
+    "display": "8000 [J]",
+    "unit": "J",
+    "number": 8000,
+    "tolerance": 24
+  },
+  {
+    "id": "STAGE_0233",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量2000 [g]のコンクリートの温度を5 [K]上げる。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",
+    "display": "8000 [J]",
+    "unit": "J",
+    "number": 8000,
+    "tolerance": 24
+  },
+  {
+    "id": "STAGE_0234",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量750 [g]のコンクリートを15 [℃]から30 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",
+    "display": "9000 [J]",
+    "unit": "J",
+    "number": 9000,
+    "tolerance": 27
+  },
+  {
+    "id": "STAGE_0235",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量500 [g]の木材の温度を10 [K]上げる。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",
+    "display": "6500 [J]",
+    "unit": "J",
+    "number": 6500,
+    "tolerance": 19.5
+  },
+  {
+    "id": "STAGE_0236",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の木材を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",
+    "display": "5200 [J]",
+    "unit": "J",
+    "number": 5200,
+    "tolerance": 15.6
+  },
+  {
+    "id": "STAGE_0237",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量1000 [g]の木材の温度を5 [K]上げる。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",
+    "display": "6500 [J]",
+    "unit": "J",
+    "number": 6500,
+    "tolerance": 19.5
+  },
+  {
+    "id": "STAGE_0238",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量300 [g]の木材を10 [℃]から25 [℃]まで加熱する。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",
+    "display": "5850 [J]",
+    "unit": "J",
+    "number": 5850,
+    "tolerance": 17.55
+  },
+  {
+    "id": "STAGE_0239",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]の氷を−20 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",
+    "display": "1930 [J]",
+    "unit": "J",
+    "number": 1930,
+    "tolerance": 5.79
+  },
+  {
+    "id": "STAGE_0240",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の氷を−15 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",
+    "display": "1930 [J]",
+    "unit": "J",
+    "number": 1930,
+    "tolerance": 5.79
+  },
+  {
+    "id": "STAGE_0241",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]の氷を−30 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",
+    "display": "1930 [J]",
+    "unit": "J",
+    "number": 1930,
+    "tolerance": 5.79
+  },
+  {
+    "id": "STAGE_0242",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量300 [g]の氷を−20 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",
+    "display": "5790 [J]",
+    "unit": "J",
+    "number": 5790,
+    "tolerance": 17.37
+  },
+  {
+    "id": "STAGE_0243",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]の水を20 [℃]から30 [℃]まで温める。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",
+    "display": "4180 [J]",
+    "unit": "J",
+    "number": 4180,
+    "tolerance": 12.540000000000001
+  },
+  {
+    "id": "STAGE_0244",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]の水の温度を5 [K]上げる。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",
+    "display": "4180 [J]",
+    "unit": "J",
+    "number": 4180,
+    "tolerance": 12.540000000000001
+  },
+  {
+    "id": "STAGE_0245",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量50 [g]の水を10 [℃]から30 [℃]まで温める。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",
+    "display": "4180 [J]",
+    "unit": "J",
+    "number": 4180,
+    "tolerance": 12.540000000000001
+  },
+  {
+    "id": "STAGE_0246",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]の水の温度を12 [K]上げる。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",
+    "display": "12540 [J]",
+    "unit": "J",
+    "number": 12540,
+    "tolerance": 37.62
+  },
+  {
+    "id": "STAGE_0247",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の鉄と銅に、同じ熱量を加えた。鉄の温度は10 [K]、銅の温度は12 [K]上昇した。比熱が大きいのはどちらか。",
+    "display": "鉄",
+    "unit": "",
+    "answers": [
+      "鉄"
+    ]
+  },
+  {
+    "id": "STAGE_0248",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量のアルミニウムと水に、同じ熱量を加えた。アルミニウムは18 [K]、水は4 [K]上昇した。比熱が大きいのはどちらか。",
+    "display": "水",
+    "unit": "",
+    "answers": [
+      "水"
+    ]
+  },
+  {
+    "id": "STAGE_0249",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の鉄Aと鉄Bに、同じ熱量を加えたところ、どちらも10 [K]上昇した。比熱について正しいものはどれか。",
+    "display": "どちらも等しい",
+    "unit": "",
+    "answers": [
+      "どちらも等しい"
+    ]
+  },
+  {
+    "id": "STAGE_0250",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量のコンクリートと木材に、同じ熱量を加えた。コンクリートは13 [K]、木材は8 [K]上昇した。比熱が大きいのはどちらか。",
+    "display": "木材",
+    "unit": "",
+    "answers": [
+      "木材"
+    ]
+  },
+  {
+    "id": "STAGE_0251",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の銀と銅に同じ熱量を加える。銀の比熱は0.235 [J/(g·K)]、銅は0.384 [J/(g·K)]である。温度変化が大きいのはどちらか。",
+    "display": "銀",
+    "unit": "",
+    "answers": [
+      "銀"
+    ]
+  },
+  {
+    "id": "STAGE_0252",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の鉄とアルミニウムに同じ熱量を加える。鉄の比熱は0.448 [J/(g·K)]、アルミニウムは0.902 [J/(g·K)]である。温度変化が大きいのはどちらか。",
+    "display": "鉄",
+    "unit": "",
+    "answers": [
+      "鉄"
+    ]
+  },
+  {
+    "id": "STAGE_0253",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量のコンクリートと水に、同じ熱量を加える。コンクリートの比熱は0.8 [J/(g·K)]、水は4.18 [J/(g·K)]である。温度変化が大きいのはどちらか。",
+    "display": "コンクリート",
+    "unit": "",
+    "answers": [
+      "コンクリート"
+    ]
+  },
+  {
+    "id": "STAGE_0254",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage3",
+    "sourceFile": "google/heat/heat_stage3_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の物体Aと物体Bに同じ熱量を加える。両方の比熱は0.8 [J/(g·K)]である。温度変化について正しいものはどれか。",
+    "display": "どちらも等しい",
+    "unit": "",
+    "answers": [
+      "どちらも等しい"
+    ]
+  },
+  {
+    "id": "STAGE_0255",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.235 [J/(g·K)]の銀の温度を20 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "470 [J]",
+    "unit": "J",
+    "number": 470,
+    "tolerance": 1.41
+  },
+  {
+    "id": "STAGE_0256",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.235 [J/(g·K)]の銀の熱容量Cはいくらか。",
+    "display": "23.5 [J/K]",
+    "unit": "J/K",
+    "number": 23.5,
+    "tolerance": 0.07050000000000001
+  },
+  {
+    "id": "STAGE_0257",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.235 [J/(g·K)]の銀に470 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "20 [K]",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0258",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.384 [J/(g·K)]の銅の温度を15 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "1152 [J]",
+    "unit": "J",
+    "number": 1152,
+    "tolerance": 3.456
+  },
+  {
+    "id": "STAGE_0259",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.384 [J/(g·K)]の銅の熱容量Cはいくらか。",
+    "display": "76.8 [J/K]",
+    "unit": "J/K",
+    "number": 76.8,
+    "tolerance": 0.2304
+  },
+  {
+    "id": "STAGE_0260",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.384 [J/(g·K)]の銅に1152 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "15 [K]",
+    "unit": "K",
+    "number": 15,
+    "tolerance": 0.045
+  },
+  {
+    "id": "STAGE_0261",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]、比熱0.448 [J/(g·K)]の鉄の温度を10 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "1120 [J]",
+    "unit": "J",
+    "number": 1120,
+    "tolerance": 3.36
+  },
+  {
+    "id": "STAGE_0262",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]、比熱0.448 [J/(g·K)]の鉄の熱容量Cはいくらか。",
+    "display": "112 [J/K]",
+    "unit": "J/K",
+    "number": 112,
+    "tolerance": 0.336
+  },
+  {
+    "id": "STAGE_0263",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量250 [g]、比熱0.448 [J/(g·K)]の鉄に1120 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "10 [K]",
+    "unit": "K",
+    "number": 10,
+    "tolerance": 0.03
+  },
+  {
+    "id": "STAGE_0264",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.902 [J/(g·K)]のアルミニウムの温度を20 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "1804 [J]",
+    "unit": "J",
+    "number": 1804,
+    "tolerance": 5.412
+  },
+  {
+    "id": "STAGE_0265",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.902 [J/(g·K)]のアルミニウムの熱容量Cはいくらか。",
+    "display": "90.2 [J/K]",
+    "unit": "J/K",
+    "number": 90.2,
+    "tolerance": 0.2706
+  },
+  {
+    "id": "STAGE_0266",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.902 [J/(g·K)]のアルミニウムに1804 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "20 [K]",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0267",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量500 [g]、比熱0.8 [J/(g·K)]のコンクリートの温度を20 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "8000 [J]",
+    "unit": "J",
+    "number": 8000,
+    "tolerance": 24
+  },
+  {
+    "id": "STAGE_0268",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量500 [g]、比熱0.8 [J/(g·K)]のコンクリートの熱容量Cはいくらか。",
+    "display": "400 [J/K]",
+    "unit": "J/K",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0269",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量500 [g]、比熱0.8 [J/(g·K)]のコンクリートに8000 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "20 [K]",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0270",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱1.3 [J/(g·K)]の木材の温度を20 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "5200 [J]",
+    "unit": "J",
+    "number": 5200,
+    "tolerance": 15.6
+  },
+  {
+    "id": "STAGE_0271",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱1.3 [J/(g·K)]の木材の熱容量Cはいくらか。",
+    "display": "260 [J/K]",
+    "unit": "J/K",
+    "number": 260,
+    "tolerance": 0.78
+  },
+  {
+    "id": "STAGE_0272",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱1.3 [J/(g·K)]の木材に5200 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "20 [K]",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0273",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱1.93 [J/(g·K)]の氷の温度を10 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "1930 [J]",
+    "unit": "J",
+    "number": 1930,
+    "tolerance": 5.79
+  },
+  {
+    "id": "STAGE_0274",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱1.93 [J/(g·K)]の氷の熱容量Cはいくらか。",
+    "display": "193 [J/K]",
+    "unit": "J/K",
+    "number": 193,
+    "tolerance": 0.579
+  },
+  {
+    "id": "STAGE_0275",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱1.93 [J/(g·K)]の氷に1930 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "10 [K]",
+    "unit": "K",
+    "number": 10,
+    "tolerance": 0.03
+  },
+  {
+    "id": "STAGE_0276",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱4.18 [J/(g·K)]の水の温度を10 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "4180 [J]",
+    "unit": "J",
+    "number": 4180,
+    "tolerance": 12.540000000000001
+  },
+  {
+    "id": "STAGE_0277",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱4.18 [J/(g·K)]の水の熱容量Cはいくらか。",
+    "display": "418 [J/K]",
+    "unit": "J/K",
+    "number": 418,
+    "tolerance": 1.254
+  },
+  {
+    "id": "STAGE_0278",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱4.18 [J/(g·K)]の水に4180 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "10 [K]",
+    "unit": "K",
+    "number": 10,
+    "tolerance": 0.03
+  },
+  {
+    "id": "STAGE_0279",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.384 [J/(g·K)]の銅の温度を25 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "960 [J]",
+    "unit": "J",
+    "number": 960,
+    "tolerance": 2.88
+  },
+  {
+    "id": "STAGE_0280",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.384 [J/(g·K)]の銅の熱容量Cはいくらか。",
+    "display": "38.4 [J/K]",
+    "unit": "J/K",
+    "number": 38.4,
+    "tolerance": 0.1152
+  },
+  {
+    "id": "STAGE_0281",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量100 [g]、比熱0.384 [J/(g·K)]の銅に960 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "25 [K]",
+    "unit": "K",
+    "number": 25,
+    "tolerance": 0.075
+  },
+  {
+    "id": "STAGE_0282",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.448 [J/(g·K)]の鉄の温度を30 [K]上げる。必要な熱量Qはいくらか。",
+    "display": "2688 [J]",
+    "unit": "J",
+    "number": 2688,
+    "tolerance": 8.064
+  },
+  {
+    "id": "STAGE_0283",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.448 [J/(g·K)]の鉄の熱容量Cはいくらか。",
+    "display": "89.6 [J/K]",
+    "unit": "J/K",
+    "number": 89.6,
+    "tolerance": 0.2688
+  },
+  {
+    "id": "STAGE_0284",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage4",
+    "sourceFile": "google/heat/heat_stage4_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量200 [g]、比熱0.448 [J/(g·K)]の鉄に2688 [J]の熱を加えた。温度変化ΔTはいくらか。",
+    "display": "30 [K]",
+    "unit": "K",
+    "number": 30,
+    "tolerance": 0.09
+  },
+  {
+    "id": "STAGE_0285",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。80 [℃]・0.20 [kg] と、20 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "44 [℃]",
+    "unit": "℃",
+    "number": 44,
+    "tolerance": 0.132
+  },
+  {
+    "id": "STAGE_0286",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。90 [℃]・0.10 [kg] と、30 [℃]・0.20 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "50 [℃]",
+    "unit": "℃",
+    "number": 50,
+    "tolerance": 0.15
+  },
+  {
+    "id": "STAGE_0287",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ質量の同じ物質を、70 [℃] と 20 [℃] から混ぜた。熱平衡温度 T は何 [℃] か。",
+    "display": "45 [℃]",
+    "unit": "℃",
+    "number": 45,
+    "tolerance": 0.135
+  },
+  {
+    "id": "STAGE_0288",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。60 [℃]・0.30 [kg] と、20 [℃]・0.10 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "50 [℃]",
+    "unit": "℃",
+    "number": 50,
+    "tolerance": 0.15
+  },
+  {
+    "id": "STAGE_0289",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 300 [J/K]・80 [℃] の物体と、熱容量 200 [J/K]・20 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",
+    "display": "56 [℃]",
+    "unit": "℃",
+    "number": 56,
+    "tolerance": 0.168
+  },
+  {
+    "id": "STAGE_0290",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 200 [J/K]・90 [℃] の物体と、熱容量 300 [J/K]・40 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",
+    "display": "60 [℃]",
+    "unit": "℃",
+    "number": 60,
+    "tolerance": 0.18
+  },
+  {
+    "id": "STAGE_0291",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃] の水 m [kg] と、20 [℃] の水 0.30 [kg] を混ぜると 40 [℃] になった。高温の水の質量 m はいくらか。",
+    "display": "0.15 [kg]",
+    "unit": "kg",
+    "number": 0.15,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0292",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "90 [℃] の水 m [kg] と、30 [℃] の水 0.20 [kg] を混ぜると 50 [℃] になった。高温の水の質量 m はいくらか。",
+    "display": "0.10 [kg]",
+    "unit": "kg",
+    "number": 0.1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0293",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "70 [℃] の水 0.20 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",
+    "display": "0.30 [kg]",
+    "unit": "kg",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0294",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "60 [℃] の水 0.40 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",
+    "display": "0.40 [kg]",
+    "unit": "kg",
+    "number": 0.4,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0295",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.50 [kg] の金属を、20 [℃]・0.20 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "240 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 240,
+    "tolerance": 0.72
+  },
+  {
+    "id": "STAGE_0296",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃]・0.25 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "400 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0297",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.20 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "500 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 500,
+    "tolerance": 1.5
+  },
+  {
+    "id": "STAGE_0298",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.50 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "200 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 200,
+    "tolerance": 0.6
+  },
+  {
+    "id": "STAGE_0299",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。90 [℃]・0.20 [kg] と、40 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "60 [℃]",
+    "unit": "℃",
+    "number": 60,
+    "tolerance": 0.18
+  },
+  {
+    "id": "STAGE_0300",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。80 [℃]・0.40 [kg] と、30 [℃]・0.10 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "70 [℃]",
+    "unit": "℃",
+    "number": 70,
+    "tolerance": 0.21
+  },
+  {
+    "id": "STAGE_0301",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。100 [℃]・0.30 [kg] と、25 [℃]・0.20 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "70 [℃]",
+    "unit": "℃",
+    "number": 70,
+    "tolerance": 0.21
+  },
+  {
+    "id": "STAGE_0302",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質を混ぜる。60 [℃]・0.10 [kg] と、20 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",
+    "display": "30 [℃]",
+    "unit": "℃",
+    "number": 30,
+    "tolerance": 0.09
+  },
+  {
+    "id": "STAGE_0303",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 400 [J/K]・90 [℃] の物体と、熱容量 100 [J/K]・40 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",
+    "display": "80 [℃]",
+    "unit": "℃",
+    "number": 80,
+    "tolerance": 0.24
+  },
+  {
+    "id": "STAGE_0304",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 150 [J/K]・80 [℃] の物体と、熱容量 350 [J/K]・30 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",
+    "display": "45 [℃]",
+    "unit": "℃",
+    "number": 45,
+    "tolerance": 0.135
+  },
+  {
+    "id": "STAGE_0305",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃] の水 m [kg] と、20 [℃] の水 0.20 [kg] を混ぜると 60 [℃] になった。高温の水の質量 m はいくらか。",
+    "display": "0.20 [kg]",
+    "unit": "kg",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0306",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "70 [℃] の水 m [kg] と、10 [℃] の水 0.15 [kg] を混ぜると 40 [℃] になった。高温の水の質量 m はいくらか。",
+    "display": "0.15 [kg]",
+    "unit": "kg",
+    "number": 0.15,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0307",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃] の水 0.30 [kg] と、20 [℃] の水 m [kg] を混ぜると 50 [℃] になった。低温の水の質量 m はいくらか。",
+    "display": "0.30 [kg]",
+    "unit": "kg",
+    "number": 0.3,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0308",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "90 [℃] の水 0.10 [kg] と、30 [℃] の水 m [kg] を混ぜると 50 [℃] になった。低温の水の質量 m はいくらか。",
+    "display": "0.20 [kg]",
+    "unit": "kg",
+    "number": 0.2,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0309",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "60 [℃] の水 0.25 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",
+    "display": "0.25 [kg]",
+    "unit": "kg",
+    "number": 0.25,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0310",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.25 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "400 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0311",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃]・0.40 [kg] の金属を、20 [℃]・0.12 [kg] の水に入れると 40 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "240 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 240,
+    "tolerance": 0.72
+  },
+  {
+    "id": "STAGE_0312",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "90 [℃]・0.20 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "375 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 375,
+    "tolerance": 1.125
+  },
+  {
+    "id": "STAGE_0313",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "70 [℃]・0.50 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "300 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 300,
+    "tolerance": 0.9
+  },
+  {
+    "id": "STAGE_0314",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage5",
+    "sourceFile": "google/heat/heat_stage5_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.30 [kg] の金属を、20 [℃]・0.15 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",
+    "display": "500 [J/(kg·K)]",
+    "unit": "J/(kg·K)",
+    "number": 500,
+    "tolerance": 1.5
+  },
+  {
+    "id": "STAGE_0315",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 0 [℃] は、絶対温度で何 [K] か。",
+    "display": "273",
+    "unit": "K",
+    "number": 273,
+    "tolerance": 0.8190000000000001
+  },
+  {
+    "id": "STAGE_0316",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 20 [℃] は、絶対温度で何 [K] か。",
+    "display": "293",
+    "unit": "K",
+    "number": 293,
+    "tolerance": 0.879
+  },
+  {
+    "id": "STAGE_0317",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 −10 [℃] は、絶対温度で何 [K] か。",
+    "display": "263",
+    "unit": "K",
+    "number": 263,
+    "tolerance": 0.789
+  },
+  {
+    "id": "STAGE_0318",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "セルシウス温度 100 [℃] は、絶対温度で何 [K] か。",
+    "display": "373",
+    "unit": "K",
+    "number": 373,
+    "tolerance": 1.119
+  },
+  {
+    "id": "STAGE_0319",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 298 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "25",
+    "unit": "℃",
+    "number": 25,
+    "tolerance": 0.075
+  },
+  {
+    "id": "STAGE_0320",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 310 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "37",
+    "unit": "℃",
+    "number": 37,
+    "tolerance": 0.111
+  },
+  {
+    "id": "STAGE_0321",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 233 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "-40",
+    "unit": "℃",
+    "number": -40,
+    "tolerance": 0.12
+  },
+  {
+    "id": "STAGE_0322",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "絶対温度 273 [K] は、セルシウス温度で何 [℃] か。",
+    "display": "0",
+    "unit": "℃",
+    "number": 0,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0323",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 100 [J/K] の物体の温度を 4 [K] 上げた。熱量 Q はいくらか。",
+    "display": "400",
+    "unit": "J",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0324",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 300 [J/K] の物体を 20 [℃] から 30 [℃] まで加熱した。熱量 Q はいくらか。",
+    "display": "3000",
+    "unit": "J",
+    "number": 3000,
+    "tolerance": 9
+  },
+  {
+    "id": "STAGE_0325",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 250 [J/K] の物体の温度を 20 [K] 上げた。熱量 Q はいくらか。",
+    "display": "5000",
+    "unit": "J",
+    "number": 5000,
+    "tolerance": 15
+  },
+  {
+    "id": "STAGE_0326",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "500 [J] の熱を加えると温度が 5 [K] 上がった。熱容量 C はいくらか。",
+    "display": "100",
+    "unit": "J/K",
+    "number": 100,
+    "tolerance": 0.3
+  },
+  {
+    "id": "STAGE_0327",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "4500 [J] の熱を加えると温度が 15 [K] 上がった。熱容量 C はいくらか。",
+    "display": "300",
+    "unit": "J/K",
+    "number": 300,
+    "tolerance": 0.9
+  },
+  {
+    "id": "STAGE_0328",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "8000 [J] の熱を加えると温度が 20 [K] 上がった。熱容量 C はいくらか。",
+    "display": "400",
+    "unit": "J/K",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0329",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 200 [J/K] の物体に 1000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "5",
+    "unit": "K",
+    "number": 5,
+    "tolerance": 0.015
+  },
+  {
+    "id": "STAGE_0330",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量 C = 250 [J/K] の物体に 5000 [J] の熱を加えた。温度変化 ΔT はいくらか。",
+    "display": "20",
+    "unit": "K",
+    "number": 20,
+    "tolerance": 0.06
+  },
+  {
+    "id": "STAGE_0331",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 2.0 [kg]、比熱 500 [J/(kg·K)] の物体の温度を 5 [K] 上げた。熱量 Q はいくらか。",
+    "display": "5000",
+    "unit": "J",
+    "number": 5000,
+    "tolerance": 15
+  },
+  {
+    "id": "STAGE_0332",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 0.50 [kg]、比熱 900 [J/(kg·K)] の物体の温度を 10 [K] 上げた。熱量 Q はいくらか。",
+    "display": "4500",
+    "unit": "J",
+    "number": 4500,
+    "tolerance": 13.5
+  },
+  {
+    "id": "STAGE_0333",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 1.5 [kg]、比熱 400 [J/(kg·K)] の物体の温度を 20 [K] 上げた。熱量 Q はいくらか。",
+    "display": "12000",
+    "unit": "J",
+    "number": 12000,
+    "tolerance": 36
+  },
+  {
+    "id": "STAGE_0334",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 2.0 [kg]、比熱 500 [J/(kg·K)] の物体の熱容量 C はいくらか。",
+    "display": "1000",
+    "unit": "J/K",
+    "number": 1000,
+    "tolerance": 3
+  },
+  {
+    "id": "STAGE_0335",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 0.50 [kg]、比熱 900 [J/(kg·K)] の物体の熱容量 C はいくらか。",
+    "display": "450",
+    "unit": "J/K",
+    "number": 450,
+    "tolerance": 1.35
+  },
+  {
+    "id": "STAGE_0336",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 2.0 [kg]、熱容量 1000 [J/K] の物体の比熱 c はいくらか。",
+    "display": "500",
+    "unit": "J/(kg·K)",
+    "number": 500,
+    "tolerance": 1.5
+  },
+  {
+    "id": "STAGE_0337",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 2.0 [kg] の物体に 8000 [J] の熱を加えると、温度が 10 [K] 上がった。比熱 c はいくらか。",
+    "display": "400",
+    "unit": "J/(kg·K)",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0338",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "質量 0.20 [kg] の物体に 900 [J] の熱を加えると、温度が 10 [K] 上がった。比熱 c はいくらか。",
+    "display": "450",
+    "unit": "J/(kg·K)",
+    "number": 450,
+    "tolerance": 1.35
+  },
+  {
+    "id": "STAGE_0339",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質の80 [℃]・0.20 [kg]と、20 [℃]・0.30 [kg]を混ぜた。熱平衡温度は何 [℃] か。",
+    "display": "44",
+    "unit": "℃",
+    "number": 44,
+    "tolerance": 0.132
+  },
+  {
+    "id": "STAGE_0340",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "同じ物質の90 [℃]・0.10 [kg]と、30 [℃]・0.20 [kg]を混ぜた。熱平衡温度は何 [℃] か。",
+    "display": "50",
+    "unit": "℃",
+    "number": 50,
+    "tolerance": 0.15
+  },
+  {
+    "id": "STAGE_0341",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "熱容量300 [J/K]・80 [℃]の物体と、熱容量200 [J/K]・20 [℃]の物体を接触させた。熱平衡温度は何 [℃] か。",
+    "display": "56",
+    "unit": "℃",
+    "number": 56,
+    "tolerance": 0.168
+  },
+  {
+    "id": "STAGE_0342",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃]の水 m [kg]と、20 [℃]の水0.30 [kg]を混ぜると40 [℃]になった。mはいくらか。",
+    "display": "0.15",
+    "unit": "kg",
+    "number": 0.15,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0343",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "90 [℃]の水 m [kg]と、30 [℃]の水0.20 [kg]を混ぜると50 [℃]になった。mはいくらか。",
+    "display": "0.1",
+    "unit": "kg",
+    "number": 0.1,
+    "tolerance": 0.01
+  },
+  {
+    "id": "STAGE_0344",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.50 [kg]の金属を、20 [℃]・0.20 [kg]の水に入れると50 [℃]になった。水の比熱を1000 [J/(kg·K)]として、金属の比熱を求めよ。",
+    "display": "240",
+    "unit": "J/(kg·K)",
+    "number": 240,
+    "tolerance": 0.72
+  },
+  {
+    "id": "STAGE_0345",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "80 [℃]・0.25 [kg]の金属を、20 [℃]・0.10 [kg]の水に入れると50 [℃]になった。水の比熱を1000 [J/(kg·K)]として、金属の比熱を求めよ。",
+    "display": "400",
+    "unit": "J/(kg·K)",
+    "number": 400,
+    "tolerance": 1.2
+  },
+  {
+    "id": "STAGE_0346",
+    "sourceUnit": "熱",
+    "sourceStage": "Stage6",
+    "sourceFile": "google/heat/heat_stage6_framework_v1.html",
+    "section": "熱",
+    "prompt": "100 [℃]・0.20 [kg]の金属を、20 [℃]・0.10 [kg]の水に入れると60 [℃]になった。水の比熱を1000 [J/(kg·K)]として、金属の比熱を求めよ。",
+    "display": "500",
+    "unit": "J/(kg·K)",
+    "number": 500,
+    "tolerance": 1.5
+  }
+];
+window.FINAL_MOCK_STAGE_BASIC_BANK_META = {
+  "generatedAt": "2026-07-08T18:03:53.250Z",
+  "total": 346,
+  "sourceCounts": {
+    "円運動/Stage1": 20,
+    "円運動/Stage2": 18,
+    "円運動/Stage3": 24,
+    "円運動/Stage4": 16,
+    "円運動/Stage5": 17,
+    "円運動/Stage6": 17,
+    "バネ/Stage1": 16,
+    "バネ/Stage2": 16,
+    "バネ/Stage3": 14,
+    "バネ/Stage4": 13,
+    "バネ/Stage5": 15,
+    "熱/Stage1": 14,
+    "熱/Stage2": 14,
+    "熱/Stage3": 40,
+    "熱/Stage4": 30,
+    "熱/Stage5": 30,
+    "熱/Stage6": 32
+  }
+};
