@@ -411,6 +411,78 @@ const STUDENT_BIG_PROBLEM_CATALOG = [
   "バネ/test2/水平バネ振り子"
 ];
 
+const FINAL_MOCK_STAGE_CATALOG = [
+  "期末試験/模試"
+];
+
+function getSpecialActivitySection_(stage) {
+  const value = String(stage || "").trim();
+  if (STUDENT_BIG_PROBLEM_CATALOG.indexOf(value) !== -1) return "大問対策";
+  if (FINAL_MOCK_STAGE_CATALOG.indexOf(value) !== -1) return "期末試験模試";
+  return "";
+}
+
+function buildSpecialActivityRows_(logs) {
+  const labels = ["大問対策", "期末試験模試"];
+  const map = {};
+  labels.forEach(label => {
+    map[label] = {
+      section: label,
+      attempts: 0,
+      studentSet: {},
+      scoreSum: 0,
+      totalSum: 0,
+      elapsedSum: 0,
+      elapsedCount: 0,
+      latest: null
+    };
+  });
+
+  (logs || []).forEach(row => {
+    const section = getSpecialActivitySection_(row["Stage"]);
+    if (!section) return;
+    const item = map[section];
+    const studentId = String(row["学籍番号"] || "").trim();
+    const score = Number(row["得点"] || 0);
+    const total = Number(row["問題数"] || 0);
+    const elapsed = Number(row["所要時間[s]"] || 0);
+    const date = asDate_(row["日時"]);
+
+    item.attempts++;
+    if (studentId) item.studentSet[studentId] = true;
+    item.scoreSum += score;
+    item.totalSum += total;
+    if (elapsed > 0) {
+      item.elapsedSum += elapsed;
+      item.elapsedCount++;
+    }
+    if (date && (!item.latest || date > item.latest)) item.latest = date;
+  });
+
+  return labels.map(label => {
+    const item = map[label];
+    const showAverageScore = label === "期末試験模試";
+    return {
+      section: label,
+      attempts: item.attempts,
+      students: Object.keys(item.studentSet).length,
+      averageRate: item.totalSum > 0
+        ? Math.round(item.scoreSum / item.totalSum * 100)
+        : 0,
+      averageScore: showAverageScore && item.attempts > 0
+        ? Math.round(item.scoreSum / item.attempts * 10) / 10
+        : null,
+      averageTotal: showAverageScore && item.attempts > 0
+        ? Math.round(item.totalSum / item.attempts * 10) / 10
+        : null,
+      averageElapsed: item.elapsedCount > 0
+        ? Math.round(item.elapsedSum / item.elapsedCount)
+        : 0,
+      latest: item.latest ? item.latest.toISOString() : ""
+    };
+  });
+}
+
 function doGet(e) {
   const params = (e && e.parameter) || {};
   if (params.view === "app") {
@@ -420,16 +492,6 @@ function doGet(e) {
     try {
       return HtmlService.createHtmlOutput(buildStudentDashboardHtml_(getAuthenticatedStudentId_()))
         .setTitle("自分の学習状況").setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-    } catch (err) {
-      return buildUniversityAccountGuide_(err.message);
-    }
-  }
-  if (params.view === "review") {
-    try {
-      const studentId = getAuthenticatedStudentId_();
-      return HtmlService.createHtmlOutput(buildWrongQuestionReviewHtml_(studentId))
-        .setTitle("間違えた問題をランダム復習")
-        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
     } catch (err) {
       return buildUniversityAccountGuide_(err.message);
     }
@@ -682,12 +744,20 @@ function getTeacherDashboardData(filters) {
   const stages = Array.from(new Set(stageSourceRows.map(row => String(row["Stage"] || "")).filter(Boolean))).sort();
   const summary = buildSummary_(filteredLogs);
   const unitRows = buildUnitRows_(filteredLogs);
-  const stageRows = buildStageRows_(filteredLogs);
+  const regularStageLogs = filteredLogs.filter(row =>
+    getSpecialActivitySection_(row["Stage"]) !== "期末試験模試");
+  const stageRows = buildStageRows_(regularStageLogs);
   const bottleneckStages = buildBottleneckStageRows_(stageRows);
   const studentRows = buildStudentRows_(filteredLogs, filteredCountsSource);
   const studentLeaderboards = buildStudentLeaderboards_(filteredLogs);
   const questionStats = buildQuestionStats_(filteredQuestionRows);
   const recentAttempts = buildRecentAttempts_(filteredLogs);
+  const specialRows = buildSpecialActivityRows_(filteredLogs)
+    .filter(row => row.section === "期末試験模試");
+  const finalMockLogs = filteredLogs.filter(row =>
+    getSpecialActivitySection_(row["Stage"]) === "期末試験模試");
+  const finalMockAttempts = buildRecentAttempts_(finalMockLogs).slice(0, 30);
+  const finalMockWrongRows = buildFinalMockWrongRows_(filteredQuestionRows).slice(0, 80);
 
   return {
     generatedAt: new Date().toISOString(),
@@ -700,7 +770,10 @@ function getTeacherDashboardData(filters) {
     studentRows,
     studentLeaderboards,
     questionStats,
-    recentAttempts
+    recentAttempts,
+    specialRows,
+    finalMockAttempts,
+    finalMockWrongRows
   };
 }
 
@@ -711,10 +784,16 @@ function buildStudentLeaderboards_(logs) {
     const studentId = String(row["学籍番号"] || "").trim();
     if (!studentId) return;
     if (!map[studentId]) {
-      map[studentId] = { studentId, attempts: 0, totalElapsed: 0 };
+      map[studentId] = {
+        studentId,
+        attempts: 0,
+        totalElapsed: 0,
+        outOfClassElapsed: 0
+      };
     }
     map[studentId].attempts++;
     map[studentId].totalElapsed += Number(row["所要時間[s]"] || 0);
+    map[studentId].outOfClassElapsed += getOutOfClassElapsedSeconds_(row);
   });
 
   const rows = Object.keys(map).map(studentId => map[studentId]);
@@ -726,6 +805,8 @@ function buildStudentLeaderboards_(logs) {
   return {
     totalElapsed: rows.filter(row => row.totalElapsed > 0)
       .sort(byValue("totalElapsed")).slice(0, 10),
+    outOfClassElapsed: rows.filter(row => row.outOfClassElapsed > 0)
+      .sort(byValue("outOfClassElapsed")).slice(0, 10),
     attempts: rows.filter(row => row.attempts > 0)
       .sort(byValue("attempts")).slice(0, 10)
   };
@@ -758,12 +839,15 @@ function rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter
 }
 
 function getRowUnit_(row) {
+  const stage = String(row["Stage"] || "").trim();
+  const specialSection = getSpecialActivitySection_(stage);
+  if (specialSection) return specialSection;
+
   for (let i = 0; i < DASHBOARD_UNIT_HEADERS_.length; i++) {
     const value = String(row[DASHBOARD_UNIT_HEADERS_[i]] || "").trim();
     if (value) return value;
   }
 
-  const stage = String(row["Stage"] || "").trim();
   const match = stage.match(/^(.+?)[\s_＿:：/／|｜-](.+)$/);
   if (match && match[1]) return match[1].trim();
   return "未設定";
@@ -774,6 +858,7 @@ function buildSummary_(logs) {
   let scoreSum = 0;
   let totalSum = 0;
   let elapsedSum = 0;
+  let outOfClassElapsedSum = 0;
   let elapsedCount = 0;
   let passed = 0;
 
@@ -791,6 +876,7 @@ function buildSummary_(logs) {
       elapsedSum += elapsed;
       elapsedCount++;
     }
+    outOfClassElapsedSum += getOutOfClassElapsedSeconds_(row);
 
     if (String(row["クリア"] || "") === "○") passed++;
   });
@@ -801,7 +887,10 @@ function buildSummary_(logs) {
     averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0,
     passRate: logs.length > 0 ? Math.round(passed / logs.length * 100) : 0,
     averageElapsed: elapsedCount > 0 ? Math.round(elapsedSum / elapsedCount) : 0,
-    averageStudentTotalElapsed: students.size > 0 ? Math.round(elapsedSum / students.size) : 0
+    averageStudentTotalElapsed: students.size > 0 ? Math.round(elapsedSum / students.size) : 0,
+    averageStudentOutOfClassElapsed: students.size > 0
+      ? Math.round(outOfClassElapsedSum / students.size)
+      : 0
   };
 }
 
@@ -963,6 +1052,7 @@ function buildStudentRows_(logs, counts) {
     const total = Number(row["問題数"] || 0);
     const rate = total > 0 ? Math.round(score / total * 100) : 0;
     const elapsed = Number(row["所要時間[s]"] || 0);
+    const outOfClassElapsed = getOutOfClassElapsedSeconds_(row);
     const date = asDate_(row["日時"]);
     const passed = String(row["クリア"] || "") === "○";
 
@@ -973,6 +1063,7 @@ function buildStudentRows_(logs, counts) {
         scoreSum: 0,
         totalSum: 0,
         totalElapsed: 0,
+        outOfClassElapsed: 0,
         latestRate: 0,
         latestStage: "",
         latestElapsed: 0,
@@ -987,8 +1078,11 @@ function buildStudentRows_(logs, counts) {
     item.scoreSum += score;
     item.totalSum += total;
     if (elapsed > 0) item.totalElapsed += elapsed;
-    if (stage) item.stages[stage] = true;
-    if (passed && stage) item.clearedStages[stage] = true;
+    if (outOfClassElapsed > 0) item.outOfClassElapsed += outOfClassElapsed;
+    const isRegularStage = stage &&
+      getSpecialActivitySection_(stage) !== "期末試験模試";
+    if (isRegularStage) item.stages[stage] = true;
+    if (passed && isRegularStage) item.clearedStages[stage] = true;
 
     if (!item.latest || (date && date > item.latest)) {
       item.latest = date;
@@ -1011,6 +1105,7 @@ function buildStudentRows_(logs, counts) {
       averageRate: item.totalSum > 0 ? Math.round(item.scoreSum / item.totalSum * 100) : 0,
       latestRate: item.latestRate,
       totalElapsed: item.totalElapsed,
+      outOfClassElapsed: item.outOfClassElapsed,
       latestStage: item.latestStage,
       latestElapsed: item.latestElapsed,
       clearedStages: clearedStageLabels.length,
@@ -1018,6 +1113,38 @@ function buildStudentRows_(logs, counts) {
       latest: item.latest ? item.latest.toISOString() : ""
     };
   }).sort((a, b) => compareStudentIds_(a.studentId, b.studentId));
+}
+
+function getOutOfClassElapsedSeconds_(row) {
+  const elapsed = Math.max(0, Number(row["所要時間[s]"] || 0));
+  if (!elapsed) return 0;
+
+  const submittedAt = asDate_(row["日時"]);
+  if (!submittedAt) return elapsed;
+
+  const jstOffsetMs = 9 * 60 * 60 * 1000;
+  const elapsedMs = elapsed * 1000;
+  const attemptEndMs = submittedAt.getTime();
+  const attemptStartMs = attemptEndMs - elapsedMs;
+  const localStart = new Date(attemptStartMs + jstOffsetMs);
+  const localEnd = new Date(attemptEndMs + jstOffsetMs);
+  let localMidnightMs = Date.UTC(
+    localStart.getUTCFullYear(), localStart.getUTCMonth(), localStart.getUTCDate());
+  const lastLocalMidnightMs = Date.UTC(
+    localEnd.getUTCFullYear(), localEnd.getUTCMonth(), localEnd.getUTCDate());
+  let classOverlapMs = 0;
+
+  for (; localMidnightMs <= lastLocalMidnightMs; localMidnightMs += 24 * 60 * 60 * 1000) {
+    const localDay = new Date(localMidnightMs);
+    if (localDay.getUTCDay() !== 5) continue;
+
+    const classStartMs = localMidnightMs - jstOffsetMs + (10 * 60 + 40) * 60 * 1000;
+    const classEndMs = localMidnightMs - jstOffsetMs + (12 * 60 + 10) * 60 * 1000;
+    classOverlapMs += Math.max(0,
+      Math.min(attemptEndMs, classEndMs) - Math.max(attemptStartMs, classStartMs));
+  }
+
+  return Math.max(0, Math.round((elapsedMs - classOverlapMs) / 1000));
 }
 
 function compareStudentIds_(a, b) {
@@ -1105,6 +1232,27 @@ function buildRecentAttempts_(logs) {
       date: asDate_(row["日時"]) ? asDate_(row["日時"]).toISOString() : ""
     };
   }).sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 30);
+}
+
+function buildFinalMockWrongRows_(questionRows) {
+  return (questionRows || []).filter(row => {
+    return getSpecialActivitySection_(row["Stage"]) === "期末試験模試" &&
+      String(row["正誤"] || "") !== "○";
+  }).map(row => {
+    return {
+      studentId: String(row["学籍番号"] || ""),
+      stage: String(row["Stage"] || ""),
+      stageAttempt: Number(row["Stage挑戦回数"] || 0),
+      problemNo: Number(row["問題番号"] || 0),
+      problemId: String(row["問題ID"] || ""),
+      type: String(row["問題タイプ"] || ""),
+      elapsed: Number(row["時間[s]"] || 0),
+      selected: String(row["選択/入力"] || ""),
+      answer: String(row["正解"] || ""),
+      prompt: String(row["問題文"] || ""),
+      date: asDate_(row["日時"]) ? asDate_(row["日時"]).toISOString() : ""
+    };
+  }).sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }
 
 function asDate_(value) {
@@ -1217,7 +1365,7 @@ function getStudentDashboardData_(studentId) {
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
   const allLogs = logSheet ? readSheetObjects_(logSheet)
     .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
-  const questionLogs = questionSheet ? readSheetObjects_(questionSheet)
+  const questionRows = questionSheet ? readSheetObjects_(questionSheet)
     .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
 
   let scoreSum = 0;
@@ -1319,78 +1467,20 @@ function getStudentDashboardData_(studentId) {
     },
     stageRows,
     sectionRows,
-    wrongQuestionCount: buildRandomWrongQuestions_(questionLogs, Number.MAX_SAFE_INTEGER).length,
     rankings: buildStudentRankings_(targetId, allLogs),
-    recentAttempts: buildRecentAttempts_(logs).slice(0, 3)
+    weeklyRankings: buildCurrentWeekRankings_(targetId, allLogs),
+    weeklyStart: getCurrentWeekStartJst_().toISOString(),
+    recentAttempts: buildRecentAttempts_(logs).slice(0, 3),
+    finalMockAttempts: buildRecentAttempts_(logs.filter(row =>
+      getSpecialActivitySection_(row["Stage"]) === "期末試験模試")).slice(0, 5),
+    finalMockWrongRows: buildFinalMockWrongRows_(questionRows).slice(0, 12)
   };
-}
-
-function buildRandomWrongQuestions_(questionLogs, limit) {
-  const latestByQuestion = {};
-
-  questionLogs.forEach((row, index) => {
-    const stage = String(row["Stage"] || "").trim();
-    if (!STUDENT_STAGE_CATALOG.includes(stage)) return;
-
-    const prompt = String(row["問題文"] || "").trim();
-    if (!prompt) return;
-
-    const questionId = String(row["問題ID"] || "").trim();
-    const key = [stage, questionId, prompt].join("|");
-    const date = asDate_(row["日時"]);
-    const timestamp = date ? date.getTime() : index;
-    const current = latestByQuestion[key];
-
-    if (!current || timestamp >= current.timestamp) {
-      latestByQuestion[key] = { row, timestamp };
-    }
-  });
-
-  const wrongQuestions = Object.keys(latestByQuestion).map(key => {
-    const row = latestByQuestion[key].row;
-    return {
-      stage: String(row["Stage"] || ""),
-      prompt: String(row["問題文"] || ""),
-      selected: String(row["選択/入力"] || ""),
-      answer: String(row["正解"] || ""),
-      correct: String(row["正誤"] || "") === "○"
-    };
-  }).filter(item => !item.correct);
-
-  for (let i = wrongQuestions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = wrongQuestions[i];
-    wrongQuestions[i] = wrongQuestions[j];
-    wrongQuestions[j] = tmp;
-  }
-
-  return wrongQuestions.slice(0, Math.max(0, Number(limit) || 0));
-}
-
-function buildWrongQuestionReviewHtml_(studentId) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
-  const questionLogs = questionSheet ? readSheetObjects_(questionSheet)
-    .filter(row => String(row["学籍番号"] || "").trim() === String(studentId || "").trim()) : [];
-  const questions = buildRandomWrongQuestions_(questionLogs, 10);
-  const dashboardUrl = ScriptApp.getService().getUrl() + "?view=my";
-
-  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>間違えた問題をランダム復習</title><style>
-  :root{--ink:#17313b;--muted:#64748b;--line:#dbe5e7;--main:#19766e;--soft:#effaf8;--ok:#18794e;--ng:#b42318}*{box-sizing:border-box}body{margin:0;background:#f5f8f9;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}header,main{max-width:850px;margin:auto;padding:22px 18px}header{padding-bottom:8px}h1{font-size:clamp(25px,5vw,38px);margin:0 0 7px}.sub,.meta{color:var(--muted)}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 5px 16px rgba(27,58,68,.05)}.stage{font-size:13px;font-weight:800;color:var(--main);margin-bottom:8px}.question{font-size:18px;font-weight:800;line-height:1.65}.answer-row{display:flex;gap:9px;margin-top:15px}input{min-width:0;flex:1;border:1px solid #b9c9cd;border-radius:10px;padding:12px;font-size:16px}button,.button{border:0;border-radius:10px;padding:12px 17px;background:var(--main);color:#fff;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.feedback{display:none;margin-top:11px;padding:11px;border-radius:10px}.feedback.ok{display:block;background:#eaf8f0;color:var(--ok)}.feedback.ng{display:block;background:#fff0ee;color:var(--ng)}.result{display:none}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.button.secondary{background:#64748b}@media(max-width:600px){.answer-row{display:grid}button{width:100%}}
-  </style></head><body><header><h1>間違えた問題をランダム復習</h1><div class="sub">通常Stageで間違えた問題からランダムに${questions.length}題</div></header><main><div id="quiz"></div><div id="result" class="card result"><h2 id="score"></h2><p>ページを開き直すと、問題がもう一度ランダムに選ばれます。</p></div><div class="actions"><a class="button secondary" href="${escapeHtmlServer_(dashboardUrl)}">学習ダッシュボードへ戻る</a></div></main><script>
-  const questions=${JSON.stringify(questions)};
-  const quiz=document.getElementById("quiz");
-  const normalize=value=>String(value||"").trim().replace(/[\\s　]+/g,"").replace(/，/g,",").replace(/．/g,".").toLowerCase();
-  function escapeHtml(value){return String(value==null?"":value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
-  if(!questions.length){quiz.innerHTML='<div class="card"><h2>復習する問題はありません</h2><p class="meta">通常Stageで間違えた問題が記録されると、ここに表示されます。</p></div>';}else{quiz.innerHTML=questions.map((q,i)=>'<section class="card" data-index="'+i+'"><div class="stage">'+escapeHtml(q.stage)+'</div><div class="question">'+(i+1)+'. '+escapeHtml(q.prompt)+'</div><div class="answer-row"><input aria-label="問題 '+(i+1)+' の回答" autocomplete="off"><button type="button">答え合わせ</button></div><div class="feedback"></div></section>').join("");document.querySelectorAll("[data-index]").forEach(card=>{card.querySelector("button").onclick=()=>check(card);});}
-  function check(card){const i=Number(card.dataset.index),q=questions[i],input=card.querySelector("input"),button=card.querySelector("button"),feedback=card.querySelector(".feedback");if(!input.value.trim()){input.focus();return;}const ok=normalize(input.value)===normalize(q.answer);card.dataset.correct=ok?"1":"0";feedback.className="feedback "+(ok?"ok":"ng");feedback.innerHTML=ok?"正解！":"不正解　正解：<strong>"+escapeHtml(q.answer)+"</strong>";input.disabled=true;button.disabled=true;if(document.querySelectorAll('[data-index] button:not(:disabled)').length===0){const correct=document.querySelectorAll('[data-correct="1"]').length;document.getElementById("score").textContent=correct+" / "+questions.length+" 問正解";document.getElementById("result").style.display="block";}}
-  </script></body></html>`;
 }
 
 function buildStudentSectionRows_(logs, clearedStageNames) {
   const sections = ["円運動", "バネ", "熱"];
 
-  return sections.map(section => {
+  const regularRows = sections.map(section => {
     const stages = STUDENT_STAGE_CATALOG
       .filter(stage => stage.indexOf(section + "/") === 0);
     const stageSet = new Set(stages);
@@ -1401,7 +1491,9 @@ function buildStudentSectionRows_(logs, clearedStageNames) {
     const totalStages = stages.length;
 
     return {
+      kind: "stage",
       section,
+      attempts: sectionLogs.length,
       clearedStages,
       totalStages,
       progressPercent: totalStages > 0
@@ -1410,6 +1502,48 @@ function buildStudentSectionRows_(logs, clearedStageNames) {
       averageRate: totalSum > 0 ? Math.round(scoreSum / totalSum * 100) : 0
     };
   });
+
+  const bigProblemSet = new Set(STUDENT_BIG_PROBLEM_CATALOG);
+  const bigProblemLogs = logs.filter(row =>
+    bigProblemSet.has(String(row["Stage"] || "")));
+  const bigProblemScoreSum = bigProblemLogs.reduce(
+    (sum, row) => sum + Number(row["得点"] || 0), 0);
+  const bigProblemTotalSum = bigProblemLogs.reduce(
+    (sum, row) => sum + Number(row["問題数"] || 0), 0);
+  const clearedBigProblems = STUDENT_BIG_PROBLEM_CATALOG
+    .filter(stage => clearedStageNames.has(stage)).length;
+  const bigProblemTotal = STUDENT_BIG_PROBLEM_CATALOG.length;
+  const bigProblemRow = {
+    kind: "stage",
+    section: "大問対策",
+    attempts: bigProblemLogs.length,
+    clearedStages: clearedBigProblems,
+    totalStages: bigProblemTotal,
+    progressPercent: bigProblemTotal > 0
+      ? Math.round(clearedBigProblems / bigProblemTotal * 100)
+      : 0,
+    averageRate: bigProblemTotalSum > 0
+      ? Math.round(bigProblemScoreSum / bigProblemTotalSum * 100)
+      : 0,
+    averageScore: null,
+    averageTotal: null
+  };
+
+  const finalMock = buildSpecialActivityRows_(logs)
+    .find(row => row.section === "期末試験模試");
+  const finalMockRow = {
+    kind: "special",
+    section: "期末試験模試",
+    attempts: finalMock ? finalMock.attempts : 0,
+    clearedStages: null,
+    totalStages: null,
+    progressPercent: null,
+    averageRate: finalMock ? finalMock.averageRate : 0,
+    averageScore: finalMock ? finalMock.averageScore : 0,
+    averageTotal: finalMock ? finalMock.averageTotal : 0
+  };
+
+  return regularRows.concat([bigProblemRow, finalMockRow]);
 }
 
 function buildStudentRecommendations_(stageRows) {
@@ -1484,6 +1618,24 @@ function buildStudentRankings_(studentId, logs) {
   };
 }
 
+function getCurrentWeekStartJst_(now) {
+  const current = now ? new Date(now) : new Date();
+  const parts = Utilities.formatDate(current, "Asia/Tokyo", "yyyy-M-d")
+    .split("-").map(Number);
+  const localDate = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+  const daysFromMonday = (localDate.getUTCDay() + 6) % 7;
+  return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] - daysFromMonday) - 9 * 60 * 60 * 1000);
+}
+
+function buildCurrentWeekRankings_(studentId, logs, now) {
+  const weekStart = getCurrentWeekStartJst_(now);
+  const weeklyLogs = (logs || []).filter(row => {
+    const date = asDate_(row["日時"]);
+    return date && date >= weekStart;
+  });
+  return buildStudentRankings_(studentId, weeklyLogs);
+}
+
 function getStudentRank_(studentId, rows) {
   const sorted = rows
     .filter(row => Number(row.value || 0) > 0)
@@ -1524,13 +1676,12 @@ function buildStudentDashboardHtml_(studentId) {
     .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:18px}
     section{overflow:hidden}section h2{margin:0;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
     .cards{display:grid;gap:10px;padding:14px}.card{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff}.card-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px}
-    .recommend-grid{display:grid;grid-template-columns:1fr;gap:12px;padding:14px}.recommend-card{border:1px solid var(--line);border-radius:8px;padding:13px;background:#fff}.recommend-card.primary{border-color:#8ed3cb;background:#f4fbfa}.recommend-label{color:var(--muted);font-size:12px;font-weight:800}.recommend-title{font-weight:900;margin-top:4px}
     table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fbfcfe}
     .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
     .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
     .rank-grid{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:12px;padding:14px}.rank-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff}.rank-label{color:var(--muted);font-size:12px;font-weight:800}.rank-value{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:20px;font-weight:900}.rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:34px;border-radius:999px;background:#eef2f7;color:var(--text);font-size:15px;font-weight:900}.rank-badge.gold{background:#fef3c7;color:#92400e}.rank-badge.silver{background:#e5e7eb;color:#374151}.rank-badge.bronze{background:#ffedd5;color:#9a3412}.rank-note{color:var(--muted);font-size:12px;margin-top:4px}
     .muted{color:var(--muted);padding:14px}.num{font-variant-numeric:tabular-nums;font-weight:700}.prompt{max-width:360px}
-    @media(max-width:900px){.kpis,.grid,.recommend-grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
+    @media(max-width:900px){.kpis,.grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
   </style>
 </head>
 <body>
@@ -1547,12 +1698,12 @@ function buildStudentDashboardHtml_(studentId) {
       <div class="kpi"><div class="label">クリア回数</div><div class="value">${data.summary.cleared}</div></div>
     </div>
     <section>
-      <h2>あなたのランキング</h2>
+      <h2>総合ランキング</h2>
       <div id="rankingCards" class="rank-grid"></div>
     </section>
     <section>
-      <h2>間違えた問題を復習</h2>
-      <div id="reviewLink" class="recommend-grid"></div>
+      <h2>今週のランキング（月曜0:00更新）</h2>
+      <div id="weeklyRankingCards" class="rank-grid"></div>
     </section>
     <section>
       <h2>セクションごとの進捗</h2>
@@ -1562,6 +1713,14 @@ function buildStudentDashboardHtml_(studentId) {
       <h2>最近の学習履歴</h2>
       <div class="table-wrap"><table id="recentTable"></table></div>
     </section>
+    <section>
+      <h2>期末試験模試の結果</h2>
+      <div class="table-wrap"><table id="finalMockTable"></table></div>
+    </section>
+    <section>
+      <h2>期末試験模試で間違えた設問</h2>
+      <div class="table-wrap"><table id="finalMockWrongTable"></table></div>
+    </section>
   </main>
   <script>
     const dashboardData = ${JSON.stringify(data)};
@@ -1569,15 +1728,21 @@ function buildStudentDashboardHtml_(studentId) {
     document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
     renderSectionTable(dashboardData.sectionRows);
     renderRecentTable(dashboardData.recentAttempts);
-    renderRankings(dashboardData.rankings);
-    renderReviewLink(dashboardData.wrongQuestionCount);
+    renderFinalMockTable(dashboardData.finalMockAttempts || []);
+    renderFinalMockWrongTable(dashboardData.finalMockWrongRows || []);
+    renderRankings("rankingCards", dashboardData.rankings);
+    renderRankings("weeklyRankingCards", dashboardData.weeklyRankings);
 
     function renderSectionTable(rows){
-      renderTable("sectionTable", ["セクション","クリアStage","進捗","平均正答率"], rows, row => [
+      renderTable("sectionTable", ["セクション","挑戦回数","クリアStage","進捗","平均正答率","平均得点"], rows, row => [
         '<strong>' + escapeHtml(row.section) + '</strong>',
-        num(row.clearedStages + " / " + row.totalStages),
-        rateBar(row.progressPercent),
-        rateBar(row.averageRate)
+        num(row.attempts),
+        row.kind === "special" ? '<span class="muted">-</span>' : num(row.clearedStages + " / " + row.totalStages),
+        row.kind === "special" ? '<span class="muted">-</span>' : rateBar(row.progressPercent),
+        row.attempts > 0 ? rateBar(row.averageRate) : '<span class="muted">データなし</span>',
+        row.averageScore === null || row.averageScore === undefined
+          ? '<span class="muted">-</span>'
+          : num(row.averageScore + " / " + row.averageTotal)
       ]);
     }
     function renderRecentTable(rows){
@@ -1590,12 +1755,30 @@ function buildStudentDashboardHtml_(studentId) {
         '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "クリア" : "挑戦") + '</span>'
       ]);
     }
-    function renderRankings(rankings){
+    function renderFinalMockTable(rows){
+      renderTable("finalMockTable", ["日時","得点","正答率","時間","結果"], rows, row => [
+        escapeHtml(formatDate(row.date)),
+        num(row.score + " / " + row.total),
+        rateBar(row.rate),
+        num(formatSeconds(row.elapsed)),
+        '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "合格目安" : "復習推奨") + '</span>'
+      ]);
+    }
+    function renderFinalMockWrongTable(rows){
+      renderTable("finalMockWrongTable", ["日時","設問","入力","正解","時間"], rows, row => [
+        escapeHtml(formatDate(row.date)),
+        '<div class="prompt">' + escapeHtml(row.prompt || row.problemId || "-") + '</div>',
+        escapeHtml(row.selected || "-"),
+        escapeHtml(row.answer || "-"),
+        num(formatSeconds(row.elapsed))
+      ]);
+    }
+    function renderRankings(targetId, rankings){
       const rows = [
         { label: "総学習時間", rank: rankings.totalElapsed, value: formatSeconds(rankings.totalElapsed.value) },
         { label: "挑戦回数", rank: rankings.attempts, value: rankings.attempts.value + "回" }
       ];
-      document.getElementById("rankingCards").innerHTML = rows.map(row => {
+      document.getElementById(targetId).innerHTML = rows.map(row => {
         return '<div class="rank-card"><div class="rank-label">' + escapeHtml(row.label) + '</div>' +
           '<div class="rank-value">' + rankBadge(row.rank.rank) + '<span>' + escapeHtml(row.value) + '</span></div>' +
           '<div class="rank-note">' + rankText(row.rank) + '</div></div>';
@@ -1613,12 +1796,6 @@ function buildStudentDashboardHtml_(studentId) {
       if (!info || !info.rank) return "まだランキング対象のデータがありません。";
       if (info.rank <= 10) return info.total + "人中 " + info.rank + "位";
       return info.total + "人中 11位以下";
-    }
-    function renderReviewLink(count){
-      const target = document.getElementById("reviewLink");
-      target.innerHTML = count > 0
-        ? '<div class="recommend-card primary"><div class="recommend-label">通常Stageのみ</div><div class="recommend-title">間違えた問題からランダム10題</div><div class="meta">復習候補 ' + count + '題（大問・公式確認は除外）</div><div style="margin-top:12px"><a href="?view=review" style="display:inline-block;background:#19766e;color:#fff;text-decoration:none;font-weight:800;padding:10px 15px;border-radius:8px">復習を始める</a></div></div>'
-        : '<div class="recommend-card primary"><div class="recommend-title">復習する問題はありません</div><div class="meta">通常Stageで間違えた問題が記録されると、ここから10題に挑戦できます。</div></div>';
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);
@@ -1741,7 +1918,7 @@ function buildTeacherDashboardHtml_() {
     }
     .kpis {
       display: grid;
-      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
     }
     .kpi, section {
@@ -1999,6 +2176,7 @@ function buildTeacherDashboardHtml_() {
       <div class="kpi"><div class="label">クリア率</div><div class="value" id="kpiPass">-</div></div>
       <div class="kpi"><div class="label">平均時間</div><div class="value" id="kpiTime">-</div></div>
       <div class="kpi"><div class="label">学生1人あたり累計時間</div><div class="value" id="kpiStudentTime">-</div></div>
+      <div class="kpi"><div class="label">学生1人あたり累計自習時間</div><div class="value" id="kpiStudentOutOfClassTime">-</div></div>
     </div>
 
     <div class="tabs">
@@ -2032,6 +2210,20 @@ function buildTeacherDashboardHtml_() {
           <div class="table-wrap"><table id="stageTable"></table></div>
         </section>
       </div>
+      <section>
+        <h2>期末試験模試</h2>
+        <div class="table-wrap"><table id="specialTable"></table></div>
+      </section>
+      <div class="grid-two">
+        <section>
+          <h2>期末試験模試の最近の提出</h2>
+          <div class="table-wrap"><table id="finalMockAttemptsTable"></table></div>
+        </section>
+        <section>
+          <h2>期末試験模試の誤答</h2>
+          <div class="table-wrap"><table id="finalMockWrongTable"></table></div>
+        </section>
+      </div>
       <div class="grid-two">
         <section>
           <h2>最近の提出</h2>
@@ -2049,6 +2241,10 @@ function buildTeacherDashboardHtml_() {
         <section>
           <h2>挑戦数 Top 10</h2>
           <div class="table-wrap leaderboard-scroll"><table id="attemptRankingTable"></table></div>
+        </section>
+        <section>
+          <h2>累計自習時間 Top 10</h2>
+          <div class="table-wrap leaderboard-scroll"><table id="selfStudyRankingTable"></table></div>
         </section>
       </div>
       <section>
@@ -2118,6 +2314,9 @@ function buildTeacherDashboardHtml_() {
       renderWatchList(data.studentRows);
       renderUnitTable(data.unitRows);
       renderStageTable(data.stageRows);
+      renderSpecialTable(data.specialRows || []);
+      renderFinalMockAttemptsTable(data.finalMockAttempts || []);
+      renderFinalMockWrongTable(data.finalMockWrongRows || []);
       renderRecentTable(data.recentAttempts);
       renderStudentLeaderboards(data.studentLeaderboards);
       renderStudentTable(data.studentRows);
@@ -2150,6 +2349,7 @@ function buildTeacherDashboardHtml_() {
       document.getElementById("kpiPass").textContent = summary.passRate + "%";
       document.getElementById("kpiTime").textContent = formatSeconds(summary.averageElapsed);
       document.getElementById("kpiStudentTime").textContent = formatSeconds(summary.averageStudentTotalElapsed);
+      document.getElementById("kpiStudentOutOfClassTime").textContent = formatSeconds(summary.averageStudentOutOfClassElapsed);
     }
 
     function renderUnitTable(rows) {
@@ -2173,6 +2373,41 @@ function buildTeacherDashboardHtml_() {
         rateBar(row.passRate),
         num(formatSeconds(row.averageElapsed)),
         escapeHtml(formatDate(row.latest))
+      ]);
+    }
+
+    function renderSpecialTable(rows) {
+      renderTable("specialTable", ["区分", "挑戦", "学生", "平均正答率", "平均得点", "平均時間", "最終提出"], rows, row => [
+        escapeHtml(row.section),
+        num(row.attempts),
+        num(row.students),
+        row.attempts > 0 ? rateBar(row.averageRate) : '<span class="muted">データなし</span>',
+        row.averageScore === null
+          ? '<span class="muted">-</span>'
+          : num(row.averageScore + " / " + row.averageTotal),
+        num(formatSeconds(row.averageElapsed)),
+        escapeHtml(formatDate(row.latest))
+      ]);
+    }
+
+    function renderFinalMockAttemptsTable(rows) {
+      renderTable("finalMockAttemptsTable", ["日時", "学籍番号", "得点", "正答率", "時間", "結果"], rows, row => [
+        escapeHtml(formatDate(row.date)),
+        escapeHtml(row.studentId),
+        num(row.score + "/" + row.total),
+        rateBar(row.rate),
+        num(formatSeconds(row.elapsed)),
+        '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "合格目安" : "復習推奨") + '</span>'
+      ]);
+    }
+
+    function renderFinalMockWrongTable(rows) {
+      renderTable("finalMockWrongTable", ["日時", "学籍番号", "設問", "入力", "正解"], rows, row => [
+        escapeHtml(formatDate(row.date)),
+        escapeHtml(row.studentId),
+        '<div class="prompt">' + escapeHtml(row.prompt || row.problemId || "-") + '</div>',
+        escapeHtml(row.selected || "-"),
+        escapeHtml(row.answer || "-")
       ]);
     }
 
@@ -2242,13 +2477,13 @@ function buildTeacherDashboardHtml_() {
     }
 
     function renderStudentTable(rows) {
-      renderTable("studentTable", ["学籍番号", "Stage数", "挑戦", "全体挑戦", "平均正答率", "最新正答率", "挑戦時間", "最新Stage", "クリアStage", "最終提出"], rows, row => [
+      renderTable("studentTable", ["学籍番号", "Stage数", "挑戦", "全体挑戦", "平均正答率", "累計自習時間", "挑戦時間", "最新Stage", "クリアStage", "最終提出"], rows, row => [
         escapeHtml(row.studentId),
         num(row.stages),
         num(row.attempts),
         num(row.totalAttempts),
         rateBar(row.averageRate),
-        rateBar(row.latestRate),
+        num(formatSeconds(row.outOfClassElapsed)),
         num(formatSeconds(row.totalElapsed)),
         escapeHtml(row.latestStage || "-"),
         num(row.clearedStages + "/" + row.stages),
@@ -2258,6 +2493,7 @@ function buildTeacherDashboardHtml_() {
 
     function renderStudentLeaderboards(leaderboards) {
       const elapsedRows = (leaderboards && leaderboards.totalElapsed) || [];
+      const selfStudyRows = (leaderboards && leaderboards.outOfClassElapsed) || [];
       const attemptRows = (leaderboards && leaderboards.attempts) || [];
       renderTable("elapsedRankingTable", ["順位", "学籍番号", "挑戦時間"], elapsedRows, (row, index) => [
         num(index + 1),
@@ -2268,6 +2504,11 @@ function buildTeacherDashboardHtml_() {
         num(index + 1),
         escapeHtml(row.studentId),
         num(row.attempts)
+      ]);
+      renderTable("selfStudyRankingTable", ["順位", "学籍番号", "累計自習時間"], selfStudyRows, (row, index) => [
+        num(index + 1),
+        escapeHtml(row.studentId),
+        num(formatSeconds(row.outOfClassElapsed))
       ]);
     }
 

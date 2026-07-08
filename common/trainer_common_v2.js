@@ -26,7 +26,9 @@ const TrainerLog = (() => {
   }
 
   function recordQuestion(question, isCorrect, extra = {}) {
-    const qTime = questionStartTime
+    const qTime = extra.elapsedSeconds !== undefined
+      ? Number(extra.elapsedSeconds || 0)
+      : questionStartTime
       ? Math.round((Date.now() - questionStartTime) / 1000)
       : "";
 
