@@ -79,8 +79,10 @@
     .replace(/sin\^2theta/g,"sintheta^2")
     .replace(/²/g,"^2")
     .replace(/√/g,"sqrt")
+    .replace(/sqrt\(([a-z0-9]+)\)/g,"sqrt$1")
     .replace(/[{}]/g,m=>m==="{"?"(":")")
-    .replace(/([a-z])2(?=$|[=+\-*/()])/g,"$1^2");
+    .replace(/\b([a-z])2\b/g,"$1^2")
+    .replace(/([=+\-*/(])([a-z])2(?=$|[=+\-*/()])/g,"$1$2^2");
 
   function stripOptionalLeftSide(value){
     const match=value.match(/^[a-z](?:\^2)?=(.+)$/);
@@ -102,6 +104,12 @@
   function addTrigEquivalentForms(forms,form){
     const compact=form.replace(/\((sintheta)\)/g,"$1");
     forms.add(compact);
+    if(compact.includes("tantheta")){
+      forms.add(compact.replace(/tantheta/g,"sintheta/costheta"));
+    }
+    if(compact.includes("sintheta/costheta")){
+      forms.add(compact.replace(/sintheta\/costheta/g,"tantheta"));
+    }
     if(compact.includes("sinthetatantheta")){
       forms.add(compact.replace(/sinthetatantheta/g,"sintheta^2/costheta"));
       forms.add(compact.replace(/sinthetatantheta/g,"(sintheta)^2/costheta"));
@@ -136,9 +144,13 @@
 
   function stageBasicBank(){return Array.isArray(window.FINAL_MOCK_STAGE_BASIC_BANK)&&window.FINAL_MOCK_STAGE_BASIC_BANK.length?window.FINAL_MOCK_STAGE_BASIC_BANK:basicBank;}
   function chooseBasics(){const bank=stageBasicBank(),by=s=>shuffle(bank.filter(q=>q.section===s||q.sourceUnit===s));const chosen=["円運動","バネ","熱"].map(unit=>by(unit)[0]).filter(Boolean);return shuffle(chosen.concat(shuffle(bank.filter(q=>!chosen.includes(q))).slice(0,5-chosen.length)));}
+  function comprehensiveBigBank(){return Array.isArray(window.FINAL_MOCK_BIG_BANK)&&window.FINAL_MOCK_BIG_BANK.length?window.FINAL_MOCK_BIG_BANK:null;}
+  function chooseBigProblems(){const bank=comprehensiveBigBank();if(!bank)return [shuffle(big2)[0],shuffle(big3)[0]];const two=shuffle(bank.filter(q=>q.questions?.length===2))[0],three=shuffle(bank.filter(q=>q.questions?.length===3))[0];return shuffle([two,three].filter(Boolean));}
+  function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
   let items=[];
-  function field(q,key,points,label){return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${q.prompt}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${q.unit||""}</span></div><div class="feedback" data-feedback></div></article>`;}
-  function start(){const id=$("#studentId").value.trim();if(!id){alert("学籍番号を入力してください。");return;}const basics=chooseBasics(),b2=shuffle(big2)[0],b3=shuffle(big3)[0];items=[];$("#basicQuestions").innerHTML=basics.map((q,i)=>{const label=`小問${i+1}｜${q.section}`;items.push({q,key:q.id,points:3,label,kind:"小問"});return field(q,q.id,3,label);}).join("");let n=0;const notationGuide=`<div class="answer-example">数式の入力方法：x²は「x^2」「x2」でも可。√(a/b)は「√a/b」でも可。求める量は「y=…」のように左辺を付けても可。運動方程式では等号を入力してください。</div>`;$("#bigQuestions").innerHTML=notationGuide+[b2,b3].map((b,bi)=>`<section class="question big"><h2>大問${bi+1}｜${b.title}</h2><div class="big-context">${b.context}</div>${b.questions.map((q,qi)=>{n++;const key=b.id+"_"+n,label=`大問${bi+1} 設問(${qi+1})`;items.push({q,key,points:5,label,kind:"大問",title:b.title});return field(q,key,5,label);}).join("")}</section>`).join("");$("#startScreen").classList.add("hidden");$("#examScreen").classList.remove("hidden");$("#result").classList.add("hidden");$("#submitBtn").disabled=false;window.TrainerLog?.startSession();}
+  function choiceGuide(q){const choices=Array.isArray(q.choices)?q.choices.filter(Boolean):[];return choices.length?`<div class="answer-example">選択肢：${choices.map(escapeHtml).join(" ／ ")}</div>`:"";}
+  function field(q,key,points,label){return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(q.prompt)}</div>${choiceGuide(q)}<div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit||"")}</span></div><div class="feedback" data-feedback></div></article>`;}
+  function start(){const id=$("#studentId").value.trim();if(!id){alert("学籍番号を入力してください。");return;}const basics=chooseBasics(),bigs=chooseBigProblems();items=[];$("#basicQuestions").innerHTML=basics.map((q,i)=>{const label=`小問${i+1}｜${q.section}`;items.push({q,key:q.id,points:3,label,kind:"小問"});return field(q,q.id,3,label);}).join("");let n=0;const notationGuide=`<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。v²は「v^2」「v2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「y=…」のように左辺を付けても可。運動方程式では等号を入力してください。</div>`;$("#bigQuestions").innerHTML=notationGuide+bigs.map((b,bi)=>`<section class="question big"><h2>大問${bi+1}｜${escapeHtml(b.title)}</h2><div class="big-context">${escapeHtml(b.context)}</div>${b.questions.map((q,qi)=>{n++;const key=b.id+"_"+n,label=`大問${bi+1} 設問(${qi+1})`;items.push({q,key,points:5,label,kind:"大問",title:b.title});return field(q,key,5,label);}).join("")}</section>`).join("");$("#startScreen").classList.add("hidden");$("#examScreen").classList.remove("hidden");$("#result").classList.add("hidden");$("#submitBtn").disabled=false;window.TrainerLog?.startSession();}
   function submit(){let score=0,wrong=[];items.forEach(item=>{const el=document.querySelector(`[data-key="${item.key}"]`),value=el.querySelector("[data-answer]").value,ok=correct(item.q,value),fb=el.querySelector("[data-feedback]"),prompt=`${item.label}｜${item.q.prompt}`;if(ok)score+=item.points;else wrong.push(prompt);fb.className="feedback show "+(ok?"right":"wrong");fb.innerHTML=ok?`正解（${item.points}点）`:`不正解　正解：<strong>${item.q.display}</strong>`;el.querySelector("[data-answer]").disabled=true;window.TrainerLog?.recordQuestion({id:"MOCK_"+item.key,type:item.kind==="大問"?"final_mock_big":"final_mock_basic",question:prompt,answer:item.q.display},ok,{selected:value,prompt});});const elapsed=window.TrainerLog?.finishSession?.()||0;$("#scoreValue").textContent=score+" / 40点";$("#result").classList.remove("hidden");$("#submitBtn").disabled=true;const status=document.getElementById("sendStatus");if(status)status.textContent=`所要時間：${Math.floor(elapsed/60)}分${elapsed%60}秒。保存処理を開始しました。`;if(!window.TrainerLog||typeof window.TrainerLog.sendResult!=="function"){if(status)status.textContent="保存処理を開始できませんでした。Googleログイン版から開き直してください。";return;}window.TrainerLog.sendResult({score,total:40,extra:{examType:"期末試験模試",wrongQuestions:wrong,itemCount:items.length}});$("#result").scrollIntoView({behavior:"smooth"});}
   $("#startBtn").addEventListener("click",start);$("#submitBtn").addEventListener("click",submit);$("#againBtn").addEventListener("click",()=>location.reload());$("#studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
 })();
