@@ -329,6 +329,17 @@
     }
 
     .formula-box strong { color: var(--ink); }
+    .frac {
+      display: inline-grid;
+      grid-template-rows: auto auto;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.12;
+      margin: 0 .12em;
+      white-space: nowrap;
+    }
+    .frac-top { border-bottom: 1.5px solid currentColor; padding: 0 .2em .08em; }
+    .frac-bottom { padding: .08em .2em 0; }
     .dim-label, .force-label { font-size: 13px; font-weight: 700; fill: #26323f; }
     .muted-label { font-size: 12px; fill: #64717f; }
 
@@ -365,7 +376,7 @@
           <h2 class="question-title">水平バネ振り子を4つの設問で練習する問題</h2>
           <p class="lead">10問の問題バンクから5題をランダム出題します。自然長での速度、対応する円運動の角速度、周期の式、周期の数値を順に確認します。</p>
           <div class="note">
-            使う公式：<strong>T = 2π√(m/k)</strong>、<strong>1/2 kA² = 1/2 mv²</strong>。<br>
+            使う公式：<strong>T = 2π√<span class="frac"><span class="frac-top">m</span><span class="frac-bottom">k</span></span></strong>、<strong><span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> kA² = <span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> mv²</strong>。<br>
             自然長の位置では、バネの弾性エネルギーがすべて運動エネルギーになります。
           </div>
           <label for="studentId">学籍番号</label>
@@ -538,8 +549,51 @@
       }[ch]));
     }
 
+    function frac(top, bottom) {
+      return `<span class="frac"><span class="frac-top">${top}</span><span class="frac-bottom">${bottom}</span></span>`;
+    }
+
+    function fractionize(value) {
+      const fractions = [
+        ["1/2", "1", "2"],
+        ["k/m", "k", "m"],
+        ["v/x", "v", "x"],
+        ["x/v", "x", "v"],
+        ["2πv/x", "2πv", "x"],
+        ["2π/ω", "2π", "ω"],
+        ["ω/2π", "ω", "2π"],
+        ["2π/3", "2π", "3"],
+        ["π/3", "π", "3"],
+        ["2π / 10", "2π", "10"],
+        ["2π / 20", "2π", "20"],
+        ["2π / 5.0", "2π", "5.0"],
+        ["2π / 4.0", "2π", "4.0"],
+        ["2π / 3.0", "2π", "3.0"],
+        ["2π / 6.0", "2π", "6.0"],
+        ["50 / 0.50", "50", "0.50"],
+        ["80 / 0.20", "80", "0.20"],
+        ["25 / 1.00", "25", "1.00"],
+        ["8 / 0.50", "8", "0.50"],
+        ["25 / 0.25", "25", "0.25"],
+        ["9 / 1.00", "9", "1.00"],
+        ["16 / 1.00", "16", "1.00"],
+        ["18 / 0.50", "18", "0.50"],
+        ["72 / 2.00", "72", "2.00"],
+        ["12.5 / 0.50", "12.5", "0.50"]
+      ];
+      return fractions.reduce((html, [raw, top, bottom]) => html.split(raw).join(frac(top, bottom)), value);
+    }
+
     function displayMath(value) {
-      return escapeHTML(value)
+      return fractionize(escapeHTML(value))
+        .replace(/ω/g, "&omega;")
+        .replace(/π/g, "&pi;")
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/\^(-?\d+(?:\.\d+)?)/g, "<sup>$1</sup>");
+    }
+
+    function renderMathHTML(value) {
+      return fractionize(String(value ?? ""))
         .replace(/ω/g, "&omega;")
         .replace(/π/g, "&pi;")
         .replace(/²/g, "<sup>2</sup>")
@@ -637,8 +691,8 @@
 
       $("#problemTitle").textContent = "問題";
       $("#questionText").innerHTML = displayMath(
-        `バネ定数 k = ${fmt(currentProblem.k)} [N/m] のバネの先端に、質量 m = ${fmt(currentProblem.m)} [kg] の小球がくっついている。` +
-        `小球を引っ張り、自然長から長さ x = ${fmt(currentProblem.x)} [m] だけ伸びた状態で手を離したところ、バネは振幅 x = ${fmt(currentProblem.x)} [m] で振動を始めた。` +
+        `バネ定数 ${fmt(currentProblem.k)} [N/m] のバネの先端に、質量 ${fmt(currentProblem.m)} [kg] の小球がくっついている。` +
+        `小球を引っ張り、自然長から長さ ${fmt(currentProblem.x)} [m] だけ伸びた状態で手を離したところ、バネは振幅 ${fmt(currentProblem.x)} [m] で振動を始めた。` +
         `摩擦はないものとして、以下の問に答えよ。`
       );
       renderGivens(currentProblem);
@@ -759,7 +813,7 @@
         score.streak = 0;
       }
 
-      feedback.innerHTML = currentSteps[stepIndex].feedback(currentProblem);
+      feedback.innerHTML = renderMathHTML(currentSteps[stepIndex].feedback(currentProblem));
       feedback.className = `feedback show ${isCorrect ? "right" : "wrong"}`;
       state.textContent = isCorrect ? "正解" : revealed ? "答えを確認" : "確認";
       state.style.color = isCorrect ? "var(--right)" : "var(--wrong)";
@@ -778,7 +832,7 @@
       if (!currentProblem) return;
       const shouldShow = !hintBox.classList.contains("show");
       if (shouldShow) {
-        hintBox.innerHTML = getHint(currentProblem);
+        hintBox.innerHTML = renderMathHTML(getHint(currentProblem));
         hintBox.classList.add("show");
         hintBtn.textContent = "ヒントを隠す";
       } else {

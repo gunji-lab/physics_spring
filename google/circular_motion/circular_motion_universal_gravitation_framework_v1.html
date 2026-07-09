@@ -503,7 +503,7 @@
         id: "UG_P3_01",
         title: "ISSの万有引力と速さ",
         statement: "国際宇宙ステーション（ISS）は地球の周りを円運動している。ISSの質量を m [kg]、地球の質量を M [kg]、ISSの軌道半径を r [m]、万有引力定数を G とする。",
-        hint: "万有引力が円運動の向心力になります。まず F = GMm/r^2 を書き、次に GMm/r^2 = mv^2/r とおきます。",
+        hint: "万有引力が円運動の向心力になります。まず万有引力を文字式で表し、それを円運動の向心力と等しいとおきます。",
         steps: [
           choiceStep("force", "ISSにはたらく万有引力を求めよ。", "GMm/r^2", ["GMm/r", "GM/r^2", "GMr^2/m"], "万有引力は2つの質量の積に比例し、距離の2乗に反比例します。"),
           choiceStep("speed", "ISSの速さを求めよ。", "√(GM/r)", ["√(GMr)", "GM/r", "√(r/GM)"], "GMm/r^2 = mv^2/r とおくと m が消え、v^2 = GM/r です。")
@@ -540,7 +540,7 @@
       return {
         id,
         title: "万有引力の変化と加速度",
-        statement: `地球と物体の間にはたらく万有引力について、公式 F = GMm/r^2 をもとに考える。地球からの距離が ${distanceX} 倍になった場合、地球の質量が現在の ${massX} 倍になった場合、人工衛星にはたらく力から向心加速度を求める場合を考える。`,
+        statement: `地球と物体の間にはたらく万有引力について考える。地球からの距離が ${distanceX} 倍になった場合、地球の質量が現在の ${massX} 倍になった場合、人工衛星にはたらく力から向心加速度を求める場合を考える。`,
         hint: "万有引力は距離の2乗に反比例し、地球の質量に比例します。加速度は a = F/m で求めます。",
         steps: [
           choiceStep("distance", `地球からの距離が ${distanceX} 倍になったとき、万有引力は何倍になるか。`, distanceAnswer, [`1/${distanceX}倍`, `${distanceX}倍`, `${distanceX * distanceX}倍`], `F は r^2 に反比例するので、距離が ${distanceX} 倍なら力は 1/${distanceX}^2 = ${distanceAnswer} です。`),
@@ -614,8 +614,41 @@
       return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     }
 
+    function frac(top, bottom) {
+      return `<span class="frac"><span class="frac-top">${top}</span><span class="frac-bottom">${bottom}</span></span>`;
+    }
+
+    function fractionize(value) {
+      const fractions = [
+        ["GMm/r^2", "GMm", "r^2"],
+        ["GMm/r", "GMm", "r"],
+        ["GM/r^2", "GM", "r^2"],
+        ["GMr^2/m", "GMr^2", "m"],
+        ["mv^2/r", "mv^2", "r"],
+        ["v^2/r", "v^2", "r"],
+        ["GM/r", "GM", "r"],
+        ["r/GM", "r", "GM"],
+        ["2πr/v", "2πr", "v"],
+        ["v/2πr", "v", "2πr"],
+        ["2πv/r", "2πv", "r"],
+        ["2πR/v", "2πR", "v"],
+        ["2π×6.4×10^6/(7.9×10^3)", "2π×6.4×10^6", "7.9×10^3"],
+        ["F/m", "F", "m"],
+        ["600/120", "600", "120"],
+        ["900/150", "900", "150"],
+        ["720/90", "720", "90"],
+        ["1/16", "1", "16"],
+        ["1/9", "1", "9"],
+        ["1/5", "1", "5"],
+        ["1/4", "1", "4"],
+        ["1/3", "1", "3"],
+        ["1/2", "1", "2"]
+      ];
+      return fractions.reduce((html, [raw, top, bottom]) => html.split(raw).join(frac(top, bottom)), value);
+    }
+
     function displayMath(value) {
-      return escapeHTML(value)
+      return fractionize(escapeHTML(value))
         .replace(/π/g, "&pi;")
         .replace(/²/g, "<sup>2</sup>")
         .replace(/³/g, "<sup>3</sup>")
