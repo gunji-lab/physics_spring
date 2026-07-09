@@ -29,10 +29,21 @@ function buildQuiz(){
   }
   return shuffle(config.problems).slice(0,config.total||10);
 }
+function getVerifiedStudentId(){
+  const input=$("studentId");
+  const fromInput=input?input.value.trim():"";
+  const fromAuth=window.TrainerAuth&&typeof TrainerAuth.getStudentId==="function"?TrainerAuth.getStudentId():"";
+  const studentId=fromInput||String(fromAuth||"").trim();
+  if(input&&studentId&&!fromInput)input.value=studentId;
+  return studentId;
+}
 function start(source=null){
-  if(!$("studentId").value.trim()){
-    alert("学籍番号を入力してください。");
-    $("studentId").focus();
+  if(!getVerifiedStudentId()){
+    if(window.TrainerAuth&&typeof TrainerAuth.login==="function"){
+      TrainerAuth.login();
+      return;
+    }
+    alert("大学Googleアカウントを確認できませんでした。ログインし直してください。");
     return;
   }
   quiz=shuffle(source||buildQuiz()).slice(0,config.total||10).map(q=>({...q,choices:q.choices||makeChoices(q)}));

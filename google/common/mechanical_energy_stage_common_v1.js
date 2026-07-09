@@ -33,8 +33,8 @@
     <div class="lead">${escapeHTML(CONFIG.lead || "位置エネルギーと運動エネルギーの基本を練習します。")}</div>
     <div id="startScreen">
       <div class="note">${escapeHTML(CONFIG.note || "10問ランダム出題、70%以上でクリアです。")}</div>
-      <div class="note">学籍番号を入力してからスタートしてください。</div>
-      <input id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
+      <div class="note">大学Googleアカウントで確認済みです。</div>
+      <input id="studentId" type="hidden" autocomplete="off">
       <div class="buttons"><button id="startBtn">スタート</button></div>
     </div>
     <div id="quizScreen" style="display:none">
@@ -80,9 +80,20 @@
     const bank = source || baseBank();
     return shuffle(bank).slice(0,total).map(q=>({...q,choices:isWritten?[]:makeChoices(q)}));
   }
+  function getVerifiedStudentId(){
+    const input=$("studentId");
+    const fromInput=input?input.value.trim():"";
+    const fromAuth=window.TrainerAuth&&typeof TrainerAuth.getStudentId==="function"?TrainerAuth.getStudentId():"";
+    const studentId=fromInput||String(fromAuth||"").trim();
+    if(input&&studentId&&!fromInput)input.value=studentId;
+    return studentId;
+  }
   function start(source=null){
-    const studentId=$("studentId").value.trim();
-    if(!studentId){alert("学籍番号を入力してください。");$("studentId").focus();return}
+    if(!getVerifiedStudentId()){
+      if(window.TrainerAuth&&typeof TrainerAuth.login==="function"){TrainerAuth.login();return}
+      alert("大学Googleアカウントを確認できませんでした。ログインし直してください。");
+      return;
+    }
     quiz=buildQuiz(source);index=0;score=0;wrongList=[];TrainerLog.startSession();
     $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
   }
