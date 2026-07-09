@@ -70,7 +70,7 @@
   function formatNumber(v){const n=Number(v);if(!Number.isFinite(n))return String(v);if(Math.abs(n-Math.round(n))<1e-9)return String(Math.round(n));if(Math.abs(n)>=100)return String(Math.round(n*10)/10);return String(Math.round(n*100)/100)}
   function answerLabel(q){return `${formatNumber(q.answer)} [${q.unit}]`}
   function sameAnswer(a,b){return String(a.answer)===String(b.answer) && String(a.unit)===String(b.unit)}
-  function makeChoices(q){const pool=allProblems().filter(x=>x.unit===q.unit&&!sameAnswer(x,q));const labels=[];const add=label=>{if(!labels.includes(label))labels.push(label)};add(answerLabel(q));shuffle(pool).forEach(x=>add(answerLabel(x)));let delta=1;while(labels.length<4){add(`${formatNumber(Number(q.answer)+delta)} [${q.unit}]`);delta++}return shuffle(labels.slice(0,4))}
+  function makeChoices(q){let pool=allProblems().filter(x=>x.unit===q.unit&&x.stage===q.stage&&!sameAnswer(x,q));if(pool.length<3)pool=allProblems().filter(x=>x.unit===q.unit&&!sameAnswer(x,q));const labels=[];const add=label=>{if(!labels.includes(label))labels.push(label)};add(answerLabel(q));shuffle(pool).forEach(x=>add(answerLabel(x)));let delta=1;while(labels.length<4){add(`${formatNumber(Number(q.answer)+delta)} [${q.unit}]`);delta++}return shuffle(labels.slice(0,4))}
   function normalizeInput(s){return String(s ?? "").trim().replace(/[−ー―]/g,"-").replace(/，/g,".").replace(/×10\^?/g,"e").replace(/[^\d.+\-eE]/g,"")}
   function parseInput(s){const n=Number(normalizeInput(s));return Number.isFinite(n)?n:NaN}
   function numericCorrect(user, ans){if(!Number.isFinite(user))return false;const a=Number(ans);const tol=Math.max(0.05, Math.abs(a)*0.015);return Math.abs(user-a)<=tol}
