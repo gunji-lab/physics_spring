@@ -1151,7 +1151,7 @@
             ${choices.map((choice, choiceIndex) => `
               <button class="choice" type="button" data-choice="${choiceIndex}" data-correct="${choice.correct}">
                 <span class="mark">${String.fromCharCode(65 + choiceIndex)}</span>
-                <span>${choice.html || choice.text}</span>
+                <span>${choice.html || inlineMathHTML(choice.text)}</span>
               </button>
             `).join("")}
           </div>

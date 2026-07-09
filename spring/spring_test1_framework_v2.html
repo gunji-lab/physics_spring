@@ -996,6 +996,13 @@
       renderProblem();
     }
 
+    function inlineMathHTML(text) {
+      return String(text)
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/ω/g, "&omega;")
+        .replace(/L0/g, "L<sub>0</sub>");
+    }
+
     function renderGivens(p) {
       const items = [["質量 m", unit(p.m, "kg")]];
       if (p.k) items.push(["ばね定数 k", unit(p.k, "N/m")]);
@@ -1004,7 +1011,7 @@
       if (p.radius) items.push(["円運動の半径", unit(p.radius, "m")]);
       if (p.force) items.push(["向心力", unit(p.force, "N")]);
       $("#givens").innerHTML = items.map(([label, value]) => `
-        <div class="given"><span>${label}</span><strong>${value}</strong></div>
+        <div class="given"><span>${inlineMathHTML(label)}</span><strong>${inlineMathHTML(value)}</strong></div>
       `).join("");
     }
 
@@ -1040,7 +1047,7 @@
             ${choices.map((choice, choiceIndex) => `
               <button class="choice" type="button" data-choice="${choiceIndex}" data-correct="${choice.correct}">
                 <span class="mark">${String.fromCharCode(65 + choiceIndex)}</span>
-                <span>${choice.html || choice.text}</span>
+                <span>${choice.html || inlineMathHTML(choice.text)}</span>
               </button>
             `).join("")}
           </div>
