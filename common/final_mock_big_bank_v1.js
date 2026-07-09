@@ -1,25 +1,15 @@
 /* Generated from comprehensive problem definitions. Do not edit by hand. */
 window.FINAL_MOCK_BIG_BANK = [
   {
-    "id": "conical_30_force",
-    "title": "円錐振り子 θ=30°：力の分解",
+    "id": "conical_30_文字式_basic3",
+    "title": "θ=30° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "mg"
-        ]
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "2mg / √3",
         "unit": "",
         "choices": [],
@@ -30,29 +20,8 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0003",
-        "prompt": "θ=30°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
-        "display": "mg / √3",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "mg / √3",
-          "mg/√3",
-          "mg/sqrt3"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "conical_30_motion",
-    "title": "円錐振り子 θ=30°：半径と運動",
-    "source": "大問対策・円錐振り子",
-    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "θ=30°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
         "display": "L / 2",
         "unit": "",
         "choices": [],
@@ -62,51 +31,61 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0002",
-        "prompt": "θ=30°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
-        "display": "gL / (2√3)",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "gL / (2√3)",
-          "gL/(2√3)",
-          "gL/(2sqrt3)"
-        ]
-      },
-      {
         "id": "BIG_0003",
-        "prompt": "θ=30°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
-        "display": "2g / (√3L)",
+        "prompt": "円運動の向心力を T、θ を用いて答えよ。",
+        "display": "T / 2",
         "unit": "",
         "choices": [],
         "answers": [
-          "2g / (√3L)",
-          "2g/(√3L)",
-          "2g/(sqrt3L)"
+          "T / 2",
+          "T/2"
         ]
       }
     ]
   },
   {
-    "id": "conical_30_basic2",
-    "title": "円錐振り子 θ=30°：張力の成分",
+    "id": "conical_30_文字式_motion2",
+    "title": "θ=30° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=30°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
+        "prompt": "円運動の加速度の大きさを答えよ。",
+        "display": "g / √3",
         "unit": "",
         "choices": [],
         "answers": [
-          "mg"
+          "g / √3",
+          "g/√3",
+          "g/sqrt3"
         ]
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=30°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "円運動の速度の大きさを答えよ。",
+        "display": "√(gL / (2√3))",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√(gL / (2√3))",
+          "√(gL/(2√3))",
+          "sqrt(gL/(2sqrt3))"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conical_30_文字式_first2",
+    "title": "θ=30° の円錐振り子（文字式）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "2mg / √3",
         "unit": "",
         "choices": [],
@@ -115,29 +94,30 @@ window.FINAL_MOCK_BIG_BANK = [
           "2mg/√3",
           "2mg/sqrt3"
         ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
+        "display": "L / 2",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "L / 2",
+          "L/2"
+        ]
       }
     ]
   },
   {
-    "id": "conical_45_force",
-    "title": "円錐振り子 θ=45°：力の分解",
+    "id": "conical_45_文字式_basic3",
+    "title": "θ=45° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "mg"
-        ]
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "√2mg",
         "unit": "",
         "choices": [],
@@ -147,27 +127,8 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0003",
-        "prompt": "θ=45°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
-        "display": "mg",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "mg"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "conical_45_motion",
-    "title": "円錐振り子 θ=45°：半径と運動",
-    "source": "大問対策・円錐振り子",
-    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "θ=45°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
         "display": "L / √2",
         "unit": "",
         "choices": [],
@@ -178,51 +139,60 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0002",
-        "prompt": "θ=45°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
-        "display": "gL / √2",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "gL / √2",
-          "gL/√2",
-          "gL/sqrt2"
-        ]
-      },
-      {
         "id": "BIG_0003",
-        "prompt": "θ=45°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
-        "display": "√2g / L",
+        "prompt": "円運動の向心力を T、θ を用いて答えよ。",
+        "display": "T / √2",
         "unit": "",
         "choices": [],
         "answers": [
-          "√2g / L",
-          "√2g/L",
-          "sqrt2g/L"
+          "T / √2",
+          "T/√2",
+          "T/sqrt2"
         ]
       }
     ]
   },
   {
-    "id": "conical_45_basic2",
-    "title": "円錐振り子 θ=45°：張力の成分",
+    "id": "conical_45_文字式_motion2",
+    "title": "θ=45° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=45°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
+        "prompt": "円運動の加速度の大きさを答えよ。",
+        "display": "g",
         "unit": "",
         "choices": [],
         "answers": [
-          "mg"
+          "g"
         ]
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=45°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "円運動の速度の大きさを答えよ。",
+        "display": "√(gL / √2)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√(gL / √2)",
+          "√(gL/√2)",
+          "sqrt(gL/sqrt2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conical_45_文字式_first2",
+    "title": "θ=45° の円錐振り子（文字式）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "√2mg",
         "unit": "",
         "choices": [],
@@ -230,29 +200,31 @@ window.FINAL_MOCK_BIG_BANK = [
           "√2mg",
           "sqrt2mg"
         ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
+        "display": "L / √2",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "L / √2",
+          "L/√2",
+          "L/sqrt2"
+        ]
       }
     ]
   },
   {
-    "id": "conical_60_force",
-    "title": "円錐振り子 θ=60°：力の分解",
+    "id": "conical_60_文字式_basic3",
+    "title": "θ=60° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "mg"
-        ]
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "2mg",
         "unit": "",
         "choices": [],
@@ -261,28 +233,8 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0003",
-        "prompt": "θ=60°：水平方向には中心向きの成分 Tsinθ が残る。Tsinθ の大きさを答えよ。",
-        "display": "√3mg",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "√3mg",
-          "sqrt3mg"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "conical_60_motion",
-    "title": "円錐振り子 θ=60°：半径と運動",
-    "source": "大問対策・円錐振り子",
-    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "θ=60°：糸の長さ L の水平方向成分が円運動の半径です。半径 r を答えよ。",
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
         "display": "√3L / 2",
         "unit": "",
         "choices": [],
@@ -293,55 +245,349 @@ window.FINAL_MOCK_BIG_BANK = [
         ]
       },
       {
-        "id": "BIG_0002",
-        "prompt": "θ=60°：向心力を mv²/r と見る。速さ v を求める準備として、v² を答えよ。",
-        "display": "3gL / 2",
-        "unit": "",
-        "choices": [],
-        "answers": [
-          "3gL / 2",
-          "3gL/2"
-        ]
-      },
-      {
         "id": "BIG_0003",
-        "prompt": "θ=60°：向心力を mrω² と見る。角速度そのものではなく、ω² を答えよ。",
-        "display": "2g / L",
+        "prompt": "円運動の向心力を T、θ を用いて答えよ。",
+        "display": "√3T / 2",
         "unit": "",
         "choices": [],
         "answers": [
-          "2g / L",
-          "2g/L"
+          "√3T / 2",
+          "√3T/2",
+          "sqrt3T/2"
         ]
       }
     ]
   },
   {
-    "id": "conical_60_basic2",
-    "title": "円錐振り子 θ=60°：張力の成分",
+    "id": "conical_60_文字式_motion2",
+    "title": "θ=60° の円錐振り子（文字式）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
     "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "θ=60°：上下には動かない。張力 T そのものではなく、上向き成分 Tcosθ の大きさを答えよ。",
-        "display": "mg",
+        "prompt": "円運動の加速度の大きさを答えよ。",
+        "display": "√3g",
         "unit": "",
         "choices": [],
         "answers": [
-          "mg"
+          "√3g",
+          "sqrt3g"
         ]
       },
       {
         "id": "BIG_0002",
-        "prompt": "θ=60°：前問の Tcosθ = mg を使う。張力 T の大きさを答えよ。",
+        "prompt": "円運動の速度の大きさを答えよ。",
+        "display": "√(3gL / 2)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√(3gL / 2)",
+          "√(3gL/2)",
+          "sqrt(3gL/2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conical_60_文字式_first2",
+    "title": "θ=60° の円錐振り子（文字式）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 m の小球を長さ L の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を g、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
         "display": "2mg",
         "unit": "",
         "choices": [],
         "answers": [
           "2mg"
         ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "L、θ を使って円運動の半径 r を答えよ。",
+        "display": "√3L / 2",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√3L / 2",
+          "√3L/2",
+          "sqrt3L/2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conical_30_数値_basic3",
+    "title": "θ=30° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "11.3 N",
+        "unit": "N",
+        "choices": [],
+        "number": 11.3,
+        "tolerance": 0.0565
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.0 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1,
+        "tolerance": 0.01
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "円運動の向心力の大きさを数値で答えよ。",
+        "display": "5.66 N",
+        "unit": "N",
+        "choices": [],
+        "number": 5.66,
+        "tolerance": 0.028300000000000002
+      }
+    ]
+  },
+  {
+    "id": "conical_30_数値_motion2",
+    "title": "θ=30° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の加速度の大きさを数値で答えよ。",
+        "display": "5.66 m/s²",
+        "unit": "m/s^2",
+        "choices": [],
+        "number": 5.66,
+        "tolerance": 0.028300000000000002
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の速度の大きさを数値で答えよ。",
+        "display": "2.38 m/s",
+        "unit": "m/s",
+        "choices": [],
+        "number": 2.38,
+        "tolerance": 0.011899999999999999
+      }
+    ]
+  },
+  {
+    "id": "conical_30_数値_first2",
+    "title": "θ=30° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "11.3 N",
+        "unit": "N",
+        "choices": [],
+        "number": 11.3,
+        "tolerance": 0.0565
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.0 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
+    "id": "conical_45_数値_basic3",
+    "title": "θ=45° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "13.9 N",
+        "unit": "N",
+        "choices": [],
+        "number": 13.9,
+        "tolerance": 0.0695
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.41 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1.41,
+        "tolerance": 0.01
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "円運動の向心力の大きさを数値で答えよ。",
+        "display": "9.8 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9.8,
+        "tolerance": 0.049
+      }
+    ]
+  },
+  {
+    "id": "conical_45_数値_motion2",
+    "title": "θ=45° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の加速度の大きさを数値で答えよ。",
+        "display": "9.8 m/s²",
+        "unit": "m/s^2",
+        "choices": [],
+        "number": 9.8,
+        "tolerance": 0.049
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の速度の大きさを数値で答えよ。",
+        "display": "3.72 m/s",
+        "unit": "m/s",
+        "choices": [],
+        "number": 3.72,
+        "tolerance": 0.018600000000000002
+      }
+    ]
+  },
+  {
+    "id": "conical_45_数値_first2",
+    "title": "θ=45° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "13.9 N",
+        "unit": "N",
+        "choices": [],
+        "number": 13.9,
+        "tolerance": 0.0695
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.41 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1.41,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
+    "id": "conical_60_数値_basic3",
+    "title": "θ=60° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "19.6 N",
+        "unit": "N",
+        "choices": [],
+        "number": 19.6,
+        "tolerance": 0.098
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.73 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1.73,
+        "tolerance": 0.01
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "円運動の向心力の大きさを数値で答えよ。",
+        "display": "17.0 N",
+        "unit": "N",
+        "choices": [],
+        "number": 17,
+        "tolerance": 0.085
+      }
+    ]
+  },
+  {
+    "id": "conical_60_数値_motion2",
+    "title": "θ=60° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の加速度の大きさを数値で答えよ。",
+        "display": "17.0 m/s²",
+        "unit": "m/s^2",
+        "choices": [],
+        "number": 17,
+        "tolerance": 0.085
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の速度の大きさを数値で答えよ。",
+        "display": "5.42 m/s",
+        "unit": "m/s",
+        "choices": [],
+        "number": 5.42,
+        "tolerance": 0.0271
+      }
+    ]
+  },
+  {
+    "id": "conical_60_数値_first2",
+    "title": "θ=60° の円錐振り子（数値）",
+    "source": "大問対策・円錐振り子",
+    "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "display": "19.6 N",
+        "unit": "N",
+        "choices": [],
+        "number": 19.6,
+        "tolerance": 0.098
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の半径 r を数値で答えよ。",
+        "display": "1.73 m",
+        "unit": "m",
+        "choices": [],
+        "number": 1.73,
+        "tolerance": 0.01
       }
     ]
   },
@@ -1325,11 +1571,11 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-08T18:50:58.967Z",
-  "total": 31,
+  "generatedAt": "2026-07-09T03:17:25.975Z",
+  "total": 40,
   "counts": {
     "大問対策・円錐振り子/3問": 6,
-    "大問対策・円錐振り子/2問": 3,
+    "大問対策・円錐振り子/2問": 12,
     "大問対策・万有引力/3問": 10,
     "大問対策・円運動するバネ/3問": 3,
     "大問対策・水平バネ振り子/3問": 3,
