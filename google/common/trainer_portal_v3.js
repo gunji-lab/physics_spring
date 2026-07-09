@@ -36,7 +36,8 @@
     "heat_gas_stage3_framework_v1.html":"熱と気体/Stage3/ボイル・シャルルの法則",
     "heat_gas_stage4_framework_v1.html":"熱と気体/Stage4/状態方程式",
     "heat_gas_stage5_framework_v1.html":"熱と気体/Stage5/熱エネルギーと仕事",
-    "heat_gas_stage6_written_framework_v1.html":"熱と気体/Stage6/総合記述式"
+    "heat_gas_stage6_written_framework_v1.html":"熱と気体/Stage6/総合記述式",
+    "heat_gas_big_problem_framework_v1.html":"熱と気体/大問/状態変化"
   };
 
   function renderProgress(response) {
