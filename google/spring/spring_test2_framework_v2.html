@@ -171,7 +171,17 @@
     }
 
     .question-title { margin: 0 0 10px; font-size: clamp(1.18rem, 2vw, 1.5rem); }
-    .question-text { margin: 0 0 18px; color: var(--muted); }
+    .question-text {
+      margin: 0 0 20px;
+      color: var(--ink);
+      font-size: clamp(1.08rem, 1.8vw, 1.24rem);
+      font-weight: 750;
+      line-height: 1.8;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 17px;
+    }
 
     .givens {
       display: grid;
@@ -211,6 +221,12 @@
     }
 
     .step-head h2 { margin: 0; font-size: 1rem; }
+    .step-prompt {
+      color: var(--ink);
+      font-size: clamp(1.02rem, 1.7vw, 1.15rem);
+      font-weight: 750;
+      line-height: 1.7;
+    }
     .state { font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
 
     .choices {
@@ -346,8 +362,8 @@
       <section class="screen active" id="startScreen">
         <div class="panel start-card">
           <p class="tag">水平バネ振り子</p>
-          <h2 class="question-title">周期と自然長での速さを練習する問題</h2>
-          <p class="lead">5問ランダム出題です。周期は平方根がきれいになる値だけを使います。周期と自然長での速さを練習します。</p>
+          <h2 class="question-title">水平バネ振り子を4つの設問で練習する問題</h2>
+          <p class="lead">10問の問題バンクから5題をランダム出題します。自然長での速度、対応する円運動の角速度、周期の式、周期の数値を順に確認します。</p>
           <div class="note">
             使う公式：<strong>T = 2π√(m/k)</strong>、<strong>1/2 kA² = 1/2 mv²</strong>。<br>
             自然長の位置では、バネの弾性エネルギーがすべて運動エネルギーになります。
@@ -366,7 +382,7 @@
             <div class="topic-row">
               <div>
                 <p class="tag">水平バネ振り子</p>
-                <h2 class="question-title" id="problemTitle">周期を求める</h2>
+                <h2 class="question-title" id="problemTitle">問題</h2>
               </div>
               <button class="btn" id="resetQuestionBtn" type="button">この問題をやり直す</button>
             </div>
@@ -460,25 +476,17 @@
     const TOTAL_QUESTIONS = 5;
 
     const problemBank = [
-      { type: "periodFromMK", m: 0.50, k: 50, answer: "0.20π [s]", root: "√(0.50 / 50) = √0.01 = 0.10" },
-      { type: "periodFromMK", m: 0.20, k: 80, answer: "0.10π [s]", root: "√(0.20 / 80) = √0.0025 = 0.05" },
-      { type: "periodFromMK", m: 1.00, k: 25, answer: "0.40π [s]", root: "√(1.00 / 25) = √0.04 = 0.20" },
-      { type: "periodFromMK", m: 0.40, k: 10, answer: "0.40π [s]", root: "√(0.40 / 10) = √0.04 = 0.20" },
-      { type: "massFromPeriodK", k: 50, period: "0.20π [s]", halfPeriod: 0.10, answer: "0.50 [kg]" },
-      { type: "massFromPeriodK", k: 80, period: "0.10π [s]", halfPeriod: 0.05, answer: "0.20 [kg]" },
-      { type: "massFromPeriodK", k: 25, period: "0.40π [s]", halfPeriod: 0.20, answer: "1.00 [kg]" },
-      { type: "speedAtNatural", m: 0.50, k: 50, amplitude: 0.10, answer: "1.0 [m/s]", ratioRoot: 10 },
-      { type: "speedAtNatural", m: 0.20, k: 80, amplitude: 0.05, answer: "1.0 [m/s]", ratioRoot: 20 },
-      { type: "speedAtNatural", m: 1.00, k: 25, amplitude: 0.20, answer: "1.0 [m/s]", ratioRoot: 5 },
-      { type: "speedAtNatural", m: 0.50, k: 8, amplitude: 0.25, answer: "1.0 [m/s]", ratioRoot: 4 },
-      { type: "speedAtNatural", m: 0.25, k: 25, amplitude: 0.20, answer: "2.0 [m/s]", ratioRoot: 10 }
+      { id: "HSO_BANK_01", k: 50, m: 0.50, x: 0.10, speed: "1.0 [m/s]", omega: "10 [rad/s]", period: "0.20π [s]", root: "√(50 / 0.50) = √100 = 10" },
+      { id: "HSO_BANK_02", k: 80, m: 0.20, x: 0.05, speed: "1.0 [m/s]", omega: "20 [rad/s]", period: "0.10π [s]", root: "√(80 / 0.20) = √400 = 20" },
+      { id: "HSO_BANK_03", k: 25, m: 1.00, x: 0.20, speed: "1.0 [m/s]", omega: "5.0 [rad/s]", period: "0.40π [s]", root: "√(25 / 1.00) = √25 = 5.0" },
+      { id: "HSO_BANK_04", k: 8, m: 0.50, x: 0.25, speed: "1.0 [m/s]", omega: "4.0 [rad/s]", period: "0.50π [s]", root: "√(8 / 0.50) = √16 = 4.0" },
+      { id: "HSO_BANK_05", k: 25, m: 0.25, x: 0.20, speed: "2.0 [m/s]", omega: "10 [rad/s]", period: "0.20π [s]", root: "√(25 / 0.25) = √100 = 10" },
+      { id: "HSO_BANK_06", k: 9, m: 1.00, x: 0.30, speed: "0.90 [m/s]", omega: "3.0 [rad/s]", period: "2π/3 [s]", root: "√(9 / 1.00) = √9 = 3.0" },
+      { id: "HSO_BANK_07", k: 16, m: 1.00, x: 0.20, speed: "0.80 [m/s]", omega: "4.0 [rad/s]", period: "0.50π [s]", root: "√(16 / 1.00) = √16 = 4.0" },
+      { id: "HSO_BANK_08", k: 18, m: 0.50, x: 0.10, speed: "0.60 [m/s]", omega: "6.0 [rad/s]", period: "π/3 [s]", root: "√(18 / 0.50) = √36 = 6.0" },
+      { id: "HSO_BANK_09", k: 72, m: 2.00, x: 0.20, speed: "1.2 [m/s]", omega: "6.0 [rad/s]", period: "π/3 [s]", root: "√(72 / 2.00) = √36 = 6.0" },
+      { id: "HSO_BANK_10", k: 12.5, m: 0.50, x: 0.20, speed: "1.0 [m/s]", omega: "5.0 [rad/s]", period: "0.40π [s]", root: "√(12.5 / 0.50) = √25 = 5.0" }
     ];
-
-    const typeLabels = {
-      periodFromMK: "m と k から周期を求める",
-      massFromPeriodK: "周期と k から質量を求める",
-      speedAtNatural: "自然長での速さを求める"
-    };
 
     const $ = selector => document.querySelector(selector);
     const stepsEl = $("#steps");
@@ -520,78 +528,94 @@
       }));
     }
 
-    function periodChoices(correct) {
-      return makeChoices(correct, ["0.10π [s]", "0.20π [s]", "0.30π [s]", "0.40π [s]", "0.50π [s]"]);
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[ch]));
     }
 
-    function massChoices(correct) {
-      return makeChoices(correct, ["0.20 [kg]", "0.40 [kg]", "0.50 [kg]", "1.00 [kg]", "2.00 [kg]"]);
+    function displayMath(value) {
+      return escapeHTML(value)
+        .replace(/ω/g, "&omega;")
+        .replace(/π/g, "&pi;")
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/\^(-?\d+(?:\.\d+)?)/g, "<sup>$1</sup>");
+    }
+
+    function choiceHTML(choice) {
+      return displayMath(choice.text);
+    }
+
+    function periodChoices(correct) {
+      return makeChoices(correct, ["0.10π [s]", "0.20π [s]", "0.30π [s]", "0.40π [s]", "0.50π [s]", "π/3 [s]", "2π/3 [s]", "π [s]"]);
+    }
+
+    function omegaChoices(correct) {
+      return makeChoices(correct, ["v/x [rad/s]", "x/v [rad/s]", "vx [rad/s]", "2πv/x [rad/s]"]);
     }
 
     function speedChoices(correct) {
-      return makeChoices(correct, ["0.50 [m/s]", "1.0 [m/s]", "1.5 [m/s]", "2.0 [m/s]", "4.0 [m/s]"]);
+      return makeChoices(correct, ["0.50 [m/s]", "0.60 [m/s]", "0.80 [m/s]", "0.90 [m/s]", "1.0 [m/s]", "1.2 [m/s]", "1.5 [m/s]", "2.0 [m/s]"]);
+    }
+
+    function periodFormulaChoices() {
+      return makeChoices("2π/ω [s]", ["ω/2π [s]", "2πω [s]", "ωx [s]"]);
     }
 
     function buildQuiz() {
-      const period = shuffle(problemBank.filter(problem => problem.type === "periodFromMK")).slice(0, 2);
-      const mass = shuffle(problemBank.filter(problem => problem.type === "massFromPeriodK")).slice(0, 1);
-      const speed = shuffle(problemBank.filter(problem => problem.type === "speedAtNatural")).slice(0, 2);
-      return shuffle(period.concat(mass, speed)).slice(0, TOTAL_QUESTIONS);
+      return shuffle(problemBank).slice(0, TOTAL_QUESTIONS);
     }
 
     function getHint(p) {
-      if (p.type === "periodFromMK") {
-        return `<strong>ヒント</strong><br>周期は <strong>T = 2π√(m/k)</strong> で求めます。まず <strong>m/k</strong> を計算し、その平方根をとります。`;
-      }
-      if (p.type === "massFromPeriodK") {
-        return `<strong>ヒント</strong><br><strong>T = 2π√(m/k)</strong> です。両辺を <strong>2π</strong> で割ると <strong>√(m/k)</strong> がわかります。`;
-      }
-      return `<strong>ヒント</strong><br>端では弾性エネルギー、自然長では運動エネルギーを考えます。<strong>1/2 kA² = 1/2 mv²</strong> を使います。`;
+      return `
+        <strong>ヒント</strong><br>
+        端では弾性エネルギー、自然長では運動エネルギーを考えます。<strong>1/2 kx² = 1/2 mv²</strong> です。<br>
+        また、この振動と同じ動きをする円運動では、自然長を通るときの速さが最大で <strong>v = xω</strong> です。`;
     }
 
     function makeSteps(p) {
-      if (p.type === "periodFromMK") {
-        return [{
+      return [
+        {
+          key: "speed",
+          prompt: "小球が自然長を通り過ぎる瞬間の速度 v [m/s] を求めよ。",
+          makeChoices: () => speedChoices(p.speed),
+          feedback: () => `
+            <strong>正解：${displayMath(p.speed)}</strong><br>
+            手を離した瞬間は弾性エネルギー <strong>1/2 kx²</strong>、自然長を通る瞬間は運動エネルギー <strong>1/2 mv²</strong> です。<br>
+            <strong>1/2 kx² = 1/2 mv²</strong> より、<strong>v = x√(k/m)</strong>。<br>
+            今回は <strong>${displayMath(p.root)}</strong> なので、<strong>v = ${fmt(p.x)} × ${displayMath(p.root.split(" = ").pop())} = ${displayMath(p.speed)}</strong> です。`
+        },
+        {
+          key: "omegaFormula",
+          prompt: "このバネの振動と同様の動きをする円運動を考えたとき、角速度 ω [rad/s] を v と x を用いて表せ。",
+          makeChoices: () => omegaChoices("v/x [rad/s]"),
+          feedback: () => `
+            <strong>正解：v/x [rad/s]</strong><br>
+            同じ動きをする円運動では、半径が振幅 <strong>x</strong>、最大速度が <strong>v</strong> に対応します。<br>
+            円運動では <strong>v = xω</strong> なので、<strong>ω = v/x</strong> です。`
+        },
+        {
+          key: "periodFormula",
+          prompt: "周期 T [s] を ω [rad/s] を用いて表せ。",
+          makeChoices: () => periodFormulaChoices(),
+          feedback: () => `
+            <strong>正解：2π/ω [s]</strong><br>
+            角速度は、1秒あたりに進む角度です。1周は <strong>2π</strong> [rad] なので、周期は <strong>T = 2π/ω</strong> です。`
+        },
+        {
           key: "period",
-          title: "周期を求める",
-          prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m] の水平バネ振り子の周期を答えよ。`,
-          makeChoices: () => periodChoices(p.answer),
+          prompt: "周期 T [s] を数値で求めよ。",
+          makeChoices: () => periodChoices(p.period),
           feedback: () => `
-            <strong>正解：${p.answer}</strong><br>
-            <strong>使用公式：T = 2π√(m/k)</strong><br>
-            周期は質量とばね定数で決まります。まず、平方根の中を計算します。<br>
-            <strong>${p.root}</strong> なので、周期は <strong>T = 2π × ${p.root.split(" = ").pop()} = ${p.answer}</strong> です。`
-        }];
-      }
-
-      if (p.type === "massFromPeriodK") {
-        const mass = p.k * p.halfPeriod * p.halfPeriod;
-        return [{
-          key: "mass",
-          title: "質量を求める",
-          prompt: `ばね定数 k = ${fmt(p.k)} [N/m]、周期 T = ${p.period} の水平バネ振り子で、小球の質量を答えよ。`,
-          makeChoices: () => massChoices(p.answer),
-          feedback: () => `
-            <strong>正解：${p.answer}</strong><br>
-            <strong>使用公式：T = 2π√(m/k)</strong><br>
-            T = 2π√(m/k) なので、周期を 2π で割ると √(m/k) が出ます。<br>
-            今回は <strong>${p.period} ÷ 2π = ${fmt(p.halfPeriod)}</strong>。つまり <strong>m/k = ${fmt(p.halfPeriod * p.halfPeriod)}</strong> です。<br>
-            したがって <strong>m = ${fmt(p.k)} × ${fmt(p.halfPeriod * p.halfPeriod)} = ${fmt(mass)} [kg]</strong> です。`
-        }];
-      }
-
-      return [{
-        key: "speed",
-        title: "自然長での速さを求める",
-        prompt: `質量 m = ${fmt(p.m)} [kg]、ばね定数 k = ${fmt(p.k)} [N/m]、振幅 A = ${fmt(p.amplitude)} [m] のとき、自然長での速さを答えよ。`,
-        makeChoices: () => speedChoices(p.answer),
-        feedback: () => `
-          <strong>正解：${p.answer}</strong><br>
-          <strong>使用公式：1/2 kA² = 1/2 mv²</strong><br>
-          端では、ばねは最大に伸び縮みしていて、弾性エネルギーをもっています。自然長では、そのエネルギーが運動エネルギーになります。<br>
-          <strong>1/2 kA² = 1/2 mv²</strong> より、同じ 1/2 を消して <strong>kA² = mv²</strong>。<br>
-          したがって <strong>v = A√(k/m) = ${fmt(p.amplitude)} × ${fmt(p.ratioRoot)} = ${p.answer}</strong> です。`
-      }];
+            <strong>正解：${displayMath(p.period)}</strong><br>
+            設問(2)より <strong>ω = v/x</strong> です。今回は <strong>ω = ${displayMath(p.omega)}</strong>。<br>
+            したがって <strong>T = 2π/ω = 2π / ${displayMath(p.omega.replace(" [rad/s]", ""))} = ${displayMath(p.period)}</strong> です。`
+        }
+      ];
     }
 
     function showScreen(id) {
@@ -601,25 +625,22 @@
     }
 
     function renderGivens(p) {
-      const items = [];
-      if (p.m) items.push(["質量 m", `${fmt(p.m)} [kg]`]);
-      if (p.k) items.push(["ばね定数 k", `${fmt(p.k)} [N/m]`]);
-      if (p.period) items.push(["周期 T", p.period]);
-      if (p.amplitude) items.push(["振幅 A", `${fmt(p.amplitude)} [m]`]);
-      $("#givens").innerHTML = items.map(([label, value]) => `
-        <div class="given"><span>${label}</span><strong>${value}</strong></div>
-      `).join("");
+      $("#givens").innerHTML = "";
     }
 
     function renderProblem() {
       currentProblem = quiz[problemIndex];
-      if (!currentProblem.id) currentProblem.id = `HSO_P${String(problemIndex+1).padStart(2,"0")}_${currentProblem.type || "Q"}`;
+      if (!currentProblem.id) currentProblem.id = `HSO_P${String(problemIndex+1).padStart(2,"0")}`;
       TrainerLog.startQuestion();
       currentSteps = makeSteps(currentProblem);
       stepState = currentSteps.map(() => ({ answered: false, correct: false }));
 
-      $("#problemTitle").textContent = typeLabels[currentProblem.type];
-      $("#questionText").textContent = "なめらかな水平面上で、ばねにつながれた小球が左右に振動している。";
+      $("#problemTitle").textContent = "問題";
+      $("#questionText").innerHTML = displayMath(
+        `バネ定数 k = ${fmt(currentProblem.k)} [N/m] のバネの先端に、質量 m = ${fmt(currentProblem.m)} [kg] の小球がくっついている。` +
+        `小球を引っ張り、自然長から長さ x = ${fmt(currentProblem.x)} [m] だけ伸びた状態で手を離したところ、バネは振幅 x = ${fmt(currentProblem.x)} [m] で振動を始めた。` +
+        `摩擦はないものとして、以下の問に答えよ。`
+      );
       renderGivens(currentProblem);
 
       hintBox.classList.remove("show");
@@ -635,8 +656,7 @@
         section.innerHTML = `
           <div class="step-head">
             <div>
-              <h2>${step.title}</h2>
-              <div class="state">${step.prompt}</div>
+              <div class="step-prompt">${displayMath(step.prompt)}</div>
             </div>
             <span class="state" data-state>未解答</span>
           </div>
@@ -644,7 +664,7 @@
             ${choices.map((choice, choiceIndex) => `
               <button class="choice" type="button" data-choice="${choiceIndex}" data-correct="${choice.correct}">
                 <span class="mark">${String.fromCharCode(65 + choiceIndex)}</span>
-                <span>${choice.text}</span>
+                <span>${choiceHTML(choice)}</span>
               </button>
             `).join("")}
           </div>
