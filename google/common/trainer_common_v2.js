@@ -88,7 +88,7 @@ const TrainerAuth = (() => {
   const markerIndex = path.indexOf(marker);
   const root = markerIndex >= 0 ? path.slice(0, markerIndex + marker.length) : "/";
   const isGoogle = path.indexOf("/google/") >= 0;
-  const isBigProblem = /circular_motion_(conical_pendulum|universal_gravitation)|spring_test[12]_framework/.test(path);
+  const isBigProblem = /circular_motion_(conical_pendulum|universal_gravitation)|spring_test[12]_framework|heat_gas_big_problem/.test(path);
   let category = "";
 
   if (isBigProblem) {
@@ -97,6 +97,10 @@ const TrainerAuth = (() => {
     category = root + (isGoogle ? "google/" : "") + "circular_motion/index.html";
   } else if (path.indexOf("/spring/") >= 0) {
     category = root + (isGoogle ? "google/" : "") + "spring/index.html";
+  } else if (path.indexOf("/mechanical_energy/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "mechanical_energy/index.html";
+  } else if (path.indexOf("/heat_gas/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "heat_gas/index.html";
   } else if (path.indexOf("/heat/") >= 0) {
     category = root + (isGoogle ? "google/" : "") + "heat/index.html";
   }
