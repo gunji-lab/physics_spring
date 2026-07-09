@@ -913,21 +913,21 @@
         id: "SCM_NUMERIC_OMEGA",
         variant: "numeric",
         finalType: "omega",
-        title: "円運動するバネ（数値：ωを求める）",
+        title: "円運動するバネ（数値：ω²を求める）",
         statement: "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
-        finalPrompt: "角速度 ω を数値で答えよ。",
-        finalUnit: "rad/s",
+        finalPrompt: "角速度の2乗 ω² を数値で答えよ。",
+        finalUnit: "rad²/s²",
         answers: {
           springForce: 9.0,
           centripetalForce: "0.25ω²",
-          finalAnswer: 6.0
+          finalAnswer: 36
         },
         distractors: {
           springForce: [18.0, 4.5, 12.0],
           centripetalForce: ["0.50ω²", "0.25ω", "0.50ω"],
-          finalAnswer: [3.0, 9.0, 12.0]
+          finalAnswer: [18, 24, 72]
         },
-        finalFeedback: "設問(1)(2)より <strong>9.0 = 0.25ω²</strong>。したがって <strong>ω² = 36</strong>、<strong>ω = 6.0 rad/s</strong> です。"
+        finalFeedback: "設問(1)(2)より <strong>9.0 = 0.25ω²</strong>。したがって <strong>ω² = 36 rad²/s²</strong> です。"
       },
       {
         id: "SCM_NUMERIC_L0",

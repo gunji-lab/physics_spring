@@ -613,42 +613,42 @@
         theta: 30,
         variant: "numeric",
         title: "θ=30° の円錐振り子（数値）",
-        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
         givens: [["質量 m", "1.0 kg"], ["糸の長さ L", "2.0 m"], ["重力加速度 g", "9.8 m/s²"], ["角度 θ", "30°"]],
         answers: {
           tension: "11.3 N",
           radius: "1.0 m",
           centripetal: "5.66 N",
           acceleration: "5.66 m/s²",
-          speed: "2.38 m/s"
+          speed: "5.66 m²/s²"
         }
       },
       {
         theta: 45,
         variant: "numeric",
         title: "θ=45° の円錐振り子（数値）",
-        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √2=1.41 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
         givens: [["質量 m", "1.0 kg"], ["糸の長さ L", "2.0 m"], ["重力加速度 g", "9.8 m/s²"], ["角度 θ", "45°"]],
         answers: {
           tension: "13.9 N",
           radius: "1.41 m",
           centripetal: "9.8 N",
           acceleration: "9.8 m/s²",
-          speed: "3.72 m/s"
+          speed: "13.9 m²/s²"
         }
       },
       {
         theta: 60,
         variant: "numeric",
         title: "θ=60° の円錐振り子（数値）",
-        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+        statement: "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
         givens: [["質量 m", "1.0 kg"], ["糸の長さ L", "2.0 m"], ["重力加速度 g", "9.8 m/s²"], ["角度 θ", "60°"]],
         answers: {
           tension: "19.6 N",
           radius: "1.73 m",
           centripetal: "17.0 N",
           acceleration: "17.0 m/s²",
-          speed: "5.42 m/s"
+          speed: "29.4 m²/s²"
         }
       }
     ];
@@ -698,11 +698,11 @@
         key: "horizontal",
         title: "設問(5)　速度を求める",
         prompt: "円運動の速度の大きさを答えよ。",
-        numericPrompt: "円運動の速度の大きさを数値で答えよ。",
+        numericPrompt: "円運動の速度の2乗 v² を数値で答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           向心加速度は <strong>a = v²/r</strong> です。<br>
-          ここで <strong>a = gtanθ</strong>、<strong>r = Lsinθ</strong> より、<strong>v² = Lg sinθ tanθ</strong> です。`
+          ここで <strong>a = gtanθ</strong>、<strong>r = Lsinθ</strong> より、<strong>v² = Lg sinθ tanθ</strong> です。${p.variant === "numeric" ? "<br>数値版では平方根の近似計算を避けるため、速度 v ではなく v² を答えます。" : ""}`
       }
     };
 

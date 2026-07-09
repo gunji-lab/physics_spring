@@ -326,7 +326,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=30° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -362,7 +362,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=30° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -375,12 +375,12 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の速度の大きさを数値で答えよ。",
-        "display": "2.38 m/s",
-        "unit": "m/s",
+        "prompt": "円運動の速度の2乗 v² を数値で答えよ。",
+        "display": "5.66 m²/s²",
+        "unit": "m^2/s^2",
         "choices": [],
-        "number": 2.38,
-        "tolerance": 0.011899999999999999
+        "number": 5.66,
+        "tolerance": 0.028300000000000002
       }
     ]
   },
@@ -389,7 +389,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=30° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=30° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -416,7 +416,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=45° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √2=1.41 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -452,7 +452,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=45° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √2=1.41 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -465,12 +465,12 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の速度の大きさを数値で答えよ。",
-        "display": "3.72 m/s",
-        "unit": "m/s",
+        "prompt": "円運動の速度の2乗 v² を数値で答えよ。",
+        "display": "13.9 m²/s²",
+        "unit": "m^2/s^2",
         "choices": [],
-        "number": 3.72,
-        "tolerance": 0.018600000000000002
+        "number": 13.9,
+        "tolerance": 0.0695
       }
     ]
   },
@@ -479,7 +479,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=45° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=45° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √2=1.41 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -506,7 +506,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=60° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -542,7 +542,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=60° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -555,12 +555,12 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の速度の大きさを数値で答えよ。",
-        "display": "5.42 m/s",
-        "unit": "m/s",
+        "prompt": "円運動の速度の2乗 v² を数値で答えよ。",
+        "display": "29.4 m²/s²",
+        "unit": "m^2/s^2",
         "choices": [],
-        "number": 5.42,
-        "tolerance": 0.0271
+        "number": 29.4,
+        "tolerance": 0.147
       }
     ]
   },
@@ -569,7 +569,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "title": "θ=60° の円錐振り子（数値）",
     "source": "大問対策・円錐振り子",
     "sourceFile": "google/circular_motion/circular_motion_conical_pendulum_framework_v1.html",
-    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
+    "context": "質量 1.0 kg の小球を長さ 2.0 m の糸につけ、鉛直方向から角度 θ=60° だけ傾いた状態で水平な円運動をさせる。重力加速度を 9.8 m/s²、糸の張力を T とする。必要なら √3=1.73 としてよい。小球は鉛直方向には加速せず、水平方向の合力が向心力になる。",
     "questions": [
       {
         "id": "BIG_0001",
@@ -1010,7 +1010,7 @@ window.FINAL_MOCK_BIG_BANK = [
   },
   {
     "id": "SCM_NUMERIC_OMEGA_basic3",
-    "title": "円運動するバネ（数値：ωを求める）",
+    "title": "円運動するバネ（数値：ω²を求める）",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
     "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
@@ -1037,18 +1037,18 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0003",
-        "prompt": "角速度 ω を数値で答えよ。",
-        "display": "6 rad/s",
-        "unit": "rad/s",
+        "prompt": "角速度の2乗 ω² を数値で答えよ。",
+        "display": "36 rad²/s²",
+        "unit": "rad^2/s^2",
         "choices": [],
-        "number": 6,
-        "tolerance": 0.03
+        "number": 36,
+        "tolerance": 0.18
       }
     ]
   },
   {
     "id": "SCM_NUMERIC_OMEGA_force2",
-    "title": "円運動するバネ（数値：ωを求める）",
+    "title": "円運動するバネ（数値：ω²を求める）",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
     "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
@@ -1077,7 +1077,7 @@ window.FINAL_MOCK_BIG_BANK = [
   },
   {
     "id": "SCM_NUMERIC_OMEGA_constant2",
-    "title": "円運動するバネ（数値：ωを求める）",
+    "title": "円運動するバネ（数値：ω²を求める）",
     "source": "大問対策・円運動するバネ",
     "sourceFile": "google/spring/spring_test1_framework_v2.html",
     "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
@@ -1095,12 +1095,12 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "角速度 ω を数値で答えよ。",
-        "display": "6 rad/s",
-        "unit": "rad/s",
+        "prompt": "角速度の2乗 ω² を数値で答えよ。",
+        "display": "36 rad²/s²",
+        "unit": "rad^2/s^2",
         "choices": [],
-        "number": 6,
-        "tolerance": 0.03
+        "number": 36,
+        "tolerance": 0.18
       }
     ]
   },
@@ -2113,7 +2113,7 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-09T04:07:11.235Z",
+  "generatedAt": "2026-07-09T04:21:45.909Z",
   "total": 56,
   "counts": {
     "大問対策・円錐振り子/3問": 6,
