@@ -30,7 +30,12 @@
     "heat_stage3_framework_v1.html":"熱/Stage3/Q=mcΔT",
     "heat_stage4_framework_v1.html":"熱/Stage4/統合",
     "heat_stage5_framework_v1.html":"熱/Stage5/熱量保存",
-    "heat_stage6_framework_v1.html":"熱/Stage6/総合記述式"
+    "heat_stage6_framework_v1.html":"熱/Stage6/総合記述式",
+    "heat_gas_stage1_framework_v1.html":"熱と気体/Stage1/ボイルの法則",
+    "heat_gas_stage2_framework_v1.html":"熱と気体/Stage2/シャルルの法則",
+    "heat_gas_stage3_framework_v1.html":"熱と気体/Stage3/ボイル・シャルルの法則",
+    "heat_gas_stage4_framework_v1.html":"熱と気体/Stage4/状態方程式",
+    "heat_gas_stage5_framework_v1.html":"熱と気体/Stage5/熱エネルギーと仕事"
   };
 
   function renderProgress(response) {

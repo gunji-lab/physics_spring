@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title><link rel="stylesheet" href="heat_gas_stage_template.css"></head>
+<body><div class="wrap"><div class="card">
+<h1 id="title"></h1><div id="lead" class="lead"></div><div id="startScreen"><div id="intro" class="note"></div><div class="note">学籍番号を入力してからスタートしてください。</div><input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号"><div class="buttons"><button id="startBtn">スタート</button></div></div>
+<div id="quizScreen" style="display:none"><div class="top"><div id="count"></div><div id="score"></div></div><div class="bar"><div id="bar"></div></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback"></div><div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div></div>
+<div id="finishScreen" class="result" style="display:none"><div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div><div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div></div>
+</div></div><script src="../common/trainer_common_v2.js"></script><script>
+const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
+const STAGE_NAME="熱と気体/Stage5/熱エネルギーと仕事";
+window.HEAT_GAS_STAGE_CONFIG={title:"熱と気体 Stage5 熱エネルギーと仕事トレーナー",lead:"熱力学第一法則 ΔU = Q + W を使う4択クイズです。10問ランダム出題、70%以上でクリア。",intro:"気体の内部エネルギーの変化は、加えた熱 Q と、外部から気体にされた仕事 W の和です。<br><b>ΔU = Q + W</b> と考えます。気体が外部に仕事をしたときは、その分だけ内部エネルギーは減る向きです。",idPrefix:"HEAT_GAS5",total:10,groups:[{type:"isoV",count:3},{type:"adiabatic",count:3},{type:"first",count:4}],badges:{isoV:"体積一定",adiabatic:"断熱変化",first:"熱と仕事"},point:"このトレーナーでは、外部から気体にされた仕事を +、気体が外部にした仕事を - として ΔU = Q + W に代入します。",passMessage:"クリア！熱と仕事のエネルギー収支が見えています。",failMessage:"もう一回やると、仕事の向きと符号が定着します。",answerPools:{isoV:["10 [J]","20 [J]","30 [J]","42 [J]","50 [J]","60 [J]","80 [J]"],adiabatic:["10 [J]","20 [J]","30 [J]","40 [J]","50 [J]","60 [J]"],first:["10 [J]","20 [J]","30 [J]","40 [J]","50 [J]","60 [J]","70 [J]","80 [J]","100 [J]"]},problems:[
+{type:"isoV",ans:"42 [J]",question:"体積が変化しない容器に気体をつめて、42 [J] の熱エネルギーを加えた。気体の内部エネルギーの増加量は何 [J] か。",calc:"体積が変化しないので仕事は 0 [J]。ΔU = Q + W = 42 + 0 = 42 [J]"},
+{type:"isoV",ans:"50 [J]",question:"体積が変化しない容器に気体をつめて、50 [J] の熱エネルギーを加えた。気体の内部エネルギーの増加量は何 [J] か。",calc:"W = 0 [J] なので、ΔU = 50 + 0 = 50 [J]"},
+{type:"isoV",ans:"80 [J]",question:"体積が変化しない容器の気体に 80 [J] の熱エネルギーを加えた。内部エネルギーの増加量は何 [J] か。",calc:"体積一定では仕事がないため、ΔU = Q = 80 [J]"},
+{type:"adiabatic",ans:"30 [J]",question:"熱エネルギーが出入りしない断熱容器に気体をつめ、ピストンを押し込んで気体を圧縮した。ピストンがした仕事が 30 [J] のとき、気体の内部エネルギーの増加量は何 [J] か。",calc:"断熱なので Q = 0 [J]。外部から気体にされた仕事 W = 30 [J]。ΔU = 0 + 30 = 30 [J]"},
+{type:"adiabatic",ans:"50 [J]",question:"断熱容器の気体を圧縮し、外部から気体に 50 [J] の仕事をした。内部エネルギーの増加量は何 [J] か。",calc:"Q = 0 [J]、W = 50 [J]。ΔU = 50 [J]"},
+{type:"adiabatic",ans:"20 [J]",question:"断熱容器の気体を圧縮し、外部から気体に 20 [J] の仕事をした。内部エネルギーの増加量は何 [J] か。",calc:"Q = 0 [J]、W = 20 [J]。ΔU = 20 [J]"},
+{type:"first",ans:"30 [J]",question:"気体に 50 [J] の熱エネルギーを加えたところ、気体は膨張し、外部に 20 [J] の仕事をした。このとき、内部エネルギーは何 [J] 増加したか。",calc:"気体が外部にした仕事 20 [J] は内部エネルギーを減らす向き。ΔU = 50 - 20 = 30 [J]"},
+{type:"first",ans:"60 [J]",question:"気体に 80 [J] の熱エネルギーを加え、気体が外部に 20 [J] の仕事をした。内部エネルギーは何 [J] 増加したか。",calc:"ΔU = Q - 外部へした仕事 = 80 - 20 = 60 [J]"},
+{type:"first",ans:"70 [J]",question:"気体に 40 [J] の熱エネルギーを加え、さらに外部から気体に 30 [J] の仕事をした。内部エネルギーは何 [J] 増加したか。",calc:"外部から気体にされた仕事は +。ΔU = 40 + 30 = 70 [J]"},
+{type:"first",ans:"10 [J]",question:"気体に 60 [J] の熱エネルギーを加えたところ、気体は外部に 50 [J] の仕事をした。内部エネルギーは何 [J] 増加したか。",calc:"ΔU = 60 - 50 = 10 [J]"}
+]};
+</script><script src="../common/heat_gas_stage_common_v1.js"></script></body></html>

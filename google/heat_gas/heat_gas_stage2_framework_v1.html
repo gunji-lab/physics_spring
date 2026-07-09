@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title><link rel="stylesheet" href="heat_gas_stage_template.css"></head>
+<body><div class="wrap"><div class="card">
+<h1 id="title"></h1><div id="lead" class="lead"></div><div id="startScreen"><div id="intro" class="note"></div><div class="note">学籍番号を入力してからスタートしてください。</div><input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号"><div class="buttons"><button id="startBtn">スタート</button></div></div>
+<div id="quizScreen" style="display:none"><div class="top"><div id="count"></div><div id="score"></div></div><div class="bar"><div id="bar"></div></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback"></div><div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div></div>
+<div id="finishScreen" class="result" style="display:none"><div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div><div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div></div>
+</div></div><script src="../common/trainer_common_v2.js"></script><script>
+const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
+const STAGE_NAME="熱と気体/Stage2/シャルルの法則";
+window.HEAT_GAS_STAGE_CONFIG={title:"熱と気体 Stage2 シャルルの法則トレーナー",lead:"圧力一定の気体で V/T = 一定 を使う4択クイズです。10問ランダム出題、70%以上でクリア。",intro:"圧力を一定に保つと、気体の体積 V は絶対温度 T に比例します。<br><b>V1/T1 = V2/T2</b>、つまり <b>V2 = V1T2/T1</b> を使います。",idPrefix:"HEAT_GAS2",total:10,groups:[{type:"V",count:7},{type:"T",count:3}],badges:{V:"体積を求める",T:"温度を求める"},point:"シャルルの法則では温度は必ず K で考えます。温度が大きくなると体積も大きくなります。",passMessage:"クリア！シャルルの法則の比例関係がつかめています。",failMessage:"もう一回やると、V/T = 一定の使い方が定着します。",answerPools:{V:["0.50 [m^3]","0.60 [m^3]","0.75 [m^3]","0.80 [m^3]","0.90 [m^3]","1.0 [m^3]","1.2 [m^3]","1.5 [m^3]","1.8 [m^3]","2.0 [m^3]"],T:["240 [K]","270 [K]","300 [K]","320 [K]","360 [K]","400 [K]","450 [K]"]},problems:[
+{type:"V",ans:"1.2 [m^3]",question:"温度 300 [K]、体積 1.0 [m^3] の気体がある。圧力を一定に保ったままで、温度を 360 [K] にした。このときの体積は何 [m^3] か。",calc:"V2 = V1T2/T1 = 1.0 × 360 / 300 = 1.2 [m^3]"},
+{type:"V",ans:"1.5 [m^3]",question:"温度 300 [K]、体積 1.0 [m^3] の気体を、圧力一定で温度 450 [K] にした。体積は何 [m^3] か。",calc:"V2 = 1.0 × 450 / 300 = 1.5 [m^3]"},
+{type:"V",ans:"0.80 [m^3]",question:"温度 300 [K]、体積 1.2 [m^3] の気体を、圧力一定で温度 200 [K] にした。体積は何 [m^3] か。",calc:"V2 = 1.2 × 200 / 300 = 0.80 [m^3]"},
+{type:"V",ans:"1.8 [m^3]",question:"温度 400 [K]、体積 1.2 [m^3] の気体を、圧力一定で温度 600 [K] にした。体積は何 [m^3] か。",calc:"V2 = 1.2 × 600 / 400 = 1.8 [m^3]"},
+{type:"V",ans:"0.75 [m^3]",question:"温度 320 [K]、体積 1.0 [m^3] の気体を、圧力一定で温度 240 [K] にした。体積は何 [m^3] か。",calc:"V2 = 1.0 × 240 / 320 = 0.75 [m^3]"},
+{type:"V",ans:"0.90 [m^3]",question:"温度 300 [K]、体積 0.60 [m^3] の気体を、圧力一定で温度 450 [K] にした。体積は何 [m^3] か。",calc:"V2 = 0.60 × 450 / 300 = 0.90 [m^3]"},
+{type:"V",ans:"2.0 [m^3]",question:"温度 270 [K]、体積 1.5 [m^3] の気体を、圧力一定で温度 360 [K] にした。体積は何 [m^3] か。",calc:"V2 = 1.5 × 360 / 270 = 2.0 [m^3]"},
+{type:"T",ans:"360 [K]",question:"温度 300 [K]、体積 1.0 [m^3] の気体を、圧力一定で体積 1.2 [m^3] にした。温度は何 [K] か。",calc:"T2 = T1V2/V1 = 300 × 1.2 / 1.0 = 360 [K]"},
+{type:"T",ans:"240 [K]",question:"温度 300 [K]、体積 1.0 [m^3] の気体を、圧力一定で体積 0.80 [m^3] にした。温度は何 [K] か。",calc:"T2 = 300 × 0.80 / 1.0 = 240 [K]"},
+{type:"T",ans:"400 [K]",question:"温度 320 [K]、体積 1.2 [m^3] の気体を、圧力一定で体積 1.5 [m^3] にした。温度は何 [K] か。",calc:"T2 = 320 × 1.5 / 1.2 = 400 [K]"}
+]};
+</script><script src="../common/heat_gas_stage_common_v1.js"></script></body></html>
