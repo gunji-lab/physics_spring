@@ -399,6 +399,12 @@ const STUDENT_STAGE_CATALOG = [
   "バネ/Stage3/位置エネ",
   "バネ/Stage4/エネ保",
   "バネ/Stage5/記入式",
+  "力学的エネルギー/Stage1/仕事",
+  "力学的エネルギー/Stage2/位置エネルギー",
+  "力学的エネルギー/Stage3/運動エネルギー",
+  "力学的エネルギー/Stage4/力学的エネルギー保存",
+  "力学的エネルギー/Stage5/仕事とエネルギー",
+  "力学的エネルギー/Stage6/総合記述式",
   "熱/Stage1/温度変換",
   "熱/Stage2/熱容量",
   "熱/Stage3/Q=mcΔT",
@@ -1504,7 +1510,7 @@ function getStudentDashboardData_(studentId) {
 }
 
 function buildStudentSectionRows_(logs, clearedStageNames) {
-  const sections = ["円運動", "バネ", "熱"];
+  const sections = ["力学的エネルギー", "円運動", "バネ", "熱"];
 
   const regularRows = sections.map(section => {
     const stages = STUDENT_STAGE_CATALOG
