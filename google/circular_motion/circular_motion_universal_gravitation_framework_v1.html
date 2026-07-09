@@ -171,7 +171,17 @@
     }
 
     .question-title { margin: 0 0 10px; font-size: clamp(1.18rem, 2vw, 1.5rem); }
-    .question-text { margin: 0 0 18px; color: var(--muted); }
+    .question-text {
+      margin: 0 0 20px;
+      color: var(--ink);
+      font-size: clamp(1.08rem, 1.8vw, 1.24rem);
+      font-weight: 750;
+      line-height: 1.8;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 17px;
+    }
 
     .givens {
       display: grid;
@@ -190,6 +200,7 @@
 
     .given span { display: block; color: var(--muted); font-size: 0.82rem; margin-bottom: 2px; }
     .given strong { font-size: 1.08rem; }
+    .givens:empty { display: none; }
 
     .steps { display: grid; gap: 12px; }
 
@@ -211,6 +222,12 @@
     }
 
     .step-head h2 { margin: 0; font-size: 1rem; }
+    .step-prompt {
+      color: var(--ink);
+      font-size: clamp(1.02rem, 1.7vw, 1.15rem);
+      font-weight: 750;
+      line-height: 1.7;
+    }
     .state { font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
 
     .choices {
@@ -371,8 +388,8 @@
       <section class="screen active" id="startScreen">
         <div class="panel start-card">
           <p class="tag">万有引力と円運動</p>
-          <h2 class="question-title">万有引力と人工衛星：万有引力が向心力になる問題</h2>
-          <p class="lead">式と数字で解くトレーナーです。万有引力の公式、向心力との関係、人工衛星の速度や周期を、短い設問で順に確認します。</p>
+          <h2 class="question-title">万有引力と円運動を大問形式で確認する問題</h2>
+          <p class="lead">12問の問題バンクから2題をランダム出題します。距離・質量による万有引力の変化、人工衛星、ISS、月、地表付近の衛星、惑星の円運動を扱います。</p>
           <label for="studentId">学籍番号</label>
           <input class="student-input" id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
           <div class="controls">
@@ -387,7 +404,7 @@
             <div class="topic-row">
               <div>
                 <p class="tag">万有引力と円運動</p>
-                <h2 class="question-title" id="problemTitle">万有引力の公式</h2>
+                <h2 class="question-title" id="problemTitle">問題</h2>
               </div>
               <button class="btn" id="resetQuestionBtn" type="button">この大問を練習し直す</button>
             </div>
@@ -400,7 +417,7 @@
 
             <div class="controls">
               <button class="btn primary" id="revealStepBtn" type="button" hidden>次の設問へ</button>
-              <button class="btn" id="hintBtn" type="button" hidden>ヒントを表示</button>
+              <button class="btn" id="hintBtn" type="button">ヒントを表示</button>
               <button class="btn" id="showSolutionBtn" type="button">解説を表示</button>
               <button class="btn primary" id="nextBtn" type="button" disabled>結果を見る</button>
             </div>
@@ -469,125 +486,98 @@
   </div>
 
   <script src="../common/trainer_common_v2.js"></script>
-  <script src="../../common/universal_gravitation_extra_bank_v1.js"></script>
   <script>
     const GAS_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
     const STAGE_NAME = "円運動/大問/万有引力";
-    window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
-
-    const previousProblemBank = [
-      {
-        id:"moonVelocity",
-        title:"大問1　月の速度を求める",
-        statement:"月が地球のまわりを半径 r の円軌道で、周期 T で公転している。月の速さ v を求めよ。",
-        mainPrompt:"月の速さ v に最も近い値を答えよ。",
-        mainChoices:["0.102 km/s","1.02 km/s","10.2 km/s","102 km/s"],
-        mainAnswer:"1.02 km/s",
-        mainExplain:"v = 2πr/T に値を代入すると、月の速さは約1.02 km/sです。",
-        givens:[["軌道半径","r = 3.84×10⁸ m"],["公転周期","T = 2.36×10⁶ s"]],
-        hint:"1周の道のりを、1周にかかる時間で割ります。",
-        steps:[
-          {id:"distance",title:"誘導(1)　月が1周する道のり",prompt:"半径 r の円を1周する道のりを答えよ。",type:"choice",choices:["2πr","πr","r²","2r"],answer:"2πr",explain:"円周の長さは 2πr です。"},
-          {id:"speedDef",title:"誘導(2)　速さの定義",prompt:"速さを求める基本式を書け。",type:"choice",choices:["速さ = 道のり / 時間","速さ = 時間 / 道のり","速さ = 力 / 質量","速さ = 半径 × 時間"],answer:"速さ = 道のり / 時間",explain:"速さは、進んだ道のりをかかった時間で割ります。"},
-          {id:"formula",title:"誘導(3)　月の速さを文字式で表す",prompt:"1周の道のりが 2πr、周期が T のとき、速さ v を答えよ。",type:"choice",choices:["v = 2πr/T","v = T/2πr","v = 2πT/r","v = rT"],answer:"v = 2πr/T",explain:"1周の道のり 2πr を周期 T で割るので、v = 2πr/T です。"},
-          {id:"value",title:"誘導(4)　数値を代入する",prompt:"r = 3.84×10⁸ m、T = 2.36×10⁶ s を代入し、月の速さを km/s で答えよ。",type:"number",answer:1.02,tolerance:0.03,unit:"km/s",explain:"v = 2πr/T ≒ 1.02×10³ m/s = 1.02 km/s です。"}
-        ]
-      },
-      {
-        id:"moonPeriod",
-        title:"大問2　月の周期を求める",
-        statement:"地球の質量を M、月の質量を m、軌道半径を r とする。万有引力から月の公転周期 T を求めよ。",
-        mainPrompt:"月の公転周期 T を表す式を書け。",
-        mainChoices:["T = 2π√(r³/GM)","T = 2π√(GM/r³)","T = √(GMr)","T = 2πr/GM"],
-        mainAnswer:"T = 2π√(r³/GM)",
-        mainExplain:"万有引力を向心力と等しくおき、v = 2πr/T を代入すると T = 2π√(r³/GM) です。",
-        givens:[["万有引力定数","G"],["地球の質量","M"],["月の質量","m"],["軌道半径","r"]],
-        hint:"万有引力が月を円運動させる向心力になります。",
-        steps:[
-          {id:"gravity",title:"誘導(1)　月にはたらく万有引力",prompt:"地球が月を引く万有引力を答えよ。",type:"choice",choices:["F = GMm/r²","F = GMm/r","F = GM/r²","F = GMr²/m"],answer:"F = GMm/r²",explain:"質量 M と m、中心間距離 r なので F = GMm/r² です。"},
-          {id:"centripetal",title:"誘導(2)　円運動に必要な力",prompt:"速さ v で半径 r の円運動をする月に必要な向心力を答えよ。",type:"choice",choices:["mv²/r","mvr","mv/r²","mr²/v"],answer:"mv²/r",explain:"円運動に必要な向心力の大きさは mv²/r です。"},
-          {id:"equation",title:"誘導(3)　2つの力を結びつける",prompt:"万有引力が向心力になることを表す式を書け。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"月にはたらく万有引力そのものが向心力になります。"},
-          {id:"substitute",title:"誘導(4)　周期 T を式に入れる",prompt:"v = 2πr/T を代入した式を書け。",type:"choice",choices:["GMm/r² = m(2πr/T)²/r","GMm/r² = m(T/2πr)²/r","GMm/r = m(2πr/T)²/r","GM/r² = 2πr/T"],answer:"GMm/r² = m(2πr/T)²/r",explain:"向心力 mv²/r の v に 2πr/T を代入します。"},
-          {id:"period",title:"誘導(5)　周期 T を求める",prompt:"式を整理した結果を書け。",type:"choice",choices:["T = 2π√(r³/GM)","T = 2π√(GM/r³)","T = √(GMr)","T = 2πr/GM"],answer:"T = 2π√(r³/GM)",explain:"月の質量 m は消え、T² = 4π²r³/GM、したがって T = 2π√(r³/GM) です。"}
-        ]
-      },
-      {
-        id:"satelliteVelocity",
-        title:"大問3　人工衛星の速度を求める",
-        statement:"質量 m の人工衛星が、地球中心から距離 r の円軌道を運動している。軌道速度 v を求めよ。",
-        mainPrompt:"地表すれすれを回る人工衛星の速度に最も近い値を答えよ。",
-        mainChoices:["0.79 km/s","7.9 km/s","79 km/s","9.8 km/s"],
-        mainAnswer:"7.9 km/s",
-        mainExplain:"v = √(gR) に地球の値を代入すると、第一宇宙速度は約7.9 km/sです。",
-        givens:[["地球の質量","M"],["人工衛星の質量","m"],["軌道半径","r"],["地球半径","R = 6.37×10⁶ m"]],
-        hint:"万有引力と向心力を等しくおき、衛星の質量 m を消します。",
-        steps:[
-          {id:"gravity",title:"誘導(1)　人工衛星にはたらく力",prompt:"人工衛星にはたらく万有引力を答えよ。",type:"choice",choices:["GMm/r²","GMm/r","GM/r²","GMr²/m"],answer:"GMm/r²",explain:"地球と衛星の間の万有引力は GMm/r² です。"},
-          {id:"centripetal",title:"誘導(2)　円運動に必要な力",prompt:"人工衛星の向心力を答えよ。",type:"choice",choices:["mv²/r","mvr","mv/r²","mr²/v"],answer:"mv²/r",explain:"半径 r、速さ v の円運動に必要な力は mv²/r です。"},
-          {id:"equation",title:"誘導(3)　力を等しくおく",prompt:"正しい関係式を書け。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"万有引力が人工衛星の向心力を担います。"},
-          {id:"formula",title:"誘導(4)　軌道速度を導く",prompt:"衛星の質量 m を消し、v について解いた式を書け。",type:"choice",choices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],answer:"v = √(GM/r)",explain:"整理すると v² = GM/r なので、v = √(GM/r) です。"},
-          {id:"value",title:"誘導(5)　第一宇宙速度を計算する",prompt:"地表すれすれでは v = √(gR)。g = 9.8 m/s²、R = 6.37×10⁶ m として、v を km/s で答えよ。",type:"number",answer:7.9,tolerance:0.15,unit:"km/s",explain:"√(9.8×6.37×10⁶) ≒ 7.9×10³ m/s = 7.9 km/s です。"}
-        ]
-      },
-      {
-        id:"gravityComparison",
-        title:"大問4　地球と月の重力を比較する",
-        statement:"月の質量は地球の約1/81、月の半径は地球の約1/3.67である。月面重力が地球表面の何倍か求めよ。",
-        mainPrompt:"月面重力は地球表面重力のおよそ何倍か答えよ。",
-        mainChoices:["約1/81倍","約1/6倍","約1/3.67倍","約6倍"],
-        mainAnswer:"約1/6倍",
-        mainExplain:"質量比だけでなく半径比の2乗も効くため、(1/81)×3.67² ≒ 1/6です。",
-        givens:[["質量比","M月/M地球 = 1/81"],["半径比","R月/R地球 = 1/3.67"],["地球表面重力","g地球 = 9.8 m/s²"]],
-        hint:"表面重力 g = GM/R² の比をとると、万有引力定数 G が消えます。",
-        steps:[
-          {id:"surfaceGravity",title:"誘導(1)　表面重力の公式",prompt:"天体の質量 M、半径 R と表面重力 g の関係を書け。",type:"choice",choices:["g = GM/R²","g = GM/R","g = GMR²","g = R²/GM"],answer:"g = GM/R²",explain:"天体表面では中心からの距離が半径 R なので、g = GM/R² です。"},
-          {id:"ratio",title:"誘導(2)　地球と月の比をとる",prompt:"月面重力と地球表面重力の比を表す式を書け。",type:"choice",choices:["g月/g地球 = (M月/M地球)(R地球/R月)²","g月/g地球 = M月/M地球","g月/g地球 = (M月/M地球)(R月/R地球)²","g月/g地球 = R地球/R月"],answer:"g月/g地球 = (M月/M地球)(R地球/R月)²",explain:"g = GM/R² の比をとると、質量比に半径比の逆数の2乗を掛けます。"},
-          {id:"massOnly",title:"誘導(3)　質量差だけでは決まらない",prompt:"月の質量が地球の1/81でも、重力が1/81にならない理由を答えよ。",type:"choice",choices:["月は半径も小さいから","万有引力定数が月では違うから","物体の質量が変わるから","月が公転しているから"],answer:"月は半径も小さいから",explain:"表面重力は質量に比例しますが、半径の2乗に反比例します。"},
-          {id:"ratioValue",title:"誘導(4)　重力比を計算する",prompt:"(1/81)×3.67² を計算し、月面重力が地球の何倍か小数で答えよ。",type:"number",answer:0.166,tolerance:0.015,unit:"倍",explain:"(1/81)×3.67² ≒ 0.166、つまり月面重力は地球の約1/6です。"},
-          {id:"moonGravity",title:"誘導(5)　月面重力を求める",prompt:"地球表面重力を9.8 m/s²として、月面重力を求めよ。",type:"number",answer:1.63,tolerance:0.08,unit:"m/s²",explain:"9.8×0.166 ≒ 1.63 m/s² です。"}
-        ]
-      }
-    ];
+    const TOTAL_QUESTIONS = 2;
+    window.TrainerLog = window.TrainerLog || {startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
 
     const problemBank = [
+      makePattern1("UG_P1_01", 2, 3, 600, 120),
+      makePattern1("UG_P1_02", 3, 5, 900, 150),
+      makePattern1("UG_P1_03", 4, 2, 720, 90),
+      makePattern2("UG_P2_01", 100, 500),
+      makePattern2("UG_P2_02", 200, 1000),
+      makePattern2("UG_P2_03", 50, 800),
       {
-        id:"inverseSquare", title:"演習問題③　万有引力", statement:"万有引力の距離・質量依存と、力から加速度を求める方法を確認する。", mainPrompt:"(1) 距離が2倍、(2) 地球の質量が4倍、(3) F = 500 N、m = 100 kg のときの答えの組合せを答えよ。", mainChoices:["1/4倍、4倍、5 m/s²","1/2倍、4倍、5 m/s²","1/4倍、2倍、50 m/s²","4倍、1/4倍、5 m/s²"], mainAnswer:"1/4倍、4倍、5 m/s²", mainExplain:"F は距離の2乗に反比例し、地球の質量に比例します。また a = F/m = 500/100 = 5 m/s² です。", givens:[["万有引力","F = GMm/r²"],["向心加速度","a = F/m"]], hint:"何が2乗に反比例し、何に比例するかを分けて考えます。", steps:[{id:"distance",title:"誘導(1)　距離が2倍",prompt:"距離が2倍になると、万有引力は何倍か答えよ。",type:"choice",choices:["1/4倍","1/2倍","2倍","4倍"],answer:"1/4倍",explain:"F ∝ 1/r² なので、1/2² = 1/4倍です。"},{id:"mass",title:"誘導(2)　地球の質量が4倍",prompt:"距離が同じまま地球の質量が4倍になると、万有引力は何倍か答えよ。",type:"choice",choices:["4倍","2倍","1/4倍","16倍"],answer:"4倍",explain:"F は地球の質量 M に比例します。"},{id:"acceleration",title:"誘導(3)　向心加速度",prompt:"F = 500 N、m = 100 kg のとき、向心加速度を求めよ。",type:"number",answer:5,tolerance:0.01,unit:"m/s²",explain:"a = F/m = 500/100 = 5 m/s² です。"}]
+        id: "UG_P3_01",
+        title: "ISSの万有引力と速さ",
+        statement: "国際宇宙ステーション（ISS）は地球の周りを円運動している。ISSの質量を m [kg]、地球の質量を M [kg]、ISSの軌道半径を r [m]、万有引力定数を G とする。",
+        hint: "万有引力が円運動の向心力になります。まず F = GMm/r^2 を書き、次に GMm/r^2 = mv^2/r とおきます。",
+        steps: [
+          choiceStep("force", "ISSにはたらく万有引力を求めよ。", "GMm/r^2", ["GMm/r", "GM/r^2", "GMr^2/m"], "万有引力は2つの質量の積に比例し、距離の2乗に反比例します。"),
+          choiceStep("speed", "ISSの速さを求めよ。", "√(GM/r)", ["√(GMr)", "GM/r", "√(r/GM)"], "GMm/r^2 = mv^2/r とおくと m が消え、v^2 = GM/r です。")
+        ]
+      },
+      makePattern4("UG_P4_01", 4, "2倍"),
+      makePattern4("UG_P4_02", 9, "3倍"),
+      makePattern4("UG_P4_03", 16, "4倍"),
+      {
+        id: "UG_P5_01",
+        title: "地表付近を回る人工衛星",
+        statement: "地表付近を円軌道を描いて回る人工衛星の運動について考えるとき、万有引力は重力とみなすことができ、円軌道の半径は地球の半径に近似することができる。重力加速度の大きさを 9.8 [m/s2]、地球の半径を 6.4×10^6 [m] として、以下の問に答えよ。",
+        hint: "地表付近では v^2/R = g と見なせます。したがって v = √(gR) です。周期は1周の長さ 2πR を速さ v で割ります。",
+        steps: [
+          choiceStep("speed", "この人工衛星の速さはいくらか。", "7.9×10^3 [m/s]", ["7.9×10^2 [m/s]", "9.8×10^3 [m/s]", "7.9×10^4 [m/s]"], "v = √(gR) = √(9.8×6.4×10^6) ≒ 7.9×10^3 [m/s] です。"),
+          choiceStep("period", "この人工衛星の周期 T は何分か。", "約85分", ["約8.5分", "約51分", "約850分"], "T = 2πR/v ≒ 2π×6.4×10^6/(7.9×10^3) ≒ 5.1×10^3 [s]、つまり約85分です。")
+        ]
       },
       {
-        id:"satelliteMass", title:"演習問題④　人工衛星の質量", statement:"質量100 kgと1000 kgの人工衛星を、同じ高さの同じ円軌道に乗せる。軌道速度と周期を比較せよ。", mainPrompt:"2つの人工衛星の速さと周期について正しい答えを書け。", mainChoices:["速さも周期も同じ","重い衛星の方が速く、周期は同じ","速さは同じで、重い衛星の周期が長い","重い衛星の方が速く、周期も短い"], mainAnswer:"速さも周期も同じ",mainExplain:"GMm/r² = mv²/r では衛星の質量 m が消えます。同じ r なら速さも周期も同じです。", givens:[["衛星A","100 kg"],["衛星B","1000 kg"],["軌道半径","どちらも同じ r"]],hint:"運動方程式の両辺にある衛星の質量 m に注目します。", steps:[{id:"cancel",title:"誘導(1)　質量を消す",prompt:"GMm/r² = mv²/r を整理した式を書け。",type:"choice",choices:["v² = GM/r","v² = GMm/r","v² = Gm/r","v² = GMr"],answer:"v² = GM/r",explain:"両辺の m が約分され、衛星の質量は残りません。"},{id:"speed",title:"誘導(2)　速さを比較する",prompt:"同じ軌道半径なら、質量が違う2つの衛星の速さがどうなるか答えよ。",type:"choice",choices:["同じ","1000 kgの方が速い","100 kgの方が速い","判断できない"],answer:"同じ",explain:"v = √(GM/r) は衛星の質量に依存しません。"},{id:"period",title:"誘導(3)　周期を比較する",prompt:"T = 2πr/v より、2つの衛星の周期がどうなるか答えよ。",type:"choice",choices:["同じ","1000 kgの方が長い","100 kgの方が長い","質量に比例する"],answer:"同じ",explain:"r と v が同じなので、周期も同じです。"}]
-      },
-      {
-        id:"orbitalVelocity", title:"演習問題⑤　人工衛星の速度", statement:"質量 m の人工衛星が、質量 M の地球の中心から距離 r の円軌道を運動している。軌道速度 v を求めよ。", mainPrompt:"人工衛星の軌道速度を表す式を書け。", mainChoices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],mainAnswer:"v = √(GM/r)", mainExplain:"万有引力を向心力と等しくおくと、GMm/r² = mv²/r。これを v について解くと v = √(GM/r) です。", givens:[["地球の質量","M"],["衛星の質量","m"],["地球中心からの距離","r"]],hint:"万有引力が円運動の向心力になります。", steps:[{id:"gravity",title:"誘導(1)　万有引力",prompt:"人工衛星にはたらく万有引力を答えよ。",type:"choice",choices:["GMm/r²","GMm/r","GM/r²","GMr²/m"],answer:"GMm/r²",explain:"2物体の質量の積に比例し、距離の2乗に反比例します。"},{id:"equation",title:"誘導(2)　運動方程式",prompt:"円運動の運動方程式を書け。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"万有引力が向心力を担います。"},{id:"formula",title:"誘導(3)　vについて解く",prompt:"式を整理した軌道速度を書け。",type:"choice",choices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],answer:"v = √(GM/r)",explain:"mを消して v² = GM/r とします。"}]
-      },
-      {
-        id:"moonSpeed", title:"演習問題⑥　月の運動", statement:"地球の質量だけが現在の4倍になったとする。月の軌道半径が変わらないとき、月の公転速度は何倍になるか。", mainPrompt:"月の公転速度が現在の何倍になるか答えよ。",mainChoices:["2倍","4倍","1/2倍","16倍"],mainAnswer:"2倍", mainExplain:"v = √(GM/r) より、軌道半径が同じなら v は √M に比例します。Mが4倍ならvは2倍です。", givens:[["地球の質量","M → 4M"],["月の軌道半径","r（変わらない）"]],hint:"軌道速度の式で、変わる量だけに注目します。", steps:[{id:"relation",title:"誘導(1)　比例関係",prompt:"rが一定のとき、vとMの関係を書け。",type:"choice",choices:["v ∝ √M","v ∝ M","v ∝ 1/M","v ∝ M²"],answer:"v ∝ √M",explain:"v = √(GM/r) なので v は √M に比例します。"},{id:"ratio",title:"誘導(2)　速度比",prompt:"Mが4倍になったときの速度比を答えよ。",type:"choice",choices:["√4 = 2倍","4倍","1/4倍","4² = 16倍"],answer:"√4 = 2倍",explain:"質量比の平方根を取ります。"}]
-      },
-      {
-        id:"nearEarthSatellite", title:"演習問題⑦　地表付近の人工衛星", statement:"地表すれすれを円軌道で回る人工衛星の速度 v と周期 T を求めよ。g = 9.8 m/s²、地球半径 R = 6.4×10⁶ m とする。", mainPrompt:"速度と周期の組合せを答えよ。", mainChoices:["約7.9 km/s、約85分","約7.9 km/s、約8.5分","約9.8 km/s、約85分","約79 km/s、約850分"],mainAnswer:"約7.9 km/s、約85分", mainExplain:"v = √(gR) ≒ 7.9 km/s、T = 2πR/v ≒ 5.1×10³ s ≒ 85分です。", givens:[["重力加速度","g = 9.8 m/s²"],["地球半径","R = 6.4×10⁶ m"]],hint:"地表では GM/R² = g を使うと、GとMを使わずに計算できます。", steps:[{id:"speedFormula",title:"誘導(1)　地表付近の速度",prompt:"GM/R² = g を使って表した速度を答えよ。",type:"choice",choices:["v = √(gR)","v = gR","v = √(g/R)","v = g/R"],answer:"v = √(gR)",explain:"v² = GM/R = gR です。"},{id:"speedValue",title:"誘導(2)　速度を計算する",prompt:"速度をkm/sで答えよ。",type:"number",answer:7.9,tolerance:0.15,unit:"km/s",explain:"√(9.8×6.4×10⁶) ≒ 7.9×10³ m/sです。"},{id:"periodFormula",title:"誘導(3)　周期の式",prompt:"周期を表す式を書け。",type:"choice",choices:["T = 2πR/v","T = v/2πR","T = 2πv/R","T = Rv"],answer:"T = 2πR/v",explain:"1周の距離2πRを速さvで割ります。"},{id:"periodValue",title:"誘導(4)　周期を計算する",prompt:"周期を分で答えよ。",type:"number",answer:85,tolerance:2,unit:"分",explain:"T ≒ 5070 s ≒ 84.5分なので、約85分です。"}]
-      },
-      {
-        id:"kepler", title:"演習問題⑧　惑星の円運動", statement:"質量 M の太陽のまわりを、質量 m の惑星が速さ v、半径 r の円軌道で公転する。運動方程式と周期 T を求めよ。", mainPrompt:"運動方程式と周期の正しい組合せを答えよ。",mainChoices:["GMm/r² = mv²/r、T = 2πr/v","GMm/r = mv²/r、T = 2πr/v","GMm/r² = mv²/r、T = v/2πr","GM/r² = mv²/r、T = 2πv/r"],mainAnswer:"GMm/r² = mv²/r、T = 2πr/v", mainExplain:"太陽の万有引力が向心力になるので GMm/r² = mv²/r。周期は1周の距離を速さで割り、T = 2πr/v です。", givens:[["太陽の質量","M"],["惑星の質量","m"],["軌道半径・速さ","r、v"]],hint:"(1)では運動方程式を立て、(2)では1周の距離を速さで割ります。", steps:[{id:"equation",title:"誘導(1)　運動方程式",prompt:"正しい運動方程式を書け。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"太陽の万有引力が向心力になります。"},{id:"period",title:"誘導(2)　周期と速度",prompt:"周期Tをvとrで表した式を書け。",type:"choice",choices:["T = 2πr/v","T = v/2πr","T = 2πv/r","T = rv"],answer:"T = 2πr/v",explain:"円周2πrを速度vで割ります。"}]
+        id: "UG_P6_01",
+        title: "惑星の円運動",
+        statement: "太陽のまわりを等速円運動している惑星の運動について、次の問いに答えよ。ただし、太陽の質量を M [kg]、惑星の質量を m [kg]、惑星の公転の速さを v [m/s]、軌道半径を r [m]、万有引力定数を G [Nm2/kg2] とする。",
+        hint: "太陽からの万有引力が向心力です。周期は、1周の道のりを速さで割ります。",
+        steps: [
+          choiceStep("equation", "この惑星の等速円運動の運動方程式をかけ。", "GMm/r^2 = mv^2/r", ["GMm/r = mv^2/r", "GM/r^2 = mv^2/r", "GMm/r^2 = mvr"], "万有引力 GMm/r^2 が、円運動の向心力 mv^2/r になります。"),
+          choiceStep("period", "この惑星の公転周期 T を、v と r を使って表せ。", "T = 2πr/v", ["T = v/2πr", "T = 2πv/r", "T = rv"], "1周の道のりは 2πr なので、周期は T = 2πr/v です。")
+        ]
       }
     ];
-    problemBank.push(...window.UNIVERSAL_GRAVITATION_EXTRA_PROBLEMS);
-    problemBank.find(problem=>problem.id==="nearEarthSatellite").steps.splice(2,1);
-    const problemTitles=["万有引力の変化","人工衛星の質量","人工衛星の軌道速度","地球質量と月の速度","地表付近の人工衛星","惑星の円運動","高い軌道へ移った衛星","小さな惑星の表面重力","衛星の速さと向心加速度","衛星から地球の質量を求める"];
-    problemBank.forEach((problem,index)=>{problem.title=problemTitles[index];});
-    function makeChoiceStep(problemId,stepId,choices,answer){
-      const step=problemBank.find(problem=>problem.id===problemId).steps.find(item=>item.id===stepId);
-      Object.assign(step,{type:"choice",choices:choices,answer:answer,unit:""});
+
+    function makePattern1(id, distanceX, massX, force, satelliteMass) {
+      const distanceAnswer = `1/${distanceX * distanceX}倍`;
+      const acceleration = force / satelliteMass;
+      return {
+        id,
+        title: "万有引力の変化と加速度",
+        statement: `地球と物体の間にはたらく万有引力について、公式 F = GMm/r^2 をもとに考える。地球からの距離が ${distanceX} 倍になった場合、地球の質量が現在の ${massX} 倍になった場合、人工衛星にはたらく力から向心加速度を求める場合を考える。`,
+        hint: "万有引力は距離の2乗に反比例し、地球の質量に比例します。加速度は a = F/m で求めます。",
+        steps: [
+          choiceStep("distance", `地球からの距離が ${distanceX} 倍になったとき、万有引力は何倍になるか。`, distanceAnswer, [`1/${distanceX}倍`, `${distanceX}倍`, `${distanceX * distanceX}倍`], `F は r^2 に反比例するので、距離が ${distanceX} 倍なら力は 1/${distanceX}^2 = ${distanceAnswer} です。`),
+          choiceStep("mass", `地球の質量が現在の ${massX} 倍になったとする。同じ距離 r にある物体にはたらく万有引力は何倍になるか。`, `${massX}倍`, [`1/${massX}倍`, `${massX * massX}倍`, "変わらない"], `F は地球の質量 M に比例するので、地球の質量が ${massX} 倍なら力も ${massX} 倍です。`),
+          choiceStep("acceleration", `ある人工衛星にはたらく万有引力が ${force} [N] であった。人工衛星の質量が ${satelliteMass} [kg] のとき、向心加速度を求めよ。`, `${fmt(acceleration)} [m/s2]`, [`${fmt(acceleration/2)} [m/s2]`, `${fmt(acceleration*2)} [m/s2]`, `${fmt(force*satelliteMass)} [m/s2]`], `F = ma より、a = F/m = ${force}/${satelliteMass} = ${fmt(acceleration)} [m/s2] です。`)
+        ]
+      };
     }
-    makeChoiceStep("inverseSquare","acceleration",["5 m/s²","0.2 m/s²","50 m/s²","500 m/s²"],"5 m/s²");
-    makeChoiceStep("nearEarthSatellite","speedValue",["7.9 km/s","0.79 km/s","9.8 km/s","79 km/s"],"7.9 km/s");
-    makeChoiceStep("nearEarthSatellite","periodValue",["85分","8.5分","850分","51分"],"85分");
-    makeChoiceStep("moonAcceleration","accValue",["2.5×10⁻³ m/s²","2.5 m/s²","2.5×10³ m/s²","4.0×10⁻⁶ m/s²"],"2.5×10⁻³ m/s²");
-    makeChoiceStep("earthMass","value",["6.1×10²⁴ kg","6.1×10²² kg","4.0×10¹⁴ kg","8.0×10³¹ kg"],"6.1×10²⁴ kg");
-    problemBank.find(problem=>problem.id==="moonSpeed").steps.unshift({id:"equation",title:"運動方程式",prompt:"月の円運動について、万有引力と向心力を結ぶ式を書け。",type:"choice",choices:["GMm/r² = mv²/r","GMm/r = mv²/r","GM/r² = mv²/r","GMm/r² = mvr"],answer:"GMm/r² = mv²/r",explain:"月にはたらく万有引力が、そのまま円運動の向心力になります。"});
-    problemBank.find(problem=>problem.id==="kepler").steps.unshift({id:"gravity",title:"万有引力の公式",prompt:"太陽から惑星にはたらく万有引力を書け。",type:"choice",choices:["GMm/r²","GMm/r","GM/r²","GMr²/m"],answer:"GMm/r²",explain:"万有引力は2物体の質量の積に比例し、中心間距離の2乗に反比例します。"});
-    problemBank.find(problem=>problem.id==="higherOrbit").steps.unshift({id:"speedFormula",title:"軌道速度の公式",prompt:"万有引力を向心力として導かれる軌道速度の式を書け。",type:"choice",choices:["v = √(GM/r)","v = GM/r","v = √(GMr)","v = √(r/GM)"],answer:"v = √(GM/r)",explain:"GMm/r² = mv²/r を整理すると、v = √(GM/r)です。"});
-    const nearEarthFormula=problemBank.find(problem=>problem.id==="nearEarthSatellite").steps[0];
-    nearEarthFormula.title="万有引力と向心力";
-    nearEarthFormula.prompt="GMm/R² = mv²/R と GM/R² = g を使い、地表付近の速度を表す式を書け。";
+
+    function makePattern2(id, m1, m2) {
+      return {
+        id,
+        title: "人工衛星の質量と運動",
+        statement: `質量 ${m1} [kg] の人工衛星と、質量 ${m2} [kg] の人工衛星が同じ高さを同じ円軌道で運動している。`,
+        hint: "GMm/r^2 = mv^2/r では、人工衛星の質量 m が両辺から消えます。同じ軌道半径なら、速さも周期も同じです。",
+        steps: [
+          choiceStep("speed", "速さはどちらが大きいか。", "どちらも同じ", [`${m1} kg の人工衛星`, `${m2} kg の人工衛星`, "質量だけでは判断できない"], "同じ軌道半径なら v = √(GM/r) となり、人工衛星の質量には依存しません。"),
+          choiceStep("period", "周期はどちらが長いか。", "どちらも同じ", [`${m1} kg の人工衛星`, `${m2} kg の人工衛星`, "質量だけでは判断できない"], "周期 T = 2πr/v です。r も v も同じなので、周期も同じです。")
+        ]
+      };
+    }
+
+    function makePattern4(id, x, answer) {
+      return {
+        id,
+        title: "地球の質量と月の速さ",
+        statement: `月が地球の周りを円運動している。もし地球の質量が現在の ${x} 倍になったら、同じ軌道半径で運動する月の速さは何倍になるか。`,
+        hint: "軌道半径が同じなら v = √(GM/r) より、速さ v は地球の質量 M の平方根に比例します。",
+        steps: [
+          choiceStep("speedRatio", `地球の質量が現在の ${x} 倍になったとき、同じ軌道半径で運動する月の速さは何倍になるか。`, answer, [`${x}倍`, `1/${x}倍`, "変わらない"], `v は √M に比例します。したがって速さは √${x} = ${answer} です。`)
+        ]
+      };
+    }
+
+    function choiceStep(id, prompt, answer, distractors, explain) {
+      return { id, prompt, answer, choices: shuffle([answer, ...distractors]).slice(0, 4), explain };
+    }
 
     const $ = selector => document.querySelector(selector);
     const stepsEl = $("#steps");
@@ -596,348 +586,211 @@
     const streakText = $("#streakText");
     const nextBtn = $("#nextBtn");
     const hintBtn = $("#hintBtn");
-    const revealStepBtn = $("#revealStepBtn");
     const hintBox = $("#hintBox");
-    const mainAnswerArea = $("#mainAnswerArea");
 
     let quiz = [];
     let problemIndex = 0;
     let currentProblem = null;
     let currentSteps = [];
     let stepState = [];
-    let revealedCount = 0;
-    let mainAnswered = false;
-    let mainCorrect = false;
-    let score = { correct:0, total:0, streak:0 };
-    let attemptRecords = {};
+    let score = { correct: 0, total: 0, streak: 0 };
+    let resultSent = false;
 
-    function shuffle(items){
-      const copy=items.slice();
-      for(let i=copy.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        const temp=copy[i];copy[i]=copy[j];copy[j]=temp;
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
       }
       return copy;
     }
 
-    function frac(top,bottom){
-      return '<span class="frac"><span class="frac-top">'+top+'</span><span class="frac-bottom">'+bottom+'</span></span>';
+    function fmt(value) {
+      if (Number.isInteger(value)) return String(value);
+      return String(Number(value.toFixed(2)));
     }
 
-    function formatMathHtml(value){
-      const fractions=[
-        ["GMm/r²","GMm","r²"],["GMm/r","GMm","r"],["GMr²/m","GMr²","m"],
-        ["mv²/r","mv²","r"],["mv/r²","mv","r²"],["mr²/v","mr²","v"],
-        ["GM/R²","GM","R²"],["GM/R","GM","R"],["R²/GM","R²","GM"],
-        ["GM/r²","GM","r²"],["GM/r","GM","r"],["r³/GM","r³","GM"],
-        ["r/GM","r","GM"],["2πr/T","2πr","T"],["T/2πr","T","2πr"],
-        ["2πT/r","2πT","r"],["g月/g地球","g月","g地球"],
-        ["M月/M地球","M月","M地球"],["R地球/R月","R地球","R月"],
-        ["R月/R地球","R月","R地球"],["1/3.67","1","3.67"],
-        ["1/81","1","81"],["1/6","1","6"]
-      ];
-      return fractions.reduce((html,parts)=>html.split(parts[0]).join(frac(parts[1],parts[2])),String(value));
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
     }
 
-    function guidedHint(problem){
-      const orbitalIds=["satelliteMass","orbitalVelocity","moonSpeed","nearEarthSatellite","kepler","higherOrbit","earthMass"];
-      if(orbitalIds.includes(problem.id)){
-        return '<strong>① 万有引力を書く</strong><br>F = '+frac("GMm","r²")+'<br><br>'+
-          '<strong>② 向心力と結ぶ</strong><br>万有引力が円運動の中心向きの力なので、'+frac("GMm","r²")+' = '+frac("mv²","r")+'<br><br>'+
-          '<strong>③ 求める量について整理する</strong><br>衛星の質量 m は消え、v² = '+frac("GM","r")+'、したがって v = √'+frac("GM","r")+' です。<br><br>'+formatMathHtml(problem.hint);
-      }
-      if(problem.id==="smallPlanetGravity"){
-        return '<strong>① 表面では距離が半径 R</strong><br>F = '+frac("GMm","R²")+'<br><br><strong>② F = mg と比べる</strong><br>g = '+frac("GM","R²")+'<br><br><strong>③ 比をとる</strong><br>質量比を掛け、半径比の2乗で割ります。';
-      }
-      if(problem.id==="inverseSquare"){
-        return '<strong>万有引力の公式</strong><br>F = '+frac("GMm","r²")+'<br><br>力は2物体の質量に比例し、距離 r の2乗に反比例します。';
-      }
-      if(problem.id==="moonAcceleration"){
-        return '<strong>① 速さ</strong><br>v = '+frac("2πr","T")+'<br><br><strong>② 向心加速度</strong><br>a = '+frac("v²","r")+'<br><br>先に求めた速さを、向心加速度の式へ代入します。';
-      }
-      return formatMathHtml(problem.hint);
+    function displayMath(value) {
+      return escapeHTML(value)
+        .replace(/π/g, "&pi;")
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/³/g, "<sup>3</sup>")
+        .replace(/\^(-?\d+(?:\.\d+)?)/g, "<sup>$1</sup>")
+        .replace(/m\/s2/g, "m/s<sup>2</sup>")
+        .replace(/Nm2\/kg2/g, "N m<sup>2</sup>/kg<sup>2</sup>");
     }
 
-    function showScreen(id){
-      document.querySelectorAll(".screen").forEach(screen=>{
-        screen.classList.toggle("active",screen.id===id);
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.toggle("active", screen.id === id);
       });
     }
 
-    function renderGivens(problem){
-      $("#givens").innerHTML=problem.givens.map(item=>
-        '<div class="given"><span>'+item[0]+'</span><strong>'+formatMathHtml(item[1])+'</strong></div>'
-      ).join("");
+    function renderGivens() {
+      $("#givens").innerHTML = "";
     }
 
-    function renderMainAnswer(problem){
-      mainAnswerArea.innerHTML='<h3>大問の答え</h3><div class="state">'+formatMathHtml(problem.mainPrompt)+'</div>'+
-        '<div class="choices">'+shuffle(problem.mainChoices).map((choice,index)=>
-          '<button class="choice main-choice" type="button" data-value="'+encodeURIComponent(choice)+'">'+
-          '<span class="mark">'+String.fromCharCode(65+index)+'</span><span>'+formatMathHtml(choice)+'</span></button>'
-        ).join("")+'</div><div class="feedback" data-main-feedback></div>';
-    }
-
-    function renderProblem(){
-      currentProblem=quiz[problemIndex];
-      currentSteps=currentProblem.steps;
-      stepState=currentSteps.map(()=>({answered:false,correct:false}));
-      revealedCount=0;
-      mainAnswered=false;
-      mainCorrect=false;
-      $("#problemTitle").textContent=currentProblem.title;
-      $("#questionText").innerHTML=formatMathHtml(currentProblem.statement);
-      renderGivens(currentProblem);
-      renderMainAnswer(currentProblem);
-      mainAnswerArea.hidden=true;
-      stepsEl.innerHTML="";
-      currentSteps.forEach((step,index)=>{
-        const section=document.createElement("section");
-        section.className="step";
-        section.dataset.step=index;
-        section.hidden=false;
-        let answerHtml="";
-        if(step.type==="choice"){
-          answerHtml='<div class="choices">'+shuffle(step.choices).map((choice,choiceIndex)=>
-            '<button class="choice" type="button" data-choice="'+choiceIndex+'" data-value="'+encodeURIComponent(choice)+'">'+
-            '<span class="mark">'+String.fromCharCode(65+choiceIndex)+'</span><span>'+formatMathHtml(choice)+'</span></button>'
-          ).join("")+'</div>';
-        }else{
-          answerHtml='<div class="answer-input-row"><input class="answer-input" type="text" inputmode="decimal" autocomplete="off" placeholder="数値を入力">'+
-            '<span class="unit-label">'+step.unit+'</span><button class="btn primary check-input" type="button">答える</button></div>';
-        }
-        const hintHtml=index===currentSteps.length-1?'<button class="btn step-hint" type="button">ヒントを表示</button><div class="hint-box step-hint-box"></div>':'';
-        section.innerHTML='<div class="step-head"><div><h2>設問('+(index+1)+')</h2><div class="state">'+formatMathHtml(step.prompt)+'</div></div>'+
-          '<span class="state" data-state>未解答</span></div>'+answerHtml+hintHtml+'<div class="feedback" data-feedback></div>';
+    function renderProblem() {
+      currentProblem = quiz[problemIndex];
+      currentSteps = currentProblem.steps;
+      stepState = currentSteps.map(() => ({ answered: false, correct: false }));
+      $("#problemTitle").textContent = "問題";
+      $("#questionText").innerHTML = displayMath(currentProblem.statement);
+      renderGivens();
+      $("#mainAnswerArea").hidden = true;
+      stepsEl.innerHTML = "";
+      currentSteps.forEach((step, index) => {
+        const section = document.createElement("section");
+        section.className = "step";
+        section.dataset.step = index;
+        section.innerHTML = `
+          <div class="step-head">
+            <div><div class="step-prompt">${displayMath(step.prompt)}</div></div>
+            <span class="state" data-state>未解答</span>
+          </div>
+          <div class="choices">
+            ${shuffle(step.choices).map((choice, choiceIndex) => `
+              <button class="choice" type="button" data-value="${encodeURIComponent(choice)}">
+                <span class="mark">${String.fromCharCode(65 + choiceIndex)}</span>
+                <span>${displayMath(choice)}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div class="feedback" data-feedback></div>`;
         stepsEl.appendChild(section);
       });
       hintBox.classList.remove("show");
-      hintBox.innerHTML="";
-      hintBtn.disabled=true;
-      hintBtn.textContent="ヒントを表示";
-      revealedCount=currentSteps.length;
-      revealStepBtn.disabled=true;
-      revealStepBtn.textContent="この設問に答えてください";
-      nextBtn.disabled=true;
-      nextBtn.textContent=problemIndex+1>=quiz.length?"結果を見る":"次の大問";
+      hintBox.innerHTML = "";
+      hintBtn.textContent = "ヒントを表示";
+      nextBtn.disabled = true;
+      nextBtn.textContent = problemIndex + 1 >= quiz.length ? "結果を見る" : "次の大問";
       TrainerLog.startQuestion();
       updateScore();
     }
 
-    function finishMain(correct,selected,revealed){
-      if(mainAnswered)return;
-      mainAnswered=true;
-      mainCorrect=correct;
-      recordFirstAttempt({id:"main",prompt:currentProblem.mainPrompt,answer:currentProblem.mainAnswer},-1,correct,selected);
-      const buttons=mainAnswerArea.querySelectorAll(".main-choice");
-      buttons.forEach(button=>{
-        button.disabled=true;
-        const value=decodeURIComponent(button.dataset.value);
-        if((correct||revealed)&&value===currentProblem.mainAnswer)button.classList.add("correct");
-        if(!correct&&!revealed&&value===selected)button.classList.add("wrong");
-      });
-      const feedback=mainAnswerArea.querySelector("[data-main-feedback]");
-      if(correct||revealed){
-        feedback.innerHTML=formatMathHtml('<strong>正解：'+currentProblem.mainAnswer+'</strong><br>'+currentProblem.mainExplain);
-      }else{
-        feedback.innerHTML='<strong>不正解です。</strong><br>「誘導を見る」で、式を1段階ずつ組み立ててみましょう。';
-      }
-      feedback.className="feedback show "+(correct?"right":"wrong");
-      if(correct||(revealedCount===currentSteps.length&&stepState.every(item=>item.answered)))nextBtn.disabled=false;
-      updateScore();
-    }
-
-    function answerMain(button){
-      const selected=decodeURIComponent(button.dataset.value);
-      finishMain(selected===currentProblem.mainAnswer,selected,false);
-    }
-
-    function revealNextStep(){
-      if(revealedCount>=currentSteps.length)return;
-      const section=stepsEl.querySelector('[data-step="'+revealedCount+'"]');
-      section.hidden=false;
-      revealedCount++;
-      hintBtn.disabled=false;
-      hintBox.classList.remove("show");
-      hintBox.innerHTML="";
-      TrainerLog.startQuestion();
-      revealStepBtn.disabled=true;
-      revealStepBtn.textContent=revealedCount>=currentSteps.length?"最後の設問です":"この設問に答えてください";
-      section.scrollIntoView({behavior:"smooth",block:"nearest"});
-    }
-
-    function recordFirstAttempt(step,index,correct,selected){
-      const key=currentProblem.id+"/"+step.id;
-      if(attemptRecords[key])return false;
-      attemptRecords[key]=true;
-      score.total++;
-      if(correct){score.correct++;score.streak++;}else{score.streak=0;}
+    function finishStep(index, button, revealed = false) {
+      if (stepState[index].answered) return;
+      const step = currentSteps[index];
+      const selected = revealed ? "解説表示" : decodeURIComponent(button.dataset.value);
+      const isCorrect = !revealed && selected === step.answer;
+      stepState[index] = { answered: true, correct: isCorrect };
+      score.total += 1;
+      if (isCorrect) { score.correct += 1; score.streak += 1; } else { score.streak = 0; }
       TrainerLog.recordQuestion({
-        id:"UG_"+key,
-        type:currentProblem.id,
-        question:step.prompt,
-        answer:String(step.answer)
-      },correct,{selected:selected,prompt:step.prompt});
-      return true;
-    }
+        id: `${currentProblem.id}_${step.id}`,
+        type: currentProblem.id,
+        question: step.prompt,
+        answer: step.answer
+      }, isCorrect, { selected, answer: step.answer, prompt: step.prompt });
 
-    function finishStep(index,correct,selected,revealed){
-      if(stepState[index].answered)return;
-      const step=currentSteps[index];
-      const first=recordFirstAttempt(step,index,correct,selected);
-      stepState[index]={answered:true,correct:correct};
-      const section=stepsEl.querySelector('[data-step="'+index+'"]');
-      section.querySelectorAll("button,input").forEach(el=>el.disabled=true);
-      if(step.type==="choice"){
-        section.querySelectorAll(".choice").forEach(button=>{
-          const value=decodeURIComponent(button.dataset.value);
-          if(value===step.answer)button.classList.add("correct");
-          if(value===selected&&!correct&&!revealed)button.classList.add("wrong");
-        });
-      }
-      const state=section.querySelector("[data-state]");
-      state.textContent=correct?(first?"正解":"練習で正解"):(revealed?"解説を確認":"不正解");
-      state.style.color=correct?"var(--right)":"var(--wrong)";
-      const feedback=section.querySelector("[data-feedback]");
-      feedback.innerHTML=correct
-        ? formatMathHtml('<strong>正解：'+step.answer+(step.unit?" "+step.unit:"")+'</strong><br>'+step.explain)
-        : formatMathHtml('<strong>正解：'+step.answer+(step.unit?" "+step.unit:"")+'</strong><br>'+step.explain)+'<hr><strong>使う公式と考え方</strong><br>'+guidedHint(currentProblem);
-      feedback.className="feedback show "+(correct?"right":"wrong");
-      hintBox.classList.remove("show");
-      hintBox.innerHTML="";
-      if(revealedCount<currentSteps.length){
-        revealStepBtn.disabled=false;
-        revealStepBtn.textContent="次の設問へ";
-      }else if(stepState.every(item=>item.answered)){
-        nextBtn.disabled=false;
-        revealStepBtn.disabled=true;
-        revealStepBtn.textContent="すべての設問に解答しました";
-      }
+      const section = stepsEl.querySelector(`[data-step="${index}"]`);
+      section.querySelectorAll("button").forEach(choiceButton => {
+        choiceButton.disabled = true;
+        const value = decodeURIComponent(choiceButton.dataset.value);
+        if (value === step.answer) choiceButton.classList.add("correct");
+        if (!isCorrect && !revealed && value === selected) choiceButton.classList.add("wrong");
+      });
+      const state = section.querySelector("[data-state]");
+      state.textContent = isCorrect ? "正解" : revealed ? "解説を確認" : "不正解";
+      state.style.color = isCorrect ? "var(--right)" : "var(--wrong)";
+      const feedback = section.querySelector("[data-feedback]");
+      feedback.innerHTML = `<strong>正解：${displayMath(step.answer)}</strong><br>${displayMath(step.explain)}`;
+      feedback.className = `feedback show ${isCorrect ? "right" : "wrong"}`;
+      if (stepState.every(item => item.answered)) nextBtn.disabled = false;
       updateScore();
     }
 
-    function answerChoice(index,button){
-      const step=currentSteps[index];
-      const selected=decodeURIComponent(button.dataset.value);
-      finishStep(index,selected===step.answer,selected,false);
+    function updateScore() {
+      progressText.textContent = `${Math.min(problemIndex + 1, quiz.length)} / ${quiz.length}`;
+      scoreText.textContent = `${score.correct} / ${score.total}`;
+      streakText.textContent = String(score.streak);
     }
 
-    function answerNumber(index,section){
-      const step=currentSteps[index];
-      const input=section.querySelector(".answer-input");
-      const raw=input.value.trim().replace("，", ".").replace(",", ".");
-      if(!raw){alert("数値を入力してください。");input.focus();return;}
-      const value=Number(raw);
-      if(!Number.isFinite(value)){alert("数値で入力してください。");input.focus();return;}
-      finishStep(index,Math.abs(value-step.answer)<=step.tolerance,raw,false);
+    function toggleHint() {
+      if (!currentProblem) return;
+      const show = !hintBox.classList.contains("show");
+      hintBox.innerHTML = show ? `<strong>ヒント</strong><br>${displayMath(currentProblem.hint)}` : "";
+      hintBox.classList.toggle("show", show);
+      hintBtn.textContent = show ? "ヒントを隠す" : "ヒントを表示";
     }
 
-    function toggleHint(){
-      if(!revealedCount)return;
-      const index=revealedCount-1;
-      if(stepState[index].answered)return;
-      const show=!hintBox.classList.contains("show");
-      if(show){
-        hintBox.innerHTML='<strong>ヒント</strong><br>'+formatMathHtml(currentProblem.hint);
-        hintBox.classList.add("show");
-        hintBtn.textContent="ヒントを隠す";
-      }else{
-        hintBox.classList.remove("show");
-        hintBtn.textContent="ヒントを表示";
-      }
-    }
-
-    function showSolution(){
-      while(revealedCount<currentSteps.length){
-        const section=stepsEl.querySelector('[data-step="'+revealedCount+'"]');
-        section.hidden=false;revealedCount++;
-      }
-      currentSteps.forEach((step,index)=>{
-        if(!stepState[index].answered)finishStep(index,false,"解説表示",true);
+    function showSolution() {
+      currentSteps.forEach((step, index) => {
+        if (!stepState[index].answered) {
+          const section = stepsEl.querySelector(`[data-step="${index}"]`);
+          const correctButton = Array.from(section.querySelectorAll(".choice")).find(button => decodeURIComponent(button.dataset.value) === step.answer);
+          finishStep(index, correctButton, true);
+        }
       });
-      nextBtn.disabled=false;
-      revealStepBtn.disabled=true;
+      nextBtn.disabled = false;
     }
 
-    function resetCurrentProblem(){
-      score.streak=0;
+    function resetCurrentProblem() {
+      const answeredCount = stepState.filter(item => item.answered).length;
+      const correctCount = stepState.filter(item => item.correct).length;
+      score.total = Math.max(0, score.total - answeredCount);
+      score.correct = Math.max(0, score.correct - correctCount);
+      score.streak = 0;
       renderProblem();
     }
 
-    function startQuiz(){
-      const studentId=$("#studentId").value.trim();
-      if(!studentId){alert("学籍番号を入力してください。");$("#studentId").focus();return;}
-      quiz=shuffle(problemBank).slice(0,2);
-      problemIndex=0;
-      score={correct:0,total:0,streak:0};
-      attemptRecords={};
+    function startQuiz() {
+      const studentId = $("#studentId").value.trim();
+      if (!studentId) { alert("学籍番号を入力してください。"); $("#studentId").focus(); return; }
+      quiz = shuffle(problemBank).slice(0, TOTAL_QUESTIONS);
+      problemIndex = 0;
+      score = { correct: 0, total: 0, streak: 0 };
+      resultSent = false;
       TrainerLog.startSession();
       showScreen("quizScreen");
       renderProblem();
     }
 
-    function updateScore(){
-      progressText.textContent=(problemIndex+1)+" / "+quiz.length;
-      scoreText.textContent=score.correct+" / "+score.total;
-      streakText.textContent=String(score.streak);
-    }
-
-    function finishQuiz(){
+    function finishQuiz() {
       TrainerLog.finishSession();
-      const rate=score.total?Math.round(score.correct/score.total*100):0;
-      $("#finalScoreText").textContent=score.correct+" / "+score.total+"（"+rate+"%）";
-      $("#finalMessage").innerHTML=rate>=70
-        ? '<div class="pass">クリア！2つの大問を、誘導に沿って最後まで組み立てられました。</div>'
-        : '<div class="fail">解説で式のつながりを確認し、もう一度挑戦しましょう。</div>';
+      const rate = score.total ? Math.round(score.correct / score.total * 100) : 0;
+      $("#finalScoreText").textContent = `${score.correct} / ${score.total}（${rate}%）`;
+      $("#finalMessage").innerHTML = rate >= 70
+        ? '<div class="pass">クリア！万有引力と円運動の関係を整理できています。</div>'
+        : '<div class="fail">解説で、比例関係と運動方程式の立て方をもう一度確認しましょう。</div>';
       TrainerLog.showElapsedInFinalMessage();
       showScreen("finishScreen");
-      TrainerLog.sendResult({score:score.correct,total:score.total});
+      if (!resultSent) {
+        resultSent = true;
+        TrainerLog.sendResult({ score: score.correct, total: score.total });
+      }
     }
 
-    stepsEl.addEventListener("click",event=>{
-      const section=event.target.closest(".step");
-      if(!section)return;
-      const stepHint=event.target.closest(".step-hint");
-      if(stepHint){
-        const box=section.querySelector(".step-hint-box");
-        const show=!box.classList.contains("show");
-        box.innerHTML=show?'<strong>ヒント</strong><br>'+guidedHint(currentProblem):'';
-        box.classList.toggle("show",show);
-        stepHint.textContent=show?"ヒントを隠す":"ヒントを表示";
-        return;
-      }
-      const index=Number(section.dataset.step);
-      const choice=event.target.closest(".choice");
-      if(choice){answerChoice(index,choice);return;}
-      if(event.target.closest(".check-input"))answerNumber(index,section);
+    stepsEl.addEventListener("click", event => {
+      const choice = event.target.closest(".choice");
+      if (!choice) return;
+      const section = choice.closest(".step");
+      finishStep(Number(section.dataset.step), choice, false);
     });
-    mainAnswerArea.addEventListener("click",event=>{
-      const choice=event.target.closest(".main-choice");
-      if(choice)answerMain(choice);
+    hintBtn.addEventListener("click", toggleHint);
+    $("#showSolutionBtn").addEventListener("click", showSolution);
+    $("#resetQuestionBtn").addEventListener("click", resetCurrentProblem);
+    nextBtn.addEventListener("click", () => {
+      if (problemIndex + 1 >= quiz.length) { finishQuiz(); return; }
+      problemIndex += 1;
+      renderProblem();
     });
-    stepsEl.addEventListener("keydown",event=>{
-      if(event.key==="Enter"&&event.target.classList.contains("answer-input")){
-        const section=event.target.closest(".step");
-        answerNumber(Number(section.dataset.step),section);
-      }
-    });
-    revealStepBtn.addEventListener("click",revealNextStep);
-    hintBtn.addEventListener("click",toggleHint);
-    $("#showSolutionBtn").addEventListener("click",showSolution);
-    $("#resetQuestionBtn").addEventListener("click",resetCurrentProblem);
-    nextBtn.addEventListener("click",()=>{
-      if(problemIndex+1>=quiz.length){finishQuiz();return;}
-      problemIndex++;renderProblem();
-    });
-    $("#startBtn").addEventListener("click",startQuiz);
-    $("#againBtn").addEventListener("click",()=>{
+    $("#startBtn").addEventListener("click", startQuiz);
+    $("#againBtn").addEventListener("click", () => {
       showScreen("startScreen");
-      progressText.textContent="0 / 2";scoreText.textContent="0 / 0";streakText.textContent="0";$("#sendStatus").textContent="";
+      progressText.textContent = `0 / ${TOTAL_QUESTIONS}`;
+      scoreText.textContent = "0 / 0";
+      streakText.textContent = "0";
+      $("#sendStatus").textContent = "";
     });
-    $("#categoryBtn").addEventListener("click",()=>{location.href="../comprehensive/index.html";});
-    $("#homeBtn").addEventListener("click",()=>{location.href="../index.html";});
-    $("#studentId").addEventListener("keydown",event=>{if(event.key==="Enter")startQuiz();});
-    progressText.textContent="0 / 2";
+    $("#categoryBtn").addEventListener("click", () => { location.href = "../comprehensive/index.html"; });
+    $("#homeBtn").addEventListener("click", () => { location.href = "../index.html"; });
+    $("#studentId").addEventListener("keydown", event => { if (event.key === "Enter") startQuiz(); });
+    progressText.textContent = `0 / ${TOTAL_QUESTIONS}`;
   </script>
 </body>
 </html>
