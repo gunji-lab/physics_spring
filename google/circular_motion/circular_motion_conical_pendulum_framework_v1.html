@@ -162,7 +162,19 @@
     }
 
     .question-title { margin: 0 0 10px; font-size: clamp(1.18rem, 2vw, 1.5rem); }
-    .question-text { margin: 0 0 18px; color: var(--muted); }
+    .problem .question-title { display: none; }
+    .question-text {
+      margin: 0 0 18px;
+      color: var(--ink);
+      font-size: clamp(1.02rem, 1.8vw, 1.18rem);
+      line-height: 1.85;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
 
     .givens {
       display: grid;
@@ -193,15 +205,22 @@
 
     .step-head {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      padding: 13px 14px;
-      background: #fbfcfd;
+      padding: 15px 16px;
+      background: #fff;
       border-bottom: 1px solid var(--line);
     }
 
-    .step-head h2 { margin: 0; font-size: 1rem; }
+    .step-head h2 { display: none; }
+    .step-head > div { flex: 1; min-width: 0; }
+    .step-prompt {
+      color: var(--ink);
+      font-size: clamp(1rem, 1.7vw, 1.12rem);
+      line-height: 1.7;
+      font-weight: 700;
+    }
     .state { font-size: 0.84rem; color: var(--muted); white-space: nowrap; }
 
     .choices {
@@ -837,7 +856,7 @@
           <div class="step-head">
             <div>
               <h2>${step.title}</h2>
-              <div class="state">${step.prompt}</div>
+              <div class="step-prompt">${step.prompt}</div>
             </div>
             <span class="state" data-state>未解答</span>
           </div>

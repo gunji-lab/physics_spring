@@ -592,6 +592,710 @@ window.FINAL_MOCK_BIG_BANK = [
     ]
   },
   {
+    "id": "SCM_SYMBOLIC_K_basic3",
+    "title": "円運動するバネ（文字式：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "k(L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "k(L - L0)",
+          "k(L-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "バネ定数 k を m、L0、L、ω を用いて求めよ。",
+        "display": "mLω² / (L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω² / (L - L0)",
+          "mLω^2/(L-L0)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_K_force2",
+    "title": "円運動するバネ（文字式：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "k(L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "k(L - L0)",
+          "k(L-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_K_constant2",
+    "title": "円運動するバネ（文字式：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "バネ定数 k を m、L0、L、ω を用いて求めよ。",
+        "display": "mLω² / (L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω² / (L - L0)",
+          "mLω^2/(L-L0)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_OMEGA_basic3",
+    "title": "円運動するバネ（文字式：ωを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "k(L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "k(L - L0)",
+          "k(L-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "角速度 ω を k、L0、L、m を用いて求めよ。",
+        "display": "√(k(L - L0) / (mL))",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√(k(L - L0) / (mL))",
+          "√(k(L-L0)/(mL))",
+          "sqrt(k(L-L0)/(mL))"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_OMEGA_constant2",
+    "title": "円運動するバネ（文字式：ωを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "角速度 ω を k、L0、L、m を用いて求めよ。",
+        "display": "√(k(L - L0) / (mL))",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "√(k(L - L0) / (mL))",
+          "√(k(L-L0)/(mL))",
+          "sqrt(k(L-L0)/(mL))"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_L0_basic3",
+    "title": "円運動するバネ（文字式：L0を求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "k(L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "k(L - L0)",
+          "k(L-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "自然長 L0 を k、m、L、ω を用いて求めよ。",
+        "display": "L - mLω² / k",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "L - mLω² / k",
+          "L-mLω^2/k"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_L0_constant2",
+    "title": "円運動するバネ（文字式：L0を求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "自然長 L0 を k、m、L、ω を用いて求めよ。",
+        "display": "L - mLω² / k",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "L - mLω² / k",
+          "L-mLω^2/k"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_L_basic3",
+    "title": "円運動するバネ（文字式：Lを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "k(L - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "k(L - L0)",
+          "k(L-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "伸びた後のバネの長さ L を k、L0、m、ω を用いて求めよ。",
+        "display": "kL0 / (k - mω²)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "kL0 / (k - mω²)",
+          "kL0/(k-mω^2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_SYMBOLIC_L_constant2",
+    "title": "円運動するバネ（文字式：Lを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "mLω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "mLω²",
+          "mLω^2"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "伸びた後のバネの長さ L を k、L0、m、ω を用いて求めよ。",
+        "display": "kL0 / (k - mω²)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "kL0 / (k - mω²)",
+          "kL0/(k-mω^2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_K_basic3",
+    "title": "円運動するバネ（数値：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 k [N/m] のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "0.20k",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "0.20k"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "4 N",
+        "unit": "N",
+        "choices": [],
+        "number": 4,
+        "tolerance": 0.02
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "バネ定数 k を数値で答えよ。",
+        "display": "20 N/m",
+        "unit": "N/m",
+        "choices": [],
+        "number": 20,
+        "tolerance": 0.1
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_K_force2",
+    "title": "円運動するバネ（数値：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 k [N/m] のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "0.20k",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "0.20k"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "4 N",
+        "unit": "N",
+        "choices": [],
+        "number": 4,
+        "tolerance": 0.02
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_K_constant2",
+    "title": "円運動するバネ（数値：kを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 k [N/m] のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "4 N",
+        "unit": "N",
+        "choices": [],
+        "number": 4,
+        "tolerance": 0.02
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "バネ定数 k を数値で答えよ。",
+        "display": "20 N/m",
+        "unit": "N/m",
+        "choices": [],
+        "number": 20,
+        "tolerance": 0.1
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_OMEGA_basic3",
+    "title": "円運動するバネ（数値：ωを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を数値で答えよ。",
+        "display": "9 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9,
+        "tolerance": 0.045
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "0.25ω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "0.25ω²",
+          "0.25ω^2"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "角速度 ω を数値で答えよ。",
+        "display": "6 rad/s",
+        "unit": "rad/s",
+        "choices": [],
+        "number": 6,
+        "tolerance": 0.03
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_OMEGA_force2",
+    "title": "円運動するバネ（数値：ωを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を数値で答えよ。",
+        "display": "9 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9,
+        "tolerance": 0.045
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "0.25ω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "0.25ω²",
+          "0.25ω^2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_OMEGA_constant2",
+    "title": "円運動するバネ（数値：ωを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "0.25ω²",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "0.25ω²",
+          "0.25ω^2"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "角速度 ω を数値で答えよ。",
+        "display": "6 rad/s",
+        "unit": "rad/s",
+        "choices": [],
+        "number": 6,
+        "tolerance": 0.03
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L0_basic3",
+    "title": "円運動するバネ（数値：L0を求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 40 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.60 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "40(0.60 - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "40(0.60 - L0)",
+          "40(0.60-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "9.6 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9.6,
+        "tolerance": 0.048
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "自然長 L0 を数値で答えよ。",
+        "display": "0.36 m",
+        "unit": "m",
+        "choices": [],
+        "number": 0.36,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L0_force2",
+    "title": "円運動するバネ（数値：L0を求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 40 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.60 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "40(0.60 - L0)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "40(0.60 - L0)",
+          "40(0.60-L0)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "9.6 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9.6,
+        "tolerance": 0.048
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L0_constant2",
+    "title": "円運動するバネ（数値：L0を求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 L0 [m]、バネ定数 40 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.60 m となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を数値で答えよ。",
+        "display": "9.6 N",
+        "unit": "N",
+        "choices": [],
+        "number": 9.6,
+        "tolerance": 0.048
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "自然長 L0 を数値で答えよ。",
+        "display": "0.36 m",
+        "unit": "m",
+        "choices": [],
+        "number": 0.36,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L_basic3",
+    "title": "円運動するバネ（数値：Lを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 50 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 5.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "50(L - 0.30)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "50(L - 0.30)",
+          "50(L-0.30)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "25L",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "25L"
+        ]
+      },
+      {
+        "id": "BIG_0003",
+        "prompt": "伸びた後のバネの長さ L を数値で答えよ。",
+        "display": "0.6 m",
+        "unit": "m",
+        "choices": [],
+        "number": 0.6,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L_force2",
+    "title": "円運動するバネ（数値：Lを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 50 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 5.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "display": "50(L - 0.30)",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "50(L - 0.30)",
+          "50(L-0.30)"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "25L",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "25L"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SCM_NUMERIC_L_constant2",
+    "title": "円運動するバネ（数値：Lを求める）",
+    "source": "大問対策・円運動するバネ",
+    "sourceFile": "google/spring/spring_test1_framework_v2.html",
+    "context": "自然長 0.30 m、バネ定数 50 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 5.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+    "questions": [
+      {
+        "id": "BIG_0001",
+        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "display": "25L",
+        "unit": "",
+        "choices": [],
+        "answers": [
+          "25L"
+        ]
+      },
+      {
+        "id": "BIG_0002",
+        "prompt": "伸びた後のバネの長さ L を数値で答えよ。",
+        "display": "0.6 m",
+        "unit": "m",
+        "choices": [],
+        "number": 0.6,
+        "tolerance": 0.01
+      }
+    ]
+  },
+  {
     "id": "gravity_inverse_square",
     "title": "万有引力：距離・質量・加速度",
     "source": "大問対策・万有引力",
@@ -1131,114 +1835,6 @@ window.FINAL_MOCK_BIG_BANK = [
     ]
   },
   {
-    "id": "spring_circle_stretch",
-    "title": "円運動するバネ：伸びと向心力",
-    "source": "大問対策・円運動するバネ",
-    "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力 F = kx が、そのまま円運動の向心力になる。ばね定数 k、伸び x、向心力 F の関係を考える。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "ばね定数が 20 [N/m]、向心力の大きさが 2 [N] のとき、ばねの伸びを答えよ。",
-        "display": "0.1 [m]",
-        "unit": "m",
-        "choices": [],
-        "number": 0.1,
-        "tolerance": 0.01
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "ばね定数が 40 [N/m]、向心力の大きさが 4 [N] のとき、ばねの伸びを答えよ。",
-        "display": "0.1 [m]",
-        "unit": "m",
-        "choices": [],
-        "number": 0.1,
-        "tolerance": 0.01
-      },
-      {
-        "id": "BIG_0003",
-        "prompt": "ばね定数が 50 [N/m]、向心力の大きさが 5 [N] のとき、ばねの伸びを答えよ。",
-        "display": "0.1 [m]",
-        "unit": "m",
-        "choices": [],
-        "number": 0.1,
-        "tolerance": 0.01
-      }
-    ]
-  },
-  {
-    "id": "spring_circle_force",
-    "title": "円運動するバネ：弾性力と半径",
-    "source": "大問対策・円運動するバネ",
-    "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力 F = kx が向心力になる。自然長、伸び、円運動の半径、弾性力の関係を確認する。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "ばね定数が 20 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさを答えよ。",
-        "display": "2 [N]",
-        "unit": "N",
-        "choices": [],
-        "number": 2,
-        "tolerance": 0.01
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "ばね定数が 40 [N/m]、ばねが自然長から 0.2 [m] 伸びているとき、向心力の大きさを答えよ。",
-        "display": "8 [N]",
-        "unit": "N",
-        "choices": [],
-        "number": 8,
-        "tolerance": 0.04
-      },
-      {
-        "id": "BIG_0003",
-        "prompt": "ばね定数が 50 [N/m]、ばねが自然長から 0.1 [m] 伸びているとき、向心力の大きさを答えよ。",
-        "display": "5 [N]",
-        "unit": "N",
-        "choices": [],
-        "number": 5,
-        "tolerance": 0.025
-      }
-    ]
-  },
-  {
-    "id": "spring_circle_motion",
-    "title": "円運動するバネ：角速度と速さ",
-    "source": "大問対策・円運動するバネ",
-    "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力が向心力になり、向心力は F = mrω² または F = mv²/r と表せる。ω² と v² を求める。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² を答えよ。",
-        "display": "8 [rad²/s²]",
-        "unit": "rad^2/s^2",
-        "choices": [],
-        "number": 8,
-        "tolerance": 0.04
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² を答えよ。",
-        "display": "8 [rad²/s²]",
-        "unit": "rad^2/s^2",
-        "choices": [],
-        "number": 8,
-        "tolerance": 0.04
-      },
-      {
-        "id": "BIG_0003",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、v² を答えよ。",
-        "display": "2 [m²/s²]",
-        "unit": "m^2/s^2",
-        "choices": [],
-        "number": 2,
-        "tolerance": 0.01
-      }
-    ]
-  },
-  {
     "id": "spring_osc_period",
     "title": "水平バネ振り子：周期",
     "source": "大問対策・水平バネ振り子",
@@ -1489,60 +2085,6 @@ window.FINAL_MOCK_BIG_BANK = [
     ]
   },
   {
-    "id": "spring_circle_radius2",
-    "title": "円運動するバネ：伸びと半径",
-    "source": "大問対策・円運動するバネ",
-    "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねにつながれた物体が水平面内で円運動している。円運動の半径は固定点から物体までの距離であり、ばねの自然長と伸びから求められる。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "自然長が 0.3 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径を答えよ。",
-        "display": "0.4 [m]",
-        "unit": "m",
-        "choices": [],
-        "number": 0.4,
-        "tolerance": 0.01
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "自然長が 0.4 [m] のばねが 0.1 [m] 伸びているとき、円運動の半径を答えよ。",
-        "display": "0.5 [m]",
-        "unit": "m",
-        "choices": [],
-        "number": 0.5,
-        "tolerance": 0.01
-      }
-    ]
-  },
-  {
-    "id": "spring_circle_speed2",
-    "title": "円運動するバネ：角速度と速さ",
-    "source": "大問対策・円運動するバネ",
-    "sourceFile": "google/spring/spring_test1_framework_v2.html",
-    "context": "ばねにつながれた物体が水平面内で円運動している。ばねの弾性力が向心力になり、向心力は F = mrω² または F = mv²/r と表せる。",
-    "questions": [
-      {
-        "id": "BIG_0001",
-        "prompt": "質量が 0.5 [kg]、半径が 0.5 [m]、向心力が 2 [N] のとき、ω² を答えよ。",
-        "display": "8 [rad²/s²]",
-        "unit": "rad^2/s^2",
-        "choices": [],
-        "number": 8,
-        "tolerance": 0.04
-      },
-      {
-        "id": "BIG_0002",
-        "prompt": "質量が 1 [kg]、半径が 0.5 [m]、向心力が 4 [N] のとき、ω² を答えよ。",
-        "display": "8 [rad²/s²]",
-        "unit": "rad^2/s^2",
-        "choices": [],
-        "number": 8,
-        "tolerance": 0.04
-      }
-    ]
-  },
-  {
     "id": "spring_osc_speed2",
     "title": "水平バネ振り子：自然長での速さ",
     "source": "大問対策・水平バネ振り子",
@@ -1571,16 +2113,16 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-09T03:17:25.975Z",
-  "total": 40,
+  "generatedAt": "2026-07-09T04:07:11.235Z",
+  "total": 56,
   "counts": {
     "大問対策・円錐振り子/3問": 6,
     "大問対策・円錐振り子/2問": 12,
+    "大問対策・円運動するバネ/3問": 8,
+    "大問対策・円運動するバネ/2問": 13,
     "大問対策・万有引力/3問": 10,
-    "大問対策・円運動するバネ/3問": 3,
     "大問対策・水平バネ振り子/3問": 3,
     "大問対策・万有引力/2問": 3,
-    "大問対策・円運動するバネ/2問": 2,
     "大問対策・水平バネ振り子/2問": 1
   }
 };
