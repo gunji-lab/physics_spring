@@ -217,9 +217,21 @@
       font-size: clamp(1.18rem, 2vw, 1.5rem);
     }
 
+    .problem .question-title {
+      display: none;
+    }
+
     .question-text {
       margin: 0 0 18px;
-      color: var(--muted);
+      color: var(--ink);
+      font-size: clamp(1.02rem, 1.8vw, 1.18rem);
+      line-height: 1.85;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px 16px;
     }
 
     .givens {
@@ -262,17 +274,28 @@
 
     .step-head {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      padding: 13px 14px;
-      background: #fbfcfd;
+      padding: 15px 16px;
+      background: #fff;
       border-bottom: 1px solid var(--line);
     }
 
     .step-head h2 {
-      margin: 0;
-      font-size: 1rem;
+      display: none;
+    }
+
+    .step-head > div {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-prompt {
+      color: var(--ink);
+      font-size: clamp(1rem, 1.7vw, 1.12rem);
+      line-height: 1.7;
+      font-weight: 700;
     }
 
     .state {
@@ -619,7 +642,7 @@
       <div class="header-inner">
         <h1>円運動するばね - 4択トレーナー</h1>
         <div class="score" aria-live="polite">
-          <span>問題</span><span class="pill" id="progressText">0 / 5</span>
+          <span>大問</span><span class="pill" id="progressText">0 / 1</span>
           <span>正答</span><span class="pill" id="scoreText">0 / 0</span>
           <span>連続</span><span class="pill" id="streakText">0</span>
         </div>
@@ -631,10 +654,10 @@
         <div class="panel start-card">
           <p class="tag">水平面内の等速円運動</p>
           <h2 class="question-title">ばねの弾性力が向心力になる問題</h2>
-          <p class="lead">数字で解く5問トレーナーです。ばねの伸び、弾性力、向心力の関係を、短い計算で確認します。</p>
+          <p class="lead">1つの大問を、3つの小問に沿って解きます。ばねの弾性力と円運動の向心力を結びつけて、バネ定数まで求めます。</p>
           <div class="note">
-            使う公式：<strong>f = kx</strong>、<strong>F = mrω²</strong>、<strong>F = mv²/r</strong>。<br>
-            この問題では、水平方向のばねの弾性力が、円運動の向心力になります。
+            使う公式：<strong>F = k(L - L<sub>0</sub>)</strong>、<strong>F = mLω<sup>2</sup></strong>。<br>
+            文字式の問題と数値の問題がランダムに出ます。水平方向のばねの弾性力が、円運動の向心力になります。
           </div>
           <label for="studentId">学籍番号</label>
           <input class="student-input" id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
@@ -711,7 +734,7 @@
 
               <g id="lengthLayer" class="hidden-layer">
                 <line x1="200" y1="238" x2="315" y2="238" stroke="#b27b16" stroke-width="4" marker-end="url(#arrowGold)"></line>
-                <text x="246" y="258" class="dim-label">自然長 L0</text>
+                <text x="246" y="258" class="dim-label">自然長 L₀</text>
                 <line x1="315" y1="238" x2="346" y2="238" stroke="#b13b3b" stroke-width="4" marker-end="url(#arrowRed)"></line>
                 <text x="319" y="226" class="dim-label">伸び x</text>
                 <line x1="200" y1="170" x2="346" y2="170" stroke="#1d6f8f" stroke-width="3" marker-end="url(#arrowBlue)"></line>
@@ -745,7 +768,7 @@
       <section class="screen" id="finishScreen">
         <div class="panel finish-card">
           <p class="tag">結果</p>
-          <h2 class="question-title">5問終了</h2>
+          <h2 class="question-title">大問終了</h2>
           <div class="score-big" id="finalScoreText"></div>
           <div id="finalMessage"></div>
           <div class="send-status" id="sendStatus"></div>
@@ -763,7 +786,7 @@
 <script>
     const GAS_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
     const STAGE_NAME = "バネ/test1/円運動するばね";
-    const TOTAL_QUESTIONS = 5;
+    const TOTAL_QUESTIONS = 1;
 
     const $ = selector => document.querySelector(selector);
     const stepsEl = $("#steps");
@@ -786,27 +809,167 @@
     let resultSent = false;
 
     const problemBank = [
-      { type: "stretchFromForce", m: 0.50, k: 20, force: 2.0 },
-      { type: "stretchFromForce", m: 1.00, k: 40, force: 4.0 },
-      { type: "stretchFromForce", m: 0.20, k: 50, force: 5.0 },
-      { type: "forceFromStretch", m: 0.50, k: 20, stretch: 0.10 },
-      { type: "forceFromStretch", m: 1.00, k: 40, stretch: 0.20 },
-      { type: "forceFromStretch", m: 0.20, k: 50, stretch: 0.10 },
-      { type: "radiusFromStretch", m: 0.50, k: 20, l0: 0.30, stretch: 0.10 },
-      { type: "radiusFromStretch", m: 0.20, k: 50, l0: 0.40, stretch: 0.10 },
-      { type: "omegaSquaredFromForce", m: 0.50, k: 20, radius: 0.50, force: 2.0 },
-      { type: "omegaSquaredFromForce", m: 1.00, k: 40, radius: 0.50, force: 4.0 },
-      { type: "speedSquaredFromForce", m: 0.50, k: 20, radius: 0.50, force: 2.0 },
-      { type: "speedSquaredFromForce", m: 1.00, k: 40, radius: 0.50, force: 4.0 }
+      {
+        id: "SCM_SYMBOLIC_K",
+        variant: "symbolic",
+        finalType: "springConstant",
+        title: "円運動するバネ（文字式：kを求める）",
+        statement: "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+        finalPrompt: "バネ定数 k を m、L0、L、ω を用いて求めよ。",
+        finalUnit: "N/m",
+        answers: {
+          springForce: "k(L - L0)",
+          centripetalForce: "mLω²",
+          finalAnswer: "mLω² / (L - L0)"
+        },
+        distractors: {
+          springForce: ["kL", "kL0", "k(L + L0)"],
+          centripetalForce: ["mLω", "mω² / L", "mL²ω"],
+          finalAnswer: ["mLω² / L0", "mω² / (L - L0)", "m(L - L0)ω² / L"]
+        },
+        finalFeedback: "バネの弾性力がそのまま向心力になるので、<strong>k(L - L0) = mLω²</strong> です。これを k について解くと、<strong>k = mLω² / (L - L0)</strong> です。"
+      },
+      {
+        id: "SCM_SYMBOLIC_OMEGA",
+        variant: "symbolic",
+        finalType: "omega",
+        title: "円運動するバネ（文字式：ωを求める）",
+        statement: "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+        finalPrompt: "角速度 ω を k、L0、L、m を用いて求めよ。",
+        finalUnit: "rad/s",
+        answers: {
+          springForce: "k(L - L0)",
+          centripetalForce: "mLω²",
+          finalAnswer: "√(k(L - L0) / (mL))"
+        },
+        distractors: {
+          springForce: ["kL", "kL0", "k(L + L0)"],
+          centripetalForce: ["mLω", "mω² / L", "mL²ω"],
+          finalAnswer: ["k(L - L0) / mL", "√(mL / k(L - L0))", "√(kL / m(L - L0))"]
+        },
+        finalFeedback: "式 <strong>k(L - L0) = mLω²</strong> を ω について解きます。まず <strong>ω² = k(L - L0)/(mL)</strong>、したがって <strong>ω = √(k(L - L0)/(mL))</strong> です。"
+      },
+      {
+        id: "SCM_SYMBOLIC_L0",
+        variant: "symbolic",
+        finalType: "naturalLength",
+        title: "円運動するバネ（文字式：L0を求める）",
+        statement: "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+        finalPrompt: "自然長 L0 を k、m、L、ω を用いて求めよ。",
+        finalUnit: "m",
+        answers: {
+          springForce: "k(L - L0)",
+          centripetalForce: "mLω²",
+          finalAnswer: "L - mLω² / k"
+        },
+        distractors: {
+          springForce: ["kL", "kL0", "k(L + L0)"],
+          centripetalForce: ["mLω", "mω² / L", "mL²ω"],
+          finalAnswer: ["L + mLω² / k", "mLω² / k", "kL / mω²"]
+        },
+        finalFeedback: "式 <strong>k(L - L0) = mLω²</strong> の両辺を k で割ると、<strong>L - L0 = mLω²/k</strong>。したがって <strong>L0 = L - mLω²/k</strong> です。"
+      },
+      {
+        id: "SCM_SYMBOLIC_L",
+        variant: "symbolic",
+        finalType: "length",
+        title: "円運動するバネ（文字式：Lを求める）",
+        statement: "自然長 L0 [m]、バネ定数 k [N/m] のバネの先に、質量 m [kg] の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+        finalPrompt: "伸びた後のバネの長さ L を k、L0、m、ω を用いて求めよ。",
+        finalUnit: "m",
+        answers: {
+          springForce: "k(L - L0)",
+          centripetalForce: "mLω²",
+          finalAnswer: "kL0 / (k - mω²)"
+        },
+        distractors: {
+          springForce: ["kL", "kL0", "k(L + L0)"],
+          centripetalForce: ["mLω", "mω² / L", "mL²ω"],
+          finalAnswer: ["kL0 / (k + mω²)", "mω²L0 / (k - mω²)", "k / (L0(k - mω²))"]
+        },
+        finalFeedback: "式 <strong>k(L - L0) = mLω²</strong> を展開すると、<strong>kL - kL0 = mLω²</strong>。L を含む項をまとめて、<strong>L(k - mω²) = kL0</strong>。したがって <strong>L = kL0/(k - mω²)</strong> です。"
+      },
+      {
+        id: "SCM_NUMERIC_K",
+        variant: "numeric",
+        finalType: "springConstant",
+        title: "円運動するバネ（数値：kを求める）",
+        statement: "自然長 0.30 m、バネ定数 k [N/m] のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+        finalPrompt: "バネ定数 k を数値で答えよ。",
+        finalUnit: "N/m",
+        answers: {
+          springForce: "0.20k",
+          centripetalForce: 4.0,
+          finalAnswer: 20
+        },
+        distractors: {
+          springForce: ["0.50k", "0.30k", "0.80k"],
+          centripetalForce: [8.0, 2.0, 6.0],
+          finalAnswer: [40, 10, 30]
+        },
+        finalFeedback: "設問(1)(2)より <strong>0.20k = 4.0</strong>。したがって <strong>k = 20 N/m</strong> です。"
+      },
+      {
+        id: "SCM_NUMERIC_OMEGA",
+        variant: "numeric",
+        finalType: "omega",
+        title: "円運動するバネ（数値：ω²を求める）",
+        statement: "自然長 0.20 m、バネ定数 30 N/m のバネの先に、質量 0.50 kg の物体をつけた。物体を角速度 ω [rad/s] で水平面内の円運動をさせたところ、バネは伸びて長さ 0.50 m となった。",
+        finalPrompt: "角速度の2乗 ω² を数値で答えよ。",
+        finalUnit: "rad²/s²",
+        answers: {
+          springForce: 9.0,
+          centripetalForce: "0.25ω²",
+          finalAnswer: 36
+        },
+        distractors: {
+          springForce: [18.0, 4.5, 12.0],
+          centripetalForce: ["0.50ω²", "0.25ω", "0.50ω"],
+          finalAnswer: [18, 24, 72]
+        },
+        finalFeedback: "設問(1)(2)より <strong>9.0 = 0.25ω²</strong>。したがって <strong>ω² = 36 rad²/s²</strong> です。"
+      },
+      {
+        id: "SCM_NUMERIC_L0",
+        variant: "numeric",
+        finalType: "naturalLength",
+        title: "円運動するバネ（数値：L0を求める）",
+        statement: "自然長 L0 [m]、バネ定数 40 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 4.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ 0.60 m となった。",
+        finalPrompt: "自然長 L0 を数値で答えよ。",
+        finalUnit: "m",
+        answers: {
+          springForce: "40(0.60 - L0)",
+          centripetalForce: 9.6,
+          finalAnswer: 0.36
+        },
+        distractors: {
+          springForce: ["40L0", "40(0.60 + L0)", "40(0.60)"],
+          centripetalForce: [19.2, 4.8, 12.8],
+          finalAnswer: [0.24, 0.60, 0.84]
+        },
+        finalFeedback: "設問(1)(2)より <strong>40(0.60 - L0) = 9.6</strong>。よって <strong>0.60 - L0 = 0.24</strong>、<strong>L0 = 0.36 m</strong> です。"
+      },
+      {
+        id: "SCM_NUMERIC_L",
+        variant: "numeric",
+        finalType: "length",
+        title: "円運動するバネ（数値：Lを求める）",
+        statement: "自然長 0.30 m、バネ定数 50 N/m のバネの先に、質量 1.0 kg の物体をつけた。物体を角速度 5.0 rad/s で水平面内の円運動をさせたところ、バネは伸びて長さ L [m] となった。",
+        finalPrompt: "伸びた後のバネの長さ L を数値で答えよ。",
+        finalUnit: "m",
+        answers: {
+          springForce: "50(L - 0.30)",
+          centripetalForce: "25L",
+          finalAnswer: 0.60
+        },
+        distractors: {
+          springForce: ["50L", "50(0.30 - L)", "50(L + 0.30)"],
+          centripetalForce: ["50L", "25 / L", "5L"],
+          finalAnswer: [0.30, 0.90, 1.20]
+        },
+        finalFeedback: "設問(1)(2)より <strong>50(L - 0.30) = 25L</strong>。展開して <strong>50L - 15 = 25L</strong>、したがって <strong>L = 0.60 m</strong> です。"
+      }
     ];
-
-    const typeLabels = {
-      stretchFromForce: "向心力から伸びを求める",
-      forceFromStretch: "伸びから向心力を求める",
-      radiusFromStretch: "伸びから半径を求める",
-      omegaSquaredFromForce: "向心力から角速度を考える",
-      speedSquaredFromForce: "向心力から速さを考える"
-    };
 
     function fmt(value) {
       if (Number.isInteger(value)) return value.toString();
@@ -834,50 +997,68 @@
       })));
     }
 
-    function getProblemValues(p) {
-      const stretch = p.stretch !== undefined ? p.stretch : p.force / p.k;
-      const force = p.force !== undefined ? p.force : p.k * p.stretch;
-      const radius = p.radius !== undefined ? p.radius : (p.l0 ? p.l0 + stretch : null);
-      return { stretch, force, radius };
+    function formulaHTML(text) {
+      return `<span class="formula-display">${formatFormula(text)}</span>`;
+    }
+
+    function frac(top, bottom) {
+      return `<span class="frac"><span class="top">${top}</span><span class="bottom">${bottom}</span></span>`;
+    }
+
+    function sqrt(value) {
+      return `√(${value})`;
+    }
+
+    function fractionize(text) {
+      const fractions = [
+        ["√(k(L - L0) / (mL))", sqrt(frac("k(L - L0)", "mL"))],
+        ["√(mL / k(L - L0))", sqrt(frac("mL", "k(L - L0)"))],
+        ["√(kL / m(L - L0))", sqrt(frac("kL", "m(L - L0)"))],
+        ["mLω² / (L - L0)", frac("mLω²", "L - L0")],
+        ["m(L - L0)ω² / L", frac("m(L - L0)ω²", "L")],
+        ["mω² / (L - L0)", frac("mω²", "L - L0")],
+        ["mω²L0 / (k - mω²)", frac("mω²L0", "k - mω²")],
+        ["mLω² / L0", frac("mLω²", "L0")],
+        ["mLω² / k", frac("mLω²", "k")],
+        ["mLω²/k", frac("mLω²", "k")],
+        ["k(L - L0) / (mL)", frac("k(L - L0)", "mL")],
+        ["k(L - L0)/(mL)", frac("k(L - L0)", "mL")],
+        ["k(L - L0) / mL", frac("k(L - L0)", "mL")],
+        ["kL0 / (k - mω²)", frac("kL0", "k - mω²")],
+        ["kL0/(k - mω²)", frac("kL0", "k - mω²")],
+        ["kL0 / (k + mω²)", frac("kL0", "k + mω²")],
+        ["k / (L0(k - mω²))", frac("k", "L0(k - mω²)")],
+        ["kL / mω²", frac("kL", "mω²")],
+        ["mω² / L", frac("mω²", "L")]
+      ];
+      return fractions.reduce((html, [raw, replacement]) => html.split(raw).join(replacement), String(text));
+    }
+
+    function formatFormula(text) {
+      return fractionize(text)
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/ω/g, "&omega;")
+        .replace(/L0/g, "L<sub>0</sub>");
+    }
+
+    function inlineMathHTML(text) {
+      return formatFormula(text);
+    }
+
+    function makeFormulaChoices(correct, distractors) {
+      return shuffle([correct, ...distractors].map(text => ({
+        text,
+        html: formulaHTML(text),
+        correct: text === correct
+      })));
     }
 
     function getHint(p) {
-      const values = getProblemValues(p);
-      const force = values.force;
-      const radius = values.radius;
-
-      if (p.type === "stretchFromForce") {
-        return `
-          <strong>ヒント</strong><br>
-          ばねの弾性力は <strong>f = kx</strong> です。水平方向では、この弾性力が向心力になります。<br>
-          つまり <strong>向心力 = k × 伸び</strong> と考えて、伸びを求めます。`;
-      }
-
-      if (p.type === "forceFromStretch") {
-        return `
-          <strong>ヒント</strong><br>
-          ばねの弾性力は <strong>f = kx</strong> です。ここで <strong>x</strong> は自然長からの伸びです。<br>
-          この問題では、ばねの弾性力の大きさが、そのまま向心力の大きさになります。`;
-      }
-
-      if (p.type === "radiusFromStretch") {
-        return `
-          <strong>ヒント</strong><br>
-          円運動の半径は、固定点から物体までの距離です。<br>
-          ばねが伸びているとき、今のばねの長さは <strong>自然長 + 伸び</strong> です。`;
-      }
-
-      if (p.type === "omegaSquaredFromForce") {
-        return `
-          <strong>ヒント</strong><br>
-          角速度で向心力を表すと <strong>F = mrω²</strong> です。<br>
-          今回は <strong>${fmt(force)} = ${fmt(p.m)} × ${fmt(radius)} × ω²</strong> の形にして、ω²を求めます。`;
-      }
-
       return `
         <strong>ヒント</strong><br>
-        速さで向心力を表すと <strong>F = mv²/r</strong> です。<br>
-        今回は <strong>${fmt(force)} = ${fmt(p.m)} × v² ÷ ${fmt(radius)}</strong> の形にして、v²を求めます。`;
+        ばねの伸びは <strong>L - L<sub>0</sub></strong> です。ばねの弾性力は <strong>F = k(L - L<sub>0</sub>)</strong>。<br>
+        また、円運動の半径はこの問題ではばねの長さ <strong>L</strong> なので、向心力は <strong>F = mLω<sup>2</sup></strong> と表せます。<br>
+        最後はこの2つの F を等しくおいて、<strong>k</strong> について解きます。`;
     }
 
     function shuffle(items) {
@@ -890,87 +1071,59 @@
     }
 
     function buildQuiz() {
-      const firstTypes = ["stretchFromForce", "forceFromStretch"];
-      const core = firstTypes.map(type => shuffle(problemBank.filter(problem => problem.type === type))[0]);
-      const rest = shuffle(problemBank.filter(problem => !firstTypes.includes(problem.type))).slice(0, TOTAL_QUESTIONS - core.length);
-      return shuffle([...core, ...rest]);
+      return shuffle(problemBank);
     }
 
     function makeSteps(p) {
-      const values = getProblemValues(p);
-      const stretch = values.stretch;
-      const force = values.force;
-      const radius = values.radius;
-      const omegaSquared = radius ? force / (p.m * radius) : null;
-      const speedSquared = radius ? force * radius / p.m : null;
+      const isNumberAnswer = key => typeof p.answers[key] === "number";
+      const answerText = (key, unitLabel = "") => isNumberAnswer(key) ? unit(p.answers[key], unitLabel) : formulaHTML(p.answers[key]);
+      const choiceMaker = (key, unitLabel = "") => {
+        const distractors = p.distractors?.[key] || [];
+        return isNumberAnswer(key)
+          ? () => makeNumberChoices(p.answers[key], unitLabel, distractors)
+          : () => makeFormulaChoices(p.answers[key], distractors);
+      };
+      const forcePrompt = (key, words) => isNumberAnswer(key)
+        ? "数値で答えよ。"
+        : `${words}を使って答えよ。`;
 
-      if (p.type === "stretchFromForce") {
-        return [{
-          key: "stretch",
-          title: "向心力から伸びを求める",
-          prompt: `ばね定数が ${unit(p.k, "N/m")}、向心力の大きさが ${unit(force, "N")} のとき、ばねの伸びはどれですか。`,
-          makeChoices: () => makeNumberChoices(stretch, "m", [stretch * 2, stretch / 2, stretch + 0.10]),
-          feedback: () => `
-            <strong>正解：${unit(stretch, "m")}</strong><br>
-            水平方向では、ばねが物体を中心向きに引いています。この中心向きの力が、円運動に必要な向心力です。<br>
-            ばねの弾性力は「ばね定数 × 伸び」で決まるので、今回は <strong>${unit(force, "N")} = ${unit(p.k, "N/m")} × 伸び</strong> と考えます。<br>
-            したがって、伸びは <strong>${fmt(force)} ÷ ${fmt(p.k)} = ${unit(stretch, "m")}</strong> です。`
-        }];
-      }
-
-      if (p.type === "forceFromStretch") {
-        return [{
+      return [
+        {
           key: "spring",
-          title: "伸びから向心力を求める",
-          prompt: `ばね定数が ${unit(p.k, "N/m")}、ばねが自然長から ${unit(stretch, "m")} 伸びているとき、向心力の大きさはどれですか。`,
-          makeChoices: () => makeNumberChoices(force, "N", [force * 2, force / 2, force + 2]),
-          feedback: () => `
-            <strong>正解：${unit(force, "N")}</strong><br>
-            ばねが伸びるほど、ばねが引く力は大きくなります。大きさは <strong>ばね定数 × 伸び</strong> で計算します。<br>
-            この問題では <strong>${fmt(p.k)} × ${fmt(stretch)} = ${fmt(force)}</strong> なので、ばねの弾性力は ${unit(force, "N")} です。<br>
-            水平方向ではその弾性力が中心向きにはたらくので、向心力も ${unit(force, "N")} です。`
-        }];
-      }
-
-      if (p.type === "radiusFromStretch") {
-        return [{
-          key: "length",
-          title: "伸びから半径を求める",
-          prompt: `自然長が ${unit(p.l0, "m")} のばねが ${unit(stretch, "m")} 伸びているとき、円運動の半径はどれですか。`,
-          makeChoices: () => makeNumberChoices(radius, "m", [p.l0 - stretch, stretch, p.l0]),
-          feedback: () => `
-            <strong>正解：${unit(radius, "m")}</strong><br>
-            円運動の半径は、固定点から物体までの距離です。この問題では、それが「ばねの今の長さ」になります。<br>
-            ばねの今の長さは、自然長に伸びを足したものです。<br>
-            したがって <strong>${fmt(p.l0)} + ${fmt(stretch)} = ${unit(radius, "m")}</strong> です。`
-        }];
-      }
-
-      if (p.type === "omegaSquaredFromForce") {
-        return [{
+          title: "設問(1)　バネの弾性力",
+          prompt: `バネの弾性力 F を${forcePrompt("springForce", "k、L0、L")}`,
+          makeChoices: choiceMaker("springForce", "N"),
+          feedback: () => {
+            return `
+              <strong>正解：${answerText("springForce", "N")}</strong><br>
+              バネの伸びは、現在の長さから自然長を引いた <strong>L - L<sub>0</sub></strong> です。<br>
+              フックの法則より、弾性力は <strong>F = k(L - L<sub>0</sub>)</strong> です。`;
+          }
+        },
+        {
           key: "force",
-          title: "角速度の2乗を求める",
-          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、ω² はどれですか。`,
-          makeChoices: () => makeNumberChoices(omegaSquared, "rad²/s²", [omegaSquared * 2, omegaSquared / 2, omegaSquared + 2]),
-          feedback: () => `
-            <strong>正解：${unit(omegaSquared, "rad²/s²")}</strong><br>
-            角速度で円運動を考えると、向心力は <strong>質量 × 半径 × ω²</strong> で表せます。<br>
-            今回は <strong>${fmt(force)} = ${fmt(p.m)} × ${fmt(radius)} × ω²</strong> です。<br>
-            したがって <strong>ω² = ${fmt(force)} ÷ (${fmt(p.m)} × ${fmt(radius)}) = ${fmt(omegaSquared)}</strong> です。`
-        }];
-      }
-
-      return [{
-          key: "speed",
-          title: "速さの2乗を求める",
-          prompt: `質量が ${unit(p.m, "kg")}、半径が ${unit(radius, "m")}、向心力が ${unit(force, "N")} のとき、v² はどれですか。`,
-          makeChoices: () => makeNumberChoices(speedSquared, "m²/s²", [speedSquared * 2, speedSquared / 2, speedSquared + 1]),
-          feedback: () => `
-            <strong>正解：${unit(speedSquared, "m²/s²")}</strong><br>
-            速さで円運動を考えると、向心力は <strong>質量 × v² ÷ 半径</strong> で表せます。<br>
-            今回は <strong>${fmt(force)} = ${fmt(p.m)} × v² ÷ ${fmt(radius)}</strong> です。<br>
-            したがって <strong>v² = ${fmt(force)} × ${fmt(radius)} ÷ ${fmt(p.m)} = ${fmt(speedSquared)}</strong> です。`
-      }];
+          title: "設問(2)　向心力",
+          prompt: `円運動の向心力 F を${forcePrompt("centripetalForce", "m、L、ω")}`,
+          makeChoices: choiceMaker("centripetalForce", "N"),
+          feedback: () => {
+            return `
+              <strong>正解：${answerText("centripetalForce", "N")}</strong><br>
+              この円運動の半径は、伸びた後のバネの長さ <strong>L</strong> です。<br>
+              向心力は <strong>F = mrω<sup>2</sup></strong> なので、ここでは <strong>F = mLω<sup>2</sup></strong> です。`;
+          }
+        },
+        {
+          key: "constant",
+          title: "設問(3)　求める量",
+          prompt: p.finalPrompt,
+          makeChoices: choiceMaker("finalAnswer", p.finalUnit),
+          feedback: () => {
+            return `
+              <strong>正解：${answerText("finalAnswer", p.finalUnit)}</strong><br>
+              ${p.finalFeedback}`;
+          }
+        }
+      ];
     }
 
     function showScreen(id) {
@@ -996,23 +1149,8 @@
       renderProblem();
     }
 
-    function inlineMathHTML(text) {
-      return String(text)
-        .replace(/²/g, "<sup>2</sup>")
-        .replace(/ω/g, "&omega;")
-        .replace(/L0/g, "L<sub>0</sub>");
-    }
-
     function renderGivens(p) {
-      const items = [["質量 m", unit(p.m, "kg")]];
-      if (p.k) items.push(["ばね定数 k", unit(p.k, "N/m")]);
-      if (p.l0) items.push(["自然長 L0", unit(p.l0, "m")]);
-      if (p.stretch) items.push(["自然長からの伸び", unit(p.stretch, "m")]);
-      if (p.radius) items.push(["円運動の半径", unit(p.radius, "m")]);
-      if (p.force) items.push(["向心力", unit(p.force, "N")]);
-      $("#givens").innerHTML = items.map(([label, value]) => `
-        <div class="given"><span>${inlineMathHTML(label)}</span><strong>${inlineMathHTML(value)}</strong></div>
-      `).join("");
+      $("#givens").innerHTML = "";
     }
 
     function renderProblem() {
@@ -1022,8 +1160,8 @@
       currentSteps = makeSteps(currentProblem);
       stepState = currentSteps.map(() => ({ answered: false, correct: false }));
 
-      $("#problemTitle").textContent = typeLabels[currentProblem.type];
-      $("#questionText").textContent = "なめらかな水平面上で、固定点につながれたばねの先に小球をつける。小球は等速円運動しており、水平方向ではばねの弾性力だけが中心向きにはたらく。";
+      $("#problemTitle").textContent = currentProblem.title;
+      $("#questionText").innerHTML = inlineMathHTML(currentProblem.statement);
       renderGivens(currentProblem);
 
       stepsEl.innerHTML = "";
@@ -1039,7 +1177,7 @@
           <div class="step-head">
             <div>
               <h2>${step.title}</h2>
-              <div class="state">${step.prompt}</div>
+              <div class="step-prompt">${inlineMathHTML(step.prompt)}</div>
             </div>
             <span class="state" data-state>未解答</span>
           </div>
@@ -1140,7 +1278,7 @@
         score.streak = 0;
       }
 
-      feedback.innerHTML = currentSteps[stepIndex].feedback(currentProblem);
+      feedback.innerHTML = inlineMathHTML(currentSteps[stepIndex].feedback(currentProblem));
       feedback.className = `feedback show ${isCorrect ? "right" : "wrong"}`;
       state.textContent = isCorrect ? "正解" : revealed ? "答えを確認" : "確認";
       state.style.color = isCorrect ? "var(--right)" : "var(--wrong)";
@@ -1195,7 +1333,7 @@
 
     function syncDiagramToStep(key) {
       if (key === "stretch" || key === "length") setMode("length");
-      if (key === "spring" || key === "omega" || key === "force" || key === "speed") setMode("force");
+      if (key === "spring" || key === "omega" || key === "force" || key === "speed" || key === "constant") setMode("force");
     }
 
     function setMode(mode) {
@@ -1270,7 +1408,7 @@
       streakText.textContent = "0";
       $("#sendStatus").textContent = "";
     });
-    $("#categoryBtn").addEventListener("click", () => { location.href = "index.html"; });
+    $("#categoryBtn").addEventListener("click", () => { location.href = "../comprehensive/index.html"; });
     $("#homeBtn").addEventListener("click", () => { location.href = "../index.html"; });
     $("#studentId").addEventListener("keydown", event => {
       if (event.key === "Enter") startQuiz();

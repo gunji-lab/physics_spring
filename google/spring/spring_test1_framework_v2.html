@@ -998,17 +998,51 @@
     }
 
     function formulaHTML(text) {
-      return `<span class="formula-display">${String(text)
-        .replace(/²/g, "<sup>2</sup>")
-        .replace(/ω/g, "&omega;")
-        .replace(/L0/g, "L<sub>0</sub>")}</span>`;
+      return `<span class="formula-display">${formatFormula(text)}</span>`;
     }
 
-    function inlineMathHTML(text) {
-      return String(text)
+    function frac(top, bottom) {
+      return `<span class="frac"><span class="top">${top}</span><span class="bottom">${bottom}</span></span>`;
+    }
+
+    function sqrt(value) {
+      return `√(${value})`;
+    }
+
+    function fractionize(text) {
+      const fractions = [
+        ["√(k(L - L0) / (mL))", sqrt(frac("k(L - L0)", "mL"))],
+        ["√(mL / k(L - L0))", sqrt(frac("mL", "k(L - L0)"))],
+        ["√(kL / m(L - L0))", sqrt(frac("kL", "m(L - L0)"))],
+        ["mLω² / (L - L0)", frac("mLω²", "L - L0")],
+        ["m(L - L0)ω² / L", frac("m(L - L0)ω²", "L")],
+        ["mω² / (L - L0)", frac("mω²", "L - L0")],
+        ["mω²L0 / (k - mω²)", frac("mω²L0", "k - mω²")],
+        ["mLω² / L0", frac("mLω²", "L0")],
+        ["mLω² / k", frac("mLω²", "k")],
+        ["mLω²/k", frac("mLω²", "k")],
+        ["k(L - L0) / (mL)", frac("k(L - L0)", "mL")],
+        ["k(L - L0)/(mL)", frac("k(L - L0)", "mL")],
+        ["k(L - L0) / mL", frac("k(L - L0)", "mL")],
+        ["kL0 / (k - mω²)", frac("kL0", "k - mω²")],
+        ["kL0/(k - mω²)", frac("kL0", "k - mω²")],
+        ["kL0 / (k + mω²)", frac("kL0", "k + mω²")],
+        ["k / (L0(k - mω²))", frac("k", "L0(k - mω²)")],
+        ["kL / mω²", frac("kL", "mω²")],
+        ["mω² / L", frac("mω²", "L")]
+      ];
+      return fractions.reduce((html, [raw, replacement]) => html.split(raw).join(replacement), String(text));
+    }
+
+    function formatFormula(text) {
+      return fractionize(text)
         .replace(/²/g, "<sup>2</sup>")
         .replace(/ω/g, "&omega;")
         .replace(/L0/g, "L<sub>0</sub>");
+    }
+
+    function inlineMathHTML(text) {
+      return formatFormula(text);
     }
 
     function makeFormulaChoices(correct, distractors) {
