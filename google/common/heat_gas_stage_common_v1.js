@@ -10,6 +10,12 @@ $("lead").textContent=config.lead;
 $("intro").innerHTML=config.intro;
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function displayMath(value){
+  return escapeHTML(value).replace(/\^(-?\d+(?:\.\d+)?)/g,"<sup>$1</sup>");
+}
 function makeChoices(q){
   const pool=config.answerPools[q.type]||config.answerPools.default||[];
   return shuffle([q.ans,...shuffle(pool.filter(x=>x!==q.ans)).slice(0,3)]);
@@ -43,7 +49,7 @@ function showQuestion(){
   $("count").textContent=`${index+1} / ${quiz.length}`;
   $("score").textContent=`正解 ${score}`;
   $("bar").style.width=`${index/quiz.length*100}%`;
-  $("question").innerHTML=`<span class="badge">${config.badges[q.type]||config.badges.default||"計算"}</span><br>${q.question}`;
+  $("question").innerHTML=`<span class="badge">${displayMath(config.badges[q.type]||config.badges.default||"計算")}</span><br>${displayMath(q.question)}`;
   $("feedback").className="feedback";
   $("feedback").style.display="none";
   $("answerBtn").disabled=true;
@@ -54,7 +60,7 @@ function showQuestion(){
     const b=document.createElement("button");
     b.className="choice";
     b.dataset.answer=c;
-    b.textContent=`${["①","②","③","④"][i]}　${c}`;
+    b.innerHTML=`${["①","②","③","④"][i]}　${displayMath(c)}`;
     b.onclick=()=>selectChoice(c,b);
     box.appendChild(b);
   });
@@ -81,7 +87,7 @@ function check(){
   });
   if(!ok&&selectedButton)selectedButton.classList.add("wrong");
   $("feedback").className="feedback "+(ok?"ok":"ng");
-  $("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">${q.calc}</div><div class="note">ポイント：${q.point||config.point}</div>`;
+  $("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${displayMath(q.ans)}</strong><div class="formula">${displayMath(q.calc)}</div><div class="note">ポイント：${displayMath(q.point||config.point)}</div>`;
   $("feedback").style.display="block";
   $("score").textContent=`正解 ${score}`;
   $("answerBtn").disabled=true;
