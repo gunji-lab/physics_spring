@@ -406,7 +406,7 @@
                 <p class="tag">万有引力と円運動</p>
                 <h2 class="question-title" id="problemTitle">問題</h2>
               </div>
-              <button class="btn" id="resetQuestionBtn" type="button">この大問を練習し直す</button>
+              <button class="btn" id="resetQuestionBtn" type="button">この大問を練習し直す</button><button class="btn" id="changeQuestionBtn" type="button">別の問題にする</button>
             </div>
 
             <p class="question-text" id="questionText"></p>
@@ -771,6 +771,35 @@
       renderProblem();
     }
 
+    function problemKey(problem) {
+      if (!problem) return "";
+      return problem.id || [problem.title, problem.statement, problem.prompt].filter(Boolean).join("|") || JSON.stringify(problem);
+    }
+
+    function pickDifferentProblem() {
+      const currentKey = problemKey(quiz[problemIndex]);
+      const usedKeys = new Set(quiz.map((problem, index) => index === problemIndex ? "" : problemKey(problem)).filter(Boolean));
+      let candidates = problemBank.filter(problem => problemKey(problem) !== currentKey && !usedKeys.has(problemKey(problem)));
+      if (!candidates.length) candidates = problemBank.filter(problem => problemKey(problem) !== currentKey);
+      return candidates.length ? shuffle(candidates)[0] : null;
+    }
+
+    function changeCurrentProblem() {
+      const nextProblem = pickDifferentProblem();
+      if (!nextProblem) {
+        alert("別の問題がありません。");
+        return;
+      }
+      const answeredCount = stepState.filter(step => step.answered).length;
+      const correctCount = stepState.filter(step => step.correct).length;
+      score.total = Math.max(0, score.total - answeredCount);
+      score.correct = Math.max(0, score.correct - correctCount);
+      score.streak = 0;
+      quiz[problemIndex] = nextProblem;
+      if (typeof setMode === "function") setMode("motion");
+      renderProblem();
+    }
+
     function startQuiz() {
       const studentId = $("#studentId").value.trim();
       if (!studentId) { alert("学籍番号を入力してください。"); $("#studentId").focus(); return; }
@@ -807,6 +836,7 @@
     hintBtn.addEventListener("click", toggleHint);
     $("#showSolutionBtn").addEventListener("click", showSolution);
     $("#resetQuestionBtn").addEventListener("click", resetCurrentProblem);
+    $("#changeQuestionBtn").addEventListener("click", changeCurrentProblem);
     nextBtn.addEventListener("click", () => {
       if (problemIndex + 1 >= quiz.length) { finishQuiz(); return; }
       problemIndex += 1;

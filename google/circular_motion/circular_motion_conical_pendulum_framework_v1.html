@@ -450,7 +450,7 @@
                 <p class="tag">円錐振り子</p>
                 <h2 class="question-title" id="problemTitle">張力の成分と向心力</h2>
               </div>
-              <button class="btn" id="resetQuestionBtn" type="button">この問題をやり直す</button>
+              <button class="btn" id="resetQuestionBtn" type="button">この問題をやり直す</button><button class="btn" id="changeQuestionBtn" type="button">別の問題にする</button>
             </div>
 
             <p class="question-text" id="questionText"></p>
@@ -959,6 +959,35 @@
       renderProblem();
     }
 
+    function problemKey(problem) {
+      if (!problem) return "";
+      return problem.id || [problem.title, problem.statement, problem.prompt].filter(Boolean).join("|") || JSON.stringify(problem);
+    }
+
+    function pickDifferentProblem() {
+      const currentKey = problemKey(quiz[problemIndex]);
+      const usedKeys = new Set(quiz.map((problem, index) => index === problemIndex ? "" : problemKey(problem)).filter(Boolean));
+      let candidates = problemBank.filter(problem => problemKey(problem) !== currentKey && !usedKeys.has(problemKey(problem)));
+      if (!candidates.length) candidates = problemBank.filter(problem => problemKey(problem) !== currentKey);
+      return candidates.length ? shuffle(candidates)[0] : null;
+    }
+
+    function changeCurrentProblem() {
+      const nextProblem = pickDifferentProblem();
+      if (!nextProblem) {
+        alert("別の問題がありません。");
+        return;
+      }
+      const answeredCount = stepState.filter(step => step.answered).length;
+      const correctCount = stepState.filter(step => step.correct).length;
+      score.total = Math.max(0, score.total - answeredCount);
+      score.correct = Math.max(0, score.correct - correctCount);
+      score.streak = 0;
+      quiz[problemIndex] = nextProblem;
+      if (typeof setMode === "function") setMode("motion");
+      renderProblem();
+    }
+
     function finishQuiz() {
       TrainerLog.finishSession();
       const rate = score.total ? Math.round(score.correct / score.total * 100) : 0;
@@ -1050,6 +1079,7 @@
     });
 
     resetQuestionBtn.addEventListener("click", resetCurrentProblem);
+    $("#changeQuestionBtn").addEventListener("click", changeCurrentProblem);
     showSolutionBtn.addEventListener("click", showSolution);
     startBtn.addEventListener("click", startQuiz);
     againBtn.addEventListener("click", () => {
