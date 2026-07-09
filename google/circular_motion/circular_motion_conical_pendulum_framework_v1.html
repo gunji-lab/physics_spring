@@ -658,7 +658,7 @@
         key: "vertical",
         title: "設問(1)　張力を求める",
         prompt: "鉛直方向のつり合いの式を経て、張力 T を θ、m、g を使って答えよ。",
-        numericPrompt: "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        numericPrompt: "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
           鉛直方向には、上向きの張力の成分 <strong>Tcosθ</strong> と、下向きの重力 <strong>mg</strong> がはたらきます。<br>
@@ -740,9 +740,26 @@
     }
 
     function makeFormulaChoices(problem) {
+      const extraChoices = {
+        symbolic: {
+          tension: ["mg", "mg / √3"],
+          radius: ["L", "2L"],
+          centripetal: ["T", "2T"],
+          acceleration: ["2g", "g / 2"],
+          speed: ["gL", "2gL"]
+        },
+        numeric: {
+          tension: ["9.8 N", "22.6 N"],
+          radius: ["0.50 m", "2.0 m"],
+          centripetal: ["11.3 N", "19.6 N"],
+          acceleration: ["4.9 m/s²", "19.6 m/s²"],
+          speed: ["9.8 m²/s²", "19.6 m²/s²"]
+        }
+      };
       const pool = [...new Set(problemBank
         .filter(item => item.variant === problem.variant)
-        .flatMap(item => answerTypes.map(type => item.answers[type]))
+        .map(item => item.answers[problem.type])
+        .concat(extraChoices[problem.variant]?.[problem.type] || [])
       )];
       const distractors = shuffle(pool.filter(choice => choice !== problem.answer)).slice(0, 3);
       return shuffle([problem.answer, ...distractors].map(text => ({

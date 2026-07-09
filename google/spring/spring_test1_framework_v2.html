@@ -656,7 +656,7 @@
           <h2 class="question-title">ばねの弾性力が向心力になる問題</h2>
           <p class="lead">1つの大問を、3つの小問に沿って解きます。ばねの弾性力と円運動の向心力を結びつけて、バネ定数まで求めます。</p>
           <div class="note">
-            使う公式：<strong>F = k(L - L0)</strong>、<strong>F = mLω²</strong>。<br>
+            使う公式：<strong>F = k(L - L<sub>0</sub>)</strong>、<strong>F = mLω<sup>2</sup></strong>。<br>
             文字式の問題と数値の問題がランダムに出ます。水平方向のばねの弾性力が、円運動の向心力になります。
           </div>
           <label for="studentId">学籍番号</label>
@@ -734,7 +734,7 @@
 
               <g id="lengthLayer" class="hidden-layer">
                 <line x1="200" y1="238" x2="315" y2="238" stroke="#b27b16" stroke-width="4" marker-end="url(#arrowGold)"></line>
-                <text x="246" y="258" class="dim-label">自然長 L0</text>
+                <text x="246" y="258" class="dim-label">自然長 L₀</text>
                 <line x1="315" y1="238" x2="346" y2="238" stroke="#b13b3b" stroke-width="4" marker-end="url(#arrowRed)"></line>
                 <text x="319" y="226" class="dim-label">伸び x</text>
                 <line x1="200" y1="170" x2="346" y2="170" stroke="#1d6f8f" stroke-width="3" marker-end="url(#arrowBlue)"></line>
@@ -1004,6 +1004,13 @@
         .replace(/L0/g, "L<sub>0</sub>")}</span>`;
     }
 
+    function inlineMathHTML(text) {
+      return String(text)
+        .replace(/²/g, "<sup>2</sup>")
+        .replace(/ω/g, "&omega;")
+        .replace(/L0/g, "L<sub>0</sub>");
+    }
+
     function makeFormulaChoices(correct, distractors) {
       return shuffle([correct, ...distractors].map(text => ({
         text,
@@ -1015,8 +1022,8 @@
     function getHint(p) {
       return `
         <strong>ヒント</strong><br>
-        ばねの伸びは <strong>L - L0</strong> です。ばねの弾性力は <strong>F = k(L - L0)</strong>。<br>
-        また、円運動の半径はこの問題ではばねの長さ <strong>L</strong> なので、向心力は <strong>F = mLω²</strong> と表せます。<br>
+        ばねの伸びは <strong>L - L<sub>0</sub></strong> です。ばねの弾性力は <strong>F = k(L - L<sub>0</sub>)</strong>。<br>
+        また、円運動の半径はこの問題ではばねの長さ <strong>L</strong> なので、向心力は <strong>F = mLω<sup>2</sup></strong> と表せます。<br>
         最後はこの2つの F を等しくおいて、<strong>k</strong> について解きます。`;
     }
 
@@ -1042,33 +1049,33 @@
           ? () => makeNumberChoices(p.answers[key], unitLabel, distractors)
           : () => makeFormulaChoices(p.answers[key], distractors);
       };
-      const forcePrompt = key => isNumberAnswer(key)
+      const forcePrompt = (key, words) => isNumberAnswer(key)
         ? "数値で答えよ。"
-        : "未知量を含む式で答えよ。";
+        : `${words}を使って答えよ。`;
 
       return [
         {
           key: "spring",
           title: "設問(1)　バネの弾性力",
-          prompt: `バネの弾性力 F を${forcePrompt("springForce")}`,
+          prompt: `バネの弾性力 F を${forcePrompt("springForce", "k、L0、L")}`,
           makeChoices: choiceMaker("springForce", "N"),
           feedback: () => {
             return `
               <strong>正解：${answerText("springForce", "N")}</strong><br>
-              バネの伸びは、現在の長さから自然長を引いた <strong>L - L0</strong> です。<br>
-              フックの法則より、弾性力は <strong>F = k(L - L0)</strong> です。`;
+              バネの伸びは、現在の長さから自然長を引いた <strong>L - L<sub>0</sub></strong> です。<br>
+              フックの法則より、弾性力は <strong>F = k(L - L<sub>0</sub>)</strong> です。`;
           }
         },
         {
           key: "force",
           title: "設問(2)　向心力",
-          prompt: `円運動の向心力 F を${forcePrompt("centripetalForce")}`,
+          prompt: `円運動の向心力 F を${forcePrompt("centripetalForce", "m、L、ω")}`,
           makeChoices: choiceMaker("centripetalForce", "N"),
           feedback: () => {
             return `
               <strong>正解：${answerText("centripetalForce", "N")}</strong><br>
               この円運動の半径は、伸びた後のバネの長さ <strong>L</strong> です。<br>
-              向心力は <strong>F = mrω²</strong> なので、ここでは <strong>F = mLω²</strong> です。`;
+              向心力は <strong>F = mrω<sup>2</sup></strong> なので、ここでは <strong>F = mLω<sup>2</sup></strong> です。`;
           }
         },
         {
@@ -1120,7 +1127,7 @@
       stepState = currentSteps.map(() => ({ answered: false, correct: false }));
 
       $("#problemTitle").textContent = currentProblem.title;
-      $("#questionText").textContent = currentProblem.statement;
+      $("#questionText").innerHTML = inlineMathHTML(currentProblem.statement);
       renderGivens(currentProblem);
 
       stepsEl.innerHTML = "";
@@ -1136,7 +1143,7 @@
           <div class="step-head">
             <div>
               <h2>${step.title}</h2>
-              <div class="step-prompt">${step.prompt}</div>
+              <div class="step-prompt">${inlineMathHTML(step.prompt)}</div>
             </div>
             <span class="state" data-state>未解答</span>
           </div>
@@ -1237,7 +1244,7 @@
         score.streak = 0;
       }
 
-      feedback.innerHTML = currentSteps[stepIndex].feedback(currentProblem);
+      feedback.innerHTML = inlineMathHTML(currentSteps[stepIndex].feedback(currentProblem));
       feedback.className = `feedback show ${isCorrect ? "right" : "wrong"}`;
       state.textContent = isCorrect ? "正解" : revealed ? "答えを確認" : "確認";
       state.style.color = isCorrect ? "var(--right)" : "var(--wrong)";

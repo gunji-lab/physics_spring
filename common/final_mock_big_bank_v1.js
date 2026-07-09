@@ -330,7 +330,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "11.3 N",
         "unit": "N",
         "choices": [],
@@ -393,7 +393,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "11.3 N",
         "unit": "N",
         "choices": [],
@@ -420,7 +420,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "13.9 N",
         "unit": "N",
         "choices": [],
@@ -483,7 +483,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "13.9 N",
         "unit": "N",
         "choices": [],
@@ -510,7 +510,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "19.6 N",
         "unit": "N",
         "choices": [],
@@ -573,7 +573,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "鉛直方向のつり合いの式を経て、張力 T の大きさを数値で答えよ。",
+        "prompt": "鉛直方向には力がつり合っていることから、張力 T の大きさを答えよ。",
         "display": "19.6 N",
         "unit": "N",
         "choices": [],
@@ -600,7 +600,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "k(L - L0)",
         "unit": "",
         "choices": [],
@@ -611,7 +611,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -642,7 +642,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "k(L - L0)",
         "unit": "",
         "choices": [],
@@ -653,7 +653,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -673,7 +673,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -704,7 +704,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "k(L - L0)",
         "unit": "",
         "choices": [],
@@ -715,7 +715,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -747,7 +747,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -779,7 +779,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "k(L - L0)",
         "unit": "",
         "choices": [],
@@ -790,7 +790,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -821,7 +821,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -852,7 +852,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "k(L - L0)",
         "unit": "",
         "choices": [],
@@ -863,7 +863,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -894,7 +894,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "mLω²",
         "unit": "",
         "choices": [],
@@ -925,7 +925,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "0.20k",
         "unit": "",
         "choices": [],
@@ -962,7 +962,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "0.20k",
         "unit": "",
         "choices": [],
@@ -1026,7 +1026,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "0.25ω²",
         "unit": "",
         "choices": [],
@@ -1064,7 +1064,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "0.25ω²",
         "unit": "",
         "choices": [],
@@ -1084,7 +1084,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "0.25ω²",
         "unit": "",
         "choices": [],
@@ -1113,7 +1113,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "40(0.60 - L0)",
         "unit": "",
         "choices": [],
@@ -1151,7 +1151,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "40(0.60 - L0)",
         "unit": "",
         "choices": [],
@@ -1207,7 +1207,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "50(L - 0.30)",
         "unit": "",
         "choices": [],
@@ -1218,7 +1218,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "25L",
         "unit": "",
         "choices": [],
@@ -1246,7 +1246,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "バネの弾性力 F を未知量を含む式で答えよ。",
+        "prompt": "バネの弾性力 F を k、L0、L を使って答えよ。",
         "display": "50(L - 0.30)",
         "unit": "",
         "choices": [],
@@ -1257,7 +1257,7 @@ window.FINAL_MOCK_BIG_BANK = [
       },
       {
         "id": "BIG_0002",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "25L",
         "unit": "",
         "choices": [],
@@ -1276,7 +1276,7 @@ window.FINAL_MOCK_BIG_BANK = [
     "questions": [
       {
         "id": "BIG_0001",
-        "prompt": "円運動の向心力 F を未知量を含む式で答えよ。",
+        "prompt": "円運動の向心力 F を m、L、ω を使って答えよ。",
         "display": "25L",
         "unit": "",
         "choices": [],
@@ -2113,7 +2113,7 @@ window.FINAL_MOCK_BIG_BANK = [
   }
 ];
 window.FINAL_MOCK_BIG_BANK_META = {
-  "generatedAt": "2026-07-09T04:21:45.909Z",
+  "generatedAt": "2026-07-09T04:38:49.436Z",
   "total": 56,
   "counts": {
     "大問対策・円錐振り子/3問": 6,
