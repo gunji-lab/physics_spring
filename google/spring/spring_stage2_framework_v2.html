@@ -1,235 +1,30 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>バネ Stage2 バネと重力のつり合いトレーナー</title>
-<style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;--ok:#16a34a;--ng:#dc2626;--line:#e5e7eb;--soft:#f8fafc}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
-.wrap{max-width:820px;margin:0 auto;padding:22px 14px 46px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
-h1{margin:0 0 6px;font-size:1.55rem}
-.lead{color:var(--muted);font-size:.96rem;margin-bottom:16px}
-.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:.95rem;margin-top:12px}
-.bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}
-.bar>div{height:100%;width:0%;background:var(--accent);transition:width .25s ease}
-.question{font-size:1.22rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}
-.choices{display:grid;gap:12px;margin:16px 0}
-.choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}
-.choice.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
-.choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.10)}
-.choice:disabled{cursor:default;opacity:1}
-.choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}
-.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
-.feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}
-.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}
-.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
-.formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.button-break{flex-basis:100%;height:0}
-button{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;background:var(--accent);color:#fff}
-button.secondary{background:#e5e7eb;color:#111827}
-button:disabled{opacity:.5;cursor:not-allowed}
-.result{text-align:center;padding:24px 8px}
-.scorebig{font-size:2.25rem;font-weight:900;margin:8px 0}
-.pass{color:var(--ok);font-weight:900}
-.fail{color:var(--ng);font-weight:900}
-.note{margin-top:16px;padding:12px 14px;border-left:5px solid #cbd5e1;background:#f8fafc;border-radius:10px;color:#475569;font-size:.95rem}
-.badge{display:inline-block;font-size:.85rem;padding:2px 8px;border-radius:99px;background:#dbeafe;color:#1e40af;margin-bottom:8px}
-.figure{display:flex;justify-content:center}
-svg{max-width:280px;width:100%;height:auto}
-input{width:100%;padding:14px 16px;font-size:1.1rem;border:1px solid #cbd5e1;border-radius:12px;margin-top:12px}
-input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
-.status{font-size:.92rem;color:#6b7280;margin-top:10px}
-@media(max-width:520px){.card{padding:18px}.question{font-size:1.08rem}.choice{font-size:1rem}}
-</style>
-</head>
-<body>
-<div class="wrap"><div class="card">
-<h1>バネ Stage2 バネと重力のつり合いトレーナー</h1>
-<div class="lead">つり下げられた物体で、重力 mg とバネの力 kx のつり合いを練習する4択クイズです。10問ランダム出題、70%以上でクリア。</div>
-
-<div id="startScreen">
-<div class="note">
-このステージでは <b>mg = kx</b> を練習します。<br>
-物体が静止しているとき、下向きの重力 <b>mg</b> と、上向きのバネの力 <b>kx</b> がつり合います。<br>
-重力加速度は <b>g = 9.8 [m/s²]</b> とします。<br>
-選択肢は、聞かれている量と同じ単位だけが表示されます。
-</div>
-
-<div class="figure">
-<svg viewBox="0 0 260 180">
-  <line x1="70" y1="25" x2="190" y2="25" stroke="#1f2937" stroke-width="6"/>
-  <line x1="130" y1="25" x2="130" y2="45" stroke="#1f2937" stroke-width="4"/>
-  <polyline points="130,45 112,55 148,65 112,75 148,85 112,95 148,105 130,115" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="108" y="115" width="44" height="34" rx="6" fill="#e5e7eb" stroke="#1f2937" stroke-width="3"/>
-  <line x1="130" y1="115" x2="130" y2="88" stroke="#16a34a" stroke-width="5"/>
-  <path d="M130 88 l-8 12 l16 0 z" fill="#16a34a"/>
-  <line x1="130" y1="149" x2="130" y2="174" stroke="#dc2626" stroke-width="5"/>
-  <path d="M130 174 l-8 -12 l16 0 z" fill="#dc2626"/>
-  <text x="142" y="100" font-size="16" fill="#16a34a">kx</text>
-  <text x="142" y="170" font-size="16" fill="#dc2626">mg</text>
-  <text x="156" y="84" font-size="16" fill="#2563eb">x</text>
-</svg>
-</div>
-
-<div class="note">大学Googleアカウントで確認済みです。</div>
-<input id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
-
-<div class="buttons"><button id="startBtn">スタート</button></div>
-</div>
-
-<div id="quizScreen" style="display:none">
-<div class="top"><div id="count"></div><div id="score"></div></div>
-<div class="bar"><div id="bar"></div></div>
-<div id="question" class="question"></div>
-<div id="choices" class="choices"></div>
-<div id="feedback" class="feedback"></div>
-<div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div>
-</div>
-
-<div id="finishScreen" class="result" style="display:none">
-<div>結果</div>
-<div id="finalScore" class="scorebig"></div>
-<div id="finalMessage"></div>
-<div id="sendStatus" class="status"></div>
-<div class="buttons" style="justify-content:center">
-<button id="againBtn">もう一度やる</button>
-<button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button>
-</div>
-</div>
-</div></div>
-
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head><body>
 <script src="../common/trainer_common_v2.js"></script>
+<script src="question_banks.js"></script>
 <script>
-const GAS_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
-const STAGE_NAME = "バネ/Stage2/つりあい";
-
-const stretchProblems=[
-{type:"x",ans:"0.10 [m]",question:"質量 m = 1.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 1.0×9.8/98 = 0.10 [m]"},
-{type:"x",ans:"0.20 [m]",question:"質量 m = 2.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 2.0×9.8/98 = 0.20 [m]"},
-{type:"x",ans:"0.30 [m]",question:"質量 m = 3.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 3.0×9.8/98 = 0.30 [m]"},
-{type:"x",ans:"0.10 [m]",question:"質量 m = 2.0 [kg] の物体を、バネ定数 k = 196 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 2.0×9.8/196 = 0.10 [m]"},
-{type:"x",ans:"0.20 [m]",question:"質量 m = 4.0 [kg] の物体を、バネ定数 k = 196 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 4.0×9.8/196 = 0.20 [m]"},
-{type:"x",ans:"0.50 [m]",question:"質量 m = 5.0 [kg] の物体を、バネ定数 k = 98 [N/m] のバネにつるした。伸び x は何 [m] か。",calc:"mg = kx<br>x = mg/k = 5.0×9.8/98 = 0.50 [m]"}
-];
-
-const massProblems=[
-{type:"m",ans:"1.0 [kg]",question:"バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.10 [m] で静止した。物体の質量 m は何 [kg] か。",calc:"mg = kx<br>m = kx/g = 98×0.10/9.8 = 1.0 [kg]"},
-{type:"m",ans:"2.0 [kg]",question:"バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.20 [m] で静止した。物体の質量 m は何 [kg] か。",calc:"mg = kx<br>m = kx/g = 98×0.20/9.8 = 2.0 [kg]"},
-{type:"m",ans:"3.0 [kg]",question:"バネ定数 k = 98 [N/m] のバネに物体をつるすと、伸び x = 0.30 [m] で静止した。物体の質量 m は何 [kg] か。",calc:"mg = kx<br>m = kx/g = 98×0.30/9.8 = 3.0 [kg]"},
-{type:"m",ans:"2.0 [kg]",question:"バネ定数 k = 196 [N/m] のバネに物体をつるすと、伸び x = 0.10 [m] で静止した。物体の質量 m は何 [kg] か。",calc:"mg = kx<br>m = kx/g = 196×0.10/9.8 = 2.0 [kg]"},
-{type:"m",ans:"4.0 [kg]",question:"バネ定数 k = 196 [N/m] のバネに物体をつるすと、伸び x = 0.20 [m] で静止した。物体の質量 m は何 [kg] か。",calc:"mg = kx<br>m = kx/g = 196×0.20/9.8 = 4.0 [kg]"}
-];
-
-const springConstantProblems=[
-{type:"k",ans:"98 [N/m]",question:"質量 m = 1.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",calc:"mg = kx<br>k = mg/x = 1.0×9.8/0.10 = 98 [N/m]"},
-{type:"k",ans:"98 [N/m]",question:"質量 m = 2.0 [kg] の物体をつるすと、バネの伸び x = 0.20 [m] で静止した。バネ定数 k は何 [N/m] か。",calc:"mg = kx<br>k = mg/x = 2.0×9.8/0.20 = 98 [N/m]"},
-{type:"k",ans:"196 [N/m]",question:"質量 m = 2.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",calc:"mg = kx<br>k = mg/x = 2.0×9.8/0.10 = 196 [N/m]"},
-{type:"k",ans:"196 [N/m]",question:"質量 m = 4.0 [kg] の物体をつるすと、バネの伸び x = 0.20 [m] で静止した。バネ定数 k は何 [N/m] か。",calc:"mg = kx<br>k = mg/x = 4.0×9.8/0.20 = 196 [N/m]"},
-{type:"k",ans:"294 [N/m]",question:"質量 m = 3.0 [kg] の物体をつるすと、バネの伸び x = 0.10 [m] で静止した。バネ定数 k は何 [N/m] か。",calc:"mg = kx<br>k = mg/x = 3.0×9.8/0.10 = 294 [N/m]"}
-];
-
-const allAns=[
-"0.10 [m]","0.20 [m]","0.30 [m]","0.40 [m]","0.50 [m]",
-"1.0 [kg]","2.0 [kg]","3.0 [kg]","4.0 [kg]","5.0 [kg]",
-"98 [N/m]","196 [N/m]","294 [N/m]","392 [N/m]"
-];
-
-
-const stretchAns=["0.10 [m]","0.20 [m]","0.30 [m]","0.40 [m]","0.50 [m]","0.60 [m]"];
-const massAns=["1.0 [kg]","2.0 [kg]","3.0 [kg]","4.0 [kg]","5.0 [kg]","6.0 [kg]"];
-const springConstantAns=["98 [N/m]","196 [N/m]","294 [N/m]","392 [N/m]","490 [N/m]"];
-
-
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;
-const total=10,$=id=>document.getElementById(id);
-
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function makeChoices(q){
- let pool = q.type==="x" ? stretchAns : q.type==="m" ? massAns : springConstantAns;
- return shuffle([q.ans,...shuffle(pool.filter(x=>x!==q.ans)).slice(0,3)]);
-}
-function buildQuiz(){return [...shuffle(stretchProblems).slice(0,4),...shuffle(massProblems).slice(0,3),...shuffle(springConstantProblems).slice(0,3)]}
-
-function start(useWrong=false){
- const studentId=$("studentId").value.trim();
- if(!studentId){alert("学籍番号を入力してください。");$("studentId").focus();return;}
- let source=useWrong&&wrongList.length?wrongList:buildQuiz();
- quiz=shuffle(source).slice(0,total).map(q=>({...q,choices:makeChoices(q)}));
- index=0;score=0;wrongList=[];resultSent=false;
-    TrainerLog.startSession();
-  TrainerLog.startSession();
- $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
-}
-
-function showQuestion(){
- answered=false;
- selectedAnswer="";
- selectedButton=null;let q=quiz[index];
- $("count").textContent=`${index+1} / ${quiz.length}`;
- $("score").textContent=`正解 ${score}`;
- $("bar").style.width=`${index/quiz.length*100}%`;
- let badge=q.type==="x"?"x を求める":q.type==="m"?"m を求める":"k を求める";
- $("question").innerHTML=`<span class="badge">${badge}</span><br>${q.question}`;
- $("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
- let box=$("choices");box.innerHTML="";
- q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});
-}
-
-function selectChoice(selected,btn){if(answered)return;selectedAnswer=selected;selectedButton=btn;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");$("answerBtn").disabled=false;}
-
-function explanation(q,ok){
- return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong>
- <div class="formula">${q.calc}</div>
- <div class="note">ポイント：静止しているので、下向きの重力 mg と上向きのバネの力 kx がつり合います。</div>`;
-}
-
-function check(){
- if(answered)return;if(!selectedAnswer)return;answered=true;let q=quiz[index],ok=selectedAnswer===q.ans;
-  if(!q.id) q.id = `${"SPR2"}_${q.type||q.mode||"Q"}_${index+1}`;
-  TrainerLog.recordQuestion(q, ok, {
-    selected: selectedAnswer,
-    answer: q.answer || q.ans,
-    prompt: q.prompt || q.question || ""
-  });
- if(ok)score++;else wrongList.push(q);
- document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});
- if(!ok&&selectedButton)selectedButton.classList.add("wrong");
- $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false;
-}
-
-function next(){index++;index>=quiz.length?finish():showQuestion()}
-
-function finish(){
-  TrainerLog.finishSession();
- $("quizScreen").style.display="none";$("finishScreen").style.display="block";
- let rate=Math.round(score/quiz.length*100);
- $("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;
- $("finalMessage").innerHTML=rate>=70?`<div class="pass">クリア！バネと重力のつり合い、いい感じです。</div>`:`<div class="fail">もう一回やると、mg = kx の使い方が定着します。</div>`;
-  TrainerLog.showElapsedInFinalMessage();
- $("reviewBtn").style.display=wrongList.length?"inline-block":"none";
- sendResult(rate);
-}
-
-function sendResult(rate){
-  TrainerLog.sendResult({
-    score: score,
-    total: quiz.length
-  });
-}
-
-$("startBtn").onclick=()=>start(false);
-$("answerBtn").onclick=check;
-$("nextBtn").onclick=next;
-$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});
-$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
-$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
-$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();}};
-$("categoryBtn").onclick=()=>{location.href="index.html"};
-$("homeBtn").onclick=()=>{location.href="../index.html"};
+const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
+const STAGE_NAME="バネ/Stage2/つりあい";
+window.SPRING_STAGE_CONFIG={
+  "stageKey": "stage2",
+  "title": "バネ Stage2 バネと重力のつり合いトレーナー",
+  "lead": "重力 mg と弾性力 kx のつり合いを使う4択クイズです。",
+  "note": "物体が静止しているとき、下向きの重力 <b>mg</b> と上向きの弾性力 <b>kx</b> がつり合います。<br><b>mg = kx</b> を使います。",
+  "groups": [
+    {
+      "type": "x",
+      "count": 4
+    },
+    {
+      "type": "m",
+      "count": 3
+    },
+    {
+      "type": "k",
+      "count": 3
+    }
+  ]
+};
 </script>
-</body>
-</html>
+<script src="../common/spring_stage_common_v1.js"></script>
+</body></html>

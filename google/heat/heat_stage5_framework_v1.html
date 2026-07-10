@@ -1,76 +1,30 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>熱 Stage5 熱量保存トレーナー</title>
-<style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#ea580c;--ok:#16a34a;--ng:#dc2626;--line:#e5e7eb;--soft:#f8fafc}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.wrap{max-width:820px;margin:0 auto;padding:22px 14px 46px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
-h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;margin-bottom:16px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:.95rem;margin-top:12px}.bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar>div{height:100%;width:0;background:var(--accent);transition:width .25s ease}
-.question{font-size:1.22rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}.choices{display:grid;gap:12px;margin:16px 0}.choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}.choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(234,88,12,.10)}.choice.selected{border-color:var(--accent);background:#fff7ed;box-shadow:0 0 0 3px rgba(234,88,12,.16)}.choice:disabled{cursor:default;opacity:1}.choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
-.feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}.formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.button-break{flex-basis:100%;height:0}button{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;background:var(--accent);color:#fff}button.secondary{background:#e5e7eb;color:#111827}button:disabled{opacity:.5;cursor:not-allowed}.result{text-align:center;padding:24px 8px}.scorebig{font-size:2.25rem;font-weight:900;margin:8px 0}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
-.note{margin-top:16px;padding:12px 14px;border-left:5px solid #fdba74;background:#fff7ed;border-radius:10px;color:#475569;font-size:.95rem}.badge{display:inline-block;font-size:.85rem;padding:2px 8px;border-radius:99px;background:#ffedd5;color:#9a3412;margin-bottom:8px}.figure{display:flex;justify-content:center;margin:10px 0}svg{max-width:330px;width:100%;height:auto}input{width:100%;padding:14px 16px;font-size:1.1rem;border:1px solid #cbd5e1;border-radius:12px;margin-top:12px}input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(234,88,12,.15)}.status{font-size:.92rem;color:#6b7280;margin-top:10px}@media(max-width:520px){.card{padding:18px}.question{font-size:1.08rem}.choice{font-size:1rem}}
-</style>
-</head>
-<body><div class="wrap"><div class="card">
-<h1>熱 Stage5 熱量保存トレーナー</h1>
-<div class="lead">熱い物体が失う熱量と、冷たい物体が得る熱量の関係を練習する4択クイズです。10問ランダム出題、70%以上でクリア。</div>
-<div id="startScreen">
- <div class="note">外部との熱の出入りがないとき、<b>高温物体が失った熱量 = 低温物体が得た熱量</b> です。<br><b>Q<sub>out</sub> = Q<sub>in</sub></b> と <b>Q = mcΔT</b> を使います。混合後は両方が同じ温度になります。</div>
- <div class="figure"><svg viewBox="0 0 330 175" role="img" aria-label="高温物体と低温物体の間で熱が移動する図"><defs><linearGradient id="hot" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#ef4444"/></linearGradient><linearGradient id="cold" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#bae6fd"/></linearGradient></defs><text x="165" y="25" text-anchor="middle" font-size="21" font-weight="800" fill="#1f2937">Q<tspan baseline-shift="sub" font-size="13">out</tspan> = Q<tspan baseline-shift="sub" font-size="13">in</tspan></text><rect x="42" y="55" width="80" height="70" rx="12" fill="url(#hot)"/><text x="82" y="92" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">高温</text><rect x="208" y="55" width="80" height="70" rx="12" fill="url(#cold)" stroke="#2563eb" stroke-width="2"/><text x="248" y="92" text-anchor="middle" font-size="17" font-weight="700" fill="#1e3a8a">低温</text><line x1="130" y1="90" x2="198" y2="90" stroke="#ea580c" stroke-width="5"/><path d="M200 90l-14-9v18z" fill="#ea580c"/><text x="165" y="144" text-anchor="middle" font-size="17" fill="#475569">熱平衡温度 T</text></svg></div>
- <div class="note">大学Googleアカウントで確認済みです。</div><input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号"><div class="buttons"><button id="startBtn">スタート</button></div>
-</div>
-<div id="quizScreen" style="display:none"><div class="top"><div id="count"></div><div id="score"></div></div><div class="bar"><div id="bar"></div></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback"></div><div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div></div>
-<div id="finishScreen" class="result" style="display:none"><div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div><div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div></div>
-</div></div>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head><body>
 <script src="../common/trainer_common_v2.js"></script>
+<script src="question_banks.js"></script>
 <script>
 const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
 const STAGE_NAME="熱/Stage5/熱量保存";
-window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
-const heatProblems=[
- {type:"T",ans:"44 [℃]",question:"同じ物質を混ぜる。80 [℃]・0.20 [kg] と、20 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.20(80 − T) = 0.30(T − 20)<br>16 − 0.20T = 0.30T − 6<br>T = 44 [℃]"},
- {type:"T",ans:"50 [℃]",question:"同じ物質を混ぜる。90 [℃]・0.10 [kg] と、30 [℃]・0.20 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.10(90 − T) = 0.20(T − 30)<br>9 − 0.10T = 0.20T − 6<br>T = 50 [℃]"},
- {type:"T",ans:"45 [℃]",question:"同じ質量の同じ物質を、70 [℃] と 20 [℃] から混ぜた。熱平衡温度 T は何 [℃] か。",calc:"質量と比熱が同じなので中間の温度<br>T = (70 + 20) / 2 = 45 [℃]"},
- {type:"T",ans:"50 [℃]",question:"同じ物質を混ぜる。60 [℃]・0.30 [kg] と、20 [℃]・0.10 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.30(60 − T) = 0.10(T − 20)<br>18 − 0.30T = 0.10T − 2<br>T = 50 [℃]"},
- {type:"T",ans:"56 [℃]",question:"熱容量 300 [J/K]・80 [℃] の物体と、熱容量 200 [J/K]・20 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",calc:"300(80 − T) = 200(T − 20)<br>24000 − 300T = 200T − 4000<br>T = 56 [℃]"},
- {type:"T",ans:"60 [℃]",question:"熱容量 200 [J/K]・90 [℃] の物体と、熱容量 300 [J/K]・40 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",calc:"200(90 − T) = 300(T − 40)<br>18000 − 200T = 300T − 12000<br>T = 60 [℃]"},
- {type:"m",ans:"0.15 [kg]",question:"80 [℃] の水 m [kg] と、20 [℃] の水 0.30 [kg] を混ぜると 40 [℃] になった。高温の水の質量 m はいくらか。",calc:"m(80 − 40) = 0.30(40 − 20)<br>40m = 6<br>m = 0.15 [kg]"},
- {type:"m",ans:"0.10 [kg]",question:"90 [℃] の水 m [kg] と、30 [℃] の水 0.20 [kg] を混ぜると 50 [℃] になった。高温の水の質量 m はいくらか。",calc:"m(90 − 50) = 0.20(50 − 30)<br>40m = 4<br>m = 0.10 [kg]"},
- {type:"m",ans:"0.30 [kg]",question:"70 [℃] の水 0.20 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",calc:"0.20(70 − 40) = m(40 − 20)<br>6 = 20m<br>m = 0.30 [kg]"},
- {type:"m",ans:"0.40 [kg]",question:"60 [℃] の水 0.40 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",calc:"0.40(60 − 40) = m(40 − 20)<br>8 = 20m<br>m = 0.40 [kg]"},
- {type:"c",ans:"240 [J/(kg·K)]",question:"100 [℃]・0.50 [kg] の金属を、20 [℃]・0.20 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.50c(100 − 50) = 0.20×1000×(50 − 20)<br>25c = 6000<br>c = 240 [J/(kg·K)]"},
- {type:"c",ans:"400 [J/(kg·K)]",question:"80 [℃]・0.25 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.25c(80 − 50) = 0.10×1000×(50 − 20)<br>7.5c = 3000<br>c = 400 [J/(kg·K)]"},
- {type:"c",ans:"500 [J/(kg·K)]",question:"100 [℃]・0.20 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.20c(100 − 60) = 0.10×1000×(60 − 20)<br>8c = 4000<br>c = 500 [J/(kg·K)]"},
- {type:"c",ans:"200 [J/(kg·K)]",question:"100 [℃]・0.50 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.50c(100 − 60) = 0.10×1000×(60 − 20)<br>20c = 4000<br>c = 200 [J/(kg·K)]"},
- {type:"T",ans:"60 [℃]",question:"同じ物質を混ぜる。90 [℃]・0.20 [kg] と、40 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.20(90 − T) = 0.30(T − 40)<br>18 − 0.20T = 0.30T − 12<br>T = 60 [℃]"},
- {type:"T",ans:"70 [℃]",question:"同じ物質を混ぜる。80 [℃]・0.40 [kg] と、30 [℃]・0.10 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.40(80 − T) = 0.10(T − 30)<br>32 − 0.40T = 0.10T − 3<br>T = 70 [℃]"},
- {type:"T",ans:"70 [℃]",question:"同じ物質を混ぜる。100 [℃]・0.30 [kg] と、25 [℃]・0.20 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.30(100 − T) = 0.20(T − 25)<br>30 − 0.30T = 0.20T − 5<br>T = 70 [℃]"},
- {type:"T",ans:"30 [℃]",question:"同じ物質を混ぜる。60 [℃]・0.10 [kg] と、20 [℃]・0.30 [kg] を混ぜたとき、熱平衡温度 T は何 [℃] か。",calc:"0.10(60 − T) = 0.30(T − 20)<br>6 − 0.10T = 0.30T − 6<br>T = 30 [℃]"},
- {type:"T",ans:"80 [℃]",question:"熱容量 400 [J/K]・90 [℃] の物体と、熱容量 100 [J/K]・40 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",calc:"400(90 − T) = 100(T − 40)<br>36000 − 400T = 100T − 4000<br>T = 80 [℃]"},
- {type:"T",ans:"45 [℃]",question:"熱容量 150 [J/K]・80 [℃] の物体と、熱容量 350 [J/K]・30 [℃] の物体を接触させた。熱平衡温度 T は何 [℃] か。",calc:"150(80 − T) = 350(T − 30)<br>12000 − 150T = 350T − 10500<br>T = 45 [℃]"},
- {type:"m",ans:"0.20 [kg]",question:"100 [℃] の水 m [kg] と、20 [℃] の水 0.20 [kg] を混ぜると 60 [℃] になった。高温の水の質量 m はいくらか。",calc:"m(100 − 60) = 0.20(60 − 20)<br>40m = 8<br>m = 0.20 [kg]"},
- {type:"m",ans:"0.15 [kg]",question:"70 [℃] の水 m [kg] と、10 [℃] の水 0.15 [kg] を混ぜると 40 [℃] になった。高温の水の質量 m はいくらか。",calc:"m(70 − 40) = 0.15(40 − 10)<br>30m = 4.5<br>m = 0.15 [kg]"},
- {type:"m",ans:"0.30 [kg]",question:"80 [℃] の水 0.30 [kg] と、20 [℃] の水 m [kg] を混ぜると 50 [℃] になった。低温の水の質量 m はいくらか。",calc:"0.30(80 − 50) = m(50 − 20)<br>9 = 30m<br>m = 0.30 [kg]"},
- {type:"m",ans:"0.20 [kg]",question:"90 [℃] の水 0.10 [kg] と、30 [℃] の水 m [kg] を混ぜると 50 [℃] になった。低温の水の質量 m はいくらか。",calc:"0.10(90 − 50) = m(50 − 30)<br>4 = 20m<br>m = 0.20 [kg]"},
- {type:"m",ans:"0.25 [kg]",question:"60 [℃] の水 0.25 [kg] と、20 [℃] の水 m [kg] を混ぜると 40 [℃] になった。低温の水の質量 m はいくらか。",calc:"0.25(60 − 40) = m(40 − 20)<br>5 = 20m<br>m = 0.25 [kg]"},
- {type:"c",ans:"400 [J/(kg·K)]",question:"100 [℃]・0.25 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.25c(100 − 60) = 0.10×1000×(60 − 20)<br>10c = 4000<br>c = 400 [J/(kg·K)]"},
- {type:"c",ans:"240 [J/(kg·K)]",question:"80 [℃]・0.40 [kg] の金属を、20 [℃]・0.12 [kg] の水に入れると 40 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.40c(80 − 40) = 0.12×1000×(40 − 20)<br>16c = 2400<br>c = 240 [J/(kg·K)]"},
- {type:"c",ans:"375 [J/(kg·K)]",question:"90 [℃]・0.20 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.20c(90 − 50) = 0.10×1000×(50 − 20)<br>8c = 3000<br>c = 375 [J/(kg·K)]"},
- {type:"c",ans:"300 [J/(kg·K)]",question:"70 [℃]・0.50 [kg] の金属を、20 [℃]・0.10 [kg] の水に入れると 50 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.50c(70 − 50) = 0.10×1000×(50 − 20)<br>10c = 3000<br>c = 300 [J/(kg·K)]"},
- {type:"c",ans:"500 [J/(kg·K)]",question:"100 [℃]・0.30 [kg] の金属を、20 [℃]・0.15 [kg] の水に入れると 60 [℃] になった。水の比熱を 1000 [J/(kg·K)] とすると、金属の比熱 c はいくらか。",calc:"0.30c(100 − 60) = 0.15×1000×(60 − 20)<br>12c = 6000<br>c = 500 [J/(kg·K)]"}
-];
-const answerPools={T:["30 [℃]","40 [℃]","44 [℃]","45 [℃]","50 [℃]","55 [℃]","56 [℃]","60 [℃]","65 [℃]","70 [℃]","75 [℃]","80 [℃]"],m:["0.05 [kg]","0.10 [kg]","0.15 [kg]","0.20 [kg]","0.25 [kg]","0.30 [kg]","0.40 [kg]","0.50 [kg]"],c:["100 [J/(kg·K)]","200 [J/(kg·K)]","240 [J/(kg·K)]","300 [J/(kg·K)]","375 [J/(kg·K)]","400 [J/(kg·K)]","500 [J/(kg·K)]","600 [J/(kg·K)]"]};
-let quiz=[],index=0,score=0,wrongList=[],answered=false,selectedAnswer="",selectedButton=null;const total=10,$=id=>document.getElementById(id);
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function makeChoices(q){return shuffle([q.ans,...shuffle(answerPools[q.type].filter(x=>x!==q.ans)).slice(0,3)])}
-function buildQuiz(){const ts=heatProblems.filter(q=>q.type==="T"),ms=heatProblems.filter(q=>q.type==="m"),cs=heatProblems.filter(q=>q.type==="c");return [...shuffle(ts).slice(0,4),...shuffle(ms).slice(0,3),...shuffle(cs).slice(0,3)]}
-function start(source=null){if(!$("studentId").value.trim()){alert("学籍番号を入力してください。");$("studentId").focus();return}quiz=shuffle(source||buildQuiz()).slice(0,total).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];TrainerLog.startSession();$("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()}
-function showQuestion(){answered=false;selectedAnswer="";selectedButton=null;const q=quiz[index];$("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("bar").style.width=`${index/quiz.length*100}%`;const badges={T:"熱平衡温度を求める",m:"質量を求める",c:"比熱を求める"};$("question").innerHTML=`<span class="badge">${badges[q.type]}</span><br>${q.question}`;$("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;const box=$("choices");box.innerHTML="";q.choices.forEach((c,i)=>{const b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.textContent=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});TrainerLog.startQuestion()}
-function selectChoice(value,button){if(answered)return;selectedAnswer=value;selectedButton=button;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));button.classList.add("selected");$("answerBtn").disabled=false}
-function check(){if(answered||!selectedAnswer)return;answered=true;const q=quiz[index],ok=selectedAnswer===q.ans;if(!q.id)q.id=`HEAT5_${q.type}_${index+1}`;TrainerLog.recordQuestion(q,ok,{selected:selectedAnswer,answer:q.ans,prompt:q.question});if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok&&selectedButton)selectedButton.classList.add("wrong");$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">${q.calc}</div><div class="note">ポイント：高温側の温度低下と低温側の温度上昇を分け、失う熱量 = 得る熱量の式を立てます。</div>`;$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false}
-function next(){index++;index>=quiz.length?finish():showQuestion()}
-function finish(){TrainerLog.finishSession();$("quizScreen").style.display="none";$("finishScreen").style.display="block";const rate=Math.round(score/quiz.length*100);$("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;$("finalMessage").innerHTML=rate>=70?'<div class="pass">クリア！熱量保存の式を立てられています。</div>':'<div class="fail">もう一回やると、失う熱量 = 得る熱量が定着します。</div>';TrainerLog.showElapsedInFinalMessage();$("reviewBtn").style.display=wrongList.length?"inline-block":"none";TrainerLog.sendResult({score,total:quiz.length})}
-$("startBtn").onclick=()=>start();$("answerBtn").onclick=check;$("nextBtn").onclick=next;$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start()});$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("reviewBtn").onclick=()=>{if(wrongList.length)start([...wrongList])};$("categoryBtn").onclick=()=>{location.href="index.html"};$("homeBtn").onclick=()=>{location.href="../index.html"};
-</script></body></html>
+window.HEAT_STAGE_CONFIG={
+  "stageKey": "stage5",
+  "title": "熱 Stage5 熱量保存トレーナー",
+  "lead": "熱い物体が失った熱量と、冷たい物体が受け取った熱量を等しくする練習です。",
+  "note": "熱の出入りが外部とないとき、<b>失った熱量 = 受け取った熱量</b> になります。温度差を丁寧に読み取りましょう。",
+  "groups": [
+    {
+      "type": "T",
+      "count": 4
+    },
+    {
+      "type": "m",
+      "count": 3
+    },
+    {
+      "type": "c",
+      "count": 3
+    }
+  ]
+};
+</script>
+<script src="../common/heat_stage_common_v1.js"></script>
+</body></html>
