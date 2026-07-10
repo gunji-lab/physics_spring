@@ -691,8 +691,9 @@
         numericPrompt: "円運動の加速度の大きさを数値で答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
-          向心力は <strong>ma</strong> です。また向心力は <strong>Tsinθ</strong>。<br>
-          さらに <strong>T = mg/cosθ</strong> なので、<strong>a = gtanθ</strong> です。`
+          向心力は <strong>ma</strong> です。また、円の中心向きの力は張力の水平方向成分 <strong>Tsinθ</strong> です。<br>
+          したがって <strong>ma = Tsinθ</strong>、つまり <strong>a = Tsinθ/m</strong> です。<br>
+          鉛直方向のつり合いから <strong>T = mg/cosθ</strong> なので、これを代入すると <strong>a = (mg/cosθ)sinθ/m = gsinθ/cosθ</strong> です。`
       },
       speed: {
         key: "horizontal",
@@ -701,8 +702,9 @@
         numericPrompt: "円運動の速度の2乗 v² を数値で答えよ。",
         feedback: p => `
           <strong>正解：${formulaHTML(p.answer)}</strong><br>
-          向心加速度は <strong>a = v²/r</strong> です。<br>
-          ここで <strong>a = gtanθ</strong>、<strong>r = Lsinθ</strong> より、<strong>v² = Lg sinθ tanθ</strong> です。${p.variant === "numeric" ? "<br>数値版では平方根の近似計算を避けるため、速度 v ではなく v² を答えます。" : ""}`
+          向心加速度は <strong>a = v²/r</strong> なので、<strong>v² = ar</strong> です。<br>
+          先ほどの結果から <strong>a = gsinθ/cosθ</strong>、また円運動の半径は <strong>r = Lsinθ</strong> です。<br>
+          したがって <strong>v² = (gsinθ/cosθ) × Lsinθ = gL(sinθ)²/cosθ</strong> です。${p.variant === "numeric" ? "<br>数値版では平方根の近似計算を避けるため、速度 v ではなく v² を答えます。" : ""}`
       }
     };
 
