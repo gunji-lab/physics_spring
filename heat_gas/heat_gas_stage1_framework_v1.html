@@ -7,25 +7,58 @@
 <div id="finishScreen" class="result" style="display:none"><div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div><div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div></div>
 </div></div>
 <script src="../common/trainer_common_v2.js"></script>
+<script src="question_banks.js"></script>
 <script>
 const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
 const STAGE_NAME="熱と気体/Stage1/ボイルの法則";
 window.HEAT_GAS_STAGE_CONFIG={
-title:"熱と気体 Stage1 ボイルの法則トレーナー",lead:"温度一定の気体で pV = 一定 を使う4択クイズです。10問ランダム出題、70%以上でクリア。",
-intro:"温度を一定に保つと、気体の圧力 p と体積 V の積は一定です。<br><b>p1V1 = p2V2</b> を使い、求める量に合わせて式を変形します。",
-idPrefix:"HEAT_GAS1",total:10,groups:[{type:"p",count:7},{type:"V",count:3}],badges:{p:"圧力を求める",V:"体積を求める"},point:"温度一定では p と V は反比例します。体積が小さくなると圧力は大きくなります。",
-passMessage:"クリア！ボイルの法則の計算ができています。",failMessage:"もう一回やると、p1V1 = p2V2 の変形が定着します。",
-answerPools:{p:["8.0×10^4 [Pa]","9.0×10^4 [Pa]","1.0×10^5 [Pa]","1.1×10^5 [Pa]","1.2×10^5 [Pa]","1.5×10^5 [Pa]","1.8×10^5 [Pa]","2.0×10^5 [Pa]","2.4×10^5 [Pa]","3.0×10^5 [Pa]"],V:["0.20 [m^3]","0.25 [m^3]","0.30 [m^3]","0.40 [m^3]","0.50 [m^3]","0.60 [m^3]","0.75 [m^3]","1.0 [m^3]","1.5 [m^3]"]},
-problems:[
-{type:"p",ans:"1.1×10^5 [Pa]",question:"圧力 1.0×10^5 [Pa]、体積 0.55 [m^3] の気体がある。温度を一定に保ったままで、体積を 0.50 [m^3] にした。このときの気体の圧力は何 [Pa] か。",calc:"p2 = p1V1/V2 = (1.0×10^5 × 0.55) / 0.50 = 1.1×10^5 [Pa]"},
-{type:"p",ans:"2.0×10^5 [Pa]",question:"圧力 1.0×10^5 [Pa]、体積 1.0 [m^3] の気体を、温度一定で体積 0.50 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = p1V1/V2 = (1.0×10^5 × 1.0) / 0.50 = 2.0×10^5 [Pa]"},
-{type:"p",ans:"1.5×10^5 [Pa]",question:"圧力 1.0×10^5 [Pa]、体積 0.60 [m^3] の気体を、温度一定で体積 0.40 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = (1.0×10^5 × 0.60) / 0.40 = 1.5×10^5 [Pa]"},
-{type:"p",ans:"8.0×10^4 [Pa]",question:"圧力 1.2×10^5 [Pa]、体積 0.40 [m^3] の気体を、温度一定で体積 0.60 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = (1.2×10^5 × 0.40) / 0.60 = 8.0×10^4 [Pa]"},
-{type:"p",ans:"2.4×10^5 [Pa]",question:"圧力 1.6×10^5 [Pa]、体積 0.30 [m^3] の気体を、温度一定で体積 0.20 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = (1.6×10^5 × 0.30) / 0.20 = 2.4×10^5 [Pa]"},
-{type:"p",ans:"9.0×10^4 [Pa]",question:"圧力 1.5×10^5 [Pa]、体積 0.30 [m^3] の気体を、温度一定で体積 0.50 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = (1.5×10^5 × 0.30) / 0.50 = 9.0×10^4 [Pa]"},
-{type:"p",ans:"3.0×10^5 [Pa]",question:"圧力 1.0×10^5 [Pa]、体積 1.5 [m^3] の気体を、温度一定で体積 0.50 [m^3] にした。圧力は何 [Pa] か。",calc:"p2 = (1.0×10^5 × 1.5) / 0.50 = 3.0×10^5 [Pa]"},
-{type:"V",ans:"0.50 [m^3]",question:"圧力 1.0×10^5 [Pa]、体積 1.0 [m^3] の気体を、温度一定で圧力 2.0×10^5 [Pa] にした。体積は何 [m^3] か。",calc:"V2 = p1V1/p2 = (1.0×10^5 × 1.0) / (2.0×10^5) = 0.50 [m^3]"},
-{type:"V",ans:"0.75 [m^3]",question:"圧力 1.5×10^5 [Pa]、体積 0.50 [m^3] の気体を、温度一定で圧力 1.0×10^5 [Pa] にした。体積は何 [m^3] か。",calc:"V2 = (1.5×10^5 × 0.50) / (1.0×10^5) = 0.75 [m^3]"},
-{type:"V",ans:"0.25 [m^3]",question:"圧力 1.0×10^5 [Pa]、体積 0.50 [m^3] の気体を、温度一定で圧力 2.0×10^5 [Pa] にした。体積は何 [m^3] か。",calc:"V2 = (1.0×10^5 × 0.50) / (2.0×10^5) = 0.25 [m^3]"}
-]};
+  "title": "熱と気体 Stage1 ボイルの法則トレーナー",
+  "lead": "温度一定の気体で pV = 一定 を使う4択クイズです。10問ランダム出題、70%以上でクリア。",
+  "intro": "温度を一定に保つと、気体の圧力 p と体積 V の積は一定です。<br><b>p1V1 = p2V2</b> を使い、求める量に合わせて式を変形します。",
+  "idPrefix": "HEAT_GAS1",
+  "total": 10,
+  "groups": [
+    {
+      "type": "p",
+      "count": 7
+    },
+    {
+      "type": "V",
+      "count": 3
+    }
+  ],
+  "badges": {
+    "p": "圧力を求める",
+    "V": "体積を求める"
+  },
+  "point": "温度一定では p と V は反比例します。体積が小さくなると圧力は大きくなります。",
+  "passMessage": "クリア！ボイルの法則の計算ができています。",
+  "failMessage": "もう一回やると、p1V1 = p2V2 の変形が定着します。",
+  "answerPools": {
+    "p": [
+      "8.0×10^4 [Pa]",
+      "9.0×10^4 [Pa]",
+      "1.0×10^5 [Pa]",
+      "1.1×10^5 [Pa]",
+      "1.2×10^5 [Pa]",
+      "1.5×10^5 [Pa]",
+      "1.8×10^5 [Pa]",
+      "2.0×10^5 [Pa]",
+      "2.4×10^5 [Pa]",
+      "3.0×10^5 [Pa]"
+    ],
+    "V": [
+      "0.20 [m^3]",
+      "0.25 [m^3]",
+      "0.30 [m^3]",
+      "0.40 [m^3]",
+      "0.50 [m^3]",
+      "0.60 [m^3]",
+      "0.75 [m^3]",
+      "1.0 [m^3]",
+      "1.5 [m^3]"
+    ]
+  },
+  "stageKey": "stage1"
+};
 </script><script src="../common/heat_gas_stage_common_v1.js"></script></body></html>

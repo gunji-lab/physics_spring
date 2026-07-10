@@ -1,6 +1,12 @@
 window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
 
 const config=window.HEAT_GAS_STAGE_CONFIG;
+if(config&&config.stageKey&&!config.problems){
+  const bank=(window.HEAT_GAS_BANKS||{})[config.stageKey];
+  if(bank&&Array.isArray(bank.problems)){
+    config.problems=bank.problems;
+  }
+}
 const $=id=>document.getElementById(id);
 let quiz=[],index=0,score=0,wrongList=[],answered=false,selectedAnswer="",selectedButton=null;
 
