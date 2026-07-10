@@ -1,106 +1,26 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>熱 Stage3 物質ごとの熱量トレーナー</title>
-<style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#ea580c;--ok:#16a34a;--ng:#dc2626;--line:#e5e7eb;--soft:#f8fafc}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}.wrap{max-width:820px;margin:0 auto;padding:22px 14px 46px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
-h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;margin-bottom:16px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:.95rem;margin-top:12px}.bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar>div{height:100%;width:0;background:var(--accent);transition:width .25s ease}
-.question{font-size:1.22rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}.choices{display:grid;gap:12px;margin:16px 0}.choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}.choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(234,88,12,.10)}.choice.selected{border-color:var(--accent);background:#fff7ed;box-shadow:0 0 0 3px rgba(234,88,12,.16)}.choice:disabled{cursor:default;opacity:1}.choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
-.feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}.formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.button-break{flex-basis:100%;height:0}button{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;background:var(--accent);color:#fff}button.secondary{background:#e5e7eb;color:#111827}button:disabled{opacity:.5;cursor:not-allowed}.result{text-align:center;padding:24px 8px}.scorebig{font-size:2.25rem;font-weight:900;margin:8px 0}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
-.note{margin-top:16px;padding:12px 14px;border-left:5px solid #fdba74;background:#fff7ed;border-radius:10px;color:#475569;font-size:.95rem}.badge{display:inline-block;font-size:.85rem;padding:2px 8px;border-radius:99px;background:#ffedd5;color:#9a3412;margin-bottom:8px}.figure{display:flex;justify-content:center;margin:10px 0}svg{max-width:330px;width:100%;height:auto}input{width:100%;padding:14px 16px;font-size:1.1rem;border:1px solid #cbd5e1;border-radius:12px;margin-top:12px}input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(234,88,12,.15)}.status{font-size:.92rem;color:#6b7280;margin-top:10px}@media(max-width:520px){.card{padding:18px}.question{font-size:1.08rem}.choice{font-size:1rem}}
-</style>
-</head>
-<body><div class="wrap"><div class="card">
-<h1>熱 Stage3 物質ごとの熱量トレーナー</h1>
-<div class="lead">物質ごとの比熱を使う熱量計算と、温度変化から比熱の大小を考えるクイズです。10問ランダム出題、70%以上でクリア。</div>
-<div id="startScreen">
- <div class="note">このステージでは <b>Q = mcΔT</b> を使います。<br>比熱 c の単位は <b>[J/(g·K)]</b>、質量 m の単位は <b>[g]</b> とします。同じ質量に同じ熱量を加えた場合、<b>温度変化が小さい物質ほど比熱が大きい</b>ことも確認します。</div>
- <div class="figure"><svg viewBox="0 0 330 175" role="img" aria-label="さまざまな物質を加熱して熱量を求める図"><defs><linearGradient id="heat" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs><rect x="82" y="45" width="166" height="76" rx="14" fill="#ffedd5" stroke="#9a3412" stroke-width="3"/><text x="165" y="73" text-anchor="middle" font-size="16" font-weight="700" fill="#7c2d12">物質の比熱 c</text><text x="165" y="99" text-anchor="middle" font-size="16" fill="#7c2d12">質量 m・温度変化 ΔT</text><path d="M165 164 C135 137 150 124 165 111 C180 129 196 142 165 164Z" fill="url(#heat)"/><text x="165" y="25" text-anchor="middle" font-size="21" font-weight="800" fill="#1f2937">Q = mcΔT</text></svg></div>
- <div class="note">学籍番号を入力してからスタートしてください。</div><input id="studentId" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号"><div class="buttons"><button id="startBtn">スタート</button></div>
-</div>
-<div id="quizScreen" style="display:none"><div class="top"><div id="count"></div><div id="score"></div></div><div class="bar"><div id="bar"></div></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback"></div><div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div></div>
-<div id="finishScreen" class="result" style="display:none"><div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div><div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div></div>
-</div></div>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head><body>
 <script src="../common/trainer_common_v2.js"></script>
+<script src="question_banks.js"></script>
 <script>
 const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
 const STAGE_NAME="熱/Stage3/Q=mcΔT";
-window.TrainerLog=window.TrainerLog||{startSession(){},startQuestion(){},recordQuestion(){},finishSession(){},showElapsedInFinalMessage(){},sendResult(){}};
-const heatProblems=[
- {type:"Q",ans:"5000 [J]",question:"質量 m = 2.0 [kg]、比熱 c = 500 [J/(kg·K)] の物体の温度を 5 [K] 上げた。加えた熱量 Q はいくらか。",calc:"Q = mcΔT = 2.0 × 500 × 5 = 5000 [J]"},
- {type:"Q",ans:"4500 [J]",question:"質量 m = 0.50 [kg]、比熱 c = 900 [J/(kg·K)] の物体の温度を 10 [K] 上げた。加えた熱量 Q はいくらか。",calc:"Q = mcΔT = 0.50 × 900 × 10 = 4500 [J]"},
- {type:"Q",ans:"12000 [J]",question:"質量 m = 1.5 [kg]、比熱 c = 400 [J/(kg·K)] の物体の温度を 20 [K] 上げた。加えた熱量 Q はいくらか。",calc:"Q = mcΔT = 1.5 × 400 × 20 = 12000 [J]"},
- {type:"Q",ans:"10000 [J]",question:"質量 m = 2.0 [kg]、比熱 c = 1000 [J/(kg·K)] の物体を 20 [℃] から 25 [℃] まで加熱した。熱量 Q はいくらか。",calc:"ΔT = 25 − 20 = 5 [K]<br>Q = mcΔT = 2.0 × 1000 × 5 = 10000 [J]"},
- {type:"Q",ans:"900 [J]",question:"質量 m = 0.20 [kg]、比熱 c = 450 [J/(kg·K)] の物体の温度を 10 [K] 上げた。熱量 Q はいくらか。",calc:"Q = mcΔT = 0.20 × 450 × 10 = 900 [J]"},
- {type:"C",ans:"1000 [J/K]",question:"質量 m = 2.0 [kg]、比熱 c = 500 [J/(kg·K)] の物体の熱容量 C はいくらか。",calc:"C = mc = 2.0 × 500 = 1000 [J/K]"},
- {type:"C",ans:"450 [J/K]",question:"質量 m = 0.50 [kg]、比熱 c = 900 [J/(kg·K)] の物体の熱容量 C はいくらか。",calc:"C = mc = 0.50 × 900 = 450 [J/K]"},
- {type:"C",ans:"600 [J/K]",question:"質量 m = 1.5 [kg]、比熱 c = 400 [J/(kg·K)] の物体の熱容量 C はいくらか。",calc:"C = mc = 1.5 × 400 = 600 [J/K]"},
- {type:"C",ans:"90 [J/K]",question:"質量 m = 0.20 [kg]、比熱 c = 450 [J/(kg·K)] の物体の熱容量 C はいくらか。",calc:"C = mc = 0.20 × 450 = 90 [J/K]"},
- {type:"C",ans:"1260 [J/K]",question:"質量 m = 3.0 [kg]、比熱 c = 420 [J/(kg·K)] の物体の熱容量 C はいくらか。",calc:"C = mc = 3.0 × 420 = 1260 [J/K]"},
- {type:"c",ans:"500 [J/(kg·K)]",question:"質量 m = 2.0 [kg]、熱容量 C = 1000 [J/K] の物体の比熱 c はいくらか。",calc:"c = C/m = 1000 / 2.0 = 500 [J/(kg·K)]"},
- {type:"c",ans:"900 [J/(kg·K)]",question:"質量 m = 0.50 [kg]、熱容量 C = 450 [J/K] の物体の比熱 c はいくらか。",calc:"c = C/m = 450 / 0.50 = 900 [J/(kg·K)]"},
- {type:"c",ans:"400 [J/(kg·K)]",question:"質量 m = 2.0 [kg] の物体に 8000 [J] の熱を加えると、温度が 10 [K] 上がった。比熱 c はいくらか。",calc:"c = Q/(mΔT) = 8000 / (2.0 × 10) = 400 [J/(kg·K)]"},
- {type:"c",ans:"180 [J/(kg·K)]",question:"質量 m = 1.5 [kg] の物体に 5400 [J] の熱を加えると、温度が 20 [K] 上がった。比熱 c はいくらか。",calc:"c = Q/(mΔT) = 5400 / (1.5 × 20) = 180 [J/(kg·K)]"},
- {type:"c",ans:"450 [J/(kg·K)]",question:"質量 m = 0.20 [kg] の物体に 900 [J] の熱を加えると、温度が 10 [K] 上がった。比熱 c はいくらか。",calc:"c = Q/(mΔT) = 900 / (0.20 × 10) = 450 [J/(kg·K)]"}
-];
-const answerPools={Q:["450 [J]","900 [J]","1800 [J]","4000 [J]","4500 [J]","5000 [J]","8000 [J]","10000 [J]","12000 [J]","18000 [J]"],C:["90 [J/K]","180 [J/K]","400 [J/K]","450 [J/K]","500 [J/K]","600 [J/K]","900 [J/K]","1000 [J/K]","1260 [J/K]","1800 [J/K]"],c:["180 [J/(kg·K)]","400 [J/(kg·K)]","420 [J/(kg·K)]","450 [J/(kg·K)]","500 [J/(kg·K)]","600 [J/(kg·K)]","900 [J/(kg·K)]","1000 [J/(kg·K)]"]};
-const materialProblems=[
- {id:"HEAT3_AG_01",type:"Q",material:"銀",ans:"470 [J]",question:"質量100 [g]の銀を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",calc:"ΔT = 40 − 20 = 20 [K]<br>Q = mcΔT = 100 × 0.235 × 20 = 470 [J]"},
- {id:"HEAT3_AG_02",type:"Q",material:"銀",ans:"1410 [J]",question:"質量200 [g]の銀の温度を30 [K]上げる。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",calc:"Q = mcΔT = 200 × 0.235 × 30 = 1410 [J]"},
- {id:"HEAT3_AG_03",type:"Q",material:"銀",ans:"470 [J]",question:"質量50 [g]の銀を10 [℃]から50 [℃]まで加熱する。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",calc:"ΔT = 50 − 10 = 40 [K]<br>Q = mcΔT = 50 × 0.235 × 40 = 470 [J]"},
- {id:"HEAT3_AG_04",type:"Q",material:"銀",ans:"705 [J]",question:"質量300 [g]の銀の温度を10 [K]上げる。必要な熱量Qはいくらか。銀の比熱は0.235 [J/(g·K)]とする。",calc:"Q = mcΔT = 300 × 0.235 × 10 = 705 [J]"},
- {id:"HEAT3_CU_01",type:"Q",material:"銅",ans:"960 [J]",question:"質量100 [g]の銅を15 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",calc:"ΔT = 40 − 15 = 25 [K]<br>Q = mcΔT = 100 × 0.384 × 25 = 960 [J]"},
- {id:"HEAT3_CU_02",type:"Q",material:"銅",ans:"960 [J]",question:"質量250 [g]の銅の温度を10 [K]上げる。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",calc:"Q = mcΔT = 250 × 0.384 × 10 = 960 [J]"},
- {id:"HEAT3_CU_03",type:"Q",material:"銅",ans:"1152 [J]",question:"質量200 [g]の銅を20 [℃]から35 [℃]まで加熱する。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",calc:"ΔT = 35 − 20 = 15 [K]<br>Q = mcΔT = 200 × 0.384 × 15 = 1152 [J]"},
- {id:"HEAT3_CU_04",type:"Q",material:"銅",ans:"768 [J]",question:"質量50 [g]の銅の温度を40 [K]上げる。必要な熱量Qはいくらか。銅の比熱は0.384 [J/(g·K)]とする。",calc:"Q = mcΔT = 50 × 0.384 × 40 = 768 [J]"},
- {id:"HEAT3_FE_01",type:"Q",material:"鉄",ans:"896 [J]",question:"質量100 [g]の鉄を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 100 × 0.448 × 20 = 896 [J]"},
- {id:"HEAT3_FE_02",type:"Q",material:"鉄",ans:"1120 [J]",question:"質量250 [g]の鉄の温度を10 [K]上げる。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",calc:"Q = mcΔT = 250 × 0.448 × 10 = 1120 [J]"},
- {id:"HEAT3_FE_03",type:"Q",material:"鉄",ans:"2688 [J]",question:"質量200 [g]の鉄を10 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",calc:"ΔT = 30 [K]<br>Q = mcΔT = 200 × 0.448 × 30 = 2688 [J]"},
- {id:"HEAT3_FE_04",type:"Q",material:"鉄",ans:"896 [J]",question:"質量50 [g]の鉄の温度を40 [K]上げる。必要な熱量Qはいくらか。鉄の比熱は0.448 [J/(g·K)]とする。",calc:"Q = mcΔT = 50 × 0.448 × 40 = 896 [J]"},
- {id:"HEAT3_AL_01",type:"Q",material:"アルミニウム",ans:"1804 [J]",question:"質量100 [g]のアルミニウムを20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 100 × 0.902 × 20 = 1804 [J]"},
- {id:"HEAT3_AL_02",type:"Q",material:"アルミニウム",ans:"1804 [J]",question:"質量200 [g]のアルミニウムの温度を10 [K]上げる。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",calc:"Q = mcΔT = 200 × 0.902 × 10 = 1804 [J]"},
- {id:"HEAT3_AL_03",type:"Q",material:"アルミニウム",ans:"1353 [J]",question:"質量50 [g]のアルミニウムを10 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",calc:"ΔT = 30 [K]<br>Q = mcΔT = 50 × 0.902 × 30 = 1353 [J]"},
- {id:"HEAT3_AL_04",type:"Q",material:"アルミニウム",ans:"4510 [J]",question:"質量250 [g]のアルミニウムの温度を20 [K]上げる。必要な熱量Qはいくらか。比熱は0.902 [J/(g·K)]とする。",calc:"Q = mcΔT = 250 × 0.902 × 20 = 4510 [J]"},
- {id:"HEAT3_CON_01",type:"Q",material:"コンクリート",ans:"8000 [J]",question:"質量1000 [g]のコンクリートの温度を10 [K]上げる。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",calc:"Q = mcΔT = 1000 × 0.8 × 10 = 8000 [J]"},
- {id:"HEAT3_CON_02",type:"Q",material:"コンクリート",ans:"8000 [J]",question:"質量500 [g]のコンクリートを20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 500 × 0.8 × 20 = 8000 [J]"},
- {id:"HEAT3_CON_03",type:"Q",material:"コンクリート",ans:"8000 [J]",question:"質量2000 [g]のコンクリートの温度を5 [K]上げる。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",calc:"Q = mcΔT = 2000 × 0.8 × 5 = 8000 [J]"},
- {id:"HEAT3_CON_04",type:"Q",material:"コンクリート",ans:"9000 [J]",question:"質量750 [g]のコンクリートを15 [℃]から30 [℃]まで加熱する。必要な熱量Qはいくらか。比熱は0.8 [J/(g·K)]とする。",calc:"ΔT = 15 [K]<br>Q = mcΔT = 750 × 0.8 × 15 = 9000 [J]"},
- {id:"HEAT3_WOOD_01",type:"Q",material:"木材",ans:"6500 [J]",question:"質量500 [g]の木材の温度を10 [K]上げる。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",calc:"Q = mcΔT = 500 × 1.3 × 10 = 6500 [J]"},
- {id:"HEAT3_WOOD_02",type:"Q",material:"木材",ans:"5200 [J]",question:"質量200 [g]の木材を20 [℃]から40 [℃]まで加熱する。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 200 × 1.3 × 20 = 5200 [J]"},
- {id:"HEAT3_WOOD_03",type:"Q",material:"木材",ans:"6500 [J]",question:"質量1000 [g]の木材の温度を5 [K]上げる。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",calc:"Q = mcΔT = 1000 × 1.3 × 5 = 6500 [J]"},
- {id:"HEAT3_WOOD_04",type:"Q",material:"木材",ans:"5850 [J]",question:"質量300 [g]の木材を10 [℃]から25 [℃]まで加熱する。必要な熱量Qはいくらか。木材の比熱は1.3 [J/(g·K)]とする。",calc:"ΔT = 15 [K]<br>Q = mcΔT = 300 × 1.3 × 15 = 5850 [J]"},
- {id:"HEAT3_ICE_01",type:"Q",material:"氷",ans:"1930 [J]",question:"質量100 [g]の氷を−20 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",calc:"ΔT = −10 − (−20) = 10 [K]<br>Q = mcΔT = 100 × 1.93 × 10 = 1930 [J]"},
- {id:"HEAT3_ICE_02",type:"Q",material:"氷",ans:"1930 [J]",question:"質量200 [g]の氷を−15 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",calc:"ΔT = 5 [K]<br>Q = mcΔT = 200 × 1.93 × 5 = 1930 [J]"},
- {id:"HEAT3_ICE_03",type:"Q",material:"氷",ans:"1930 [J]",question:"質量50 [g]の氷を−30 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 50 × 1.93 × 20 = 1930 [J]"},
- {id:"HEAT3_ICE_04",type:"Q",material:"氷",ans:"5790 [J]",question:"質量300 [g]の氷を−20 [℃]から−10 [℃]まで温める。必要な熱量Qはいくらか。氷の比熱は1.93 [J/(g·K)]とする。",calc:"ΔT = 10 [K]<br>Q = mcΔT = 300 × 1.93 × 10 = 5790 [J]"},
- {id:"HEAT3_WATER_01",type:"Q",material:"水",ans:"4180 [J]",question:"質量100 [g]の水を20 [℃]から30 [℃]まで温める。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",calc:"ΔT = 10 [K]<br>Q = mcΔT = 100 × 4.18 × 10 = 4180 [J]"},
- {id:"HEAT3_WATER_02",type:"Q",material:"水",ans:"4180 [J]",question:"質量200 [g]の水の温度を5 [K]上げる。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",calc:"Q = mcΔT = 200 × 4.18 × 5 = 4180 [J]"},
- {id:"HEAT3_WATER_03",type:"Q",material:"水",ans:"4180 [J]",question:"質量50 [g]の水を10 [℃]から30 [℃]まで温める。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",calc:"ΔT = 20 [K]<br>Q = mcΔT = 50 × 4.18 × 20 = 4180 [J]"},
- {id:"HEAT3_WATER_04",type:"Q",material:"水",ans:"12540 [J]",question:"質量250 [g]の水の温度を12 [K]上げる。必要な熱量Qはいくらか。水の比熱は4.18 [J/(g·K)]とする。",calc:"Q = mcΔT = 250 × 4.18 × 12 = 12540 [J]"}
-];
-const materialAnswerPool=["470 [J]","705 [J]","768 [J]","896 [J]","960 [J]","1120 [J]","1152 [J]","1353 [J]","1410 [J]","1804 [J]","1930 [J]","2688 [J]","4180 [J]","4510 [J]","5200 [J]","5790 [J]","5850 [J]","6500 [J]","8000 [J]","9000 [J]","12540 [J]"];
-const comparisonProblems=[
- {id:"HEAT3_CMP_01",type:"compare",material:"比較",ans:"鉄",choices:["鉄","銅","どちらも等しい"],question:"同じ質量の鉄と銅に、同じ熱量を加えた。鉄の温度は10 [K]、銅の温度は12 [K]上昇した。比熱が大きいのはどちらか。",calc:"同じm、同じQでは c = Q/(mΔT)。温度変化が小さい鉄の方が、比熱が大きい。"},
- {id:"HEAT3_CMP_02",type:"compare",material:"比較",ans:"水",choices:["アルミニウム","水","どちらも等しい"],question:"同じ質量のアルミニウムと水に、同じ熱量を加えた。アルミニウムは18 [K]、水は4 [K]上昇した。比熱が大きいのはどちらか。",calc:"温度変化が小さい水の方が、比熱が大きい。"},
- {id:"HEAT3_CMP_03",type:"compare",material:"比較",ans:"どちらも等しい",choices:["鉄A","鉄B","どちらも等しい"],question:"同じ質量の鉄Aと鉄Bに、同じ熱量を加えたところ、どちらも10 [K]上昇した。比熱について正しいものはどれか。",calc:"Q、m、ΔTが同じなので、c = Q/(mΔT) も等しい。"},
- {id:"HEAT3_CMP_04",type:"compare",material:"比較",ans:"木材",choices:["コンクリート","木材","どちらも等しい"],question:"同じ質量のコンクリートと木材に、同じ熱量を加えた。コンクリートは13 [K]、木材は8 [K]上昇した。比熱が大きいのはどちらか。",calc:"温度変化が小さい木材の方が、比熱が大きい。"},
- {id:"HEAT3_CMP_05",type:"compare",material:"比較",ans:"銀",choices:["銀","銅","どちらも等しい"],question:"同じ質量の銀と銅に同じ熱量を加える。銀の比熱は0.235 [J/(g·K)]、銅は0.384 [J/(g·K)]である。温度変化が大きいのはどちらか。",calc:"同じm、同じQでは ΔT = Q/(mc)。比熱が小さい銀の方が、温度変化が大きい。"},
- {id:"HEAT3_CMP_06",type:"compare",material:"比較",ans:"鉄",choices:["鉄","アルミニウム","どちらも等しい"],question:"同じ質量の鉄とアルミニウムに同じ熱量を加える。鉄の比熱は0.448 [J/(g·K)]、アルミニウムは0.902 [J/(g·K)]である。温度変化が大きいのはどちらか。",calc:"比熱が小さい鉄の方が、温度変化が大きい。"},
- {id:"HEAT3_CMP_07",type:"compare",material:"比較",ans:"コンクリート",choices:["コンクリート","水","どちらも等しい"],question:"同じ質量のコンクリートと水に、同じ熱量を加える。コンクリートの比熱は0.8 [J/(g·K)]、水は4.18 [J/(g·K)]である。温度変化が大きいのはどちらか。",calc:"比熱が小さいコンクリートの方が、温度変化が大きい。"},
- {id:"HEAT3_CMP_08",type:"compare",material:"比較",ans:"どちらも等しい",choices:["物体A","物体B","どちらも等しい"],question:"同じ質量の物体Aと物体Bに同じ熱量を加える。両方の比熱は0.8 [J/(g·K)]である。温度変化について正しいものはどれか。",calc:"Q、m、cが同じなので、ΔT = Q/(mc) も等しい。"}
-];
-let quiz=[],index=0,score=0,wrongList=[],answered=false,selectedAnswer="",selectedButton=null;const total=10,$=id=>document.getElementById(id);
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function makeChoices(q){if(q.choices)return shuffle(q.choices);return shuffle([q.ans,...shuffle(materialAnswerPool.filter(x=>x!==q.ans)).slice(0,3)])}
-function buildQuiz(){return shuffle([...shuffle(materialProblems).slice(0,8),...shuffle(comparisonProblems).slice(0,2)])}
-function start(source=null){if(!$("studentId").value.trim()){alert("学籍番号を入力してください。");$("studentId").focus();return}quiz=shuffle(source||buildQuiz()).slice(0,total).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];TrainerLog.startSession();$("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion()}
-function showQuestion(){answered=false;selectedAnswer="";selectedButton=null;const q=quiz[index];$("count").textContent=`${index+1} / ${quiz.length}`;$("score").textContent=`正解 ${score}`;$("bar").style.width=`${index/quiz.length*100}%`;const badge=q.type==="compare"?(q.question.includes("温度変化")?"温度変化を比較する":"比熱を比較する"):`${q.material}・Q を求める`;$("question").innerHTML=`<span class="badge">${badge}</span><br>${q.question}`;$("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;const box=$("choices");box.innerHTML="";q.choices.forEach((c,i)=>{const b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.textContent=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});TrainerLog.startQuestion()}
-function selectChoice(value,button){if(answered)return;selectedAnswer=value;selectedButton=button;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));button.classList.add("selected");$("answerBtn").disabled=false}
-function check(){if(answered||!selectedAnswer)return;answered=true;const q=quiz[index],ok=selectedAnswer===q.ans;TrainerLog.recordQuestion(q,ok,{selected:selectedAnswer,answer:q.ans,prompt:q.question});if(ok)score++;else wrongList.push(q);document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});if(!ok&&selectedButton)selectedButton.classList.add("wrong");const point=q.type==="compare"?"同じ質量・同じ熱量では、比熱cと温度変化ΔTは反比例します。":"質量は g、比熱は J/(g·K) にそろえて Q = mcΔT に代入します。";$("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=`<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong><div class="formula">${q.calc}</div><div class="note">ポイント：${point}</div>`;$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false}
-function next(){index++;index>=quiz.length?finish():showQuestion()}
-function finish(){TrainerLog.finishSession();$("quizScreen").style.display="none";$("finishScreen").style.display="block";const rate=Math.round(score/quiz.length*100);$("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;$("finalMessage").innerHTML=rate>=70?'<div class="pass">クリア！物質ごとの比熱を使って熱量を計算できています。</div>':'<div class="fail">もう一回やると、Q = mcΔT の使い方が定着します。</div>';TrainerLog.showElapsedInFinalMessage();$("reviewBtn").style.display=wrongList.length?"inline-block":"none";TrainerLog.sendResult({score,total:quiz.length})}
-$("startBtn").onclick=()=>start();$("answerBtn").onclick=check;$("nextBtn").onclick=next;$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start()});$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};$("reviewBtn").onclick=()=>{if(wrongList.length)start([...wrongList])};$("categoryBtn").onclick=()=>{location.href="index.html"};$("homeBtn").onclick=()=>{location.href="../index.html"};
-</script></body></html>
+window.HEAT_STAGE_CONFIG={
+  "stageKey": "stage3",
+  "title": "熱 Stage3 物質ごとの熱量トレーナー",
+  "lead": "銀・銅・鉄・水など、物質ごとの比熱を使って Q = mcΔT を練習します。",
+  "note": "比熱 c は「1 g の物質を 1 K 上げるのに必要な熱量」です。<br><b>Q = mcΔT</b> を使います。比較問題では、同じ質量・同じ熱量なら比熱が小さいほど温度変化が大きくなります。",
+  "groups": [
+    {
+      "type": "Q",
+      "count": 8
+    },
+    {
+      "type": "compare",
+      "count": 2
+    }
+  ]
+};
+</script>
+<script src="../common/heat_stage_common_v1.js"></script>
+</body></html>
