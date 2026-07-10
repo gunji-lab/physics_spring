@@ -1,176 +1,360 @@
 (() => {
-  const basicBank=[
-    {id:"c_rad",section:"円運動",prompt:"180°をラジアンで答えなさい。",answers:["π","pi"],display:"π",example:"π または pi"},
-    {id:"c_arc",section:"円運動",prompt:"半径2.0 m、角度3.0 radの弧の長さを求めなさい。",number:6,tolerance:.01,unit:"m",display:"6.0 m"},
-    {id:"c_speed",section:"円運動",prompt:"半径0.50 m、角速度4.0 rad/sの物体の速さを求めなさい。",number:2,tolerance:.01,unit:"m/s",display:"2.0 m/s"},
-    {id:"c_period",section:"円運動",prompt:"角速度が2π rad/sの円運動の周期を求めなさい。",number:1,tolerance:.01,unit:"s",display:"1.0 s"},
-    {id:"c_acc",section:"円運動",prompt:"速さ6.0 m/s、半径3.0 mの円運動の向心加速度を求めなさい。",number:12,tolerance:.05,unit:"m/s²",display:"12 m/s²"},
-    {id:"c_rad2",section:"円運動",prompt:"90°をラジアンで答えなさい。",answers:["π/2","pi/2"],display:"π/2"},
-    {id:"c_deg",section:"円運動",prompt:"π/3 radを度で答えなさい。",number:60,tolerance:.01,unit:"°",display:"60°"},
-    {id:"c_arc2",section:"円運動",prompt:"半径4.0 m、角度π/2 radの弧の長さを求めなさい。",answers:["2π","2pi"],display:"2π m",unit:"m"},
-    {id:"c_speed2",section:"円運動",prompt:"半径2.0 m、角速度3.0 rad/sの物体の速さを求めなさい。",number:6,tolerance:.02,unit:"m/s",display:"6.0 m/s"},
-    {id:"c_period2",section:"円運動",prompt:"角速度がπ/2 rad/sの円運動の周期を求めなさい。",number:4,tolerance:.02,unit:"s",display:"4.0 s"},
-    {id:"c_acc2",section:"円運動",prompt:"半径2.0 m、角速度3.0 rad/sの円運動の向心加速度を求めなさい。",number:18,tolerance:.05,unit:"m/s²",display:"18 m/s²"},
-    {id:"s_force",section:"バネ",prompt:"ばね定数200 N/mのばねを0.030 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
-    {id:"s_extension",section:"バネ",prompt:"ばね定数50 N/mのばねに10 Nの力を加えた。伸びを求めなさい。",number:.2,tolerance:.002,unit:"m",display:"0.20 m"},
-    {id:"s_energy",section:"バネ",prompt:"ばね定数100 N/mのばねを0.20 m伸ばしたときの弾性エネルギーを求めなさい。",number:2,tolerance:.02,unit:"J",display:"2.0 J"},
-    {id:"s_force2",section:"バネ",prompt:"ばね定数150 N/mのばねを0.040 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
-    {id:"s_extension2",section:"バネ",prompt:"ばね定数80 N/mのばねに12 Nの力を加えた。伸びを求めなさい。",number:.15,tolerance:.002,unit:"m",display:"0.15 m"},
-    {id:"s_energy2",section:"バネ",prompt:"ばね定数50 N/mのばねを0.40 m伸ばしたときの弾性エネルギーを求めなさい。",number:4,tolerance:.03,unit:"J",display:"4.0 J"},
-    {id:"s_force3",section:"バネ",prompt:"ばね定数300 N/mのばねを0.020 m伸ばしたときの弾性力の大きさを求めなさい。",number:6,tolerance:.02,unit:"N",display:"6.0 N"},
-    {id:"s_extension3",section:"バネ",prompt:"ばね定数120 N/mのばねに6.0 Nの力を加えた。伸びを求めなさい。",number:.05,tolerance:.002,unit:"m",display:"0.050 m"},
-    {id:"s_balance",section:"バネ",prompt:"質量0.20 kgのおもりをばねにつるす。重力加速度を9.8 m/s²、ばね定数を98 N/mとすると、伸びを求めなさい。",number:.02,tolerance:.002,unit:"m",display:"0.020 m"},
-    {id:"s_energy3",section:"バネ",prompt:"ばね定数200 N/mのばねを0.10 m伸ばしたときの弾性エネルギーを求めなさい。",number:1,tolerance:.02,unit:"J",display:"1.0 J"},
-    {id:"s_energy4",section:"バネ",prompt:"ばね定数80 N/mのばねを0.25 m伸ばしたときの弾性エネルギーを求めなさい。",number:2.5,tolerance:.03,unit:"J",display:"2.5 J"},
-    {id:"h_heat",section:"熱",prompt:"質量0.20 kg、比熱4200 J/(kg·K)の水の温度を5.0 K上げるのに必要な熱量を求めなさい。",number:4200,tolerance:5,unit:"J",display:"4200 J"},
-    {id:"h_capacity",section:"熱",prompt:"熱容量600 J/Kの物体へ1800 Jを与えた。温度変化を求めなさい。",number:3,tolerance:.02,unit:"K",display:"3.0 K"},
-    {id:"h_mix",section:"熱",prompt:"同じ質量の同じ物質を20℃と80℃から混ぜ、熱損失がないとする。平衡温度を求めなさい。",number:50,tolerance:.1,unit:"℃",display:"50 ℃"},
-    {id:"h_heat2",section:"熱",prompt:"質量0.10 kg、比熱900 J/(kg·K)のアルミニウムの温度を20 K上げるのに必要な熱量を求めなさい。",number:1800,tolerance:5,unit:"J",display:"1800 J"},
-    {id:"h_capacity2",section:"熱",prompt:"熱容量250 J/Kの物体へ1000 Jを与えた。温度変化を求めなさい。",number:4,tolerance:.02,unit:"K",display:"4.0 K"},
-    {id:"h_heat3",section:"熱",prompt:"質量50 g、比熱4.2 J/(g·K)の水の温度を10 K上げるのに必要な熱量を求めなさい。",number:2100,tolerance:5,unit:"J",display:"2100 J"},
-    {id:"h_temp",section:"熱",prompt:"27℃を絶対温度で答えなさい。ただし 0℃ = 273 K とする。",number:300,tolerance:.01,unit:"K",display:"300 K"},
-    {id:"h_celsius",section:"熱",prompt:"310 Kをセルシウス温度で答えなさい。ただし 0℃ = 273 K とする。",number:37,tolerance:.01,unit:"℃",display:"37 ℃"},
-    {id:"h_capacity3",section:"熱",prompt:"熱容量400 J/Kの物体の温度を5.0 K上げるのに必要な熱量を求めなさい。",number:2000,tolerance:5,unit:"J",display:"2000 J"},
-    {id:"h_delta",section:"熱",prompt:"600 Jの熱を加えると温度が12 K上がった。熱容量を求めなさい。",number:50,tolerance:.1,unit:"J/K",display:"50 J/K"},
-    {id:"h_heat4",section:"熱",prompt:"質量100 g、比熱0.90 J/(g·K)のアルミニウムの温度を10 K上げるのに必要な熱量を求めなさい。",number:900,tolerance:3,unit:"J",display:"900 J"},
-    {id:"h_heat5",section:"熱",prompt:"質量200 g、比熱0.45 J/(g·K)の鉄の温度を20 K上げるのに必要な熱量を求めなさい。",number:1800,tolerance:5,unit:"J",display:"1800 J"}
-  ];
-  const big2=[
-    {id:"grav_symbol",title:"人工衛星の軌道速度",context:"地球の質量をM、人工衛星の質量をm、地球中心からの距離をr、万有引力定数をGとする。",questions:[
-      {prompt:"人工衛星にはたらく万有引力Fを式で答えなさい。",answers:["GMm/r²","GMm/r^2"],display:"GMm/r²",example:"F=GMm/r2 または GMm/r²"},
-      {prompt:"円軌道を回る人工衛星の速さvを式で答えなさい。",answers:["√(GM/r)","sqrt(GM/r)"],display:"√(GM/r)",example:"v=√GM/r または √(GM/r)"}
-    ]},
-    {id:"cone_force",title:"円錐振り子の力",context:"質量mの小球が、鉛直方向から角度θだけ傾いた糸で水平な円運動をしている。糸の張力をTとする。",questions:[
-      {prompt:"鉛直方向のつり合いを式で答えなさい。",answers:["Tcosθ=mg","Tcos(theta)=mg","Tcosθ＝mg"],display:"Tcosθ = mg",example:"Tcosθ=mg"},
-      {prompt:"水平方向の運動方程式を、円運動の半径rと速さvを使って答えなさい。",answers:["Tsinθ=mv²/r","Tsin(theta)=mv^2/r"],display:"Tsinθ = mv²/r",example:"Tsinθ=mv2/r"}
-    ]},
-    {id:"spring_circle",title:"円運動するばね",context:"質量mの物体が、自然長からx伸びたばねにつながれ、半径r、速さvで水平な円運動をしている。ばね定数をkとする。",questions:[
-      {prompt:"ばねの弾性力の大きさを式で答えなさい。",answers:["kx"],display:"kx",example:"F=kx または kx"},
-      {prompt:"ばねの弾性力が向心力になる運動方程式を答えなさい。",answers:["kx=mv²/r","kx=mv^2/r"],display:"kx = mv²/r",example:"kx=mv2/r"}
-    ]}
-  ];
-  const big3=[
-    {id:"grav_numeric",title:"地表付近の人工衛星",context:"地球の半径を6.4×10⁶ m、地表の重力加速度を9.8 m/s²とし、人工衛星が地表すれすれを円運動すると考える。",questions:[
-      {prompt:"万有引力が向心力になる式を、地球質量M、衛星質量m、半径R、速さvで答えなさい。",answers:["GMm/R²=mv²/R","GMm/R^2=mv^2/R"],display:"GMm/R² = mv²/R",example:"GMm/R2=mv2/R"},
-      {prompt:"GM/R²=gを使い、軌道速度vをgとRで表しなさい。",answers:["√(gR)","sqrt(gR)"],display:"√(gR)",example:"v=√gR または √(gR)"},
-      {prompt:"軌道速度をkm/sで求めなさい。",number:7.9,tolerance:.15,unit:"km/s",display:"約7.9 km/s"}
-    ]},
-    {id:"cone_speed",title:"円錐振り子の速さ",context:"長さLの糸につながれた質量mの小球が、鉛直方向から角度θで円錐振り子の運動をしている。張力をT、円運動の半径をrとする。",questions:[
-      {prompt:"円運動の半径rをLとθで表しなさい。",answers:["Lsinθ","Lsin(theta)"],display:"Lsinθ",example:"r=Lsinθ または Lsin(theta)"},
-      {prompt:"鉛直方向のつり合いから、張力Tを式で表しなさい。",answers:["mg/cosθ","mg/cos(theta)"],display:"mg/cosθ",example:"T=mg/cosθ"},
-      {prompt:"Tsinθ=mv²/rを使い、v²をg、L、θで表しなさい。",answers:["gL(sinθ)^2/cosθ","gLsin^2θ/cosθ","gL(sin(theta))^2/cos(theta)","gLsinθtanθ","gLsin(theta)tan(theta)"],display:"gL(sinθ)²/cosθ",example:"v2=gL(sinθ)^2/cosθ"}
-    ]}
-  ];
-  const $=s=>document.querySelector(s),shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+  const EXAM_TOTAL = 30;
+  const BASIC_POINTS = 3;
+  const BIG_POINTS = 5;
+  const $ = s => document.querySelector(s);
+  const shuffle = a => {
+    const b = [...a];
+    for (let i = b.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [b[i], b[j]] = [b[j], b[i]];
+    }
+    return b;
+  };
 
-  const normalize=s=>String(s??"").trim().toLowerCase()
-    .replace(/[　\s]/g,"")
-    .replace(/＝/g,"=")
-    .replace(/[−ー―]/g,"-")
-    .replace(/÷/g,"/")
-    .replace(/・/g,"")
-    .replace(/×/g,"*")
-    .replace(/π/g,"pi")
-    .replace(/θ/g,"theta")
-    .replace(/ω/g,"omega")
-    .replace(/con(?=theta|\()/g,"cos")
-    .replace(/sin\(theta\)/g,"sintheta")
-    .replace(/cos\(theta\)/g,"costheta")
-    .replace(/tan\(theta\)/g,"tantheta")
-    .replace(/sin\^2theta/g,"sintheta^2")
-    .replace(/²/g,"^2")
-    .replace(/omega2/g,"omega^2")
-    .replace(/√/g,"sqrt")
-    .replace(/sqrt\(([a-z0-9]+)\)/g,"sqrt$1")
-    .replace(/[{}]/g,m=>m==="{"?"(":")")
-    .replace(/\*/g,"")
-    .replace(/\b([a-z])2\b/g,"$1^2")
-    .replace(/([=+\-*/(])([a-z])2(?=$|[=+\-*/()])/g,"$1$2^2");
+  const fallbackBasicBank = Array.isArray(window.FINAL_MOCK_STAGE_BASIC_BANK) ? window.FINAL_MOCK_STAGE_BASIC_BANK : [];
+  const fallbackBigBank = Array.isArray(window.FINAL_MOCK_BIG_BANK) ? window.FINAL_MOCK_BIG_BANK : [];
 
-  function stripOptionalLeftSide(value){
-    const match=value.match(/^[a-z](?:\^2)?=(.+)$/);
-    return match?match[1]:value;
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+  }
+  function stripTags(value) { return String(value ?? "").replace(/<[^>]*>/g, " "); }
+  function formatNumber(v) {
+    if (typeof v === "string") return v;
+    const n = Number(v);
+    if (!Number.isFinite(n)) return String(v);
+    if (Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+    return String(Math.round(n * 1000) / 1000);
+  }
+  function cleanUnit(unit) {
+    return String(unit || "").replace(/[\[\]]/g, "").trim();
+  }
+  function displayAnswer(q) {
+    if (q.display) return q.display;
+    if (q.number !== undefined) return `${formatNumber(q.number)}${q.unit ? " " + q.unit : ""}`;
+    if (q.answers && q.answers.length) return `${q.answers[0]}${q.unit ? " " + q.unit : ""}`;
+    return "";
   }
 
-  function normalizeRadical(value){
-    return /^sqrt(?!\()(.+)$/.test(value)?value.replace(/^sqrt(.+)$/,"sqrt($1)"):value;
+  function parseAnswerValue(value) {
+    const raw = String(value ?? "").trim();
+    const noUnit = raw.replace(/\[[^\]]*\]/g, "").replace(/℃|°|kg|Pa|N\/m|N|J\/K|J|K|m\/s\^2|m\/s²|m\/s|rad\/s|rad|m\^3|m³|m2|m/g, "").trim();
+    if (/[a-zA-Zπ√θω]/.test(noUnit) && !/^[-+]?\d/.test(noUnit)) return null;
+    const expr = noUnit
+      .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+      .replace(/[−ー―]/g, "-")
+      .replace(/，/g, ".")
+      .replace(/×\s*10\s*\^\s*([-+]?\d+)/gi, "e$1")
+      .replace(/×\s*10([+-]?\d+)/gi, "e$1")
+      .replace(/×/g, "*")
+      .replace(/÷/g, "/")
+      .replace(/,/g, "")
+      .replace(/\s/g, "");
+    if (!expr || !/^[0-9eE+\-*/.()]+$/.test(expr)) return null;
+    try {
+      const n = Function(`"use strict";return (${expr})`)();
+      return Number.isFinite(n) ? n : null;
+    } catch {
+      const m = expr.match(/[-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?/i);
+      return m ? Number(m[0]) : null;
+    }
   }
 
-  function symbolicForms(value){
-    const exact=normalize(value);
-    const withoutLeft=stripOptionalLeftSide(exact);
-    const forms=new Set([exact,normalizeRadical(exact),withoutLeft,normalizeRadical(withoutLeft)]);
-    Array.from(forms).forEach(form=>addTrigEquivalentForms(forms,form));
+  function stageQuestion(unitName, sourceStage, q, index) {
+    const prompt = q.text || q.question || q.prompt || "";
+    const unit = cleanUnit(q.unit || (String(q.ans || "").match(/\[([^\]]+)\]/)?.[1] ?? ""));
+    const rawAnswer = q.answer !== undefined ? q.answer : q.ans;
+    const id = `MOCK_STAGE_${unitName}_${sourceStage}_${index}_${q.id || ""}`.replace(/[^a-zA-Z0-9_\-]/g, "_");
+    const converted = {
+      id,
+      section: unitName,
+      sourceUnit: unitName,
+      sourceStage,
+      prompt,
+      unit,
+      display: "",
+      solution: q.solution || q.calc || ""
+    };
+    if (typeof rawAnswer === "number") {
+      converted.number = rawAnswer;
+      converted.tolerance = Math.max(0.02, Math.abs(rawAnswer) * 0.015);
+      converted.display = `${formatNumber(rawAnswer)}${unit ? " " + unit : ""}`;
+      return converted;
+    }
+    const asNumber = parseAnswerValue(rawAnswer);
+    const answerWithoutUnit = String(rawAnswer ?? "").replace(/\[[^\]]*\]/g, "").trim();
+    if (asNumber !== null && !/[π√θωa-zA-Zぁ-んァ-ヶ一-龠]/.test(answerWithoutUnit.replace(/e[-+]?\d+/gi, ""))) {
+      converted.number = asNumber;
+      converted.tolerance = Math.max(0.02, Math.abs(asNumber) * 0.015);
+      converted.display = `${formatNumber(asNumber)}${unit ? " " + unit : ""}`;
+    } else {
+      converted.answers = makeSymbolicAnswerVariants(answerWithoutUnit);
+      converted.display = `${answerWithoutUnit}${unit ? " " + unit : ""}`;
+    }
+    return converted;
+  }
+
+  function collectStageBank() {
+    const groups = [];
+    if (window.CIRCULAR_MOTION_BANKS) groups.push({name:"円運動", banks: window.CIRCULAR_MOTION_BANKS});
+    if (window.SPRING_BANKS) groups.push({name:"バネ", banks: window.SPRING_BANKS});
+    if (window.HEAT_BANKS) groups.push({name:"熱", banks: window.HEAT_BANKS});
+    if (window.HEAT_GAS_BANKS) groups.push({name:"熱と気体", banks: window.HEAT_GAS_BANKS});
+    if (window.MECHANICAL_ENERGY_BANKS) groups.push({name:"力学的エネルギー", banks: window.MECHANICAL_ENERGY_BANKS});
+    const converted = [];
+    groups.forEach(group => {
+      Object.entries(group.banks || {}).forEach(([stageKey, value]) => {
+        const problems = Array.isArray(value) ? value : Array.isArray(value?.problems) ? value.problems : [];
+        problems.forEach((problem, i) => converted.push(stageQuestion(group.name, stageKey, problem, i + 1)));
+      });
+    });
+    return converted;
+  }
+
+  function chooseBasics() {
+    const bank = collectStageBank();
+    if (!bank.length) return shuffle(fallbackBasicBank).slice(0, 5);
+    const preferred = ["円運動", "バネ", "熱", "熱と気体", "力学的エネルギー"];
+    const chosen = [];
+    preferred.forEach(section => {
+      const item = shuffle(bank.filter(q => q.section === section && !chosen.includes(q)))[0];
+      if (item) chosen.push(item);
+    });
+    return shuffle(chosen.concat(shuffle(bank.filter(q => !chosen.includes(q))).slice(0, 5 - chosen.length))).slice(0, 5);
+  }
+
+  function comprehensiveBigBank() {
+    return fallbackBigBank.length ? fallbackBigBank : [];
+  }
+  function cloneBigProblem(problem, questions) {
+    return {...problem, questions: questions.map(q => ({...q}))};
+  }
+  function chooseBigExam() {
+    const bank = shuffle(comprehensiveBigBank().filter(q => Array.isArray(q.questions) && q.questions.length));
+    const three = bank.filter(q => q.questions.length >= 3);
+    const two = bank.filter(q => q.questions.length === 2);
+    const oneOrMore = bank.filter(q => q.questions.length >= 1);
+    if (three.length && (Math.random() < 0.65 || two.length < 1)) {
+      const p = three[0];
+      return [cloneBigProblem(p, shuffle(p.questions).slice(0, 3))];
+    }
+    if (two.length) {
+      const first = two[0];
+      const firstCat = bigCategory(first);
+      const second = oneOrMore.find(q => q.id !== first.id && bigCategory(q) !== firstCat) || oneOrMore.find(q => q.id !== first.id);
+      if (second) return [cloneBigProblem(first, first.questions), cloneBigProblem(second, shuffle(second.questions).slice(0, 1))];
+      return [cloneBigProblem(first, first.questions)];
+    }
+    if (three.length) return [cloneBigProblem(three[0], shuffle(three[0].questions).slice(0, 3))];
+    return [];
+  }
+  function bigCategory(problem) {
+    const label = `${problem?.source || ""} ${problem?.title || ""} ${problem?.sourceFile || ""}`;
+    if (label.includes("円錐")) return "円錐振り子";
+    if (label.includes("万有")) return "万有引力";
+    if (label.includes("バネ") || label.includes("spring")) return "バネ";
+    if (label.includes("熱") || label.includes("気体")) return "熱と気体";
+    return "その他";
+  }
+
+  function writtenPrompt(prompt) {
+    return String(prompt ?? "")
+      .replace(/組合せとして最も近いものを選びなさい。/g, "組合せを答えなさい。")
+      .replace(/のとき、(.+?) はどれですか。/g, "のとき、$1 を答えなさい。")
+      .replace(/に最も近いものを選びなさい。/g, "に最も近い値を答えなさい。")
+      .replace(/最も近いものを選びなさい。/g, "最も近い値を答えなさい。")
+      .replace(/正しいものを選びなさい。/g, "正しい答えを書きなさい。")
+      .replace(/正しい関係式を選びなさい。/g, "正しい関係式を書きなさい。")
+      .replace(/正しい運動方程式を選びなさい。/g, "正しい運動方程式を書きなさい。")
+      .replace(/正しい組合せを選びなさい。/g, "正しい組合せを答えなさい。")
+      .replace(/組合せを選びなさい。/g, "組合せを答えなさい。")
+      .replace(/(.*式.*?)を選びなさい。/g, "$1を書きなさい。")
+      .replace(/式を選びなさい。/g, "式を書きなさい。")
+      .replace(/公式を選びなさい。/g, "公式を書きなさい。")
+      .replace(/を選びなさい。/g, "を答えなさい。")
+      .replace(/どれですか。/g, "答えなさい。");
+  }
+
+  function normalizeNumberText(s) {
+    return String(s ?? "")
+      .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+      .replace(/[−ー―]/g, "-")
+      .replace(/，/g, ".")
+      .replace(/×\s*10\s*\^\s*([-+]?\d+)/gi, "e$1")
+      .replace(/×\s*10([+-]?\d+)/gi, "e$1")
+      .replace(/,/g, "");
+  }
+  function makeSymbolicAnswerVariants(value) {
+    const raw = String(value ?? "").replace(/\[[^\]]*\]/g, "").trim();
+    const variants = new Set([raw]);
+    variants.add(raw.replace(/π/g, "pi"));
+    variants.add(raw.replace(/²/g, "^2"));
+    variants.add(raw.replace(/√/g, "sqrt"));
+    variants.add(raw.replace(/^([A-Za-zθω]+)\s*=\s*/, ""));
+    return [...variants].filter(Boolean);
+  }
+  function normalizeExpression(value) {
+    let s = normalizeNumberText(value).toLowerCase().trim();
+    s = s
+      .replace(/[　\s]/g, "")
+      .replace(/＝/g, "=")
+      .replace(/÷/g, "/")
+      .replace(/・/g, "")
+      .replace(/×/g, "*")
+      .replace(/π/g, "pi")
+      .replace(/θ/g, "theta")
+      .replace(/ω/g, "omega")
+      .replace(/²/g, "^2")
+      .replace(/√/g, "sqrt")
+      .replace(/con(?=theta|\()/g, "cos")
+      .replace(/sin\(theta\)/g, "sintheta")
+      .replace(/cos\(theta\)/g, "costheta")
+      .replace(/tan\(theta\)/g, "tantheta")
+      .replace(/sin\^2theta/g, "sintheta^2")
+      .replace(/\((sintheta|costheta|tantheta)\)/g, "$1")
+      .replace(/sqrt\(([^()]+)\)/g, "sqrt$1")
+      .replace(/[{}]/g, m => m === "{" ? "(" : ")")
+      .replace(/\*/g, "")
+      .replace(/\[[^\]]*\]/g, "")
+      .replace(/n\/m|j\/k|m\/s\^2|m\/s²|m\/s|rad\/s|pa|kg|rad|deg|℃|°|倍/g, "");
+
+    // r2, v2, omega2 などを r^2, v^2, omega^2 に寄せる。数値の 10e5 は壊さない。
+    s = s.replace(/\b(omega|theta|[a-z])2\b/g, "$1^2");
+    s = s.replace(/([=+\-\/()])(omega|theta|[a-z])2(?=$|[=+\-\/()])/g, "$1$2^2");
+    return s;
+  }
+  function stripOptionalLeftSide(value) {
+    const m = value.match(/^[a-z][a-z0-9]*(?:\^2)?=(.+)$/);
+    return m ? m[1] : value;
+  }
+  function addTrigForms(forms, form) {
+    const compact = form.replace(/\((sintheta|costheta|tantheta)\)/g, "$1");
+    forms.add(compact);
+    const replacements = [
+      ["tantheta", "sintheta/costheta"],
+      ["sintheta/costheta", "tantheta"],
+      ["sinthetatantheta", "sintheta^2/costheta"],
+      ["sinthetatantheta", "(sintheta)^2/costheta"],
+      ["sintheta^2/costheta", "sinthetatantheta"],
+      ["(sintheta)^2/costheta", "sinthetatantheta"]
+    ];
+    replacements.forEach(([from, to]) => {
+      if (compact.includes(from)) forms.add(compact.replaceAll(from, to));
+    });
+  }
+  function expressionForms(value) {
+    const exact = normalizeExpression(value);
+    const withoutLeft = stripOptionalLeftSide(exact);
+    const forms = new Set([exact, withoutLeft]);
+    Array.from(forms).forEach(form => {
+      forms.add(form.replace(/^sqrt(.+)$/, "sqrt$1"));
+      forms.add(form.replace(/^sqrt(.+\/.+)$/, "sqrt($1)"));
+      addTrigForms(forms, form);
+    });
     return forms;
   }
-
-  function addTrigEquivalentForms(forms,form){
-    const compact=form.replace(/\((sintheta)\)/g,"$1");
-    forms.add(compact);
-    if(compact.includes("tantheta")){
-      forms.add(compact.replace(/tantheta/g,"sintheta/costheta"));
-    }
-    if(compact.includes("sintheta/costheta")){
-      forms.add(compact.replace(/sintheta\/costheta/g,"tantheta"));
-    }
-    if(compact.includes("sinthetatantheta")){
-      forms.add(compact.replace(/sinthetatantheta/g,"sintheta^2/costheta"));
-      forms.add(compact.replace(/sinthetatantheta/g,"(sintheta)^2/costheta"));
-    }
-    if(compact.includes("sintheta^2/costheta")){
-      forms.add(compact.replace(/sintheta\^2\/costheta/g,"sinthetatantheta"));
-    }
-  }
-
-  function formsMatch(a,b){
-    if(a===b)return true;
-    if(a.includes("=")&&b.includes("=")){
-      const leftA=a.split("="),leftB=b.split("=");
-      if(leftA.length===2&&leftB.length===2){
-        return leftA[0]===leftB[1]&&leftA[1]===leftB[0];
-      }
+  function formsMatch(a, b) {
+    if (a === b) return true;
+    if (a.includes("=") && b.includes("=")) {
+      const A = a.split("="), B = b.split("=");
+      if (A.length === 2 && B.length === 2) return A[0] === B[1] && A[1] === B[0];
     }
     return false;
   }
-
-  function correct(q,value){
-    if(q.number!==undefined){
-      const n=Number(String(value).replace(/,/g,"").replace(/[^\d.+\-eE]/g,""));
-      return Number.isFinite(n)&&Math.abs(n-q.number)<=q.tolerance;
+  function numericExpression(value) {
+    const text = normalizeNumberText(value)
+      .replace(/\[[^\]]*\]/g, "")
+      .replace(/℃|°|kg|Pa|N\/m|N|J\/K|J|K|m\/s\^2|m\/s²|m\/s|rad\/s|rad|m\^3|m³|m2|m|倍/g, "")
+      .replace(/π/g, String(Math.PI))
+      .replace(/×/g, "*")
+      .replace(/÷/g, "/")
+      .replace(/\s/g, "");
+    if (!text || !/^[0-9eE+\-*/.()]+$/.test(text)) return null;
+    try {
+      const n = Function(`"use strict";return (${text})`)();
+      return Number.isFinite(n) ? n : null;
+    } catch { return null; }
+  }
+  function correct(q, value) {
+    if (q.number !== undefined) {
+      const n = numericExpression(value);
+      return Number.isFinite(n) && Math.abs(n - q.number) <= (q.tolerance ?? Math.max(0.02, Math.abs(q.number) * 0.015));
     }
-    const entered=symbolicForms(value);
-    return q.answers.some(answer=>{
-      const accepted=symbolicForms(answer);
-      return [...entered].some(form=>[...accepted].some(ok=>formsMatch(form,ok)));
+    const entered = expressionForms(value);
+    return (q.answers || []).some(answer => {
+      const accepted = expressionForms(answer);
+      return [...entered].some(e => [...accepted].some(a => formsMatch(e, a)));
     });
   }
 
-  function stageBasicBank(){return Array.isArray(window.FINAL_MOCK_STAGE_BASIC_BANK)&&window.FINAL_MOCK_STAGE_BASIC_BANK.length?window.FINAL_MOCK_STAGE_BASIC_BANK:basicBank;}
-  function chooseBasics(){const bank=stageBasicBank(),units=["円運動","バネ","熱"],chosen=[],counts=Object.fromEntries(units.map(unit=>[unit,0]));const pick=unit=>{const item=shuffle(bank.filter(q=>(q.section===unit||q.sourceUnit===unit)&&!chosen.includes(q)))[0];if(item){chosen.push(item);counts[unit]++;}};units.forEach(pick);while(chosen.length<5){const unit=units.slice().sort((a,b)=>counts[a]-counts[b]||Math.random()-.5).find(u=>bank.some(q=>(q.section===u||q.sourceUnit===u)&&!chosen.includes(q)));if(!unit)break;pick(unit);}return shuffle(chosen.concat(shuffle(bank.filter(q=>!chosen.includes(q))).slice(0,5-chosen.length)));}
-  function comprehensiveBigBank(){return Array.isArray(window.FINAL_MOCK_BIG_BANK)&&window.FINAL_MOCK_BIG_BANK.length?window.FINAL_MOCK_BIG_BANK:null;}
-  function bigCategory(problem){const label=`${problem?.source||""} ${problem?.title||""} ${problem?.sourceFile||""}`;if(label.includes("円錐"))return"円錐振り子";if(label.includes("万有"))return"万有引力";if(label.includes("バネ")||label.includes("spring"))return"バネ";return"その他";}
-  function chooseBigProblems(){const bank=comprehensiveBigBank();if(!bank)return [shuffle(big3)[0],shuffle(big2)[0],shuffle(big2)[1]].filter(Boolean);const threes=shuffle(bank.filter(q=>q.questions?.length===3)),twos=shuffle(bank.filter(q=>q.questions?.length===2));const first=threes[0];if(!first||twos.length<2)return shuffle([first,...twos.slice(0,2)].filter(Boolean));const chosen=[first],used=new Set([bigCategory(first)]);for(const q of twos){if(chosen.length>=3)break;const category=bigCategory(q);if(!used.has(category)){chosen.push(q);used.add(category);}}for(const q of twos){if(chosen.length>=3)break;if(!chosen.includes(q))chosen.push(q);}return chosen;}
-  function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
-  function writtenPrompt(prompt){
-    return String(prompt??"")
-      .replace(/組合せとして最も近いものを選びなさい。/g,"組合せを答えなさい。")
-      .replace(/のとき、(.+?) はどれですか。/g,"のとき、$1 を答えなさい。")
-      .replace(/に最も近いものを選びなさい。/g,"に最も近い値を答えなさい。")
-      .replace(/最も近いものを選びなさい。/g,"最も近い値を答えなさい。")
-      .replace(/正しいものを選びなさい。/g,"正しい答えを書きなさい。")
-      .replace(/正しい関係式を選びなさい。/g,"正しい関係式を書きなさい。")
-      .replace(/正しい運動方程式を選びなさい。/g,"正しい運動方程式を書きなさい。")
-      .replace(/正しい組合せを選びなさい。/g,"正しい組合せを答えなさい。")
-      .replace(/組合せを選びなさい。/g,"組合せを答えなさい。")
-      .replace(/(.*式.*?)を選びなさい。/g,"$1を書きなさい。")
-      .replace(/式を選びなさい。/g,"式を書きなさい。")
-      .replace(/公式を選びなさい。/g,"公式を書きなさい。")
-      .replace(/を選びなさい。/g,"を答えなさい。")
-      .replace(/どれですか。/g,"答えなさい。");
+  let items = [];
+  function field(q, key, points, label) {
+    return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit || "")}</span></div><div class="feedback" data-feedback></div></article>`;
   }
-  let items=[];
-  function field(q,key,points,label){return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit||"")}</span></div><div class="feedback" data-feedback></div></article>`;}
-  function start(){const id=$("#studentId").value.trim();if(!id){alert("学籍番号を入力してください。");return;}const basics=chooseBasics(),bigs=chooseBigProblems();items=[];$("#basicQuestions").innerHTML=basics.map((q,i)=>{const label=`小問${i+1}｜${q.section}`;items.push({q,key:q.id,points:3,label,kind:"小問"});return field(q,q.id,3,label);}).join("");let n=0;const notationGuide=`<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。v²は「v^2」「v2」でも可。ω²は「omega^2」「omega2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「y=…」のように左辺を付けても可。運動方程式では等号を入力してください。</div>`;$("#bigQuestions").innerHTML=notationGuide+bigs.map((b,bi)=>`<section class="question big"><h2>大問${bi+1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(b.context)}</div>${b.questions.map((q,qi)=>{n++;const key=b.id+"_"+n,label=`大問${bi+1} 設問(${qi+1})`;items.push({q,key,points:5,label,kind:"大問",title:b.title});return field(q,key,5,label);}).join("")}</section>`).join("");$("#startScreen").classList.add("hidden");$("#examScreen").classList.remove("hidden");$("#result").classList.add("hidden");$("#submitBtn").disabled=false;window.TrainerLog?.startSession();}
-  function submit(){let score=0,wrong=[];items.forEach(item=>{const el=document.querySelector(`[data-key="${item.key}"]`),value=el.querySelector("[data-answer]").value,ok=correct(item.q,value),fb=el.querySelector("[data-feedback]"),prompt=`${item.label}｜${writtenPrompt(item.q.prompt)}`;if(ok)score+=item.points;else wrong.push(prompt);fb.className="feedback show "+(ok?"right":"wrong");fb.innerHTML=ok?`正解（${item.points}点）`:`不正解　正解：<strong>${item.q.display}</strong>`;el.querySelector("[data-answer]").disabled=true;window.TrainerLog?.recordQuestion({id:"MOCK_"+item.key,type:item.kind==="大問"?"final_mock_big":"final_mock_basic",question:prompt,answer:item.q.display},ok,{selected:value,prompt});});const elapsed=window.TrainerLog?.finishSession?.()||0;$("#scoreValue").textContent=score+" / 50点";$("#result").classList.remove("hidden");$("#submitBtn").disabled=true;const status=document.getElementById("sendStatus");if(status)status.textContent=`所要時間：${Math.floor(elapsed/60)}分${elapsed%60}秒。保存処理を開始しました。`;if(!window.TrainerLog||typeof window.TrainerLog.sendResult!=="function"){if(status)status.textContent="保存処理を開始できませんでした。Googleログイン版から開き直してください。";return;}window.TrainerLog.sendResult({score,total:50,extra:{examType:"期末試験模試",wrongQuestions:wrong,itemCount:items.length}});$("#result").scrollIntoView({behavior:"smooth"});}
-  $("#startBtn").addEventListener("click",start);$("#submitBtn").addEventListener("click",submit);$("#againBtn").addEventListener("click",()=>location.reload());$("#studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start();});
+  function getVerifiedStudentId() {
+    const input = $("#studentId");
+    const fromInput = input ? input.value.trim() : "";
+    const fromAuth = window.TrainerAuth && typeof TrainerAuth.getStudentId === "function" ? TrainerAuth.getStudentId() : "";
+    const studentId = fromInput || String(fromAuth || "").trim();
+    if (input && studentId && !fromInput) input.value = studentId;
+    return studentId;
+  }
+  function start() {
+    if (!getVerifiedStudentId()) {
+      if (window.TrainerAuth && typeof TrainerAuth.login === "function") { TrainerAuth.login(); return; }
+      alert("大学Googleアカウントを確認できませんでした。ログインし直してください。");
+      return;
+    }
+    const basics = chooseBasics();
+    const bigs = chooseBigExam();
+    items = [];
+    $("#basicQuestions").innerHTML = basics.map((q, i) => {
+      const label = `小問${i + 1}｜${q.section || q.sourceUnit || "小問"}`;
+      items.push({q, key: q.id, points: BASIC_POINTS, label, kind: "小問"});
+      return field(q, q.id, BASIC_POINTS, label);
+    }).join("");
+
+    let n = 0;
+    const notationGuide = `<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。πは「pi」でも可。v²は「v^2」「v2」でも可。ω²は「omega^2」「omega2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「T=…」のように左辺を付けても可。運動方程式では等号の左右が逆でも可。</div>`;
+    $("#bigQuestions").innerHTML = notationGuide + bigs.map((b, bi) => `<section class="question big"><h2>大問${bi + 1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(b.context)}</div>${b.questions.map((q, qi) => { n++; const key = `${b.id}_${bi + 1}_${qi + 1}_${n}`; const label = `大問${bi + 1} 設問(${qi + 1})`; items.push({q, key, points: BIG_POINTS, label, kind: "大問", title: b.title}); return field(q, key, BIG_POINTS, label); }).join("")}</section>`).join("");
+    $("#startScreen").classList.add("hidden");
+    $("#examScreen").classList.remove("hidden");
+    $("#result").classList.add("hidden");
+    $("#submitBtn").disabled = false;
+    window.TrainerLog?.startSession();
+  }
+  function submit() {
+    let score = 0;
+    const wrong = [];
+    items.forEach(item => {
+      const el = document.querySelector(`[data-key="${item.key}"]`);
+      const value = el.querySelector("[data-answer]").value;
+      const ok = correct(item.q, value);
+      const fb = el.querySelector("[data-feedback]");
+      const prompt = `${item.label}｜${writtenPrompt(item.q.prompt)}`;
+      if (ok) score += item.points; else wrong.push(prompt);
+      fb.className = "feedback show " + (ok ? "right" : "wrong");
+      fb.innerHTML = ok ? `正解（${item.points}点）` : `不正解　正解：<strong>${escapeHtml(displayAnswer(item.q))}</strong>`;
+      el.querySelector("[data-answer]").disabled = true;
+      window.TrainerLog?.recordQuestion({id: "MOCK_" + item.key, type: item.kind === "大問" ? "final_mock_big" : "final_mock_basic", question: prompt, answer: displayAnswer(item.q)}, ok, {selected: value, prompt});
+    });
+    const elapsed = window.TrainerLog?.finishSession?.() || 0;
+    $("#scoreValue").textContent = score + ` / ${EXAM_TOTAL}点`;
+    $("#result").classList.remove("hidden");
+    $("#submitBtn").disabled = true;
+    const status = document.getElementById("sendStatus");
+    if (status) status.textContent = `所要時間：${Math.floor(elapsed / 60)}分${elapsed % 60}秒。保存処理を開始しました。`;
+    if (!window.TrainerLog || typeof window.TrainerLog.sendResult !== "function") {
+      if (status) status.textContent = "保存処理を開始できませんでした。Googleログイン版から開き直してください。";
+      return;
+    }
+    window.TrainerLog.sendResult({score, total: EXAM_TOTAL, extra: {examType: "期末試験模試", wrongQuestions: wrong, itemCount: items.length}});
+    $("#result").scrollIntoView({behavior: "smooth"});
+  }
+
+  $("#startBtn").addEventListener("click", start);
+  $("#submitBtn").addEventListener("click", submit);
+  $("#againBtn").addEventListener("click", () => location.reload());
+  const studentInput = $("#studentId");
+  if (studentInput) studentInput.addEventListener("keydown", e => { if (e.key === "Enter") start(); });
 })();
