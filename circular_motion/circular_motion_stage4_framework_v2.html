@@ -1,216 +1,30 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>円運動 Stage4 周期・角速度・速さトレーナー</title>
-<style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;--ok:#16a34a;--ng:#dc2626;--line:#e5e7eb;--soft:#f8fafc}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7}
-.wrap{max-width:820px;margin:0 auto;padding:22px 14px 46px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.07)}
-h1{margin:0 0 6px;font-size:1.55rem}.lead{color:var(--muted);font-size:.96rem;margin-bottom:16px}
-.top{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);font-size:.95rem;margin-top:12px}
-.bar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar>div{height:100%;width:0%;background:var(--accent);transition:width .25s ease}
-.question{font-size:1.25rem;font-weight:800;margin:18px 0;padding:16px;background:var(--soft);border-radius:14px;border:1px solid var(--line)}
-.choices{display:grid;gap:12px;margin:16px 0}.choice{width:100%;text-align:left;border:1px solid #cbd5e1;background:#fff;color:var(--text);border-radius:14px;padding:14px 16px;font-size:1.06rem;font-weight:700;cursor:pointer}
-.choice.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.16)}
-.choice:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.10)}.choice:disabled{cursor:default;opacity:1}
-.choice.correct{border-color:#86efac;background:#ecfdf5;color:#14532d}.choice.wrong{border-color:#fecaca;background:#fef2f2;color:#7f1d1d}
-.feedback{display:none;margin-top:18px;padding:16px;border-radius:14px}.feedback.ok{display:block;background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}.feedback.ng{display:block;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
-.formula{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:"Times New Roman",serif;font-size:1.12rem;overflow-x:auto}
-.compare{margin-top:10px;padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;color:#1e3a8a;font-weight:700}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.button-break{flex-basis:100%;height:0}button{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;background:var(--accent);color:#fff}
-button.secondary{background:#e5e7eb;color:#111827}button:disabled{opacity:.5;cursor:not-allowed}
-.result{text-align:center;padding:24px 8px}.scorebig{font-size:2.25rem;font-weight:900;margin:8px 0}.pass{color:var(--ok);font-weight:900}.fail{color:var(--ng);font-weight:900}
-.note{margin-top:16px;padding:12px 14px;border-left:5px solid #cbd5e1;background:#f8fafc;border-radius:10px;color:#475569;font-size:.95rem}.badge{display:inline-block;font-size:.85rem;padding:2px 8px;border-radius:99px;background:#dbeafe;color:#1e40af;margin-bottom:8px}
-.figure{display:flex;justify-content:center}svg{max-width:260px;width:100%;height:auto}
-input{width:100%;padding:14px 16px;font-size:1.1rem;border:1px solid #cbd5e1;border-radius:12px;margin-top:12px}
-input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
-.status{font-size:.92rem;color:#6b7280;margin-top:10px}
-@media(max-width:520px){.card{padding:18px}.question{font-size:1.1rem}.choice{font-size:1rem}}
-</style>
-</head>
-<body>
-<div class="wrap"><div class="card">
-<h1>Stage4 周期・角速度・速さトレーナー</h1>
-<div class="lead">周期 T [s]、角速度 ω [rad/s]、速さ v [m/s] をつなぐ4択クイズです。10問ランダム出題、70%以上でクリア。</div>
-
-<div id="startScreen">
-<div class="note">
-このステージでは、円運動の基本量をつなげます。<br>
-<b>ω = 2π/T</b>、<b>v = rω</b>、<b>v = 2πr/T</b> を使います。<br>
-単位はすべて <b>[ ]</b> 付きで表示します。<br>
-選択肢は、聞かれている量と同じ単位だけが表示されます。
-</div>
-<div class="figure">
-<svg viewBox="0 0 220 160">
-<circle cx="105" cy="88" r="58" fill="none" stroke="#cbd5e1" stroke-width="3"/>
-<path d="M105 88 L163 88" stroke="#1f2937" stroke-width="4"/>
-<path d="M163 88 Q160 56 134 40" fill="none" stroke="#2563eb" stroke-width="6"/>
-<path d="M134 40 l15 -2 l-8 13" fill="none" stroke="#2563eb" stroke-width="5"/>
-<text x="132" y="105" font-size="16">r</text>
-<text x="145" y="53" font-size="16" fill="#2563eb">v</text>
-<text x="92" y="78" font-size="16">ω</text>
-<text x="92" y="148" font-size="15" fill="#6b7280">T</text>
-</svg>
-</div>
-
-<div class="note">学籍番号を入力してからスタートしてください。</div>
-<input id="studentId" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="学籍番号">
-
-<div class="buttons"><button id="startBtn">スタート</button></div>
-</div>
-
-<div id="quizScreen" style="display:none">
-<div class="top"><div id="count"></div><div id="score"></div></div>
-<div class="bar"><div id="bar"></div></div>
-<div id="question" class="question"></div>
-<div id="choices" class="choices"></div>
-<div id="feedback" class="feedback"></div>
-<div class="buttons"><button id="answerBtn" disabled>答える</button><button id="nextBtn" disabled>次の問題</button><span class="button-break"></span><button class="secondary" id="restartBtn">最初から</button></div>
-</div>
-
-<div id="finishScreen" class="result" style="display:none">
-<div>結果</div><div id="finalScore" class="scorebig"></div><div id="finalMessage"></div><div id="sendStatus" class="status"></div>
-<div class="buttons" style="justify-content:center"><button id="againBtn">もう一度やる</button><button class="secondary" id="reviewBtn">間違えた問題だけ復習</button><button class="secondary" id="categoryBtn">カテゴリトップへ</button><button class="secondary" id="homeBtn">トップページへ</button></div>
-</div>
-</div></div>
-
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head><body>
 <script src="../common/trainer_common_v2.js"></script>
+<script src="question_banks.js"></script>
 <script>
-const GAS_URL = "https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
-const STAGE_NAME = "円運動/Stage4/周期角速度速さ";
-
-const periodToOmega=[
-{type:"TtoW",T:"2",ans:"π [rad/s]",calc:"2π / 2 = π",question:"周期 T = 2 [s] のとき、角速度 ω は何 [rad/s] か。"},
-{type:"TtoW",T:"4",ans:"π/2 [rad/s]",calc:"2π / 4 = π/2",question:"周期 T = 4 [s] のとき、角速度 ω は何 [rad/s] か。"},
-{type:"TtoW",T:"1",ans:"2π [rad/s]",calc:"2π / 1 = 2π",question:"周期 T = 1 [s] のとき、角速度 ω は何 [rad/s] か。"},
-{type:"TtoW",T:"8",ans:"π/4 [rad/s]",calc:"2π / 8 = π/4",question:"周期 T = 8 [s] のとき、角速度 ω は何 [rad/s] か。"}
-];
-
-const omegaToPeriod=[
-{type:"WtoT",omega:"π",ans:"2 [s]",calc:"2π / π = 2",question:"角速度 ω = π [rad/s] のとき、周期 T は何 [s] か。"},
-{type:"WtoT",omega:"π/2",ans:"4 [s]",calc:"2π / (π/2) = 4",question:"角速度 ω = π/2 [rad/s] のとき、周期 T は何 [s] か。"},
-{type:"WtoT",omega:"2π",ans:"1 [s]",calc:"2π / 2π = 1",question:"角速度 ω = 2π [rad/s] のとき、周期 T は何 [s] か。"},
-{type:"WtoT",omega:"π/4",ans:"8 [s]",calc:"2π / (π/4) = 8",question:"角速度 ω = π/4 [rad/s] のとき、周期 T は何 [s] か。"}
-];
-
-const periodToSpeed=[
-{type:"TtoV",r:2,T:"2",ans:"2π [m/s]",calc:"2π×2 / 2 = 2π",question:"半径 r = 2 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。"},
-{type:"TtoV",r:2,T:"4",ans:"π [m/s]",calc:"2π×2 / 4 = π",question:"半径 r = 2 [m]、周期 T = 4 [s] のとき、速さ v は何 [m/s] か。"},
-{type:"TtoV",r:3,T:"2",ans:"3π [m/s]",calc:"2π×3 / 2 = 3π",question:"半径 r = 3 [m]、周期 T = 2 [s] のとき、速さ v は何 [m/s] か。"},
-{type:"TtoV",r:4,T:"4",ans:"2π [m/s]",calc:"2π×4 / 4 = 2π",question:"半径 r = 4 [m]、周期 T = 4 [s] のとき、速さ v は何 [m/s] か。"}
-];
-
-const speedToPeriod=[
-{type:"VtoT",r:2,v:"2π",ans:"2 [s]",calc:"2π×2 / 2π = 2",question:"半径 r = 2 [m]、速さ v = 2π [m/s] のとき、周期 T は何 [s] か。"},
-{type:"VtoT",r:2,v:"π",ans:"4 [s]",calc:"2π×2 / π = 4",question:"半径 r = 2 [m]、速さ v = π [m/s] のとき、周期 T は何 [s] か。"},
-{type:"VtoT",r:3,v:"3π",ans:"2 [s]",calc:"2π×3 / 3π = 2",question:"半径 r = 3 [m]、速さ v = 3π [m/s] のとき、周期 T は何 [s] か。"},
-{type:"VtoT",r:4,v:"2π",ans:"4 [s]",calc:"2π×4 / 2π = 4",question:"半径 r = 4 [m]、速さ v = 2π [m/s] のとき、周期 T は何 [s] か。"}
-];
-
-const allAns=["π [rad/s]","π/2 [rad/s]","2π [rad/s]","π/4 [rad/s]","1 [s]","2 [s]","4 [s]","8 [s]","π [m/s]","2π [m/s]","3π [m/s]","4π [m/s]"];
-
-const omegaAns=["π [rad/s]","π/2 [rad/s]","2π [rad/s]","π/4 [rad/s]"];
-const periodAns=["1 [s]","2 [s]","4 [s]","8 [s]"];
-const speedAns=["π [m/s]","2π [m/s]","3π [m/s]","4π [m/s]"];
-
-let quiz=[],index=0,score=0,wrongList=[],answered=false,resultSent=false,selectedAnswer="",selectedButton=null;
-const total=10,$=id=>document.getElementById(id);
-
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function makeChoices(q){
- let pool = q.type==="TtoW" ? omegaAns : (q.type==="WtoT" || q.type==="VtoT") ? periodAns : speedAns;
- return shuffle([q.ans,...shuffle(pool.filter(x=>x!==q.ans)).slice(0,3)]);
-}
-function buildQuiz(){return [...shuffle(periodToOmega).slice(0,3),...shuffle(omegaToPeriod).slice(0,2),...shuffle(periodToSpeed).slice(0,3),...shuffle(speedToPeriod).slice(0,2)]}
-
-function start(useWrong=false){
- const studentId=$("studentId").value.trim();
- if(!studentId){alert("学籍番号を入力してください。");$("studentId").focus();return;}
- let source=useWrong&&wrongList.length?wrongList:buildQuiz();
- quiz=shuffle(source).slice(0,total).map(q=>({...q,choices:makeChoices(q)}));
- index=0;score=0;wrongList=[];resultSent=false;
-    TrainerLog.startSession();
-  TrainerLog.startSession();
- $("startScreen").style.display="none";$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();
-}
-
-function showQuestion(){
- answered=false;
- selectedAnswer="";
- selectedButton=null;let q=quiz[index];
- $("count").textContent=`${index+1} / ${quiz.length}`;
- $("score").textContent=`正解 ${score}`;
- $("bar").style.width=`${index/quiz.length*100}%`;
- let badge = q.type==="TtoW" ? "周期 → 角速度" : q.type==="WtoT" ? "角速度 → 周期" : q.type==="TtoV" ? "周期 → 速さ" : "速さ → 周期";
- $("question").innerHTML=`<span class="badge">${badge}</span><br>${q.question}`;
- $("feedback").className="feedback";$("feedback").style.display="none";$("answerBtn").disabled=true;$("nextBtn").disabled=true;
- let box=$("choices");box.innerHTML="";
- q.choices.forEach((c,i)=>{let b=document.createElement("button");b.className="choice";b.dataset.answer=c;b.innerHTML=`${["①","②","③","④"][i]}　${c}`;b.onclick=()=>selectChoice(c,b);box.appendChild(b)});
-}
-
-function selectChoice(selected,btn){if(answered)return;selectedAnswer=selected;selectedButton=btn;document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");$("answerBtn").disabled=false;}
-
-function explanation(q,ok){
- let main="";
- if(q.type==="TtoW"){
-   main=`<div class="formula">ω = 2π/T<br>= ${q.calc} [rad/s]</div>`;
- }else if(q.type==="WtoT"){
-   main=`<div class="formula">T = 2π/ω<br>= ${q.calc} [s]</div>`;
- }else if(q.type==="TtoV"){
-   main=`<div class="formula">v = 2πr/T<br>= ${q.calc} [m/s]</div>`;
- }else{
-   main=`<div class="formula">T = 2πr/v<br>= ${q.calc} [s]</div>`;
- }
- return `<strong>${ok?"正解！":"不正解"}</strong><br>正解：<strong>${q.ans}</strong>${main}<div class="note">ポイント：T、ω、v はそれぞれつながっています。単位も一緒に確認しよう。</div>`;
-}
-
-function check(){
- if(answered)return;if(!selectedAnswer)return;answered=true;let q=quiz[index],ok=selectedAnswer===q.ans;
-  if(!q.id) q.id = `${"CM4"}_${q.type||q.mode||"Q"}_${index+1}`;
-  TrainerLog.recordQuestion(q, ok, {
-    selected: selectedAnswer,
-    answer: q.answer || q.ans,
-    prompt: q.prompt || q.question || ""
-  });
- if(ok)score++;else wrongList.push(q);
- document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(b.dataset.answer===q.ans)b.classList.add("correct")});
- if(!ok&&selectedButton)selectedButton.classList.add("wrong");
- $("feedback").className="feedback "+(ok?"ok":"ng");$("feedback").innerHTML=explanation(q,ok);$("feedback").style.display="block";$("score").textContent=`正解 ${score}`;$("answerBtn").disabled=true;$("nextBtn").disabled=false;
-}
-
-function next(){index++;index>=quiz.length?finish():showQuestion()}
-
-function finish(){
-  TrainerLog.finishSession();
- $("quizScreen").style.display="none";$("finishScreen").style.display="block";
- let rate=Math.round(score/quiz.length*100);
- $("finalScore").textContent=`${score} / ${quiz.length} 問正解（${rate}%）`;
- $("finalMessage").innerHTML=rate>=70?`<div class="pass">クリア！周期・角速度・速さの基本はいい感じです。</div>`:`<div class="fail">もう一回やると、円運動の基本量が定着します。</div>`;
-  TrainerLog.showElapsedInFinalMessage();
- $("reviewBtn").style.display=wrongList.length?"inline-block":"none";
- sendResult(rate);
-}
-
-function sendResult(rate){
-  TrainerLog.sendResult({
-    score: score,
-    total: quiz.length
-  });
-}
-
-$("startBtn").onclick=()=>start(false);
-$("answerBtn").onclick=check;
-$("nextBtn").onclick=next;
-$("studentId").addEventListener("keydown",e=>{if(e.key==="Enter")start(false);});
-$("restartBtn").onclick=()=>{$("quizScreen").style.display="none";$("finishScreen").style.display="none";$("startScreen").style.display="block"};
-$("againBtn").onclick=()=>{$("finishScreen").style.display="none";$("startScreen").style.display="block"};
-$("reviewBtn").onclick=()=>{if(wrongList.length){let saved=[...wrongList];quiz=shuffle(saved).slice(0,10).map(q=>({...q,choices:makeChoices(q)}));index=0;score=0;wrongList=[];resultSent=false;$("finishScreen").style.display="none";$("quizScreen").style.display="block";showQuestion();}};
-$("categoryBtn").onclick=()=>{location.href="index.html"};
-$("homeBtn").onclick=()=>{location.href="../index.html"};
+const GAS_URL="https://script.google.com/a/macros/toyo.jp/s/AKfycbxKE8qHKfpyllw3LqmC1fKrDgdeUR2w2H7Q0l33YWFTY_krYKyqlWz3UueyOjQlr-D7GQ/exec?v=3";
+const STAGE_NAME="円運動/Stage4/周期角速度速さ";
+window.CIRCULAR_STAGE_CONFIG={
+  "stageKey": "stage4",
+  "title": "円運動 Stage4 周期・角速度・速さトレーナー",
+  "lead": "周期 T、角速度 ω、速さ v の関係を整理する4択クイズです。",
+  "note": "1周は <b>2π [rad]</b> です。<b>ω = 2π/T</b>、<b>v = 2πr/T</b> を使います。",
+  "groups": [
+    {
+      "type": "omega",
+      "count": 4
+    },
+    {
+      "type": "T",
+      "count": 3
+    },
+    {
+      "type": "v",
+      "count": 3
+    }
+  ]
+};
 </script>
-</body>
-</html>
+<script src="../common/circular_motion_stage_common_v1.js"></script>
+</body></html>
