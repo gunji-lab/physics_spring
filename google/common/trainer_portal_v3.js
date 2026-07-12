@@ -28,7 +28,7 @@
     "heat_stage1_framework_v1.html":"熱/Stage1/温度変換",
     "heat_stage2_framework_v1.html":"熱/Stage2/熱容量",
     "heat_stage3_framework_v1.html":"熱/Stage3/Q=mcΔT",
-    "heat_stage4_framework_v1.html":"熱/Stage4/統合",
+    "heat_stage4_framework_v1.html":"熱/Stage4/熱量・熱容量",
     "heat_stage5_framework_v1.html":"熱/Stage5/熱量保存",
     "heat_stage6_framework_v1.html":"熱/Stage6/総合記述式",
     "heat_gas_stage1_framework_v1.html":"熱と気体/Stage1/ボイルの法則",
@@ -38,9 +38,21 @@
     "heat_gas_stage5_framework_v1.html":"熱と気体/Stage5/熱エネルギーと仕事"
   };
 
+  const stageAliases = {
+    "熱/Stage4/統合": "熱/Stage4/熱量・熱容量",
+    "熱/Stage4/熱量・熱容量の統合": "熱/Stage4/熱量・熱容量",
+    "熱/Stage4/熱量・熱容量の統合トレーナー": "熱/Stage4/熱量・熱容量",
+    "熱 Stage4 熱量・熱容量の統合トレーナー": "熱/Stage4/熱量・熱容量"
+  };
+
+  function normalizeStageName(stage) {
+    const value = String(stage || "").trim();
+    return stageAliases[value] || value;
+  }
+
   function renderProgress(response) {
     if (!response || !response.ok) return;
-    const stageProgress = new Map(response.stages.map(item => [item.stage, item]));
+    const stageProgress = new Map(response.stages.map(item => [normalizeStageName(item.stage), item]));
     document.querySelectorAll("a[href]").forEach(link => {
       const file = link.getAttribute("href").split("/").pop();
       const stage = stageByFile[file];
