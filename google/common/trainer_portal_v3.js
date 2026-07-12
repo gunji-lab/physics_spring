@@ -25,12 +25,6 @@
     "spring_stage5_written_framework_v2.html":"バネ/Stage5/記入式",
     "spring_test1_framework_v2.html":"バネ/test1/円運動するばね",
     "spring_test2_framework_v2.html":"バネ/test2/水平バネ振り子",
-    "stage1_work.html":"力学的エネルギー/Stage1/仕事",
-    "stage2_potential_energy.html":"力学的エネルギー/Stage2/位置エネルギー",
-    "stage3_kinetic_energy.html":"力学的エネルギー/Stage3/運動エネルギー",
-    "stage4_mechanical_energy.html":"力学的エネルギー/Stage4/力学的エネルギー保存",
-    "stage5_work_energy.html":"力学的エネルギー/Stage5/仕事とエネルギー",
-    "stage6_final_challenge.html":"力学的エネルギー/Stage6/総合記述式",
     "heat_stage1_framework_v1.html":"熱/Stage1/温度変換",
     "heat_stage2_framework_v1.html":"熱/Stage2/熱容量",
     "heat_stage3_framework_v1.html":"熱/Stage3/Q=mcΔT",
@@ -41,9 +35,7 @@
     "heat_gas_stage2_framework_v1.html":"熱と気体/Stage2/シャルルの法則",
     "heat_gas_stage3_framework_v1.html":"熱と気体/Stage3/ボイル・シャルルの法則",
     "heat_gas_stage4_framework_v1.html":"熱と気体/Stage4/状態方程式",
-    "heat_gas_stage5_framework_v1.html":"熱と気体/Stage5/熱エネルギーと仕事",
-    "heat_gas_stage6_written_framework_v1.html":"熱と気体/Stage6/総合記述式",
-    "heat_gas_big_problem_framework_v1.html":"熱と気体/大問/状態変化"
+    "heat_gas_stage5_framework_v1.html":"熱と気体/Stage5/熱エネルギーと仕事"
   };
 
   function renderProgress(response) {
@@ -56,7 +48,13 @@
       const mark = document.createElement("span");
       mark.className = "stage-progress-mark";
       const progress = stageProgress.get(stage);
-      const isCleared = progress && progress.status === "クリア済み";
+      const status = String(progress && progress.status || "");
+      const isCleared = !!progress && (
+        progress.cleared === true ||
+        Number(progress.clears || 0) > 0 ||
+        status === "クリア済み" ||
+        (status.indexOf("クリア") >= 0 && status.indexOf("未") === -1)
+      );
       const attempts = progress ? Number(progress.attempts || 0) : 0;
       mark.textContent = `${isCleared ? "✓ クリア" : "○ 未クリア"}｜${attempts}回挑戦`;
       mark.style.cssText = "float:right;font-size:.86rem;color:" + (isCleared ? "#15803d" : "#94a3b8");
