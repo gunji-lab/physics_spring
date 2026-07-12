@@ -99,6 +99,8 @@ const TrainerAuth = (() => {
     category = root + (isGoogle ? "google/" : "") + "spring/index.html";
   } else if (path.indexOf("/heat/") >= 0) {
     category = root + (isGoogle ? "google/" : "") + "heat/index.html";
+  } else if (path.indexOf("/heat_gas/") >= 0) {
+    category = root + (isGoogle ? "google/" : "") + "heat_gas/index.html";
   }
 
   if (!category || document.querySelector(".trainer-page-navigation")) return;
@@ -125,26 +127,83 @@ const TrainerLog = (() => {
   let questionTimes = [];
   let questionResults = [];
   let resultSent = false;
+  let sessionHiddenMs = 0;
+  let questionHiddenMs = 0;
+  let sessionHiddenStartedAt = 0;
+  let questionHiddenStartedAt = 0;
+
+  function nowMs() {
+    return Date.now();
+  }
+
+  function isHidden() {
+    return typeof document !== "undefined" && document.hidden;
+  }
+
+  function handleVisibilityChange() {
+    const now = nowMs();
+
+    if (isHidden()) {
+      if (startTime && !sessionHiddenStartedAt) sessionHiddenStartedAt = now;
+      if (questionStartTime && !questionHiddenStartedAt) questionHiddenStartedAt = now;
+      return;
+    }
+
+    if (sessionHiddenStartedAt) {
+      sessionHiddenMs += now - sessionHiddenStartedAt;
+      sessionHiddenStartedAt = 0;
+    }
+    if (questionHiddenStartedAt) {
+      questionHiddenMs += now - questionHiddenStartedAt;
+      questionHiddenStartedAt = 0;
+    }
+  }
+
+  if (typeof document !== "undefined") {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  }
+
+  function hiddenMsForSession(now) {
+    return sessionHiddenMs + (sessionHiddenStartedAt ? now - sessionHiddenStartedAt : 0);
+  }
+
+  function hiddenMsForQuestion(now) {
+    return questionHiddenMs + (questionHiddenStartedAt ? now - questionHiddenStartedAt : 0);
+  }
+
+  function visibleSecondsSince(start, hiddenMs, now) {
+    if (!start) return 0;
+    return Math.max(0, Math.round((now - start - hiddenMs) / 1000));
+  }
 
   function startSession() {
-    startTime = Date.now();
+    const now = nowMs();
+    startTime = now;
     questionStartTime = 0;
     elapsed = 0;
     questionTimes = [];
     questionResults = [];
     resultSent = false;
+    sessionHiddenMs = 0;
+    questionHiddenMs = 0;
+    sessionHiddenStartedAt = isHidden() ? now : 0;
+    questionHiddenStartedAt = 0;
     removeStudentDashboardButton();
   }
 
   function startQuestion() {
-    questionStartTime = Date.now();
+    const now = nowMs();
+    questionStartTime = now;
+    questionHiddenMs = 0;
+    questionHiddenStartedAt = isHidden() ? now : 0;
   }
 
   function recordQuestion(question, isCorrect, extra = {}) {
+    const now = nowMs();
     const qTime = extra.elapsedSeconds !== undefined
       ? Number(extra.elapsedSeconds || 0)
       : questionStartTime
-      ? Math.round((Date.now() - questionStartTime) / 1000)
+      ? visibleSecondsSince(questionStartTime, hiddenMsForQuestion(now), now)
       : "";
 
     questionTimes.push(qTime);
@@ -158,18 +217,26 @@ const TrainerLog = (() => {
       prompt: extra.prompt ?? question?.prompt ?? question?.question ?? ""
     });
 
+    questionStartTime = 0;
+    questionHiddenMs = 0;
+    questionHiddenStartedAt = 0;
+
     return qTime;
   }
 
   function finishSession() {
+    const now = nowMs();
     elapsed = startTime
-      ? Math.round((Date.now() - startTime) / 1000)
+      ? visibleSecondsSince(startTime, hiddenMsForSession(now), now)
       : 0;
     return elapsed;
   }
 
   function getElapsed() {
-    return elapsed || (startTime ? Math.round((Date.now() - startTime) / 1000) : 0);
+    const now = nowMs();
+    return elapsed || (startTime
+      ? visibleSecondsSince(startTime, hiddenMsForSession(now), now)
+      : 0);
   }
 
   function formatElapsed(seconds) {
