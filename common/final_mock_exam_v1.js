@@ -288,8 +288,59 @@
   }
 
   let items = [];
+  let currentTotal = EXAM_TOTAL;
+  let lastWrongItems = [];
+  let reviewMode = false;
   function field(q, key, points, label) {
-    return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit || "")}</span></div><div class="feedback" data-feedback></div></article>`;
+    return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div><button class="hint-btn" type="button" data-hint-toggle>ヒントを表示</button><div class="hint" data-hint>${hintText(q, label)}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit || "")}</span></div><div class="feedback" data-feedback></div></article>`;
+  }
+  function hintText(q, label = "") {
+    const text = `${label} ${q.prompt || ""} ${q.solution || ""} ${q.display || ""}`;
+    const tips = [];
+    if (/万有|GM|人工衛星|惑星|軌道|重力|月/.test(text)) {
+      tips.push("万有引力は F = GMm/r² です。距離 r が変わる問題では、r が分母の2乗にあることをまず見ます。");
+      tips.push("円軌道なら、万有引力が向心力になります。つまり GMm/r² = mv²/r と置いて、共通する m や r を整理します。");
+      tips.push("周期を聞かれたら、円周 2πr を速さ v で割って T = 2πr/v と考えます。");
+    } else if (/円錐|張力|鉛直|水平|糸|θ|theta|sin|cos|tan/.test(text)) {
+      tips.push("力を鉛直方向と水平方向に分けます。鉛直方向はつり合いなので Tcosθ = mg です。");
+      tips.push("水平方向の力 Tsinθ が向心力になります。半径は糸の長さ L の水平成分なので r = Lsinθ です。");
+      tips.push("速度や加速度を求めるときは、Tsinθ = mv²/r または a = v²/r につなげます。");
+    } else if (/円運動するバネ|角速度|自然長|伸び|向心力|ω|omega/.test(text)) {
+      tips.push("まずバネの伸びを x = L - L0 と置きます。弾性力は F = kx = k(L - L0) です。");
+      tips.push("水平円運動では、バネの弾性力が向心力になります。向心力は mLω² です。");
+      tips.push("したがって k(L - L0) = mLω² と置き、求めたい文字について整理します。");
+    } else if (/水平バネ|単振動|周期|振幅|自然長での速さ|弾性エネルギー|運動エネルギー/.test(text)) {
+      tips.push("周期なら T = 2π√(m/k) を使います。m は分子、k は分母にあることに注意します。");
+      tips.push("速さを求める問題では、端での弾性エネルギー 1/2 kA² が、自然長での運動エネルギー 1/2 mv² になると考えます。");
+      tips.push("両辺の 1/2 を消してから、v または v² について整理すると計算しやすいです。");
+    } else if (/熱|比熱|温度|融解|凝固|気体|圧力|体積|内部エネルギー/.test(text)) {
+      tips.push("まず、何の熱量かを見分けます。温度変化なら Q = mcΔT、状態変化なら Q = mL を使います。");
+      tips.push("熱のやりとりでは、失った熱量 = 得た熱量 と置きます。温度差 ΔT は必ず「変化した分」で考えます。");
+      tips.push("気体では、圧力・体積・温度のどれが一定かを先に確認すると、使う式を選びやすくなります。");
+    } else if (/力学的エネルギー|位置エネルギー|運動エネルギー|保存|高さ|速さ/.test(text)) {
+      tips.push("力学的エネルギー保存では、はじめのエネルギーの合計 = あとのエネルギーの合計 と置きます。");
+      tips.push("位置エネルギーは mgh、運動エネルギーは 1/2 mv² です。質量 m が両辺にあるときは消せる場合があります。");
+      tips.push("速さを求めるときは、最後に v² = ... の形にしてから平方根を取ります。");
+    } else {
+      tips.push("まず、求めたい量と与えられている量に印をつけます。次に、その2つをつなぐ基本公式を1つ選びます。");
+      tips.push("単位がそろっているか確認し、式を立ててから代入します。迷ったら、答えの単位になるように式を整理してみましょう。");
+    }
+    if (q.solution) tips.push(`計算の見通し：${stripTags(q.solution)}`);
+    return tips.map(tip => `<div>・${escapeHtml(tip)}</div>`).join("");
+  }
+  function setScorePill(text) {
+    const pill = $("#scorePill");
+    if (pill) pill.textContent = text;
+  }
+  function renderBigQuestions() {
+    items = items.filter(item => item.kind !== "大問");
+    const bigs = chooseBigExam();
+    let n = 0;
+    const notationGuide = `<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。πは「pi」でも可。v²は「v^2」「v2」でも可。ω²は「omega^2」「omega2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「T=…」のように左辺を付けても可。運動方程式では等号の左右が逆でも可。</div>`;
+    $("#bigQuestions").innerHTML = notationGuide + bigs.map((b, bi) => `<section class="question big"><h2>大問${bi + 1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(b.context)}</div>${b.questions.map((q, qi) => { n++; const key = `${b.id}_${Date.now()}_${bi + 1}_${qi + 1}_${n}`; const label = `大問${bi + 1} 設問(${qi + 1})`; items.push({q, key, points: BIG_POINTS, label, kind: "大問", title: b.title, context: b.context}); return field(q, key, BIG_POINTS, label); }).join("")}</section>`).join("");
+    $("#result").classList.add("hidden");
+    $("#submitBtn").disabled = false;
+    $("#changeBigBtn").disabled = false;
   }
   function getVerifiedStudentId() {
     const input = $("#studentId");
@@ -306,17 +357,19 @@
       return;
     }
     const basics = chooseBasics();
-    const bigs = chooseBigExam();
     items = [];
+    currentTotal = EXAM_TOTAL;
+    lastWrongItems = [];
+    reviewMode = false;
+    setScorePill("30点満点");
+    $("#submitBtn").textContent = "答案を提出して採点";
     $("#basicQuestions").innerHTML = basics.map((q, i) => {
       const label = `小問${i + 1}｜${q.section || q.sourceUnit || "小問"}`;
       items.push({q, key: q.id, points: BASIC_POINTS, label, kind: "小問"});
       return field(q, q.id, BASIC_POINTS, label);
     }).join("");
 
-    let n = 0;
-    const notationGuide = `<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。πは「pi」でも可。v²は「v^2」「v2」でも可。ω²は「omega^2」「omega2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「T=…」のように左辺を付けても可。運動方程式では等号の左右が逆でも可。</div>`;
-    $("#bigQuestions").innerHTML = notationGuide + bigs.map((b, bi) => `<section class="question big"><h2>大問${bi + 1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(b.context)}</div>${b.questions.map((q, qi) => { n++; const key = `${b.id}_${bi + 1}_${qi + 1}_${n}`; const label = `大問${bi + 1} 設問(${qi + 1})`; items.push({q, key, points: BIG_POINTS, label, kind: "大問", title: b.title}); return field(q, key, BIG_POINTS, label); }).join("")}</section>`).join("");
+    renderBigQuestions();
     $("#startScreen").classList.add("hidden");
     $("#examScreen").classList.remove("hidden");
     $("#result").classList.add("hidden");
@@ -326,34 +379,74 @@
   function submit() {
     let score = 0;
     const wrong = [];
+    const wrongItems = [];
     items.forEach(item => {
       const el = document.querySelector(`[data-key="${item.key}"]`);
       const value = el.querySelector("[data-answer]").value;
       const ok = correct(item.q, value);
       const fb = el.querySelector("[data-feedback]");
       const prompt = `${item.label}｜${writtenPrompt(item.q.prompt)}`;
-      if (ok) score += item.points; else wrong.push(prompt);
+      if (ok) score += item.points; else { wrong.push(prompt); wrongItems.push({...item, originalPrompt: prompt}); }
       fb.className = "feedback show " + (ok ? "right" : "wrong");
       fb.innerHTML = ok ? `正解（${item.points}点）` : `不正解　正解：<strong>${escapeHtml(displayAnswer(item.q))}</strong>`;
       el.querySelector("[data-answer]").disabled = true;
       window.TrainerLog?.recordQuestion({id: "MOCK_" + item.key, type: item.kind === "大問" ? "final_mock_big" : "final_mock_basic", question: prompt, answer: displayAnswer(item.q)}, ok, {selected: value, prompt});
     });
+    lastWrongItems = wrongItems;
     const elapsed = window.TrainerLog?.finishSession?.() || 0;
-    $("#scoreValue").textContent = score + ` / ${EXAM_TOTAL}点`;
+    $("#scoreValue").textContent = score + ` / ${currentTotal}点`;
     $("#result").classList.remove("hidden");
     $("#submitBtn").disabled = true;
+    $("#changeBigBtn").disabled = true;
+    $("#reviewWrongBtn").style.display = wrongItems.length ? "inline-block" : "none";
     const status = document.getElementById("sendStatus");
     if (status) status.textContent = `所要時間：${Math.floor(elapsed / 60)}分${elapsed % 60}秒。保存処理を開始しました。`;
     if (!window.TrainerLog || typeof window.TrainerLog.sendResult !== "function") {
       if (status) status.textContent = "保存処理を開始できませんでした。Googleログイン版から開き直してください。";
       return;
     }
-    window.TrainerLog.sendResult({score, total: EXAM_TOTAL, extra: {examType: "期末試験模試", wrongQuestions: wrong, itemCount: items.length}});
+    window.TrainerLog.sendResult({score, total: currentTotal, extra: {examType: reviewMode ? "期末試験模試・間違い直し" : "期末試験模試", wrongQuestions: wrong, itemCount: items.length}});
     $("#result").scrollIntoView({behavior: "smooth"});
+  }
+  function renderWrongReview() {
+    if (!lastWrongItems.length) return;
+    reviewMode = true;
+    items = [];
+    currentTotal = lastWrongItems.reduce((sum, item) => sum + item.points, 0);
+    setScorePill(`${currentTotal}点満点`);
+    $("#submitBtn").textContent = "やり直しを採点";
+    $("#submitBtn").disabled = false;
+    $("#changeBigBtn").disabled = true;
+    $("#result").classList.add("hidden");
+    const basics = lastWrongItems.filter(item => item.kind === "小問");
+    const bigs = lastWrongItems.filter(item => item.kind === "大問");
+    $("#basicQuestions").innerHTML = basics.length ? basics.map((item, i) => {
+      const key = `REVIEW_BASIC_${Date.now()}_${i}`;
+      const reviewItem = {...item, key, label: `やり直し 小問${i + 1}`};
+      items.push(reviewItem);
+      return field(reviewItem.q, key, reviewItem.points, reviewItem.label);
+    }).join("") : `<div class="guide">小問の間違いはありません。</div>`;
+    $("#bigQuestions").innerHTML = bigs.length ? bigs.map((item, i) => {
+      const key = `REVIEW_BIG_${Date.now()}_${i}`;
+      const reviewItem = {...item, key, label: `やり直し 大問${i + 1}`};
+      items.push(reviewItem);
+      return `<section class="question big"><h2>${escapeHtml(item.title || "大問のやり直し")}</h2>${item.context ? `<div class="big-context"><div class="context-label">問題文</div>${escapeHtml(item.context)}</div>` : ""}${field(reviewItem.q, key, reviewItem.points, reviewItem.label)}</section>`;
+    }).join("") : `<div class="guide">大問の間違いはありません。</div>`;
+    window.TrainerLog?.startSession();
+    window.scrollTo({top: 0, behavior: "smooth"});
   }
 
   $("#startBtn").addEventListener("click", start);
   $("#submitBtn").addEventListener("click", submit);
+  $("#changeBigBtn").addEventListener("click", renderBigQuestions);
+  $("#reviewWrongBtn").addEventListener("click", renderWrongReview);
+  document.addEventListener("click", e => {
+    const btn = e.target.closest("[data-hint-toggle]");
+    if (!btn) return;
+    const box = btn.nextElementSibling;
+    const isOpen = box && box.classList.toggle("show");
+    btn.textContent = isOpen ? "ヒントを隠す" : "ヒントを表示";
+  });
   $("#againBtn").addEventListener("click", () => location.reload());
   const studentInput = $("#studentId");
   if (studentInput) studentInput.addEventListener("keydown", e => { if (e.key === "Enter") start(); });

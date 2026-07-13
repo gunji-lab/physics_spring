@@ -18,11 +18,17 @@
       <div class="controls"><button class="btn primary" id="startBtn">模試を始める</button><a class="btn secondary" href="../index.html">トップへ戻る</a></div>
     </section>
     <main class="panel hidden" id="examScreen">
-      <div class="exam-head"><div><span class="tag">期末試験対策</span><h1>期末試験の模試</h1></div><div class="score-pill">30点満点</div></div>
+      <div class="exam-head"><div><span class="tag">期末試験対策</span><h1>期末試験の模試</h1></div><div class="score-pill" id="scorePill">30点満点</div></div>
       <section class="section"><h2>小問｜5問 × 3点</h2><div id="basicQuestions"></div></section>
-      <section class="section"><h2>大問｜3設問 × 5点</h2><div id="bigQuestions"></div></section>
+      <section class="section">
+        <div class="section-head">
+          <h2>大問｜3設問 × 5点</h2>
+          <button class="btn secondary small" id="changeBigBtn" type="button">別の問題にする</button>
+        </div>
+        <div id="bigQuestions"></div>
+      </section>
       <div class="controls"><button class="btn primary" id="submitBtn">答案を提出して採点</button></div>
-      <section class="result hidden" id="result"><div class="score-big" id="scoreValue"></div><p>各設問の正誤を上で確認できます。</p><div id="sendStatus" class="guide"></div><button class="btn secondary" id="againBtn">別の問題で挑戦</button></section>
+      <section class="result hidden" id="result"><div class="score-big" id="scoreValue"></div><p>各設問の正誤を上で確認できます。</p><div id="sendStatus" class="guide"></div><div class="controls result-controls"><button class="btn secondary" id="reviewWrongBtn" type="button">間違えた問題をやり直す</button><button class="btn secondary" id="againBtn">別の問題で挑戦</button></div></section>
       <div class="controls"><a class="btn secondary" href="../index.html">トップページに戻る</a></div>
     </main>
   </div>
