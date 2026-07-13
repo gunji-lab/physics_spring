@@ -408,7 +408,7 @@ const STUDENT_STAGE_CATALOG = [
   "熱/Stage1/温度変換",
   "熱/Stage2/熱容量",
   "熱/Stage3/Q=mcΔT",
-  "熱/Stage4/統合",
+  "熱/Stage4/熱量・熱容量",
   "熱/Stage5/熱量保存",
   "熱/Stage6/総合記述式"
 ];
