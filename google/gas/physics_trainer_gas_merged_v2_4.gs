@@ -6,6 +6,7 @@
 const LOG_SHEET_NAME = "Log";
 const COUNT_SHEET_NAME = "Counts";
 const QUESTION_SHEET_NAME = "QuestionTimes";
+const RANKING_SHEET_NAME = "RankingSummary";
 const SCHOOL_DOMAIN = "toyo.jp";
 const AUTH_TOKEN_HOURS = 12;
 const AUTH_SECRET_PROPERTY = "PHYSICS_AUTH_V3_SECRET";
@@ -341,7 +342,7 @@ function testPost() {
 }
 
 /* =========================================================
-   Physics Trainer Teacher Dashboard v1.1
+   Physics Trainer Teacher Dashboard v2.4
    既存の physics_trainer_gas_log_system_v2.gs に追記して使います。
 
    使い方:
@@ -739,20 +740,15 @@ function getTeacherDashboardData(filters) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
   const countSheet = ss.getSheetByName(COUNT_SHEET_NAME);
-  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
 
   const logs = logSheet ? readSheetObjects_(logSheet) : [];
   const counts = countSheet ? readSheetObjects_(countSheet) : [];
-  const questionRows = questionSheet ? readSheetObjects_(questionSheet) : [];
 
   const filteredLogsSource =
     logs.filter(row => !isExcludedStudent_(row["学籍番号"]));
 
   const filteredCountsSource =
     counts.filter(row => !isExcludedStudent_(row["学籍番号"]));
-
-  const filteredQuestionSource =
-    questionRows.filter(row => !isExcludedStudent_(row["学籍番号"]));
 
   const unitFilter = String(filters.unit || "");
   const stageFilter = String(filters.stage || "");
@@ -764,11 +760,7 @@ function getTeacherDashboardData(filters) {
     return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
   });
 
-  const filteredQuestionRows = filteredQuestionSource.filter(row => {
-    return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
-  });
-
-  const unitSourceRows = filteredLogsSource.concat(filteredQuestionSource);
+  const unitSourceRows = filteredLogsSource;
   const units = Array.from(new Set(unitSourceRows.map(row => getRowUnit_(row)).filter(Boolean))).sort();
   const stageSourceRows = unitFilter
     ? filteredLogsSource.filter(row => getRowUnit_(row) === unitFilter)
@@ -781,15 +773,13 @@ function getTeacherDashboardData(filters) {
   const stageRows = buildStageRows_(regularStageLogs);
   const bottleneckStages = buildBottleneckStageRows_(stageRows);
   const studentRows = buildStudentRows_(filteredLogs, filteredCountsSource);
-  const studentLeaderboards = buildStudentLeaderboards_(filteredLogs);
-  const questionStats = buildQuestionStats_(filteredQuestionRows);
-  const recentAttempts = buildRecentAttempts_(filteredLogs);
+  const studentLeaderboards = getRankingLeaderboardsFromSummary_() || buildStudentLeaderboards_(filteredLogs);
+  const recentAttempts = buildRecentAttempts_(filteredLogs).slice(0, 30);
   const specialRows = buildSpecialActivityRows_(filteredLogs)
     .filter(row => row.section === "期末試験模試");
   const finalMockLogs = filteredLogs.filter(row =>
     getSpecialActivitySection_(row["Stage"]) === "期末試験模試");
   const finalMockAttempts = buildRecentAttempts_(finalMockLogs).slice(0, 30);
-  const finalMockWrongRows = buildFinalMockWrongRows_(filteredQuestionRows).slice(0, 80);
 
   return {
     generatedAt: new Date().toISOString(),
@@ -801,46 +791,448 @@ function getTeacherDashboardData(filters) {
     bottleneckStages,
     studentRows,
     studentLeaderboards,
-    questionStats,
     recentAttempts,
     specialRows,
-    finalMockAttempts,
-    finalMockWrongRows
+    finalMockAttempts
   };
+}
+
+function getTeacherQuestionData(filters) {
+  filters = filters || {};
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const questionRows = questionSheet ? readSheetObjects_(questionSheet) : [];
+  const filteredQuestionSource =
+    questionRows.filter(row => !isExcludedStudent_(row["学籍番号"]));
+
+  const unitFilter = String(filters.unit || "");
+  const stageFilter = String(filters.stage || "");
+  const studentFilter = String(filters.student || "").trim().toLowerCase();
+  const days = Number(filters.days || 0);
+  const since = days > 0 ? new Date(Date.now() - days * 24 * 60 * 60 * 1000) : null;
+  const filteredQuestionRows = filteredQuestionSource.filter(row => {
+    return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
+  });
+
+  return {
+    generatedAt: new Date().toISOString(),
+    questionStats: buildQuestionStats_(filteredQuestionRows)
+  };
+}
+
+function getTeacherStudentLinksData(filters) {
+  filters = filters || {};
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  const countSheet = ss.getSheetByName(COUNT_SHEET_NAME);
+
+  const logs = logSheet ? readSheetObjects_(logSheet) : [];
+  const counts = countSheet ? readSheetObjects_(countSheet) : [];
+  const filteredLogsSource =
+    logs.filter(row => !isExcludedStudent_(row["学籍番号"]));
+  const filteredCountsSource =
+    counts.filter(row => !isExcludedStudent_(row["学籍番号"]));
+
+  const unitFilter = String(filters.unit || "");
+  const stageFilter = String(filters.stage || "");
+  const studentFilter = String(filters.student || "").trim().toLowerCase();
+  const days = Number(filters.days || 0);
+  const since = days > 0 ? new Date(Date.now() - days * 24 * 60 * 60 * 1000) : null;
+  const filteredLogs = filteredLogsSource.filter(row => {
+    return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
+  });
+
+  const studentRows = buildStudentRows_(filteredLogs, filteredCountsSource)
+    .map(row => Object.assign({}, row, {
+      dashboardUrl: buildStudentDashboardUrl_(row.studentId)
+    }));
+
+  return {
+    generatedAt: new Date().toISOString(),
+    studentRows
+  };
+}
+
+function getTeacherFinalMockWrongData(filters) {
+  filters = filters || {};
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const questionRows = questionSheet ? readSheetObjects_(questionSheet) : [];
+  const filteredQuestionSource =
+    questionRows.filter(row => !isExcludedStudent_(row["学籍番号"]));
+
+  const unitFilter = String(filters.unit || "");
+  const stageFilter = String(filters.stage || "");
+  const studentFilter = String(filters.student || "").trim().toLowerCase();
+  const days = Number(filters.days || 0);
+  const since = days > 0 ? new Date(Date.now() - days * 24 * 60 * 60 * 1000) : null;
+  const filteredQuestionRows = filteredQuestionSource.filter(row => {
+    return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
+  });
+
+  return {
+    generatedAt: new Date().toISOString(),
+    finalMockWrongRows: buildFinalMockWrongRows_(filteredQuestionRows).slice(0, 80)
+  };
+}
+
+function getTeacherActiveAnswerData(filters) {
+  filters = filters || {};
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
+  const questionRows = questionSheet ? readSheetObjects_(questionSheet) : [];
+  const filteredQuestionSource =
+    questionRows.filter(row => !isExcludedStudent_(row["学籍番号"]));
+
+  const unitFilter = String(filters.unit || "");
+  const stageFilter = String(filters.stage || "");
+  const studentFilter = String(filters.student || "").trim().toLowerCase();
+  const days = Number(filters.days || 0);
+  const since = days > 0 ? new Date(Date.now() - days * 24 * 60 * 60 * 1000) : null;
+  const filteredRows = filteredQuestionSource.filter(row => {
+    return rowMatchesDashboardFilters_(row, unitFilter, stageFilter, studentFilter, since);
+  });
+
+  return {
+    generatedAt: new Date().toISOString(),
+    activeAnswerRows: buildActiveAnswerRows_(filteredRows)
+  };
+}
+
+function buildActiveAnswerRows_(questionRows) {
+  const map = {};
+
+  questionRows.forEach(row => {
+    const studentId = String(row["学籍番号"] || "").trim();
+    const stage = String(row["Stage"] || "");
+    const time = Number(row["時間[s]"] || 0);
+    const correct = String(row["正誤"] || "") === "○";
+    const date = asDate_(row["日時"]);
+    if (!studentId || time <= 0) return;
+
+    if (!map[studentId]) {
+      map[studentId] = {
+        studentId,
+        activeAnswerElapsed: 0,
+        questionCount: 0,
+        correctCount: 0,
+        stages: {},
+        latestStage: "",
+        latest: null
+      };
+    }
+
+    const item = map[studentId];
+    item.activeAnswerElapsed += time;
+    item.questionCount++;
+    if (correct) item.correctCount++;
+    if (stage) item.stages[stage] = true;
+    if (date && (!item.latest || date > item.latest)) {
+      item.latest = date;
+      item.latestStage = stage;
+    }
+  });
+
+  return Object.keys(map).map(studentId => {
+    const item = map[studentId];
+    return {
+      studentId: item.studentId,
+      activeAnswerElapsed: Math.round(item.activeAnswerElapsed),
+      questionCount: item.questionCount,
+      averageQuestionTime: item.questionCount > 0
+        ? Math.round(item.activeAnswerElapsed / item.questionCount)
+        : 0,
+      correctRate: item.questionCount > 0
+        ? Math.round(item.correctCount / item.questionCount * 100)
+        : 0,
+      stages: Object.keys(item.stages).length,
+      latestStage: item.latestStage,
+      latest: item.latest ? item.latest.toISOString() : ""
+    };
+  }).sort((a, b) => {
+    if (b.activeAnswerElapsed !== a.activeAnswerElapsed) {
+      return b.activeAnswerElapsed - a.activeAnswerElapsed;
+    }
+    return compareStudentIds_(a.studentId, b.studentId);
+  });
 }
 
 function buildStudentLeaderboards_(logs) {
   const map = {};
+  const weekStart = getCurrentWeekStartJst_();
 
   logs.forEach(row => {
     const studentId = String(row["学籍番号"] || "").trim();
+    const date = asDate_(row["日時"]);
+    const elapsed = Number(row["所要時間[s]"] || 0);
+    const outOfClassElapsed = getOutOfClassElapsedSeconds_(row);
+    const isThisWeek = date && date >= weekStart;
     if (!studentId) return;
     if (!map[studentId]) {
       map[studentId] = {
         studentId,
         attempts: 0,
         totalElapsed: 0,
-        outOfClassElapsed: 0
+        outOfClassElapsed: 0,
+        weeklyAttempts: 0,
+        weeklyTotalElapsed: 0,
+        weeklyOutOfClassElapsed: 0,
+        latest: null
       };
     }
     map[studentId].attempts++;
-    map[studentId].totalElapsed += Number(row["所要時間[s]"] || 0);
-    map[studentId].outOfClassElapsed += getOutOfClassElapsedSeconds_(row);
+    map[studentId].totalElapsed += elapsed;
+    map[studentId].outOfClassElapsed += outOfClassElapsed;
+    if (isThisWeek) {
+      map[studentId].weeklyAttempts++;
+      map[studentId].weeklyTotalElapsed += elapsed;
+      map[studentId].weeklyOutOfClassElapsed += outOfClassElapsed;
+    }
+    if (date && (!map[studentId].latest || date > map[studentId].latest)) {
+      map[studentId].latest = date;
+    }
   });
 
-  const rows = Object.keys(map).map(studentId => map[studentId]);
+  const rows = Object.keys(map).map(studentId => {
+    const item = map[studentId];
+    return Object.assign({}, item, {
+      latest: item.latest ? item.latest.toISOString() : ""
+    });
+  });
   const byValue = key => (a, b) => {
     if (b[key] !== a[key]) return b[key] - a[key];
+    const latestCompare = String(b.latest || "").localeCompare(String(a.latest || ""));
+    if (latestCompare !== 0) return latestCompare;
     return compareStudentIds_(a.studentId, b.studentId);
   };
 
   return {
     totalElapsed: rows.filter(row => row.totalElapsed > 0)
       .sort(byValue("totalElapsed")).slice(0, 10),
+    attempts: rows.filter(row => row.attempts > 0)
+      .sort(byValue("attempts")).slice(0, 10),
+    weeklyTotalElapsed: rows.filter(row => row.weeklyTotalElapsed > 0)
+      .sort(byValue("weeklyTotalElapsed")).slice(0, 10),
+    weeklyAttempts: rows.filter(row => row.weeklyAttempts > 0)
+      .sort(byValue("weeklyAttempts")).slice(0, 10),
     outOfClassElapsed: rows.filter(row => row.outOfClassElapsed > 0)
       .sort(byValue("outOfClassElapsed")).slice(0, 10),
-    attempts: rows.filter(row => row.attempts > 0)
-      .sort(byValue("attempts")).slice(0, 10)
+    weeklyOutOfClassElapsed: rows.filter(row => row.weeklyOutOfClassElapsed > 0)
+      .sort(byValue("weeklyOutOfClassElapsed")).slice(0, 10)
+  };
+}
+
+function refreshRankingSummary() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+  const rankingSheet = getOrCreateSheet_(ss, RANKING_SHEET_NAME);
+  const logs = logSheet ? readSheetObjects_(logSheet)
+    .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
+  const rows = buildRankingSummaryRows_(logs);
+
+  rankingSheet.clearContents();
+  rankingSheet.getRange(1, 1, 1, 6).setValues([[
+    "種別", "学籍番号", "順位", "値", "最新提出", "更新日時"
+  ]]);
+  if (rows.length) {
+    rankingSheet.getRange(2, 1, rows.length, 6).setValues(rows);
+  }
+  rankingSheet.setFrozenRows(1);
+
+  return {
+    updatedAt: new Date().toISOString(),
+    rows: rows.length
+  };
+}
+
+function installRankingSummaryTrigger() {
+  ScriptApp.getProjectTriggers().forEach(trigger => {
+    if (trigger.getHandlerFunction() === "refreshRankingSummary") {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  ScriptApp.newTrigger("refreshRankingSummary")
+    .timeBased()
+    .everyMinutes(10)
+    .create();
+
+  return "refreshRankingSummary を10分おきに実行するトリガーを設定しました。";
+}
+
+function buildRankingSummaryRows_(logs) {
+  const map = {};
+  const weekStart = getCurrentWeekStartJst_();
+
+  (logs || []).forEach(row => {
+    const studentId = String(row["学籍番号"] || "").trim();
+    const date = asDate_(row["日時"]);
+    const elapsed = Number(row["所要時間[s]"] || 0);
+    const outOfClassElapsed = getOutOfClassElapsedSeconds_(row);
+    const isThisWeek = date && date >= weekStart;
+    if (!studentId) return;
+    if (!map[studentId]) {
+      map[studentId] = {
+        studentId,
+        attempts: 0,
+        totalElapsed: 0,
+        outOfClassElapsed: 0,
+        weeklyAttempts: 0,
+        weeklyTotalElapsed: 0,
+        weeklyOutOfClassElapsed: 0,
+        latest: null
+      };
+    }
+
+    const item = map[studentId];
+    item.attempts++;
+    item.totalElapsed += elapsed;
+    item.outOfClassElapsed += outOfClassElapsed;
+    if (isThisWeek) {
+      item.weeklyAttempts++;
+      item.weeklyTotalElapsed += elapsed;
+      item.weeklyOutOfClassElapsed += outOfClassElapsed;
+    }
+    if (date && (!item.latest || date > item.latest)) item.latest = date;
+  });
+
+  const allRows = Object.keys(map).map(studentId => {
+    const item = map[studentId];
+    return Object.assign({}, item, {
+      latest: item.latest ? item.latest.toISOString() : ""
+    });
+  });
+  const byValue = key => (a, b) => {
+    if (b[key] !== a[key]) return b[key] - a[key];
+    const latestCompare = String(b.latest || "").localeCompare(String(a.latest || ""));
+    if (latestCompare !== 0) return latestCompare;
+    return compareStudentIds_(a.studentId, b.studentId);
+  };
+  const leaderboards = {
+    totalElapsed: allRows.filter(row => row.totalElapsed > 0).sort(byValue("totalElapsed")),
+    attempts: allRows.filter(row => row.attempts > 0).sort(byValue("attempts")),
+    weeklyTotalElapsed: allRows.filter(row => row.weeklyTotalElapsed > 0).sort(byValue("weeklyTotalElapsed")),
+    weeklyAttempts: allRows.filter(row => row.weeklyAttempts > 0).sort(byValue("weeklyAttempts")),
+    outOfClassElapsed: allRows.filter(row => row.outOfClassElapsed > 0).sort(byValue("outOfClassElapsed")),
+    weeklyOutOfClassElapsed: allRows.filter(row => row.weeklyOutOfClassElapsed > 0).sort(byValue("weeklyOutOfClassElapsed"))
+  };
+  const updatedAt = new Date();
+  const specs = [
+    ["totalElapsed", leaderboards.totalElapsed, "totalElapsed"],
+    ["attempts", leaderboards.attempts, "attempts"],
+    ["weeklyTotalElapsed", leaderboards.weeklyTotalElapsed, "weeklyTotalElapsed"],
+    ["weeklyAttempts", leaderboards.weeklyAttempts, "weeklyAttempts"],
+    ["outOfClassElapsed", leaderboards.outOfClassElapsed, "outOfClassElapsed"],
+    ["weeklyOutOfClassElapsed", leaderboards.weeklyOutOfClassElapsed, "weeklyOutOfClassElapsed"]
+  ];
+  const rows = [];
+
+  specs.forEach(([type, items, key]) => {
+    (items || []).forEach((item, index) => {
+      rows.push([
+        type,
+        item.studentId,
+        index + 1,
+        Number(item[key] || 0),
+        item.latest || "",
+        updatedAt
+      ]);
+    });
+  });
+
+  return rows;
+}
+
+function readRankingSummaryRows_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(RANKING_SHEET_NAME);
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  return readSheetObjects_(sheet).filter(row => {
+    return row["種別"] && row["学籍番号"] && Number(row["順位"] || 0) > 0;
+  });
+}
+
+function getRankingLeaderboardsFromSummary_() {
+  const rows = readRankingSummaryRows_();
+  if (!rows.length) return null;
+
+  const byType = {};
+  rows.forEach(row => {
+    const type = String(row["種別"] || "");
+    const studentId = String(row["学籍番号"] || "");
+    const value = Number(row["値"] || 0);
+    if (!type || !studentId || value <= 0) return;
+    if (!byType[type]) byType[type] = [];
+    byType[type].push({
+      studentId,
+      rank: Number(row["順位"] || 0),
+      latest: asDate_(row["最新提出"]) ? asDate_(row["最新提出"]).toISOString() : "",
+      [type]: value
+    });
+  });
+
+  Object.keys(byType).forEach(type => {
+    byType[type].sort((a, b) => Number(a.rank || 999999) - Number(b.rank || 999999));
+  });
+
+  return {
+    totalElapsed: (byType.totalElapsed || []).slice(0, 10),
+    attempts: (byType.attempts || []).slice(0, 10),
+    weeklyTotalElapsed: (byType.weeklyTotalElapsed || []).slice(0, 10),
+    weeklyAttempts: (byType.weeklyAttempts || []).slice(0, 10),
+    outOfClassElapsed: (byType.outOfClassElapsed || []).slice(0, 10),
+    weeklyOutOfClassElapsed: (byType.weeklyOutOfClassElapsed || []).slice(0, 10)
+  };
+}
+
+function getStudentRankingsFromSummary_(studentId) {
+  const rows = readRankingSummaryRows_();
+  if (!rows.length) return null;
+
+  const totalByType = {};
+  rows.forEach(row => {
+    const type = String(row["種別"] || "");
+    if (!type) return;
+    totalByType[type] = (totalByType[type] || 0) + 1;
+  });
+
+  const getRank = type => {
+    const row = rows.find(item =>
+      String(item["種別"] || "") === type &&
+      String(item["学籍番号"] || "").trim() === studentId
+    );
+    if (!row) {
+      return { rank: null, total: totalByType[type] || 0, value: 0, nextNeeded: null, targetRank: null };
+    }
+    const rank = Number(row["順位"] || 0);
+    const value = Number(row["値"] || 0);
+    const above = rows.find(item =>
+      String(item["種別"] || "") === type &&
+      Number(item["順位"] || 0) === rank - 1
+    );
+    const aboveValue = above ? Number(above["値"] || 0) : 0;
+    return {
+      rank,
+      total: totalByType[type] || 0,
+      value,
+      nextNeeded: rank === 1 ? 0 : Math.max(0, aboveValue - value + 1),
+      targetRank: rank === 1 ? 1 : rank - 1
+    };
+  };
+
+  return {
+    rankings: {
+      totalElapsed: getRank("totalElapsed"),
+      attempts: getRank("attempts")
+    },
+    weeklyRankings: {
+      totalElapsed: getRank("weeklyTotalElapsed"),
+      attempts: getRank("weeklyAttempts")
+    }
   };
 }
 
@@ -1390,15 +1782,18 @@ function getStudentDashboardSecret_() {
 function getStudentDashboardData_(studentId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const logSheet = ss.getSheetByName(LOG_SHEET_NAME);
-  const questionSheet = ss.getSheetByName(QUESTION_SHEET_NAME);
   const targetId = String(studentId || "").trim();
 
-  const logs = logSheet ? readSheetObjects_(logSheet)
-    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
-  const allLogs = logSheet ? readSheetObjects_(logSheet)
-    .filter(row => !isExcludedStudent_(row["学籍番号"])) : [];
-  const questionRows = questionSheet ? readSheetObjects_(questionSheet)
-    .filter(row => String(row["学籍番号"] || "").trim() === targetId) : [];
+  const allRows = logSheet ? readSheetObjects_(logSheet) : [];
+  const logs = allRows.filter(row =>
+    String(row["学籍番号"] || "").trim() === targetId
+  );
+  const allLogs = allRows.filter(row =>
+    !isExcludedStudent_(row["学籍番号"])
+  );
+  const summaryRankings = getStudentRankingsFromSummary_(targetId);
+  const hasSummaryRank = summaryRankings &&
+    (summaryRankings.rankings.totalElapsed.rank || summaryRankings.rankings.attempts.rank);
 
   let scoreSum = 0;
   let totalSum = 0;
@@ -1499,18 +1894,19 @@ function getStudentDashboardData_(studentId) {
     },
     stageRows,
     sectionRows,
-    rankings: buildStudentRankings_(targetId, allLogs),
-    weeklyRankings: buildCurrentWeekRankings_(targetId, allLogs),
+    rankings: hasSummaryRank
+      ? summaryRankings.rankings
+      : buildStudentRankings_(targetId, allLogs),
+    weeklyRankings: hasSummaryRank
+      ? summaryRankings.weeklyRankings
+      : buildCurrentWeekRankings_(targetId, allLogs),
     weeklyStart: getCurrentWeekStartJst_().toISOString(),
-    recentAttempts: buildRecentAttempts_(logs).slice(0, 3),
-    finalMockAttempts: buildRecentAttempts_(logs.filter(row =>
-      getSpecialActivitySection_(row["Stage"]) === "期末試験模試")).slice(0, 5),
-    finalMockWrongRows: buildFinalMockWrongRows_(questionRows).slice(0, 12)
+    recentAttempts: buildRecentAttempts_(logs).slice(0, 3)
   };
 }
 
 function buildStudentSectionRows_(logs, clearedStageNames) {
-  const sections = ["力学的エネルギー", "円運動", "バネ", "熱"];
+  const sections = ["円運動", "バネ", "熱"];
 
   const regularRows = sections.map(section => {
     const stages = STUDENT_STAGE_CATALOG
@@ -1626,26 +2022,38 @@ function buildStudentRankings_(studentId, logs) {
   const map = {};
   logs.forEach(row => {
     const id = String(row["学籍番号"] || "").trim();
+    const date = asDate_(row["日時"]);
     if (!id) return;
     if (!map[id]) {
       map[id] = {
         studentId: id,
         attempts: 0,
-        totalElapsed: 0
+        totalElapsed: 0,
+        latest: null
       };
     }
     map[id].attempts++;
     map[id].totalElapsed += Number(row["所要時間[s]"] || 0);
+    if (date && (!map[id].latest || date > map[id].latest)) map[id].latest = date;
   });
 
+  const rows = Object.keys(map).map(id => ({
+    studentId: id,
+    attempts: map[id].attempts,
+    totalElapsed: map[id].totalElapsed,
+    latest: map[id].latest ? map[id].latest.toISOString() : ""
+  }));
+
   return {
-    totalElapsed: getStudentRank_(studentId, Object.keys(map).map(id => ({
-      studentId: id,
-      value: map[id].totalElapsed
+    totalElapsed: getStudentRank_(studentId, rows.map(row => ({
+      studentId: row.studentId,
+      value: row.totalElapsed,
+      latest: row.latest
     }))),
-    attempts: getStudentRank_(studentId, Object.keys(map).map(id => ({
-      studentId: id,
-      value: map[id].attempts
+    attempts: getStudentRank_(studentId, rows.map(row => ({
+      studentId: row.studentId,
+      value: row.attempts,
+      latest: row.latest
     })))
   };
 }
@@ -1673,16 +2081,31 @@ function getStudentRank_(studentId, rows) {
     .filter(row => Number(row.value || 0) > 0)
     .sort((a, b) => {
       if (b.value !== a.value) return b.value - a.value;
-      return a.studentId.localeCompare(b.studentId);
+      const latestCompare = String(b.latest || "").localeCompare(String(a.latest || ""));
+      if (latestCompare !== 0) return latestCompare;
+      return compareStudentIds_(a.studentId, b.studentId);
     });
   const index = sorted.findIndex(row => row.studentId === studentId);
   if (index < 0) {
-    return { rank: null, total: sorted.length, value: 0 };
+    return { rank: null, total: sorted.length, value: 0, nextNeeded: null, targetRank: null };
   }
+  if (index === 0) {
+    return {
+      rank: 1,
+      total: sorted.length,
+      value: sorted[index].value,
+      nextNeeded: 0,
+      targetRank: 1
+    };
+  }
+  const current = Number(sorted[index].value || 0);
+  const above = Number(sorted[index - 1].value || 0);
   return {
     rank: index + 1,
     total: sorted.length,
-    value: sorted[index].value
+    value: sorted[index].value,
+    nextNeeded: Math.max(0, above - current + 1),
+    targetRank: index
   };
 }
 
@@ -1712,6 +2135,7 @@ function buildStudentDashboardHtml_(studentId) {
     .bar{display:flex;align-items:center;gap:8px}.track{height:8px;border-radius:999px;background:#e9edf4;overflow:hidden;min-width:90px;flex:1}.fill{display:block;height:100%;background:var(--accent)}.bar.low .fill{background:var(--bad)}.bar.mid .fill{background:var(--warn)}
     .pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent)}.pill.clear{background:#dcfce7;color:var(--good)}.pill.try{background:#fef3c7;color:var(--warn)}
     .rank-grid{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:12px;padding:14px}.rank-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff}.rank-label{color:var(--muted);font-size:12px;font-weight:800}.rank-value{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:20px;font-weight:900}.rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:34px;border-radius:999px;background:#eef2f7;color:var(--text);font-size:15px;font-weight:900}.rank-badge.gold{background:#fef3c7;color:#92400e}.rank-badge.silver{background:#e5e7eb;color:#374151}.rank-badge.bronze{background:#ffedd5;color:#9a3412}.rank-note{color:var(--muted);font-size:12px;margin-top:4px}
+    .rank-next{margin-top:8px;color:var(--accent);font-size:12px;font-weight:900}
     .muted{color:var(--muted);padding:14px}.num{font-variant-numeric:tabular-nums;font-weight:700}.prompt{max-width:360px}
     @media(max-width:900px){.kpis,.grid{grid-template-columns:1fr}header,main{padding-left:14px;padding-right:14px}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{display:grid;grid-template-columns:110px 1fr;gap:8px}td::before{content:attr(data-label);color:var(--muted);font-weight:700}}
   </style>
@@ -1745,14 +2169,6 @@ function buildStudentDashboardHtml_(studentId) {
       <h2>最近の学習履歴</h2>
       <div class="table-wrap"><table id="recentTable"></table></div>
     </section>
-    <section>
-      <h2>期末試験模試の結果</h2>
-      <div class="table-wrap"><table id="finalMockTable"></table></div>
-    </section>
-    <section>
-      <h2>期末試験模試で間違えた設問</h2>
-      <div class="table-wrap"><table id="finalMockWrongTable"></table></div>
-    </section>
   </main>
   <script>
     const dashboardData = ${JSON.stringify(data)};
@@ -1760,8 +2176,6 @@ function buildStudentDashboardHtml_(studentId) {
     document.getElementById("totalElapsed").textContent = formatSeconds(dashboardData.summary.totalElapsed);
     renderSectionTable(dashboardData.sectionRows);
     renderRecentTable(dashboardData.recentAttempts);
-    renderFinalMockTable(dashboardData.finalMockAttempts || []);
-    renderFinalMockWrongTable(dashboardData.finalMockWrongRows || []);
     renderRankings("rankingCards", dashboardData.rankings);
     renderRankings("weeklyRankingCards", dashboardData.weeklyRankings);
 
@@ -1787,32 +2201,16 @@ function buildStudentDashboardHtml_(studentId) {
         '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "クリア" : "挑戦") + '</span>'
       ]);
     }
-    function renderFinalMockTable(rows){
-      renderTable("finalMockTable", ["日時","得点","正答率","時間","結果"], rows, row => [
-        escapeHtml(formatDate(row.date)),
-        num(row.score + " / " + row.total),
-        rateBar(row.rate),
-        num(formatSeconds(row.elapsed)),
-        '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "合格目安" : "復習推奨") + '</span>'
-      ]);
-    }
-    function renderFinalMockWrongTable(rows){
-      renderTable("finalMockWrongTable", ["日時","設問","入力","正解"], rows, row => [
-        escapeHtml(formatDate(row.date)),
-        '<div class="prompt">' + escapeHtml(row.prompt || row.problemId || "-") + '</div>',
-        escapeHtml(row.selected || "-"),
-        escapeHtml(row.answer || "-")
-      ]);
-    }
     function renderRankings(targetId, rankings){
       const rows = [
-        { label: "総学習時間", rank: rankings.totalElapsed, value: formatSeconds(rankings.totalElapsed.value) },
-        { label: "挑戦回数", rank: rankings.attempts, value: rankings.attempts.value + "回" }
+        { label: "総学習時間", rank: rankings.totalElapsed, value: formatSeconds(rankings.totalElapsed.value), kind: "time" },
+        { label: "挑戦回数", rank: rankings.attempts, value: rankings.attempts.value + "回", kind: "attempts" }
       ];
       document.getElementById(targetId).innerHTML = rows.map(row => {
         return '<div class="rank-card"><div class="rank-label">' + escapeHtml(row.label) + '</div>' +
           '<div class="rank-value">' + rankBadge(row.rank.rank) + '<span>' + escapeHtml(row.value) + '</span></div>' +
-          '<div class="rank-note">' + rankText(row.rank) + '</div></div>';
+          '<div class="rank-note">' + rankText(row.rank) + '</div>' +
+          '<div class="rank-next">' + rankNextText(row.rank, row.kind) + '</div></div>';
       }).join("");
     }
     function rankBadge(rank){
@@ -1820,13 +2218,20 @@ function buildStudentDashboardHtml_(studentId) {
       if (rank === 1) return '<span class="rank-badge gold">1位</span>';
       if (rank === 2) return '<span class="rank-badge silver">2位</span>';
       if (rank === 3) return '<span class="rank-badge bronze">3位</span>';
-      if (rank <= 10) return '<span class="rank-badge">' + rank + '位</span>';
-      return '<span class="rank-badge">--</span>';
+      return '<span class="rank-badge">' + rank + '位</span>';
     }
     function rankText(info){
       if (!info || !info.rank) return "まだランキング対象のデータがありません。";
-      if (info.rank <= 10) return info.total + "人中 " + info.rank + "位";
-      return info.total + "人中 11位以下";
+      return info.total + "人中 " + info.rank + "位";
+    }
+    function rankNextText(info, kind){
+      if (!info || !info.rank) return "";
+      if (info.rank === 1) return "現在1位です。";
+      if (info.nextNeeded === null || info.nextNeeded === undefined) return "";
+      if (kind === "time") {
+        return "あと " + formatSeconds(info.nextNeeded) + " で " + info.targetRank + "位に上がります。";
+      }
+      return "あと " + info.nextNeeded + "回で " + info.targetRank + "位に上がります。";
     }
     function renderTable(id, headers, rows, mapper){
       const table = document.getElementById(id);
@@ -2158,6 +2563,12 @@ function buildTeacherDashboardHtml_() {
     .view { display: none; }
     .view.active { display: grid; gap: 18px; }
     .muted { color: var(--muted); }
+    .student-link {
+      color: #0f766e;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .student-link:hover { text-decoration: underline; }
     .prompt {
       max-width: 440px;
       white-space: normal;
@@ -2212,7 +2623,9 @@ function buildTeacherDashboardHtml_() {
 
     <div class="tabs">
       <button class="tab active" data-view="overview" type="button">概況</button>
+      <button class="tab" data-view="rankings" type="button">ランキング</button>
       <button class="tab" data-view="students" type="button">学生別</button>
+      <button class="tab" data-view="studentLinks" type="button">学生リンク</button>
       <button class="tab" data-view="questions" type="button">設問別</button>
     </div>
 
@@ -2263,24 +2676,46 @@ function buildTeacherDashboardHtml_() {
       </div>
     </div>
 
-    <div id="students" class="view">
+    <div id="rankings" class="view">
       <div class="grid-two">
         <section>
-          <h2>挑戦時間 Top 10</h2>
+          <h2>累積挑戦時間 Top 10</h2>
           <div class="table-wrap leaderboard-scroll"><table id="elapsedRankingTable"></table></div>
         </section>
         <section>
-          <h2>挑戦数 Top 10</h2>
+          <h2>累積挑戦数 Top 10</h2>
           <div class="table-wrap leaderboard-scroll"><table id="attemptRankingTable"></table></div>
+        </section>
+        <section>
+          <h2>今週の累積挑戦時間 Top 10</h2>
+          <div class="table-wrap leaderboard-scroll"><table id="weeklyElapsedRankingTable"></table></div>
+        </section>
+        <section>
+          <h2>今週の累積挑戦数 Top 10</h2>
+          <div class="table-wrap leaderboard-scroll"><table id="weeklyAttemptRankingTable"></table></div>
         </section>
         <section>
           <h2>累計自習時間 Top 10</h2>
           <div class="table-wrap leaderboard-scroll"><table id="selfStudyRankingTable"></table></div>
         </section>
+        <section>
+          <h2>今週の累計自習時間 Top 10</h2>
+          <div class="table-wrap leaderboard-scroll"><table id="weeklySelfStudyRankingTable"></table></div>
+        </section>
       </div>
+    </div>
+
+    <div id="students" class="view">
       <section>
         <h2>学生別の進捗</h2>
         <div class="table-wrap"><table id="studentTable"></table></div>
+      </section>
+    </div>
+
+    <div id="studentLinks" class="view">
+      <section>
+        <h2>学生ダッシュボードリンク</h2>
+        <div class="table-wrap"><table id="studentLinkTable"></table></div>
       </section>
     </div>
 
@@ -2295,7 +2730,12 @@ function buildTeacherDashboardHtml_() {
   </main>
 
   <script>
-    const state = { firstLoad: true };
+    const state = {
+      firstLoad: true,
+      questionLoaded: false,
+      finalMockWrongLoaded: false,
+      studentLinksLoaded: false
+    };
 
     document.querySelectorAll(".tab").forEach(button => {
       button.addEventListener("click", () => {
@@ -2303,28 +2743,59 @@ function buildTeacherDashboardHtml_() {
         document.querySelectorAll(".view").forEach(x => x.classList.remove("active"));
         button.classList.add("active");
         document.getElementById(button.dataset.view).classList.add("active");
+        if (button.dataset.view === "studentLinks") loadStudentLinksIfNeeded();
+        if (button.dataset.view === "questions") loadQuestionDataIfNeeded();
       });
     });
 
-    document.getElementById("refreshButton").addEventListener("click", loadData);
-    document.getElementById("unitFilter").addEventListener("change", () => {
-      document.getElementById("stageFilter").value = "";
+    document.getElementById("refreshButton").addEventListener("click", () => {
+      resetQuestionData();
       loadData();
     });
-    document.getElementById("stageFilter").addEventListener("change", loadData);
-    document.getElementById("daysFilter").addEventListener("change", loadData);
+    document.getElementById("unitFilter").addEventListener("change", () => {
+      document.getElementById("stageFilter").value = "";
+      resetQuestionData();
+      loadData();
+    });
+    document.getElementById("stageFilter").addEventListener("change", () => {
+      resetQuestionData();
+      loadData();
+    });
+    document.getElementById("daysFilter").addEventListener("change", () => {
+      resetQuestionData();
+      loadData();
+    });
     document.getElementById("studentFilter").addEventListener("keydown", event => {
-      if (event.key === "Enter") loadData();
+      if (event.key === "Enter") {
+        resetQuestionData();
+        loadData();
+      }
     });
 
-    function loadData() {
-      setLoading(true);
-      const filters = {
+    function getCurrentFilters() {
+      return {
         unit: document.getElementById("unitFilter").value,
         stage: document.getElementById("stageFilter").value,
         days: document.getElementById("daysFilter").value,
         student: document.getElementById("studentFilter").value
       };
+    }
+
+    function resetQuestionData() {
+      state.questionLoaded = false;
+      state.finalMockWrongLoaded = false;
+      state.studentLinksLoaded = false;
+      document.getElementById("questionTable").innerHTML =
+        '<tbody><tr><td class="muted">設問別タブを開くと読み込みます。</td></tr></tbody>';
+      document.getElementById("finalMockWrongTable").innerHTML =
+        '<tbody><tr><td class="muted">模試の誤答データを読み込み中...</td></tr></tbody>';
+      document.getElementById("studentLinkTable").innerHTML =
+        '<tbody><tr><td class="muted">学生リンクタブを開くと生成します。</td></tr></tbody>';
+    }
+
+    function loadData() {
+      setLoading(true);
+      const filters = getCurrentFilters();
 
       google.script.run
         .withSuccessHandler(renderDashboard)
@@ -2347,12 +2818,63 @@ function buildTeacherDashboardHtml_() {
       renderStageTable(data.stageRows);
       renderSpecialTable(data.specialRows || []);
       renderFinalMockAttemptsTable(data.finalMockAttempts || []);
-      renderFinalMockWrongTable(data.finalMockWrongRows || []);
       renderRecentTable(data.recentAttempts);
       renderStudentLeaderboards(data.studentLeaderboards);
       renderStudentTable(data.studentRows);
-      renderQuestionTable(data.questionStats);
       state.firstLoad = false;
+      if (!state.questionLoaded) resetQuestionData();
+      loadFinalMockWrongDataIfNeeded();
+      if (document.getElementById("studentLinks").classList.contains("active")) {
+        loadStudentLinksIfNeeded();
+      }
+      if (document.getElementById("questions").classList.contains("active")) {
+        loadQuestionDataIfNeeded();
+      }
+    }
+
+    function loadQuestionDataIfNeeded() {
+      if (state.questionLoaded) return;
+      document.getElementById("questionTable").innerHTML = '<tbody><tr><td class="muted">設問別データを読み込み中...</td></tr></tbody>';
+      google.script.run
+        .withSuccessHandler(data => {
+          state.questionLoaded = true;
+          renderQuestionTable(data.questionStats || []);
+        })
+        .withFailureHandler(error => {
+          document.getElementById("questionTable").innerHTML =
+            '<tbody><tr><td class="muted">読み込みに失敗しました: ' + escapeHtml(error.message) + '</td></tr></tbody>';
+        })
+        .getTeacherQuestionData(getCurrentFilters());
+    }
+
+    function loadFinalMockWrongDataIfNeeded() {
+      if (state.finalMockWrongLoaded) return;
+      google.script.run
+        .withSuccessHandler(data => {
+          state.finalMockWrongLoaded = true;
+          renderFinalMockWrongTable(data.finalMockWrongRows || []);
+        })
+        .withFailureHandler(error => {
+          document.getElementById("finalMockWrongTable").innerHTML =
+            '<tbody><tr><td class="muted">読み込みに失敗しました: ' + escapeHtml(error.message) + '</td></tr></tbody>';
+        })
+        .getTeacherFinalMockWrongData(getCurrentFilters());
+    }
+
+    function loadStudentLinksIfNeeded() {
+      if (state.studentLinksLoaded) return;
+      document.getElementById("studentLinkTable").innerHTML =
+        '<tbody><tr><td class="muted">学生リンクを生成中...</td></tr></tbody>';
+      google.script.run
+        .withSuccessHandler(data => {
+          state.studentLinksLoaded = true;
+          renderStudentLinkTable(data.studentRows || []);
+        })
+        .withFailureHandler(error => {
+          document.getElementById("studentLinkTable").innerHTML =
+            '<tbody><tr><td class="muted">読み込みに失敗しました: ' + escapeHtml(error.message) + '</td></tr></tbody>';
+        })
+        .getTeacherStudentLinksData(getCurrentFilters());
     }
 
     function renderUnitOptions(units) {
@@ -2424,18 +2946,18 @@ function buildTeacherDashboardHtml_() {
     function renderFinalMockAttemptsTable(rows) {
       renderTable("finalMockAttemptsTable", ["日時", "学籍番号", "得点", "正答率", "時間", "結果"], rows, row => [
         escapeHtml(formatDate(row.date)),
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         num(row.score + "/" + row.total),
         rateBar(row.rate),
         num(formatSeconds(row.elapsed)),
-        '<span class="pill ' + (row.cleared ? "clear" : "try") + '">' + (row.cleared ? "合格目安" : "復習推奨") + '</span>'
+        '<span class="pill ' + (row.cleared ? "ok" : "mid") + '">' + (row.cleared ? "合格目安" : "復習推奨") + '</span>'
       ]);
     }
 
     function renderFinalMockWrongTable(rows) {
       renderTable("finalMockWrongTable", ["日時", "学籍番号", "設問", "入力", "正解"], rows, row => [
         escapeHtml(formatDate(row.date)),
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         '<div class="prompt">' + escapeHtml(row.prompt || row.problemId || "-") + '</div>',
         escapeHtml(row.selected || "-"),
         escapeHtml(row.answer || "-")
@@ -2486,7 +3008,7 @@ function buildTeacherDashboardHtml_() {
       target.innerHTML = watchRows.length ? watchRows.map(row => {
         const cls = row.averageRate < 50 ? "low" : (row.averageRate < 70 ? "mid" : "ok");
         return '<div class="watch-card">' +
-          '<div class="watch-id">' + escapeHtml(row.studentId) + '</div>' +
+          '<div class="watch-id">' + studentDashboardLink(row) + '</div>' +
           '<div class="pill ' + cls + '">' + row.averageRate + '%</div>' +
           '<div class="watch-meta">最新: ' + escapeHtml(row.latestStage || "-") +
           ' / ' + row.latestRate + '%、挑戦 ' + row.attempts +
@@ -2509,7 +3031,7 @@ function buildTeacherDashboardHtml_() {
 
     function renderStudentTable(rows) {
       renderTable("studentTable", ["学籍番号", "Stage数", "挑戦", "全体挑戦", "平均正答率", "累計自習時間", "挑戦時間", "最新Stage", "クリアStage", "最終提出"], rows, row => [
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         num(row.stages),
         num(row.attempts),
         num(row.totalAttempts),
@@ -2522,24 +3044,60 @@ function buildTeacherDashboardHtml_() {
       ]);
     }
 
+    function renderStudentLinkTable(rows) {
+      renderTable("studentLinkTable", ["学籍番号", "平均正答率", "挑戦", "最新Stage", "最終提出", "リンク"], rows, row => [
+        escapeHtml(row.studentId),
+        rateBar(row.averageRate),
+        num(row.attempts),
+        escapeHtml(row.latestStage || "-"),
+        escapeHtml(formatDate(row.latest)),
+        studentDashboardLink(row)
+      ]);
+    }
+
+    function studentDashboardLink(row) {
+      if (!row.dashboardUrl) return escapeHtml(row.studentId || "");
+      return '<a class="student-link" href="' + escapeHtml(row.dashboardUrl) + '" target="_blank" rel="noopener">' +
+        escapeHtml(row.studentId || "") +
+      '</a>';
+    }
+
     function renderStudentLeaderboards(leaderboards) {
       const elapsedRows = (leaderboards && leaderboards.totalElapsed) || [];
-      const selfStudyRows = (leaderboards && leaderboards.outOfClassElapsed) || [];
       const attemptRows = (leaderboards && leaderboards.attempts) || [];
+      const weeklyElapsedRows = (leaderboards && leaderboards.weeklyTotalElapsed) || [];
+      const weeklyAttemptRows = (leaderboards && leaderboards.weeklyAttempts) || [];
+      const selfStudyRows = (leaderboards && leaderboards.outOfClassElapsed) || [];
+      const weeklySelfStudyRows = (leaderboards && leaderboards.weeklyOutOfClassElapsed) || [];
       renderTable("elapsedRankingTable", ["順位", "学籍番号", "挑戦時間"], elapsedRows, (row, index) => [
         num(index + 1),
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         num(formatSeconds(row.totalElapsed))
       ]);
       renderTable("attemptRankingTable", ["順位", "学籍番号", "挑戦数"], attemptRows, (row, index) => [
         num(index + 1),
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         num(row.attempts)
+      ]);
+      renderTable("weeklyElapsedRankingTable", ["順位", "学籍番号", "今週の挑戦時間"], weeklyElapsedRows, (row, index) => [
+        num(index + 1),
+        studentDashboardLink(row),
+        num(formatSeconds(row.weeklyTotalElapsed))
+      ]);
+      renderTable("weeklyAttemptRankingTable", ["順位", "学籍番号", "今週の挑戦数"], weeklyAttemptRows, (row, index) => [
+        num(index + 1),
+        studentDashboardLink(row),
+        num(row.weeklyAttempts)
       ]);
       renderTable("selfStudyRankingTable", ["順位", "学籍番号", "累計自習時間"], selfStudyRows, (row, index) => [
         num(index + 1),
-        escapeHtml(row.studentId),
+        studentDashboardLink(row),
         num(formatSeconds(row.outOfClassElapsed))
+      ]);
+      renderTable("weeklySelfStudyRankingTable", ["順位", "学籍番号", "今週の自習時間"], weeklySelfStudyRows, (row, index) => [
+        num(index + 1),
+        studentDashboardLink(row),
+        num(formatSeconds(row.weeklyOutOfClassElapsed))
       ]);
     }
 
