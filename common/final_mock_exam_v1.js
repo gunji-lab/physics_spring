@@ -129,29 +129,45 @@
   function cloneBigProblem(problem, questions) {
     return {...problem, questions: questions.map(q => ({...q}))};
   }
+  function pickQuestionsForMock(problem) {
+    const category = bigCategory(problem);
+    if (category === "円錐振り子" && problem.questions.length >= 5) {
+      return [problem.questions[0], problem.questions[3], problem.questions[4]];
+    }
+    if (category === "水平バネ振り子" && problem.questions.length >= 4) {
+      return [problem.questions[0], problem.questions[1], problem.questions[3]];
+    }
+    return problem.questions.slice(0, 3);
+  }
+  function chooseGravityExam(bank) {
+    const gravity = shuffle(bank.filter(q => bigCategory(q) === "万有引力"));
+    const one = gravity.filter(q => q.questions.length === 1);
+    const two = gravity.filter(q => q.questions.length === 2);
+    if (one.length && two.length) {
+      return [
+        cloneBigProblem(two[0], two[0].questions),
+        cloneBigProblem(one[0], one[0].questions)
+      ];
+    }
+    const fallback = gravity.find(q => q.questions.length >= 3) || gravity[0];
+    return fallback ? [cloneBigProblem(fallback, pickQuestionsForMock(fallback))] : [];
+  }
   function chooseBigExam() {
     const bank = shuffle(comprehensiveBigBank().filter(q => Array.isArray(q.questions) && q.questions.length));
-    const three = bank.filter(q => q.questions.length >= 3);
-    const two = bank.filter(q => q.questions.length === 2);
-    const oneOrMore = bank.filter(q => q.questions.length >= 1);
-    if (three.length && (Math.random() < 0.65 || two.length < 1)) {
-      const p = three[0];
-      return [cloneBigProblem(p, shuffle(p.questions).slice(0, 3))];
-    }
-    if (two.length) {
-      const first = two[0];
-      const firstCat = bigCategory(first);
-      const second = oneOrMore.find(q => q.id !== first.id && bigCategory(q) !== firstCat) || oneOrMore.find(q => q.id !== first.id);
-      if (second) return [cloneBigProblem(first, first.questions), cloneBigProblem(second, shuffle(second.questions).slice(0, 1))];
-      return [cloneBigProblem(first, first.questions)];
-    }
-    if (three.length) return [cloneBigProblem(three[0], shuffle(three[0].questions).slice(0, 3))];
+    const first = bank[0];
+    if (!first) return [];
+    if (bigCategory(first) === "万有引力") return chooseGravityExam(bank);
+    if (first.questions.length >= 3) return [cloneBigProblem(first, pickQuestionsForMock(first))];
+    const second = bank.find(q => q.id !== first.id && bigCategory(q) !== bigCategory(first)) || bank.find(q => q.id !== first.id);
+    if (second) return [cloneBigProblem(first, first.questions), cloneBigProblem(second, pickQuestionsForMock(second).slice(0, 3 - first.questions.length))];
+    return [cloneBigProblem(first, first.questions)];
     return [];
   }
   function bigCategory(problem) {
     const label = `${problem?.source || ""} ${problem?.title || ""} ${problem?.sourceFile || ""}`;
     if (label.includes("円錐")) return "円錐振り子";
     if (label.includes("万有")) return "万有引力";
+    if (label.includes("水平バネ")) return "水平バネ振り子";
     if (label.includes("バネ") || label.includes("spring")) return "バネ";
     if (label.includes("熱") || label.includes("気体")) return "熱と気体";
     return "その他";
