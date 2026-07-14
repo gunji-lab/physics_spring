@@ -180,6 +180,7 @@
       .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
       .replace(/[−ー―]/g, "-")
       .replace(/，/g, ".")
+      .replace(/(\d),(\d)(?!\d{3}\b)/g, "$1.$2")
       .replace(/×\s*10\s*\^\s*([-+]?\d+)/gi, "e$1")
       .replace(/×\s*10([+-]?\d+)/gi, "e$1")
       .replace(/,/g, "");
@@ -268,31 +269,57 @@
       .replace(/π/g, String(Math.PI))
       .replace(/×/g, "*")
       .replace(/÷/g, "/")
-      .replace(/\s/g, "");
+      .replace(/\s/g, "")
+      .replace(/^[a-zA-Zθωπ√][a-zA-Z0-9θωπ√^]*=/, "");
     if (!text || !/^[0-9eE+\-*/.()]+$/.test(text)) return null;
     try {
       const n = Function(`"use strict";return (${text})`)();
       return Number.isFinite(n) ? n : null;
     } catch { return null; }
   }
-  function correct(q, value) {
+  function symbolicNumberExpression(value) {
+    let text = normalizeNumberText(value)
+      .replace(/\[[^\]]*\]/g, "")
+      .replace(/℃|°|kg|Pa|N\/m|N|J\/K|J|K|m\/s\^2|m\/s²|m\/s|rad\/s|rad|m\^3|m³|m2|m|倍/g, "")
+      .replace(/π/g, String(Math.PI))
+      .replace(/×/g, "*")
+      .replace(/÷/g, "/")
+      .replace(/\s/g, "")
+      .replace(/^[a-zA-Zθωπ√][a-zA-Z0-9θωπ√^]*=/, "")
+      .replace(/√/g, "Math.sqrt")
+      .replace(/\^/g, "**")
+      .replace(/\bg\b/g, "9.8");
+    if (!text || !/[a-zA-Z√]/.test(normalizeNumberText(value))) return null;
+    if (!/^[0-9eE+\-*/.()Mathsqrt]+$/.test(text)) return null;
+    try {
+      const n = Function(`"use strict";return (${text})`)();
+      return Number.isFinite(n) ? n : null;
+    } catch { return null; }
+  }
+  function judge(q, value) {
     if (q.number !== undefined) {
       const n = numericExpression(value);
-      return Number.isFinite(n) && Math.abs(n - q.number) <= (q.tolerance ?? Math.max(0.02, Math.abs(q.number) * 0.015));
+      const tolerance = q.tolerance ?? Math.max(0.02, Math.abs(q.number) * 0.015);
+      if (Number.isFinite(n) && Math.abs(n - q.number) <= tolerance) return "correct";
+      const symbolic = symbolicNumberExpression(value);
+      if (Number.isFinite(symbolic) && Math.abs(symbolic - q.number) <= tolerance) return "partial";
+      return "wrong";
     }
     const entered = expressionForms(value);
-    return (q.answers || []).some(answer => {
+    const ok = (q.answers || []).some(answer => {
       const accepted = expressionForms(answer);
       return [...entered].some(e => [...accepted].some(a => formsMatch(e, a)));
     });
+    return ok ? "correct" : "wrong";
   }
 
   let items = [];
   let currentTotal = EXAM_TOTAL;
   let lastWrongItems = [];
   let reviewMode = false;
-  function field(q, key, points, label) {
-    return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div><button class="hint-btn" type="button" data-hint-toggle>ヒントを表示</button><div class="hint" data-hint>${hintText(q, label)}</div><div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit || "")}</span></div><div class="feedback" data-feedback></div></article>`;
+  function field(q, key, points, label, showHint = false) {
+    const hint = showHint ? `<button class="hint-btn" type="button" data-hint-toggle>ヒントを表示</button><div class="hint" data-hint>${hintText(q, label)}</div>` : "";
+    return `<article class="question" data-key="${key}" data-points="${points}"><div class="question-title">${label} <span class="points">（${points}点）</span></div><div class="prompt">${escapeHtml(writtenPrompt(q.prompt))}</div>${hint}<div class="answer-row"><input class="answer" data-answer autocomplete="off" spellcheck="false" aria-label="${label}の解答"><span class="unit">${escapeHtml(q.unit || "")}</span></div><div class="feedback" data-feedback></div></article>`;
   }
   function hintText(q, label = "") {
     const text = `${label} ${q.prompt || ""} ${q.solution || ""} ${q.display || ""}`;
@@ -383,12 +410,20 @@
     items.forEach(item => {
       const el = document.querySelector(`[data-key="${item.key}"]`);
       const value = el.querySelector("[data-answer]").value;
-      const ok = correct(item.q, value);
+      const status = judge(item.q, value);
+      const ok = status === "correct";
+      const partial = status === "partial";
+      const earned = ok ? item.points : partial ? Math.ceil(item.points / 2) : 0;
       const fb = el.querySelector("[data-feedback]");
       const prompt = `${item.label}｜${writtenPrompt(item.q.prompt)}`;
-      if (ok) score += item.points; else { wrong.push(prompt); wrongItems.push({...item, originalPrompt: prompt}); }
-      fb.className = "feedback show " + (ok ? "right" : "wrong");
-      fb.innerHTML = ok ? `正解（${item.points}点）` : `不正解　正解：<strong>${escapeHtml(displayAnswer(item.q))}</strong>`;
+      score += earned;
+      if (!ok) { wrong.push(prompt); wrongItems.push({...item, originalPrompt: prompt}); }
+      fb.className = "feedback show " + (ok ? "right" : partial ? "partial" : "wrong");
+      fb.innerHTML = ok
+        ? `正解（${item.points}点）`
+        : partial
+          ? `△（${earned}点） 数値で答える問題なので、最後は数値まで出しましょう。正解：<strong>${escapeHtml(displayAnswer(item.q))}</strong>`
+          : `不正解　正解：<strong>${escapeHtml(displayAnswer(item.q))}</strong>`;
       el.querySelector("[data-answer]").disabled = true;
       window.TrainerLog?.recordQuestion({id: "MOCK_" + item.key, type: item.kind === "大問" ? "final_mock_big" : "final_mock_basic", question: prompt, answer: displayAnswer(item.q)}, ok, {selected: value, prompt});
     });
@@ -424,13 +459,13 @@
       const key = `REVIEW_BASIC_${Date.now()}_${i}`;
       const reviewItem = {...item, key, label: `やり直し 小問${i + 1}`};
       items.push(reviewItem);
-      return field(reviewItem.q, key, reviewItem.points, reviewItem.label);
+      return field(reviewItem.q, key, reviewItem.points, reviewItem.label, true);
     }).join("") : `<div class="guide">小問の間違いはありません。</div>`;
     $("#bigQuestions").innerHTML = bigs.length ? bigs.map((item, i) => {
       const key = `REVIEW_BIG_${Date.now()}_${i}`;
       const reviewItem = {...item, key, label: `やり直し 大問${i + 1}`};
       items.push(reviewItem);
-      return `<section class="question big"><h2>${escapeHtml(item.title || "大問のやり直し")}</h2>${item.context ? `<div class="big-context"><div class="context-label">問題文</div>${escapeHtml(item.context)}</div>` : ""}${field(reviewItem.q, key, reviewItem.points, reviewItem.label)}</section>`;
+      return `<section class="question big"><h2>${escapeHtml(item.title || "大問のやり直し")}</h2>${item.context ? `<div class="big-context"><div class="context-label">問題文</div>${escapeHtml(item.context)}</div>` : ""}${field(reviewItem.q, key, reviewItem.points, reviewItem.label, true)}</section>`;
     }).join("") : `<div class="guide">大問の間違いはありません。</div>`;
     window.TrainerLog?.startSession();
     window.scrollTo({top: 0, behavior: "smooth"});
