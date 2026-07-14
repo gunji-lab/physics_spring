@@ -296,6 +296,30 @@
       return Number.isFinite(n) ? n : null;
     } catch { return null; }
   }
+  function formulaPartialForNumber(q, value) {
+    const prompt = String(q.prompt || "");
+    const entered = expressionForms(value);
+    const accepts = [];
+    const add = (...forms) => accepts.push(...forms);
+
+    if (/張力|張力\s*T|T\s*の大きさ/.test(prompt)) add("mg/costheta", "t=mg/costheta", "tcostheta=mg", "mg=tcostheta");
+    if (/半径|半径\s*r/.test(prompt)) add("lsintheta", "r=lsintheta");
+    if (/向心力/.test(prompt)) add("tsintheta", "f=tsintheta", "mv^2/r", "f=mv^2/r", "mromega^2", "f=mromega^2");
+    if (/加速度/.test(prompt)) add("gtantheta", "a=gtantheta", "v^2/r", "a=v^2/r");
+    if (/速度の2乗|v²|v\^2/.test(prompt)) add("rgtantheta", "v^2=rgtantheta");
+    if (/軌道速度|速度|速さ/.test(prompt) && /人工衛星|軌道|地表|月/.test(prompt)) add("sqrtgm/r", "sqrt(gm/r)", "v=sqrtgm/r", "v=sqrt(gm/r)", "sqrtgr", "v=sqrtgr");
+    if (/周期/.test(prompt)) add("2pir/v", "t=2pir/v");
+    if (/表面重力|重力加速度/.test(prompt)) add("gm/r^2", "g=gm/r^2");
+    if (/バネの弾性力/.test(prompt)) add("k(l-l0)", "f=k(l-l0)");
+    if (/自然長|L0/.test(prompt) && /求め/.test(prompt)) add("l-mlomega^2/k", "l0=l-mlomega^2/k");
+    if (/周期/.test(prompt) && /水平バネ/.test(prompt)) add("2pisqrtm/k", "t=2pisqrtm/k", "2pi*sqrt(m/k)", "t=2pi*sqrt(m/k)");
+
+    if (!accepts.length) return false;
+    return accepts.some(answer => {
+      const accepted = expressionForms(answer);
+      return [...entered].some(e => [...accepted].some(a => formsMatch(e, a)));
+    });
+  }
   function judge(q, value) {
     if (q.number !== undefined) {
       const n = numericExpression(value);
@@ -303,6 +327,7 @@
       if (Number.isFinite(n) && Math.abs(n - q.number) <= tolerance) return "correct";
       const symbolic = symbolicNumberExpression(value);
       if (Number.isFinite(symbolic) && Math.abs(symbolic - q.number) <= tolerance) return "partial";
+      if (formulaPartialForNumber(q, value)) return "partial";
       return "wrong";
     }
     const entered = expressionForms(value);
@@ -355,6 +380,22 @@
     if (q.solution) tips.push(`計算の見通し：${stripTags(q.solution)}`);
     return tips.map(tip => `<div>・${escapeHtml(tip)}</div>`).join("");
   }
+  function examContextText(context) {
+    return String(context || "")
+      .replace(/万有引力 F = GMm\/r² を考える/g, "万有引力を考える")
+      .replace(/また F = ma から/g, "また運動方程式から")
+      .replace(/万有引力が向心力になることから/g, "円運動の条件から")
+      .replace(/万有引力が向心力になるとして/g, "円運動の条件を使って")
+      .replace(/万有引力が向心力になると考える/g, "円運動の条件を考える")
+      .replace(/万有引力を向心力として/g, "円運動の条件を使って")
+      .replace(/地表では GM\/R² = g が成り立つものとする/g, "地表の重力加速度の関係を使えるものとする")
+      .replace(/天体表面での重力加速度は g = GM\/R² で表される。/g, "天体表面での重力加速度を考える。")
+      .replace(/速さ v = 2πr\/T と向心加速度 a = v²\/r を使って/g, "速さと向心加速度の関係を使って")
+      .replace(/GMm\/r² = mv²\/r から/g, "円運動の運動方程式から")
+      .replace(/周期 T = 2π√\(m\/k\) を使って/g, "水平バネ振り子の周期の関係を使って")
+      .replace(/1\/2 kA² = 1\/2 mv² が成り立つ/g, "エネルギー保存が成り立つ")
+      .replace(/端での弾性エネルギーが、自然長での運動エネルギーになる/g, "端でのエネルギーが、自然長での運動のエネルギーになる");
+  }
   function setScorePill(text) {
     const pill = $("#scorePill");
     if (pill) pill.textContent = text;
@@ -364,7 +405,7 @@
     const bigs = chooseBigExam();
     let n = 0;
     const notationGuide = `<div class="answer-example">数式の入力方法：r²は「r^2」「r2」でも可。πは「pi」でも可。v²は「v^2」「v2」でも可。ω²は「omega^2」「omega2」でも可。√(a/b)は「√a/b」でも可。tanθは「sinθ/cosθ」でも可。求める量は「T=…」のように左辺を付けても可。運動方程式では等号の左右が逆でも可。</div>`;
-    $("#bigQuestions").innerHTML = notationGuide + bigs.map((b, bi) => `<section class="question big"><h2>大問${bi + 1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(b.context)}</div>${b.questions.map((q, qi) => { n++; const key = `${b.id}_${Date.now()}_${bi + 1}_${qi + 1}_${n}`; const label = `大問${bi + 1} 設問(${qi + 1})`; items.push({q, key, points: BIG_POINTS, label, kind: "大問", title: b.title, context: b.context}); return field(q, key, BIG_POINTS, label); }).join("")}</section>`).join("");
+    $("#bigQuestions").innerHTML = notationGuide + bigs.map((b, bi) => `<section class="question big"><h2>大問${bi + 1}｜${escapeHtml(b.title)}</h2><div class="big-context"><div class="context-label">問題文</div>${escapeHtml(examContextText(b.context))}</div>${b.questions.map((q, qi) => { n++; const key = `${b.id}_${Date.now()}_${bi + 1}_${qi + 1}_${n}`; const label = `大問${bi + 1} 設問(${qi + 1})`; items.push({q, key, points: BIG_POINTS, label, kind: "大問", title: b.title, context: b.context}); return field(q, key, BIG_POINTS, label); }).join("")}</section>`).join("");
     $("#result").classList.add("hidden");
     $("#submitBtn").disabled = false;
     $("#changeBigBtn").disabled = false;
@@ -465,7 +506,7 @@
       const key = `REVIEW_BIG_${Date.now()}_${i}`;
       const reviewItem = {...item, key, label: `やり直し 大問${i + 1}`};
       items.push(reviewItem);
-      return `<section class="question big"><h2>${escapeHtml(item.title || "大問のやり直し")}</h2>${item.context ? `<div class="big-context"><div class="context-label">問題文</div>${escapeHtml(item.context)}</div>` : ""}${field(reviewItem.q, key, reviewItem.points, reviewItem.label, true)}</section>`;
+      return `<section class="question big"><h2>${escapeHtml(item.title || "大問のやり直し")}</h2>${item.context ? `<div class="big-context"><div class="context-label">問題文</div>${escapeHtml(examContextText(item.context))}</div>` : ""}${field(reviewItem.q, key, reviewItem.points, reviewItem.label, true)}</section>`;
     }).join("") : `<div class="guide">大問の間違いはありません。</div>`;
     window.TrainerLog?.startSession();
     window.scrollTo({top: 0, behavior: "smooth"});
